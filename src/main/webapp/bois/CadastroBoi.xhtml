@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">Cadastro de Boi</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Cadastros</li>
+		<li>/</li>
+		<li><p:link outcome="/bois/CadastroBoi">Cadastro de Boi</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form>
+			<div class="ui-fluid">
+				<div class="ui-g">
+					<div class="ui-g-12">
+						<div class="card no-margin">
+							<h1>Cadastro de Boi</h1>
+							<p:panelGrid columns="4"
+								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+								layout="grid" styleClass="ui-panelgrid-blank"
+								style="border:0px none; background-color:transparent;">
+
+								<p:outputLabel for="codigo" value="Código:" />
+								<p:inputText id="codigo" />
+
+								<p:outputLabel for="nome" value="Nome do Boi:" />
+								<p:inputText id="nome" />
+
+								<p:outputLabel for="numeroBoi" value="Número do Boi:" />
+								<p:inputText id="numeroBoi" />
+
+								<p:outputLabel for="boiada" value="Boiada:" />
+								<p:inputText id="boiada" />
+
+								<p:spacer />
+								<h:panelGroup>
+									<p:panelGrid columns="3" layout="grid">
+										<p:commandButton value="Salvar" icon="fa fa-save" />
+										<p:commandButton value="Limpar" icon="fa fa-refresh" />
+										<p:button value="Pesquisa" icon="fa fa-search" outcome="/bois/PesquisaBois"/>
+									</p:panelGrid>
+								</h:panelGroup>
+
+
+							</p:panelGrid>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

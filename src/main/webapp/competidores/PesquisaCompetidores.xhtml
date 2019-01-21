@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">Pesquisa de Competidores</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Cadastros</li>
+		<li>/</li>
+		<li><p:link outcome="/competidores/PesquisaCompetidores">Pesquisa de Competidores</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form>
+			<div class="ui-fluid">
+				<div class="ui-g">
+					<div class="ui-g-12">
+						<div class="card no-margin">
+							<h1>Pesquisa de Competidores</h1>
+
+							<h:form>
+								<p:panelGrid columns="3" layout="grid">
+									<p:button value="Incluir Novo" icon="fa fa-plus" outcome="/competidores/CadastroCompetidor"/>
+									<p:commandButton value="Limpar" icon="fa fa-refresh" />
+									<p:commandButton value="Pesquisar" icon="fa fa-search" />
+								</p:panelGrid>
+
+								<p:spacer/>
+								<p:spacer/>
+
+								<p:dataTable var="car" value="#{dtSelectionView.cars7}"
+									selectionMode="single" reflow="true"
+									selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}"
+									paginator="true" rows="10">
+									<f:facet name="header">
+                                		Single with Row Click
+                            		</f:facet>
+									<p:column headerText="Id" sortBy="#{car.id}">
+										<h:outputText value="#{car.id}" />
+									</p:column>
+
+									<p:column headerText="Year" sortBy="#{car.year}">
+										<h:outputText value="#{car.year}" />
+									</p:column>
+
+									<p:column headerText="Brand" sortBy="#{car.brand}">
+										<h:outputText value="#{car.brand}" />
+									</p:column>
+
+									<p:column headerText="Color" sortBy="#{car.color}">
+										<h:outputText value="#{car.color}" />
+									</p:column>
+								</p:dataTable>
+							</h:form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

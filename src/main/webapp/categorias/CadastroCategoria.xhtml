@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">Cadastro de Categoria</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Cadastros</li>
+		<li>/</li>
+		<li><p:link outcome="/categorias/CadastroCategoria">Cadastro de Categoria</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form>
+			<div class="ui-fluid">
+				<div class="ui-g">
+					<div class="ui-g-12">
+						<div class="card no-margin">
+							<h1>Cadastro de Categoria</h1>
+							<p:panelGrid columns="4"
+								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+								layout="grid" styleClass="ui-panelgrid-blank"
+								style="border:0px none; background-color:transparent;">
+
+								<p:outputLabel for="codigo" value="Código:" />
+								<p:inputText id="codigo" />
+
+								<p:outputLabel for="nome" value="Nome:" />
+								<p:inputText id="nome" />
+
+								<p:outputLabel for="displayRange" value="Idade:" />
+								<p:panelGrid columns="1" layout="grid"
+									styleClass="ui-panelgrid-blank">
+									<h:outputText id="displayRange" value="Informe"
+										style="font-size:16px" />
+									<p:slider for="txt6,txt7" display="displayRange" range="true"
+										displayTemplate="Entre {min} e {max}" minValue="0"
+										maxValue="100" style="margin-top:15px" />
+								</p:panelGrid>
+								<h:inputHidden id="txt6" value="15" />
+								<h:inputHidden id="txt7" value="80" />
+
+								<p:spacer />
+								<h:panelGroup>
+									<p:panelGrid columns="3" layout="grid">
+										<p:commandButton value="Salvar" icon="fa fa-save" />
+										<p:commandButton value="Limpar" icon="fa fa-refresh" />
+										<p:button value="Pesquisa" icon="fa fa-search" outcome="/categorias/PesquisaCategorias"/>
+									</p:panelGrid>
+								</h:panelGroup>
+
+
+							</p:panelGrid>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

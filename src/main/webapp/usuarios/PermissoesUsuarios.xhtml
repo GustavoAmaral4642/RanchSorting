@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">Cadastro de Usuário</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Administrativo</li>
+		<li>/</li>
+		<li><p:link outcome="/usuarios/CadastroUsuario">Permissões de Usuário</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form>
+			<div class="ui-fluid">
+				<div class="ui-g">
+					<div class="ui-g-12">
+						<div class="card no-margin">
+							<h1>Permissões de Usuário</h1>
+							<p:panelGrid columns="4"
+								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+								layout="grid" styleClass="ui-panelgrid-blank"
+								style="border:0px none; background-color:transparent;">
+
+								<p:outputLabel for="codigo" value="Código:" />
+								<p:inputText id="codigo" />
+
+								<p:spacer />
+								<p:spacer />
+
+								<p:outputLabel for="nome" value="Nome do Usuário:" />
+								<p:inputText id="nome" />
+
+								<p:spacer />
+								<p:spacer />
+								<p:spacer />
+
+								<h:panelGroup>
+									<p:panelGrid columns="3" layout="grid">
+										<p:commandButton value="Salvar" icon="fa fa-save" />
+										<p:commandButton value="Limpar" icon="fa fa-refresh"/>
+										<p:commandButton value="Pesquisa" icon="fa fa-search"/>
+									</p:panelGrid>
+								</h:panelGroup>
+
+								<p:spacer />
+								<p:spacer />
+								<p:spacer />
+
+								<p:tree value="#{treeSelectionView.root2}" var="doc"
+									selectionMode="checkbox">
+									<p:treeNode icon="ui-icon-note">
+										<h:outputText value="#{doc.name}" />
+									</p:treeNode>
+									<p:treeNode type="document" icon="ui-icon-document">
+										<h:outputText value="#{doc.name}" />
+									</p:treeNode>
+									<p:treeNode type="picture" icon="ui-icon-image">
+										<h:outputText value="#{doc.name}" />
+									</p:treeNode>
+									<p:treeNode type="mp3" icon="ui-icon-video">
+										<h:outputText value="#{doc.name}" />
+									</p:treeNode>
+									<p:treeNode type="mp3" icon="ui-icon-music">
+										<h:outputText value="#{doc.name}" />
+									</p:treeNode>
+								</p:tree>
+							</p:panelGrid>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
