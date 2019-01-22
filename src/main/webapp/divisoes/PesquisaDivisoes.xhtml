@@ -4,12 +4,12 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
-	<ui:define name="title">Pesquisa de Categorias</ui:define>
+	<ui:define name="title">Pesquisa de Divisões</ui:define>
 
 	<ui:define name="breadcrumb">
 		<li>Cadastros</li>
 		<li>/</li>
-		<li><p:link outcome="/categorias/PesquisaCategorias">Pesquisa de Categorias</p:link></li>
+		<li><p:link outcome="/divisoes/PesquisaDivisoes">Pesquisa de Divisões</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
@@ -18,11 +18,11 @@
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
-							<h1>Pesquisa de Categorias</h1>
+							<h1>Pesquisa de Divisões</h1>
 
 							<h:form>
 								<p:panelGrid columns="3" layout="grid">
-									<p:button value="Incluir Novo" icon="fa fa-plus" outcome="/categorias/CadastroCategoria"/>
+									<p:button value="Incluir Novo" icon="fa fa-plus" outcome="/divisoes/CadastroDivisao"/>
 									<p:commandButton value="Limpar" icon="fa fa-refresh" />
 									<p:commandButton value="Pesquisar" icon="fa fa-search" />
 								</p:panelGrid>

@@ -47,28 +47,28 @@
                     <!-- Left Side -->
                     <div class="card">
                         <h1>DataGrid</h1>
-                        <p:dataGrid var="car" value="#{dataGridView.cars}" columns="3" layout="grid"
-                                    rows="6" paginator="true" id="cars"
-                                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                    rowsPerPageTemplate="3,6,9,12,16">
-
-                            <f:facet name="header">
-                                Cars For Sale
-                            </f:facet>
-
-                            <p:panel header="#{car.brand}" style="text-align:center">
-                                <h:panelGrid columns="1" style="width:100%">
-                                    <h:outputText value="#{car.color}" styleClass="Fs14 FontDosisMedium"/>
-
-                                    <h:outputText value="#{car.year}" />
-
-                                    <p:commandButton icon="fa fa-flag-checkered Fs16 White" styleClass="AquaButton" update=":form:selectedCarDetail" oncomplete="PF('carDialog').show()">
-                                        <f:setPropertyActionListener value="#{car}" target="#{dataGridView.selectedCar}" />
-                                    </p:commandButton>
-                                </h:panelGrid>
-                            </p:panel>
-
-                        </p:dataGrid>
+	                        <p:dataGrid var="car" value="#{dataGridView.cars}" columns="3" layout="grid"
+	                                    rows="6" paginator="true" id="cars"
+	                                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+	                                    rowsPerPageTemplate="3,6,9,12,16">
+	
+	                            <f:facet name="header">
+	                                Cars For Sale
+	                            </f:facet>
+	
+	                            <p:panel header="#{car.brand}" style="text-align:center">
+	                                <h:panelGrid columns="1" style="width:100%">
+	                                    <h:outputText value="#{car.color}" styleClass="Fs14 FontDosisMedium"/>
+	
+	                                    <h:outputText value="#{car.year}" />
+	
+	                                    <p:commandButton icon="fa fa-flag-checkered Fs16 White" styleClass="AquaButton" update=":form:selectedCarDetail" oncomplete="PF('carDialog').show()">
+	                                        <f:setPropertyActionListener value="#{car}" target="#{dataGridView.selectedCar}" />
+	                                    </p:commandButton>
+	                                </h:panelGrid>
+	                            </p:panel>
+	
+	                        </p:dataGrid>
 
                         <p:dialog header="Car Info" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
                             <p:outputPanel id="selectedCarDetail" style="text-align:center;">
