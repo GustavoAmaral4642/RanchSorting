@@ -43,21 +43,23 @@
                         </p:submenu>
                         <p:submenu id="apl_administrativo" label="Administrativo" icon="fa fa-gear">
                             <p:menuitem id="apl_cadUsuario" value="Cadastro de Usuário" icon="fa fa-user" outcome="/usuarios/PesquisaUsuarios" />
-                            <p:menuitem id="apl_perUsuario" value="Permissões para Usuários" icon="fa fa-check-square-o" outcome="/usuarios/PermissoesUsuarios" />                            
+                            <p:menuitem id="apl_cadOcorrencias" value="Ocorrências" icon="fa fa-align-justify" outcome="/ocorrencias/PesquisaOcorrencias" />
                         </p:submenu>
                         <p:submenu id="apl_cadastros" label="Cadastros" icon="fa fa-list-alt">
                             <p:menuitem id="apl_cadDivisao" value="Cadastro de Divisao" icon="fa fa-reorder" outcome="/divisoes/PesquisaDivisoes" />
                             <p:menuitem id="apl_cadCompetidor" value="Cadastro de Competidor" icon="fa fa-male" outcome="/competidores/PesquisaCompetidores" />
+                            <p:menuitem id="apl_cadAnimal" value="Cadastro de Animais" icon="fa fa-child" outcome="/animais/PesquisaAnimais" />
                             <p:menuitem id="apl_cadBoi" value="Cadastro de Boi" icon="fa fa-shield" outcome="/bois/PesquisaBois" />                            
                         </p:submenu>
                         <p:submenu id="apl_prova" label="Provas" icon="fa fa-trophy">
-                            <p:menuitem id="apl_cadCampeonato" value="Cadastrar Campeonato" icon="fa fa-file-text" outcome="/campeonatos/CadastroCampeonato.xhtml" />
-                            <p:menuitem id="apl_cadFichaInscricao" value="Ficha de Inscrição" icon="fa fa-male" outcome="/fichasInscricoes/CadastroFichaInscricao.xhtml" />
-                            <p:menuitem id="apl_cadFolhaInscricao" value="Folha de Competição" icon="fa fa-group" outcome="/folhasCompeticoes/CadastroFolhaCompeticao.xhtml" />
-                            <p:menuitem id="apl_cadOrdemEntrada" value="Ordem de Entrada" icon="fa fa-list-ol" outcome="/ordensEntradas/CadastroOrdemEntrada.xhtml" />
+                            <p:menuitem id="apl_cadCampeonato" value="Cadastrar Campeonato" icon="fa fa-file-text" outcome="/campeonatos/PesquisaCampeonatos.xhtml" />
+                            <p:menuitem id="apl_cadEtapas" value="Etapas de Campeonatos" icon="fa fa-calendar" outcome="/etapasCampeonatos/PesquisaEtapasCampeonatos.xhtml" />
+                            <p:menuitem id="apl_cadFichaInscricao" value="Ficha de Inscrição" icon="fa fa-male" outcome="/fichasInscricoes/PesquisaFichasIncricoes.xhtml" />
+                            <p:menuitem id="apl_cadFolhaInscricao" value="Folha de Competição" icon="fa fa-group" outcome="/folhasCompeticoes/PesquisaFolhasCompeticoes.xhtml" />
+                            <p:menuitem id="apl_cadOrdemEntrada" value="Ordem de Entrada" icon="fa fa-list-ol" outcome="/ordensEntradas/PesquisaOrdensEntradas.xhtml" />
                         </p:submenu>
                         <p:submenu id="apl_financeiro" label="Financeiro" icon="fa fa-bank">
-                            <p:menuitem id="apl_cadContasReceber" value="Contas a Receber" icon="fa fa-dollar" outcome="/dashboard" />
+                            <p:menuitem id="apl_cadContasReceber" value="Contas a Receber" icon="fa fa-dollar" outcome="/recebimentos/PesquisaContasReceber.xhtml" />
                             
                         </p:submenu>
                         <p:submenu id="apl_default" label="Pages" icon="fa fa-life-saver">

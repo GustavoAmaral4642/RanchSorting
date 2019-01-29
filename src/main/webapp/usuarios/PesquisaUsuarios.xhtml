@@ -21,36 +21,69 @@
 							<h1>Pesquisa de Usuários</h1>
 
 							<h:form>
-								<p:panelGrid columns="3" layout="grid">
-									<p:button value="Incluir Novo" icon="fa fa-plus" outcome="/usuarios/CadastroUsuario"/>
-									<p:commandButton value="Limpar" icon="fa fa-refresh" />
-									<p:commandButton value="Pesquisar" icon="fa fa-search" />
+								<p:panelGrid columns="4"
+									columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+									layout="grid" styleClass="ui-panelgrid-blank"
+									style="border:0px none; background-color:transparent;">
+
+									<p:outputLabel for="nome" value="Nome:" />
+									<p:inputText id="nome" />
+
+									<p:spacer />
+									<p:spacer />
+
+									<p:outputLabel for="email" value="E-mail:" />
+									<p:inputText id="email" />
+
+									<p:spacer />
+									<p:spacer />
+									<p:spacer />
+
+									<p:panelGrid columns="3" layout="grid">
+										<p:button value="Incluir Novo" icon="fa fa-plus"
+											outcome="/usuarios/CadastroUsuario" />
+										<p:commandButton value="Limpar" icon="fa fa-refresh" />
+										<p:commandButton value="Pesquisar" icon="fa fa-search" />
+									</p:panelGrid>
+
 								</p:panelGrid>
 
-								<p:spacer/>
-								<p:spacer/>
+								<p:spacer />
+								<p:spacer />
 
 								<p:dataTable var="car" value="#{dtSelectionView.cars7}"
 									selectionMode="single" reflow="true"
 									selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}"
 									paginator="true" rows="10">
 									<f:facet name="header">
-                                		Single with Row Click
+                                		Usuários Cadastrados
                             		</f:facet>
-									<p:column headerText="Id" sortBy="#{car.id}">
-										<h:outputText value="#{car.id}" />
+									<p:column headerText="Código" style="width: 100px; text-align: center">
+										<h:outputText value="1" />
 									</p:column>
 
-									<p:column headerText="Year" sortBy="#{car.year}">
-										<h:outputText value="#{car.year}" />
+									<p:column headerText="Nome" style="text-align: center">
+										<h:outputText value="Luiz Gustavo" />
 									</p:column>
 
-									<p:column headerText="Brand" sortBy="#{car.brand}">
-										<h:outputText value="#{car.brand}" />
+									<p:column headerText="Sobrenome" style="text-align: center">
+										<h:outputText value="do Amaral Corrêa" />
 									</p:column>
 
-									<p:column headerText="Color" sortBy="#{car.color}">
-										<h:outputText value="#{car.color}" />
+									<p:column headerText="E-mail" style="text-align: center">
+										<h:outputText value="gustavo.lgac@gmail.com" />
+									</p:column>
+
+									<p:column style="text-align: center; width: 100px">
+										<p:button icon="fa fa-pencil" title="Editar" style="width: 30px">
+										</p:button>
+										<p:spacer/>
+										<p:button icon="fa fa-check-square-o" title="Permissões" style="width: 30px"
+											outcome="/usuarios/PermissoesUsuarios" >
+										</p:button>
+										<p:spacer/>
+										<p:commandButton icon="fa fa-trash" title="Excluir" style="width: 30px">
+										</p:commandButton>
 									</p:column>
 								</p:dataTable>
 							</h:form>

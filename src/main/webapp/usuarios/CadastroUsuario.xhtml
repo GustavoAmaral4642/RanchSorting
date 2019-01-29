@@ -27,9 +27,6 @@
 								<p:outputLabel for="codigo" value="Código:" />
 								<p:inputText id="codigo" />
 
-								<p:spacer />
-								<p:spacer />
-
 								<p:outputLabel for="nome" value="Nome:" />
 								<p:inputText id="nome" />
 
@@ -42,19 +39,23 @@
 								<p:outputLabel for="password" value="Senha de Acesso:" />
 								<p:password id="password" />
 
+								<p:outputLabel for="confirmaPassword" value="Confirmar Senha de Acesso:" />
+								<p:password id="confirmaPassword" />
+
 								<p:spacer />
 								<p:spacer />
 								<p:spacer />
-								<h:panelGroup >
+								<h:panelGroup>
 									<p:panelGrid columns="3" layout="grid">
 										<p:commandButton value="Salvar" icon="fa fa-save" />
-										<p:commandButton value="Limpar" icon="fa fa-refresh"/>
-										<p:button value="Pesquisa" icon="fa fa-search" outcome="/usuarios/PesquisaUsuarios"/>
+										<p:commandButton value="Limpar" icon="fa fa-refresh" />
+										<p:button value="Pesquisa" icon="fa fa-search"
+											outcome="/usuarios/PesquisaUsuarios" />
 									</p:panelGrid>
 								</h:panelGroup>
 
 							</p:panelGrid>
-							
+
 						</div>
 					</div>
 				</div>
