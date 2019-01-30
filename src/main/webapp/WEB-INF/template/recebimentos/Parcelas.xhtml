@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dataTable var="car" value="#{dtSelectionView.cars7}"
+		selectionMode="single" reflow="true"
+		selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}"
+		paginator="true" rows="10">
+		<f:facet name="header">
+			Parcelas
+		</f:facet>
+		<p:column headerText="Número Parcela" style="text-align: center">
+			<h:outputText value="1" />
+		</p:column>
+
+		<p:column headerText="Valor" style="text-align: center">
+			<h:outputText value="R$ 50,00" />
+		</p:column>
+
+		<p:column headerText="Valor Pago" style="text-align: center">
+			<h:outputText value="R$ 50,00" />
+		</p:column>
+
+		<p:column headerText="Data do Pagamento" style="text-align: center">
+			<h:outputText value="15/01/2019" />
+		</p:column>
+
+		<p:column headerText="Banco Recebimento" style="text-align: center">
+			<h:outputText value="Caixa 1" />
+		</p:column>
+
+		<p:column headerText="Forma Pagamento" style="text-align: center">
+			<h:outputText value="Dinheiro" />
+		</p:column>
+
+		<p:column headerText="Observação" style="text-align: center">
+			<h:outputText value="Bla Bla Bla" />
+		</p:column>
+
+		<p:column style="text-align: center; width: 110px">
+			<p:button icon="fa fa-pencil" title="Editar" style="width: 30px">
+			</p:button>
+			<p:spacer />
+			<p:commandButton icon="fa fa-check" title="Pagar"
+				style="width: 30px">
+			</p:commandButton>
+			<p:spacer />
+			<p:commandButton icon="fa fa-trash" title="Excluir"
+				style="width: 30px">
+			</p:commandButton>
+		</p:column>
+
+	</p:dataTable>
+</ui:composition>

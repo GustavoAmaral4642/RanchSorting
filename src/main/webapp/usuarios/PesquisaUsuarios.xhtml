@@ -20,6 +20,8 @@
 						<div class="card no-margin">
 							<h1>Pesquisa de Usuários</h1>
 
+							<p:growl id="growl" autoUpdate="true" />
+
 							<h:form>
 								<p:panelGrid columns="4"
 									columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
@@ -58,7 +60,8 @@
 									<f:facet name="header">
                                 		Usuários Cadastrados
                             		</f:facet>
-									<p:column headerText="Código" style="width: 100px; text-align: center">
+									<p:column headerText="Código"
+										style="width: 100px; text-align: center">
 										<h:outputText value="1" />
 									</p:column>
 
@@ -75,14 +78,16 @@
 									</p:column>
 
 									<p:column style="text-align: center; width: 100px">
-										<p:button icon="fa fa-pencil" title="Editar" style="width: 30px">
+										<p:button icon="fa fa-pencil" title="Editar"
+											style="width: 30px">
 										</p:button>
-										<p:spacer/>
-										<p:button icon="fa fa-check-square-o" title="Permissões" style="width: 30px"
-											outcome="/usuarios/PermissoesUsuarios" >
+										<p:spacer />
+										<p:button icon="fa fa-check-square-o" title="Permissões"
+											style="width: 30px" outcome="/usuarios/PermissoesUsuarios">
 										</p:button>
-										<p:spacer/>
-										<p:commandButton icon="fa fa-trash" title="Excluir" style="width: 30px">
+										<p:spacer />
+										<p:commandButton icon="fa fa-trash" title="Excluir"
+											style="width: 30px">
 										</p:commandButton>
 									</p:column>
 								</p:dataTable>

@@ -19,6 +19,9 @@
 					<div class="ui-g-12">
 						<div class="card no-margin">
 							<h1>Cadastro de Usuário</h1>
+
+							<p:growl id="growl" autoUpdate="true" />
+
 							<p:panelGrid columns="4"
 								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
 								layout="grid" styleClass="ui-panelgrid-blank"
@@ -39,7 +42,8 @@
 								<p:outputLabel for="password" value="Senha de Acesso:" />
 								<p:password id="password" />
 
-								<p:outputLabel for="confirmaPassword" value="Confirmar Senha de Acesso:" />
+								<p:outputLabel for="confirmaPassword"
+									value="Confirmar Senha de Acesso:" />
 								<p:password id="confirmaPassword" />
 
 								<p:spacer />

@@ -4,12 +4,12 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
-	<ui:define name="title">Pesquisa de Competidores</ui:define>
+	<ui:define name="title">Pesquisa de Campeonatos</ui:define>
 
 	<ui:define name="breadcrumb">
-		<li>Cadastros</li>
+		<li>Provas</li>
 		<li>/</li>
-		<li><p:link outcome="/competidores/PesquisaCompetidores">Pesquisa de Competidores</p:link></li>
+		<li><p:link outcome="/campeonatos/PesquisaCampeonatos">Pesquisa de Campeonatos</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
@@ -18,7 +18,7 @@
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
-							<h1>Pesquisa de Competidores</h1>
+							<h1>Pesquisa de Campeonatos</h1>
 
 							<p:growl id="growl" autoUpdate="true" />
 
@@ -28,29 +28,37 @@
 									layout="grid" styleClass="ui-panelgrid-blank"
 									style="border:0px none; background-color:transparent;">
 
-									<p:outputLabel for="nomeCompetidor" value="Nome do Competidor:" />
-									<p:inputText id="nomeCompetidor" />
+									<p:outputLabel for="numeroCampeonato"
+										value="Número do Campeonato:" />
+									<p:inputText id="numeroCampeonato" />
 
-									<p:outputLabel value="Data de Nascimento:" />
+									<p:outputLabel for="nomeCampeonato" value="Nome do Campeonato:" />
+									<p:inputText id="nomeCampeonato" />
+
+
+									<p:outputLabel value="Data de Abertura:" />
 									<h:panelGroup>
 										<p:panelGrid columns="2" layout="grid">
-											<p:inputText id="idadeInicial" placeholder="Idade Inicial" />
-											<p:inputText id="idadeFinal" placeholder="Idade Final" />
+											<p:inputText id="dataAberturaInicial"
+												placeholder="Data Inicial" />
+											<p:inputText id="dataAberturaFinal" placeholder="Data Final" />
 										</p:panelGrid>
 									</h:panelGroup>
 
-									<p:outputLabel for="nomeResponsavel"
-										value="Nome do Responsável:" />
-									<p:inputText id="nomeResponsavel" />
-
-									<p:outputLabel for="contato" value="Contato do Competidor:" />
-									<p:inputText id="contato" />
+									<p:outputLabel value="Data do Evento:" />
+									<h:panelGroup>
+										<p:panelGrid columns="2" layout="grid">
+											<p:inputText id="dataEventoInicial"
+												placeholder="Data Inicial" />
+											<p:inputText id="dataEventoFinal" placeholder="Data Final" />
+										</p:panelGrid>
+									</h:panelGroup>
 
 									<p:spacer />
 
 									<p:panelGrid columns="3" layout="grid">
 										<p:button value="Incluir Novo" icon="fa fa-plus"
-											outcome="/competidores/CadastroCompetidor" />
+											outcome="/campeonatos/CadastroCampeonato" />
 										<p:commandButton value="Limpar" icon="fa fa-refresh" />
 										<p:commandButton value="Pesquisar" icon="fa fa-search" />
 									</p:panelGrid>
@@ -66,31 +74,43 @@
 									selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}"
 									paginator="true" rows="10">
 									<f:facet name="header">
-                                		Competidores Cadastrados
+                                		Competidores Campeonatos
                             		</f:facet>
-									<p:column headerText="Código"
+									<p:column headerText="Nº do Campeonato"
 										style="width: 100px; text-align: center">
-										<h:outputText value="1" />
+										<h:outputText value="12" />
 									</p:column>
 
-									<p:column headerText="Nome do Competidor"
+									<p:column headerText="Nome do Campeonato"
 										style="text-align: center">
-										<h:outputText value="Paulo Roberto Arrais Serodio" />
+										<h:outputText value="4º Ranch Sorting Toca da Onça" />
 									</p:column>
 
-									<p:column headerText="Data de Nascimento"
-										style="text-align: center">
+									<p:column headerText="Data de Abertura"
+										style="width: 150px; text-align: center ">
 										<h:outputText value="01/01/1970" />
 									</p:column>
 
-									<p:column headerText="Nome do Responsável"
-										style="text-align: center">
-										<h:outputText value="" />
+									<p:column headerText="Data do Evento"
+										style="width: 150px; text-align: center">
+										<h:outputText value="01/01/1970" />
 									</p:column>
 
-									<p:column headerText="Contato" style="text-align: center">
-										<h:outputText value="(19) 99100 - 7991" />
+									<p:column headerText="Valor do Evento"
+										style="width: 150px; text-align: center">
+										<h:outputText value="R$ 50,00" />
 									</p:column>
+
+									<p:column headerText="Qnt. Divisões"
+										style="width: 100px; text-align: center">
+										<h:outputText value="25" />
+									</p:column>
+
+									<p:column headerText="Qnt. Competidores"
+										style="width: 100px; text-align: center">
+										<h:outputText value="25" />
+									</p:column>
+
 
 									<p:column style="text-align: center; width: 80px">
 										<p:button icon="fa fa-pencil" title="Editar"

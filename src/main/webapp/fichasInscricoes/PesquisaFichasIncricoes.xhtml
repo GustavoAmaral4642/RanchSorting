@@ -4,12 +4,12 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
-	<ui:define name="title">Pesquisa de Competidores</ui:define>
+	<ui:define name="title">Pesquisa de Fichas</ui:define>
 
 	<ui:define name="breadcrumb">
-		<li>Cadastros</li>
+		<li>Provas</li>
 		<li>/</li>
-		<li><p:link outcome="/competidores/PesquisaCompetidores">Pesquisa de Competidores</p:link></li>
+		<li><p:link outcome="/fichasInscricoes/PesquisaFichasIncricoes">Pesquisa de Fichas</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
@@ -18,7 +18,7 @@
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
-							<h1>Pesquisa de Competidores</h1>
+							<h1>Pesquisa de Fichas</h1>
 
 							<p:growl id="growl" autoUpdate="true" />
 
@@ -28,29 +28,47 @@
 									layout="grid" styleClass="ui-panelgrid-blank"
 									style="border:0px none; background-color:transparent;">
 
+									<p:outputLabel for="codigoFicha" value="Código da Ficha:" />
+									<p:inputText id="codigoFicha" />
+
 									<p:outputLabel for="nomeCompetidor" value="Nome do Competidor:" />
 									<p:inputText id="nomeCompetidor" />
 
-									<p:outputLabel value="Data de Nascimento:" />
+									<p:outputLabel value="Data da Inscrição:" />
 									<h:panelGroup>
 										<p:panelGrid columns="2" layout="grid">
-											<p:inputText id="idadeInicial" placeholder="Idade Inicial" />
-											<p:inputText id="idadeFinal" placeholder="Idade Final" />
+											<p:inputText id="idadeInscricaoInicial"
+												placeholder="Idade Inicial" />
+											<p:inputText id="idadeInscricaoFinal"
+												placeholder="Idade Final" />
 										</p:panelGrid>
 									</h:panelGroup>
+
+									<p:outputLabel value="Data de Pagamento:" />
+									<h:panelGroup>
+										<p:panelGrid columns="2" layout="grid">
+											<p:inputText id="idadePagamentoInicial"
+												placeholder="Idade Inicial" />
+											<p:inputText id="idadePagamentoFinal"
+												placeholder="Idade Final" />
+										</p:panelGrid>
+									</h:panelGroup>
+
+									<p:outputLabel for="campeonato" value="Campeonato:" />
+									<p:inputText id="campeonato" />
+
+									<p:outputLabel for="divisao" value="Divisão:" />
+									<p:inputText id="divisao" />
 
 									<p:outputLabel for="nomeResponsavel"
 										value="Nome do Responsável:" />
 									<p:inputText id="nomeResponsavel" />
 
-									<p:outputLabel for="contato" value="Contato do Competidor:" />
-									<p:inputText id="contato" />
-
 									<p:spacer />
 
 									<p:panelGrid columns="3" layout="grid">
 										<p:button value="Incluir Novo" icon="fa fa-plus"
-											outcome="/competidores/CadastroCompetidor" />
+											outcome="/fichasInscricoes/CadastroFichaInscricao" />
 										<p:commandButton value="Limpar" icon="fa fa-refresh" />
 										<p:commandButton value="Pesquisar" icon="fa fa-search" />
 									</p:panelGrid>
@@ -78,8 +96,12 @@
 										<h:outputText value="Paulo Roberto Arrais Serodio" />
 									</p:column>
 
+									<p:column headerText="Animal" style="text-align: center">
+										<h:outputText value="Peal" />
+									</p:column>
+
 									<p:column headerText="Data de Nascimento"
-										style="text-align: center">
+										style="width: 150px; text-align: center">
 										<h:outputText value="01/01/1970" />
 									</p:column>
 
@@ -90,6 +112,11 @@
 
 									<p:column headerText="Contato" style="text-align: center">
 										<h:outputText value="(19) 99100 - 7991" />
+									</p:column>
+
+									<p:column headerText="Pagamento"
+										style="width: 150px; text-align: center">
+										<h:outputText value="24/01/2019" />
 									</p:column>
 
 									<p:column style="text-align: center; width: 80px">

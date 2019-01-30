@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="4"
+		columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+		layout="grid" styleClass="ui-panelgrid-blank"
+		style="border:0px none; background-color:transparent;">
+
+		<p:outputLabel value="Número do Campeonato" />
+		<p:inputText value="1" />
+
+		<p:outputLabel value="Nome do Campeonato" />
+		<p:inputText value="Ranch Sorting 103" />
+
+		<p:outputLabel value="Data de Abertura" />
+		<p:calendar id="dataAbertura" label="Data da Abertura"
+			placeholder="__/__/_____" pattern="dd/MM/yyyy" title="Data"
+			size="10" value="" mask="99/99/9999" />
+
+		<p:outputLabel for="dataEvento"  value="Data do Evento" />
+		<p:calendar id="dataEvento" label="Data do Evento"
+			placeholder="__/__/_____" pattern="dd/MM/yyyy" title="Data"
+			size="10" value="" mask="99/99/9999" />
+
+		<p:outputLabel value="Valor da Inscrição" />
+		<p:inputText value="R$ 50,00" />
+
+		<p:spacer />
+		<h:panelGroup>
+			<p:panelGrid columns="3" layout="grid">
+				<p:commandButton value="Salvar" icon="fa fa-save" />
+				<p:commandButton value="Limpar" icon="fa fa-refresh" />
+				<p:button value="Pesquisa" icon="fa fa-search"
+					outcome="/campeonatos/PesquisaCampeonatos" />
+			</p:panelGrid>
+		</h:panelGroup>
+
+	</p:panelGrid>
+
+</ui:composition>

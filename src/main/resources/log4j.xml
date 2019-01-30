@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+		<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- para onde eu quero jogar as mensagens de log. -->
+	<!-- as mensagem devem ir para o console. -->
+	<!-- formato da mensagem <param name="ConversionPattern" value="%d %-5p 
+		[%c] %m%n" /> -->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p [%c] %m%n" />
+		</layout>
+	</appender>
+
+	<!-- para onde eu quero jogar as mensagens de log. -->
+	<!-- as mensagem devem ir para um arquivo. -->
+	<!-- todo dia é criado um novo arquivo class="org.apache.log4j.DailyRollingFileAppender" -->
+	<!-- o nome do arquivo. dentro do catalina, que é a raiz do tomcat <param 
+		name="file" value="${catalina.home}/logs/pedido-venda.log" /> -->
+	<appender name="arquivo" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="${catalina.home}/logs/ranchsorting.log" />
+		<param name="datePattern" value="'.'yyyy-MM-dd" />
+		<param name="append" value="true" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p [%c] %m%n" />
+			<!-- %d = Data, %-5p = nível do erro, %c = classe do erro, %m%n =
+			mensagem seguido de uma quebra de linha -->
+		</layout>
+	</appender>
+
+	<root>
+		<priority value="info" />
+		<!-- todas as mensagens que forem de informação, erro ou fatal, quero
+		mostrar. -->
+		<appender-ref ref="arquivo" />
+		<!--// mensagens de debug não vão aparecer.-->
+		<appender-ref ref="console" />
+	</root>
+
+	<!-- para saber mais sobre formatação, procure pela classe "PatternLayout.html" do commons-logging. -->
+	
+	
+</log4j:configuration>

@@ -19,6 +19,9 @@
 					<div class="ui-g-12">
 						<div class="card no-margin">
 							<h1>Cadastro de Competidor</h1>
+
+							<p:growl id="growl" autoUpdate="true" />
+
 							<p:panelGrid columns="4"
 								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
 								layout="grid" styleClass="ui-panelgrid-blank"
@@ -59,10 +62,10 @@
 										<p:calendar id="anuidadePaga" label="Anuidade Paga"
 											placeholder="__/__/____" pattern="dd/MM/yyyy" title="Data"
 											size="10" value="" mask="99/99/9999" />
-										<p:commandButton value="Pagar" icon="fa fa-dollar" />	
+										<p:commandButton value="Pagar" icon="fa fa-dollar" />
 									</p:panelGrid>
 								</h:panelGroup>
-								
+
 								<p:outputLabel for="etnia" value="Etnia:" />
 								<p:selectOneRadio id="etnia" layout="responsive" columns="2">
 									<f:selectItem itemLabel="Masculino" itemValue="masculino" />

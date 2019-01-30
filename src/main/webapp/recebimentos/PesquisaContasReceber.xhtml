@@ -4,12 +4,12 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
-	<ui:define name="title">Pesquisa de Divisões</ui:define>
+	<ui:define name="title">Pesquisa Contas a Receber</ui:define>
 
 	<ui:define name="breadcrumb">
-		<li>Cadastros</li>
+		<li>Financeiro</li>
 		<li>/</li>
-		<li><p:link outcome="/divisoes/PesquisaDivisoes">Pesquisa de Divisões</p:link></li>
+		<li><p:link outcome="/recebimentos/PesquisaContasReceber">Pesquisa Contas a Receber</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
@@ -18,7 +18,7 @@
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
-							<h1>Pesquisa de Divisões</h1>
+							<h1>Pesquisa Contas a Receber</h1>
 
 							<p:growl id="growl" autoUpdate="true" />
 
@@ -28,24 +28,32 @@
 									layout="grid" styleClass="ui-panelgrid-blank"
 									style="border:0px none; background-color:transparent;">
 
-									<p:outputLabel for="nome" value="Nome da Divisão:" />
-									<p:inputText id="nome" />
+									<p:outputLabel for="numeroTitulo" value="Nº Título:" />
+									<p:inputText id="numeroTitulo" />
 
-									<p:outputLabel value="Faixa de Idade:" />
+									<p:outputLabel for="nomeCompetidor" value="Competidor:" />
+									<p:inputText id="nomeCompetidor" />
+
+									<p:outputLabel for="campeonato" value="Campeonato:" />
+									<p:inputText id="campeonato" />
+
+									<p:outputLabel for="etapa" value="Etapa:" />
+									<p:inputText id="etapa" />
+
+									<p:outputLabel value="Data da Competicao:" />
 									<h:panelGroup>
 										<p:panelGrid columns="2" layout="grid">
-											<p:inputText id="faixaIdadeInicial"
-												placeholder="Faixa de Idade Inicial" />
-											<p:inputText id="faixaIdadeFinal"
-												placeholder="Faixa de Idade Final" />
+											<p:inputText id="dataCompeticaoInicial"
+												placeholder="Data Inicial" />
+											<p:inputText id="dataCompeticaoFinal"
+												placeholder="Data Final" />
 										</p:panelGrid>
 									</h:panelGroup>
 
 									<p:spacer />
-
 									<p:panelGrid columns="3" layout="grid">
 										<p:button value="Incluir Novo" icon="fa fa-plus"
-											outcome="/divisoes/CadastroDivisao" />
+											outcome="/recebimentos/ContasReceber" />
 										<p:commandButton value="Limpar" icon="fa fa-refresh" />
 										<p:commandButton value="Pesquisar" icon="fa fa-search" />
 									</p:panelGrid>
@@ -55,29 +63,42 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:spacer />
-								<p:spacer />
-
 								<p:dataTable var="car" value="#{dtSelectionView.cars7}"
 									selectionMode="single" reflow="true"
-									emptyMessage="Nenhuma Divisão Cadastrada"
+									emptyMessage="Nenhum Competidor Cadastrados"
 									selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}"
 									paginator="true" rows="10">
 									<f:facet name="header">
-                                		Divisões Cadastradas
+                                		Contas a Receber
                             		</f:facet>
-									<p:column headerText="Código"
-										style="width: 100px; text-align: center">
+
+									<p:column headerText="Titulo" style="text-align: center">
 										<h:outputText value="1" />
 									</p:column>
 
-									<p:column headerText="Nome da Divisão"
-										style="text-align: center">
-										<h:outputText value="Amador" />
+									<p:column headerText="Competidor" style="text-align: center">
+										<h:outputText value="GutiGuti" />
 									</p:column>
 
-									<p:column headerText="Faixa Etária" style="text-align: center">
-										<h:outputText value="19 a 40" />
+									<p:column headerText="Campeonato" style="text-align: center">
+										<h:outputText value="RS Toca" />
+									</p:column>
+
+									<p:column headerText="Etapa" style="text-align: center">
+										<h:outputText value="24" />
+									</p:column>
+
+									<p:column headerText="Data da Competição"
+										style="text-align: center">
+										<h:outputText value="28/01/2019" />
+									</p:column>
+
+									<p:column headerText="Valor Titulo" style="text-align: center">
+										<h:outputText value="R$ 350,00" />
+									</p:column>
+
+									<p:column headerText="Valor Pago" style="text-align: center">
+										<h:outputText value="R$ 350,00" />
 									</p:column>
 
 									<p:column style="text-align: center; width: 80px">
@@ -89,7 +110,6 @@
 											style="width: 30px">
 										</p:commandButton>
 									</p:column>
-
 								</p:dataTable>
 							</h:form>
 						</div>

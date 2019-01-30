@@ -4,12 +4,12 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
-	<ui:define name="title">Pesquisa de Divisões</ui:define>
+	<ui:define name="title">Pesquisa de Animais</ui:define>
 
 	<ui:define name="breadcrumb">
 		<li>Cadastros</li>
 		<li>/</li>
-		<li><p:link outcome="/divisoes/PesquisaDivisoes">Pesquisa de Divisões</p:link></li>
+		<li><p:link outcome="/animais/PesquisaAnimais">Pesquisa de Animais</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
@@ -18,34 +18,36 @@
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
-							<h1>Pesquisa de Divisões</h1>
-
+							<h1>Pesquisa de Animais</h1>
+							
 							<p:growl id="growl" autoUpdate="true" />
-
+							
 							<h:form>
 								<p:panelGrid columns="4"
 									columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
 									layout="grid" styleClass="ui-panelgrid-blank"
 									style="border:0px none; background-color:transparent;">
 
-									<p:outputLabel for="nome" value="Nome da Divisão:" />
-									<p:inputText id="nome" />
+									<p:outputLabel for="nomeAnimal" value="Nome do Animal:" />
+									<p:inputText id="nomeAnimal" />
 
-									<p:outputLabel value="Faixa de Idade:" />
-									<h:panelGroup>
-										<p:panelGrid columns="2" layout="grid">
-											<p:inputText id="faixaIdadeInicial"
-												placeholder="Faixa de Idade Inicial" />
-											<p:inputText id="faixaIdadeFinal"
-												placeholder="Faixa de Idade Final" />
-										</p:panelGrid>
-									</h:panelGroup>
+									<p:outputLabel for="nomeProprietario"
+										value="Nome do Proprietário:" />
+									<p:inputText id="nomeProprietario" />
+
+									<p:outputLabel for="cor" value="Cor:" />
+									<p:inputText id="cor" />
+
+									<p:outputLabel for="raca" value="Raça:" />
+									<p:inputText id="raca" />
 
 									<p:spacer />
+									<p:spacer />
 
+									<p:spacer />
 									<p:panelGrid columns="3" layout="grid">
 										<p:button value="Incluir Novo" icon="fa fa-plus"
-											outcome="/divisoes/CadastroDivisao" />
+											outcome="/animais/CadastroAnimal" />
 										<p:commandButton value="Limpar" icon="fa fa-refresh" />
 										<p:commandButton value="Pesquisar" icon="fa fa-search" />
 									</p:panelGrid>
@@ -55,29 +57,39 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:spacer />
-								<p:spacer />
-
 								<p:dataTable var="car" value="#{dtSelectionView.cars7}"
 									selectionMode="single" reflow="true"
-									emptyMessage="Nenhuma Divisão Cadastrada"
+									emptyMessage="Nenhum Competidor Cadastrados"
 									selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}"
 									paginator="true" rows="10">
 									<f:facet name="header">
-                                		Divisões Cadastradas
+                                		Animais Cadastrados
                             		</f:facet>
 									<p:column headerText="Código"
 										style="width: 100px; text-align: center">
 										<h:outputText value="1" />
 									</p:column>
 
-									<p:column headerText="Nome da Divisão"
+									<p:column headerText="Nome do Animal"
 										style="text-align: center">
-										<h:outputText value="Amador" />
+										<h:outputText value="Peal" />
 									</p:column>
 
-									<p:column headerText="Faixa Etária" style="text-align: center">
-										<h:outputText value="19 a 40" />
+									<p:column headerText="Nome do Proprietário"
+										style="text-align: center">
+										<h:outputText value="Guti" />
+									</p:column>
+
+									<p:column headerText="Idade" style="text-align: center">
+										<h:outputText value="5 anos" />
+									</p:column>
+
+									<p:column headerText="Cor" style="text-align: center">
+										<h:outputText value="Branco" />
+									</p:column>
+
+									<p:column headerText="Raça" style="text-align: center">
+										<h:outputText value="Galeão" />
 									</p:column>
 
 									<p:column style="text-align: center; width: 80px">
@@ -89,7 +101,6 @@
 											style="width: 30px">
 										</p:commandButton>
 									</p:column>
-
 								</p:dataTable>
 							</h:form>
 						</div>

@@ -6,6 +6,12 @@
 			
     <name>primefaces_apollo</name>
     
+    <factory>
+			<exception-handler-factory>
+				com.ranchsorting.util.jsf.JsfExceptionHandlerFactory
+			</exception-handler-factory>
+	</factory>
+    
     <component>
         <component-type>org.primefaces.component.ApolloMenu</component-type>
         <component-class>org.primefaces.apollo.component.menu.ApolloMenu</component-class>

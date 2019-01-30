@@ -4,12 +4,12 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
-	<ui:define name="title">Cadastro de Divisão</ui:define>
+	<ui:define name="title">Cadastro de Animal</ui:define>
 
 	<ui:define name="breadcrumb">
 		<li>Cadastros</li>
 		<li>/</li>
-		<li><p:link outcome="/divisoes/CadastroDivisao">Cadastro de Divisão</p:link></li>
+		<li><p:link outcome="/animais/CadastroAnimal">Cadastro de Animal</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
@@ -18,10 +18,10 @@
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
-							<h1>Cadastro de Divisão</h1>
-
+							<h1>Cadastro de Animal</h1>
+							
 							<p:growl id="growl" autoUpdate="true" />
-
+							
 							<p:panelGrid columns="4"
 								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
 								layout="grid" styleClass="ui-panelgrid-blank"
@@ -30,34 +30,33 @@
 								<p:outputLabel for="codigo" value="Código:" />
 								<p:inputText id="codigo" />
 
-								<p:outputLabel for="nome" value="Nome:" />
+								<p:outputLabel for="nome" value="Nome do Animal:" />
 								<p:inputText id="nome" />
 
-								<p:outputLabel for="observacao" value="Observação:" />
-								<p:inputTextarea id="observacao" rows="3"
-									placeholder="Observação" autoResize="false" />
+								<p:outputLabel for="idade" value="Idade:" />
+								<p:inputText id="idade" />
 
-								<p:outputLabel for="displayRange" value="Idade:" />
-								<p:panelGrid columns="1" layout="grid"
-									styleClass="ui-panelgrid-blank">
-									<h:outputText id="displayRange" value="Informe"
-										style="font-size:16px" />
-									<p:slider for="txt6,txt7" display="displayRange" range="true"
-										displayTemplate="Entre {min} e {max}" minValue="0"
-										maxValue="100" style="margin-top:15px" />
-								</p:panelGrid>
-								<h:inputHidden id="txt6" value="15" />
-								<h:inputHidden id="txt7" value="80" />
+								<p:outputLabel for="cor" value="Cor:" />
+								<p:inputText id="cor" />
+
+								<p:outputLabel for="raca" value="Raça:" />
+								<p:inputText id="raca" />
+
+								<p:outputLabel for="proprietario" value="Proprietário:" />
+								<p:inputText id="proprietario" />
 
 								<p:spacer />
+								<p:spacer />
+
+								<p:spacer />	
 								<h:panelGroup>
 									<p:panelGrid columns="3" layout="grid">
 										<p:commandButton value="Salvar" icon="fa fa-save" />
 										<p:commandButton value="Limpar" icon="fa fa-refresh" />
-										<p:button value="Pesquisa" icon="fa fa-search" />
+										<p:button value="Pesquisa" icon="fa fa-search"
+											outcome="/animais/PesquisaAnimais" />
 									</p:panelGrid>
 								</h:panelGroup>
-
 
 							</p:panelGrid>
 

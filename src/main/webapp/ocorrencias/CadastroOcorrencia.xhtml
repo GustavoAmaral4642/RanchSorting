@@ -4,12 +4,12 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
-	<ui:define name="title">Cadastro de Divisão</ui:define>
+	<ui:define name="title">Cadastro de Ocorrência</ui:define>
 
 	<ui:define name="breadcrumb">
 		<li>Cadastros</li>
 		<li>/</li>
-		<li><p:link outcome="/divisoes/CadastroDivisao">Cadastro de Divisão</p:link></li>
+		<li><p:link outcome="/ocorrencias/CadastroOcorrencia">Cadastro de Ocorrência</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
@@ -18,7 +18,7 @@
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
-							<h1>Cadastro de Divisão</h1>
+							<h1>Cadastro de Ocorrência</h1>
 
 							<p:growl id="growl" autoUpdate="true" />
 
@@ -27,34 +27,29 @@
 								layout="grid" styleClass="ui-panelgrid-blank"
 								style="border:0px none; background-color:transparent;">
 
-								<p:outputLabel for="codigo" value="Código:" />
+								<p:outputLabel for="codigo" value="Código ocorrência:" />
 								<p:inputText id="codigo" />
 
-								<p:outputLabel for="nome" value="Nome:" />
-								<p:inputText id="nome" />
+								<p:outputLabel for="dataOcorrencia" value="Data da Ocorrênca:" />
+								<p:calendar id="dataOcorrencia" placeholder="__/__/____"
+									pattern="dd/MM/yyyy" title="Data da Ocorrênca" size="10"
+									value="" mask="99/99/9999" />
 
-								<p:outputLabel for="observacao" value="Observação:" />
-								<p:inputTextarea id="observacao" rows="3"
-									placeholder="Observação" autoResize="false" />
+								<p:outputLabel for="descricaoOcorrencia"
+									value="Descrição da Ocorrência:" />
+								<p:inputText id="descricaoOcorrencia" />
 
-								<p:outputLabel for="displayRange" value="Idade:" />
-								<p:panelGrid columns="1" layout="grid"
-									styleClass="ui-panelgrid-blank">
-									<h:outputText id="displayRange" value="Informe"
-										style="font-size:16px" />
-									<p:slider for="txt6,txt7" display="displayRange" range="true"
-										displayTemplate="Entre {min} e {max}" minValue="0"
-										maxValue="100" style="margin-top:15px" />
-								</p:panelGrid>
-								<h:inputHidden id="txt6" value="15" />
-								<h:inputHidden id="txt7" value="80" />
+								<p:outputLabel for="usuarioRegistrou"
+									value="Usuario que Registrou:" />
+								<p:inputText id="usuarioRegistrou" />
 
 								<p:spacer />
 								<h:panelGroup>
 									<p:panelGrid columns="3" layout="grid">
 										<p:commandButton value="Salvar" icon="fa fa-save" />
 										<p:commandButton value="Limpar" icon="fa fa-refresh" />
-										<p:button value="Pesquisa" icon="fa fa-search" />
+										<p:button value="Pesquisa" icon="fa fa-search"
+											outcome="/ocorrencias/PesquisaOcorrencias" />
 									</p:panelGrid>
 								</h:panelGroup>
 

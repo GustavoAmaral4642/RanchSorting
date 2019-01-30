@@ -1,0 +1,174 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">Cadastro de Ficha de Inscrição</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Provas</li>
+		<li>/</li>
+		<li><p:link outcome="/fichasInscricoes/CadastroFichaInscricao">Cadastro de Ficha de Inscrição</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form>
+			<div class="ui-fluid">
+				<div class="ui-g">
+					<div class="ui-g-12">
+						<div class="card no-margin">
+							<h1>Cadastro de Ficha de Inscrição</h1>
+
+							<p:growl id="growl" autoUpdate="true" />
+
+							<p:panelGrid columns="4"
+								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+								layout="grid" styleClass="ui-panelgrid-blank"
+								style="border:0px none; background-color:transparent;">
+
+								<p:outputLabel for="codigoFicha" value="Código da Ficha:" />
+								<p:inputText id="codigoFicha" />
+
+								<p:outputLabel for="dataInscricao" value="Data da Inscricão:" />
+								<p:calendar id="dataInscricao" placeholder="__/__/____"
+									pattern="dd/MM/yyyy" title="Data da Inscrição" size="10"
+									value="" mask="99/99/9999" />
+
+								<p:outputLabel for="nomeCompetidor" value="Nome do Competidor:" />
+								<p:selectOneMenu id="nomeCompetidor" filter="true"
+									label="Competidor" filterMatchMode="contains"
+									style="margin-bottom:10px;" value="">
+									<f:selectItem itemLabel="Selecione um Competidor" />
+									<f:selectItem itemLabel="Guti" itemValue="Guti" />
+									<f:selectItem itemLabel="Nayara" itemValue="Nayara" />
+									<f:selectItem itemLabel="Paulinho" itemValue="Paulinho" />
+									<f:selectItem itemLabel="Josi" itemValue="Josi" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="animal" value="Nome do Animal:" />
+								<p:selectOneMenu id="animal" filter="true" label="Animal"
+									filterMatchMode="contains" style="margin-bottom:10px;" value="">
+									<f:selectItem itemLabel="Selecione um Animal" />
+									<f:selectItem itemLabel="Cavalo branco" itemValue="branco" />
+									<f:selectItem itemLabel="Cavalo preto" itemValue="preto" />
+									<f:selectItem itemLabel="Cavalo cinza" itemValue="cinza" />
+									<f:selectItem itemLabel="Cavalo marron" itemValue="marron" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="campeonato" value="Selecione o Campeonato:" />
+								<p:selectOneMenu id="campeonato" filter="true"
+									label="Competidor" filterMatchMode="contains"
+									style="margin-bottom:10px;" value="">
+									<f:selectItem itemLabel="Selecione um Campeonato" />
+									<f:selectItem itemLabel="Campeonato 1" itemValue="Campeonato 1" />
+									<f:selectItem itemLabel="Campeonato 2" itemValue="Campeonato 2" />
+									<f:selectItem itemLabel="Campeonato 3" itemValue="Campeonato 3" />
+									<f:selectItem itemLabel="Campeonato 4" itemValue="Campeonato 4" />
+								</p:selectOneMenu>
+								<p:spacer />
+								<p:spacer />
+
+
+								<p:outputLabel for="divisao" value="Selecione a divisao:" />
+								<p:selectManyMenu id="divisao" showCheckbox="true">
+									<f:selectItem itemLabel="Divisão Amador - Valor R$ 50,00"
+										itemValue="1" />
+									<f:selectItem itemLabel="Divisão Aberto - Valor R$ 50,00"
+										itemValue="2" />
+									<f:selectItem itemLabel="Divisão 3 - Valor R$ 25,00"
+										itemValue="3" />
+								</p:selectManyMenu>
+
+								<p:outputLabel for="valorComprado" value="Valor Comprado:" />
+								<p:inputText id="valorComprado" label="Valor Comprado"
+									placeholder="Valor Comprado" size="20" maxlength="20"
+									value="R$ 100,00 " styleClass="moeda">
+									<!-- <f:convertNumber maxFractionDigits="2s" minFractionDigits="2" />-->
+								</p:inputText>
+
+							</p:panelGrid>
+
+							<p:spacer />
+							<p:spacer />
+
+							<p:separator />
+
+							<p:spacer />
+							<p:spacer />
+
+							<p:panelGrid columns="4"
+								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+								layout="grid" styleClass="ui-panelgrid-blank"
+								style="border:0px none; background-color:transparent;">
+
+								<p:outputLabel for="valorPago" value="Valor Pago:" />
+								<p:inputText id="valorPago" label="Valor Pago:"
+									placeholder="Valor Pago" size="20" maxlength="20"
+									value="R$ 80,00" styleClass="moeda">
+									<!-- <f:convertNumber maxFractionDigits="2" minFractionDigits="2" /> -->
+								</p:inputText>
+
+								<p:outputLabel for="dataPagamento" value="Data do Pagamento:" />
+								<p:calendar id="dataPagamento" placeholder="__/__/____"
+									pattern="dd/MM/yyyy" title="Data do Pagamento" size="10"
+									value="" mask="99/99/9999" />
+
+								<p:outputLabel for="formaPagamento" value="Forma de Pagamento:" />
+								<p:selectOneMenu id="formaPagamento" filter="true"
+									label="Forma de Pagamento" filterMatchMode="contains"
+									style="margin-bottom:10px;" value="">
+									<f:selectItem itemLabel="Selecione uma Forma de Pagamento" />
+									<f:selectItem itemLabel="Forma de Pagamento 1"
+										itemValue="Forma de Pagamento 1" />
+									<f:selectItem itemLabel="Forma de Pagamento 2"
+										itemValue="Forma de Pagamento 2" />
+									<f:selectItem itemLabel="Forma de Pagamento 3"
+										itemValue="Forma de Pagamento 3" />
+									<f:selectItem itemLabel="Forma de Pagamento 4"
+										itemValue="Forma de Pagamento 4" />
+								</p:selectOneMenu>
+
+
+							</p:panelGrid>
+
+							<p:spacer />
+							<p:spacer />
+
+							<p:separator />
+
+							<p:spacer />
+							<p:spacer />
+
+							<p:panelGrid columns="4"
+								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+								layout="grid" styleClass="ui-panelgrid-blank"
+								style="border:0px none; background-color:transparent;">
+
+								<p:spacer />
+								<h:panelGroup>
+									<p:panelGrid columns="2" layout="grid">
+										<p:commandButton value="Salvar" icon="fa fa-save" />
+										<p:commandButton value="Imprimir Ficha" icon="fa fa-print" />
+									</p:panelGrid>
+								</h:panelGroup>
+
+								<p:spacer />
+								<h:panelGroup>
+									<p:panelGrid columns="2" layout="grid">
+										<p:commandButton value="Limpar" icon="fa fa-refresh" />
+										<p:button value="Pesquisa" icon="fa fa-search"
+											outcome="/fichasInscricoes/PesquisaFichasIncricoes" />
+									</p:panelGrid>
+								</h:panelGroup>
+
+							</p:panelGrid>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
