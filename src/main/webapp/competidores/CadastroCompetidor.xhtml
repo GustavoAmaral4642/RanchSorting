@@ -58,10 +58,11 @@
 
 								<p:outputLabel for="anuidadePaga" value="Anuidade Paga em:" />
 								<h:panelGroup>
-									<p:panelGrid columns="2" layout="grid">
+									<p:panelGrid columns="3" layout="grid">
 										<p:calendar id="anuidadePaga" label="Anuidade Paga"
 											placeholder="__/__/____" pattern="dd/MM/yyyy" title="Data"
 											size="10" value="" mask="99/99/9999" />
+										<p:outputLabel value="N/A" style="color: red; font-weight:bold;" />
 										<p:commandButton value="Pagar" icon="fa fa-dollar" />
 									</p:panelGrid>
 								</h:panelGroup>

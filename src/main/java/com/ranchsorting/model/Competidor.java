@@ -3,26 +3,47 @@ package com.ranchsorting.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name = "tb_competidor")
 public class Competidor implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private String nome;
-	private Date dataNascimento;
-	private Long idade;
-	private String responsavel;
-	private String docResponsavel;
-	private Animal animal;
-	private String contato;
-	private Etnia etnia;
-	private BigDecimal valorPagoAnuidade;
-	private Date dataPagamentoAnuidade;
-	private Usuario usuarioAlteracao;
-	private Date dataAlteracao;
-	private Ocorrencia ocorrencia;
+	private String nome; // ok
+	private Date dataNascimento; // OK
+	private Long idade; // OK
+	private String responsavel; // OK
+	private String docResponsavel;// OK
+	private List<Animal> animais; //OK
+	private String contato;//OK
+	private Etnia etnia;//OK
+	private BigDecimal valorPagoAnuidade;//OK
+	private Date dataPagamentoAnuidade;//OK
+	private TipoAnuidade tipoAnuidade;//OK
+	private Usuario usuarioAlteracao;//OK
+	private Date dataAlteracao;//OK
+	private Ocorrencia ocorrencia;// Falta implementar
 
+	@Id
+	@GeneratedValue
+	@Column(name = "cp_id")
 	public final Long getId() {
 		return id;
 	}
@@ -31,6 +52,7 @@ public class Competidor implements Serializable {
 		this.id = id;
 	}
 
+	@Column(name = "cp_nome", nullable = false, length = 160)
 	public final String getNome() {
 		return nome;
 	}
@@ -39,6 +61,8 @@ public class Competidor implements Serializable {
 		this.nome = nome;
 	}
 
+	@Temporal(TemporalType.DATE)
+	@Column(name = "cp_dt_nascimento")
 	public final Date getDataNascimento() {
 		return dataNascimento;
 	}
@@ -47,6 +71,7 @@ public class Competidor implements Serializable {
 		this.dataNascimento = dataNascimento;
 	}
 
+	@Column(name = "cp_idade", nullable = false)
 	public final Long getIdade() {
 		return idade;
 	}
@@ -55,6 +80,7 @@ public class Competidor implements Serializable {
 		this.idade = idade;
 	}
 
+	@Column(name = "cp_responsavel", length = 160)
 	public final String getResponsavel() {
 		return responsavel;
 	}
@@ -63,6 +89,7 @@ public class Competidor implements Serializable {
 		this.responsavel = responsavel;
 	}
 
+	@Column(name = "cp_doc_responsavel", length = 50)
 	public final String getDocResponsavel() {
 		return docResponsavel;
 	}
@@ -71,14 +98,16 @@ public class Competidor implements Serializable {
 		this.docResponsavel = docResponsavel;
 	}
 
-	public final Animal getAnimal() {
-		return animal;
+	@OneToMany(mappedBy="proprietario", cascade=CascadeType.ALL)
+	public List<Animal> getAnimais() {
+		return animais;
 	}
 
-	public final void setAnimal(Animal animal) {
-		this.animal = animal;
+	public void setAnimais(List<Animal> animais) {
+		this.animais = animais;
 	}
 
+	@Column(name = "cp_contato", nullable = false, length = 150)
 	public final String getContato() {
 		return contato;
 	}
@@ -87,6 +116,8 @@ public class Competidor implements Serializable {
 		this.contato = contato;
 	}
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "cp_etnia", nullable = false, length = 15)
 	public final Etnia getEtnia() {
 		return etnia;
 	}
@@ -95,6 +126,7 @@ public class Competidor implements Serializable {
 		this.etnia = etnia;
 	}
 
+	@Column(name = "cp_vlr_pgto_anuidade", precision = 10, scale = 2)
 	public final BigDecimal getValorPagoAnuidade() {
 		return valorPagoAnuidade;
 	}
@@ -103,6 +135,8 @@ public class Competidor implements Serializable {
 		this.valorPagoAnuidade = valorPagoAnuidade;
 	}
 
+	@Temporal(TemporalType.DATE)
+	@Column(name = "cp_dt_pgto_anuidade")
 	public final Date getDataPagamentoAnuidade() {
 		return dataPagamentoAnuidade;
 	}
@@ -111,6 +145,18 @@ public class Competidor implements Serializable {
 		this.dataPagamentoAnuidade = dataPagamentoAnuidade;
 	}
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "cp_tp_anuidade", nullable = false, length = 15)
+	public TipoAnuidade getTipoAnuidade() {
+		return tipoAnuidade;
+	}
+
+	public void setTipoAnuidade(TipoAnuidade tipoAnuidade) {
+		this.tipoAnuidade = tipoAnuidade;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "cp_us_alteracao")
 	public final Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
 	}
@@ -119,6 +165,8 @@ public class Competidor implements Serializable {
 		this.usuarioAlteracao = usuarioAlteracao;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "cp_data_alteracao")
 	public final Date getDataAlteracao() {
 		return dataAlteracao;
 	}
@@ -127,6 +175,8 @@ public class Competidor implements Serializable {
 		this.dataAlteracao = dataAlteracao;
 	}
 
+	/*@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "cp_ocorrencia")*/
 	public final Ocorrencia getOcorrencia() {
 		return ocorrencia;
 	}

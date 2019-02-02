@@ -20,6 +20,8 @@ public class FichaInscricao implements Serializable {
 	private Date dataPagamento;
 	private FormaPagamento formaPagamento;
 	private String bancoPagamento;
+	private Boolean anuidadePaga;
+	private TipoAnuidade tipoAnuidade;
 	private Long numeroImpressoes;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
@@ -119,6 +121,22 @@ public class FichaInscricao implements Serializable {
 
 	public void setBancoPagamento(String bancoPagamento) {
 		this.bancoPagamento = bancoPagamento;
+	}
+
+	public Boolean getAnuidadePaga() {
+		return anuidadePaga;
+	}
+
+	public void setAnuidadePaga(Boolean anuidadePaga) {
+		this.anuidadePaga = anuidadePaga;
+	}
+
+	public TipoAnuidade getTipoAnuidade() {
+		return tipoAnuidade;
+	}
+
+	public void setTipoAnuidade(TipoAnuidade tipoAnuidade) {
+		this.tipoAnuidade = tipoAnuidade;
 	}
 
 	public Long getNumeroImpressoes() {

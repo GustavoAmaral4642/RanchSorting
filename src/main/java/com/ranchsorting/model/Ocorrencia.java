@@ -3,17 +3,30 @@ package com.ranchsorting.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name="tb_oCorrencia")
 public class Ocorrencia implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private Date data;
-	private Date hora;
-	private String descricao;
-	private String programa;
-	private Usuario usuario;
+	private Date data; // Tem que ajustar, deixar só data
+	private Date hora; // Tem que ajustar, deixar só hora
+	private String descricao;  //OK
+	private String programa; // OK
+	private Usuario usuario; //OK
 
+	@Id
+	@GeneratedValue
+	@Column(name = "oc_id")
 	public Long getId() {
 		return id;
 	}
@@ -22,6 +35,8 @@ public class Ocorrencia implements Serializable {
 		this.id = id;
 	}
 
+	@Temporal(TemporalType.DATE)
+	@Column(name = "oc_data")
 	public Date getData() {
 		return data;
 	}
@@ -30,6 +45,8 @@ public class Ocorrencia implements Serializable {
 		this.data = data;
 	}
 
+	@Temporal(TemporalType.DATE)
+	@Column(name = "oc_hora")
 	public Date getHora() {
 		return hora;
 	}
@@ -38,14 +55,16 @@ public class Ocorrencia implements Serializable {
 		this.hora = hora;
 	}
 
+	@Column(name = "oc_descricao", nullable = false, length = 255)
 	public String getDescricao() {
 		return descricao;
 	}
-
+	
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
 
+	@Column(name = "oc_programa", nullable = false, length = 100)
 	public String getPrograma() {
 		return programa;
 	}
@@ -54,6 +73,7 @@ public class Ocorrencia implements Serializable {
 		this.programa = programa;
 	}
 
+	@Column(name = "oc_usuario", nullable = false, length = 255)
 	public Usuario getUsuario() {
 		return usuario;
 	}

@@ -1,83 +1,102 @@
 package com.ranchsorting.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="tb_usuario")
 public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long id;
-	private String nome;
-	private String sobreNome;
-	private String email;
-	private String senha;
-	private Usuario usuarioAlteracao;
-	private Date dataAlteracao;
-	private Ocorrencia ocorrencia;
-	
+	private String nome; // OK 
+	private String sobreNome; // OK
+	private String email; // OK
+	private String senha; // OK
+	private Ocorrencia ocorrencia; // Falta implementar
+	private List<PermissoesDeUsuario> permissoes = new ArrayList<>(); //OK
+
+	@Id
+	@GeneratedValue
+	@Column(name = "us_id")
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
+	@Column(name = "us_nome", nullable = false, length = 120)
 	public String getNome() {
 		return nome;
 	}
-	
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
+	@Column(name = "us_sobrenome", length = 120)
 	public String getSobreNome() {
 		return sobreNome;
 	}
-	
+
 	public void setSobreNome(String sobreNome) {
 		this.sobreNome = sobreNome;
 	}
-	
+
+	@Column(name = "us_email", nullable=false, length = 120)
 	public String getEmail() {
 		return email;
 	}
-	
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
+	@Column(name = "us_senha", nullable = false, length = 35)
 	public String getSenha() {
 		return senha;
 	}
-	
+
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
-	public Usuario getUsuarioAlteracao() {
-		return usuarioAlteracao;
-	}
-	
-	public void setUsuarioAlteracao(Usuario usuarioAlteracao) {
-		this.usuarioAlteracao = usuarioAlteracao;
-	}
-	
-	public Date getDataAlteracao() {
-		return dataAlteracao;
-	}
-	
-	public void setDataAlteracao(Date dataAlteracao) {
-		this.dataAlteracao = dataAlteracao;
-	}
-	
+
+	// CascadeType.All Se eu estiver salvando, ele salva primeiro a ocorrencia,
+	// se eu quiser
+	// posso usar o CascadeType.PERSIST para quando eu estiver persistindo, ou
+	// CascadeType.Type.MERGE, se eu for deletar, não é para fazer nada.
+	// CascadeType.ALL faz tudo!
+	/*@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "us_ocorrencia")*/
 	public Ocorrencia getOcorrencia() {
 		return ocorrencia;
 	}
-	
+
 	public void setOcorrencia(Ocorrencia ocorrencia) {
 		this.ocorrencia = ocorrencia;
+	}
+
+	@OneToMany(mappedBy="usuario", cascade=CascadeType.ALL)
+	public List<PermissoesDeUsuario> getPermissoes() {
+		return permissoes;
+	}
+
+	public void setPermissoes(List<PermissoesDeUsuario> permissoes) {
+		this.permissoes = permissoes;
 	}
 
 	@Override
@@ -104,5 +123,5 @@ public class Usuario implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }

@@ -2,14 +2,28 @@ package com.ranchsorting.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="tb_tarefas")
 public class Tarefa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private String nomePrograma;
-	private String codigoPrograma;
-
+	private String nomePrograma; // OK
+	private String codigoPrograma; // OK
+	private PermissoesDeUsuario permissao; //OK
+	
+	@Id
+	@GeneratedValue
+	@Column(name = "tf_id")
 	public Long getId() {
 		return id;
 	}
@@ -18,6 +32,7 @@ public class Tarefa implements Serializable {
 		this.id = id;
 	}
 
+	@Column(name="tf_nome_programa", nullable=false)
 	public String getNomePrograma() {
 		return nomePrograma;
 	}
@@ -26,12 +41,23 @@ public class Tarefa implements Serializable {
 		this.nomePrograma = nomePrograma;
 	}
 
+	@Column(name="tf_codigo_programa", nullable=false)
 	public String getCodigoPrograma() {
 		return codigoPrograma;
 	}
-
+	
 	public void setCodigoPrograma(String codigoPrograma) {
 		this.codigoPrograma = codigoPrograma;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "tf_permissao_id", nullable = false)
+	public PermissoesDeUsuario getPermissao() {
+		return permissao;
+	}
+
+	public void setPermissao(PermissoesDeUsuario permissao) {
+		this.permissao = permissao;
 	}
 
 	@Override

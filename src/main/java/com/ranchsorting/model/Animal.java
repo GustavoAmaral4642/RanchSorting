@@ -3,21 +3,40 @@ package com.ranchsorting.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name = "tb_animal")
 public class Animal implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private String nome;
-	private Long idade;
-	private String cor;
-	private Etnia etnia;
-	private String raca;
-	private Competidor proprietario;
-	private Usuario usuarioAlteracao;
-	private Date dataAlteracao;
-	private Ocorrencia ocorrencia;
+	private String nome; // OK
+	private Long idade; // OK
+	private String cor; // OK
+	private Etnia etnia; // OK
+	private String raca; // OK
+	private Competidor proprietario; // OK
+	private Usuario usuarioAlteracao; // OK
+	private Date dataAlteracao; // OK
+	private Ocorrencia ocorrencia; // Falta implementar
 
+	@Id
+	@GeneratedValue
+	@Column(name = "an_id")
 	public final Long getId() {
 		return id;
 	}
@@ -26,6 +45,7 @@ public class Animal implements Serializable {
 		this.id = id;
 	}
 
+	@Column(name = "an_nome", nullable = false, length = 120)
 	public final String getNome() {
 		return nome;
 	}
@@ -34,6 +54,7 @@ public class Animal implements Serializable {
 		this.nome = nome;
 	}
 
+	@Column(name = "an_idade", nullable = false)
 	public final Long getIdade() {
 		return idade;
 	}
@@ -42,6 +63,7 @@ public class Animal implements Serializable {
 		this.idade = idade;
 	}
 
+	@Column(name = "an_cor", nullable = false, length = 50)
 	public final String getCor() {
 		return cor;
 	}
@@ -50,6 +72,8 @@ public class Animal implements Serializable {
 		this.cor = cor;
 	}
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "an_etnia", nullable = false, length = 15)
 	public final Etnia getEtnia() {
 		return etnia;
 	}
@@ -58,6 +82,7 @@ public class Animal implements Serializable {
 		this.etnia = etnia;
 	}
 
+	@Column(name = "an_raca", nullable = false, length = 80)
 	public final String getRaca() {
 		return raca;
 	}
@@ -66,6 +91,8 @@ public class Animal implements Serializable {
 		this.raca = raca;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "an_proprietario_id", nullable=false)
 	public final Competidor getProprietario() {
 		return proprietario;
 	}
@@ -74,6 +101,8 @@ public class Animal implements Serializable {
 		this.proprietario = proprietario;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "an_us_alteracao")
 	public final Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
 	}
@@ -82,6 +111,8 @@ public class Animal implements Serializable {
 		this.usuarioAlteracao = usuarioAlteracao;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "an_data_alteracao")
 	public final Date getDataAlteracao() {
 		return dataAlteracao;
 	}
@@ -90,6 +121,8 @@ public class Animal implements Serializable {
 		this.dataAlteracao = dataAlteracao;
 	}
 
+/*	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "an_ocorrencia")*/
 	public final Ocorrencia getOcorrencia() {
 		return ocorrencia;
 	}

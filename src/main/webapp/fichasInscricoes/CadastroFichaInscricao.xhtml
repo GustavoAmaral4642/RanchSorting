@@ -66,9 +66,13 @@
 									<f:selectItem itemLabel="Campeonato 3" itemValue="Campeonato 3" />
 									<f:selectItem itemLabel="Campeonato 4" itemValue="Campeonato 4" />
 								</p:selectOneMenu>
-								<p:spacer />
-								<p:spacer />
 
+								<p:outputLabel for="valorComprado" value="Valor Comprado:" />
+								<p:inputText id="valorComprado" label="Valor Comprado"
+									placeholder="Valor Comprado" size="20" maxlength="20"
+									value="R$ 100,00 " styleClass="moeda">
+									<!-- <f:convertNumber maxFractionDigits="2s" minFractionDigits="2" />-->
+								</p:inputText>
 
 								<p:outputLabel for="divisao" value="Selecione a divisao:" />
 								<p:selectManyMenu id="divisao" showCheckbox="true">
@@ -80,12 +84,19 @@
 										itemValue="3" />
 								</p:selectManyMenu>
 
-								<p:outputLabel for="valorComprado" value="Valor Comprado:" />
-								<p:inputText id="valorComprado" label="Valor Comprado"
-									placeholder="Valor Comprado" size="20" maxlength="20"
-									value="R$ 100,00 " styleClass="moeda">
-									<!-- <f:convertNumber maxFractionDigits="2s" minFractionDigits="2" />-->
-								</p:inputText>
+								<p:spacer />
+								<p:spacer />
+								<p:outputLabel value="Anuidade Paga:" />
+								<h:panelGroup>
+									<p:panelGrid columns="2" layout="grid">
+										<p:outputLabel value="SIM"
+											style="color: red; font-weight:bold; font-size:large" />
+										<p:commandButton value="Pagar" />
+									</p:panelGrid>
+								</h:panelGroup>
+								<p:outputLabel value="Tipo de Anuidade:" />
+								<p:outputLabel value="PARCIAL"
+									style="color: blue; font-weight:bold; font-size:large" />
 
 							</p:panelGrid>
 

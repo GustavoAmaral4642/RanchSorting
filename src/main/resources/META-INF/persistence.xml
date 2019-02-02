@@ -6,26 +6,28 @@
 	<persistence-unit name="RanchSortingPU">
 		<!-- unidade de persistencia, é um nome unico qualquer. -->
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<!--// é uma classe que fornece o entitymanager para esta unidade de
-		persistência. Responsável por fornecer as conexões do banco de dados.-->
+		<!--// é uma classe que fornece o entitymanager para esta unidade de persistência. 
+			Responsável por fornecer as conexões do banco de dados. -->
 
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/ranchsorting" />
-		<!--	// o que está em name é um nome padrão. O que está em value é a
-			string de conexão com o banco de dados.-->
+			<!-- // o que está em name é um nome padrão. O que está em value é a string 
+				de conexão com o banco de dados. -->
 			<property name="javax.persistence.jdbc.user" value="root" />
-		<!--	// é o usuário que vai conectar com o banco de dados.-->
+			<!-- // é o usuário que vai conectar com o banco de dados. -->
 			<property name="javax.persistence.jdbc.password" value="4642941" />
-		<!--	// é a senha que vai conectar com o banco de dados.-->
+			<!-- // é a senha que vai conectar com o banco de dados. -->
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-		<!--	// driver do mysql que iremos utilizar.-->
+			<!-- // driver do mysql que iremos utilizar. -->
+
+			<property name="hibernate.hbm2ddl.auto" value="update" />
 
 			<property name="hibernate.show_sql" value="true" />
-		<!--	// esta é específica do hibernate. É para mostrar o sql em nosso
-			console.-->
+			<!-- // esta é específica do hibernate. É para mostrar o sql em nosso 
+				console. -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
-		<!--	//configurando para o hibernate usar o dialeto do mysql quando for
-			usar sql.-->
+			<!-- //configurando para o hibernate usar o dialeto do mysql quando for 
+				usar sql. -->
 		</properties>
 	</persistence-unit>
 
