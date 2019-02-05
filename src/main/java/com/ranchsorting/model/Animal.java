@@ -121,8 +121,8 @@ public class Animal implements Serializable {
 		this.dataAlteracao = dataAlteracao;
 	}
 
-/*	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "an_ocorrencia")*/
+  	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "an_ocorrencia")
 	public final Ocorrencia getOcorrencia() {
 		return ocorrencia;
 	}

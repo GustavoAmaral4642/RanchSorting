@@ -2,6 +2,7 @@ package com.ranchsorting.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class Competidor implements Serializable {
 	private Long idade; // OK
 	private String responsavel; // OK
 	private String docResponsavel;// OK
-	private List<Animal> animais; //OK
+	private List<Animal> animais = new ArrayList<>(); //OK
 	private String contato;//OK
 	private Etnia etnia;//OK
 	private BigDecimal valorPagoAnuidade;//OK
@@ -175,8 +176,8 @@ public class Competidor implements Serializable {
 		this.dataAlteracao = dataAlteracao;
 	}
 
-	/*@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "cp_ocorrencia")*/
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "cp_ocorrencia")
 	public final Ocorrencia getOcorrencia() {
 		return ocorrencia;
 	}

@@ -3,6 +3,20 @@ package com.ranchsorting.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name = "tb_etapa")
 public class Etapa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -18,7 +32,10 @@ public class Etapa implements Serializable {
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
-
+	
+	@Id
+	@GeneratedValue
+	@Column(name = "ep_id")
 	public final Long getId() {
 		return id;
 	}
@@ -27,6 +44,7 @@ public class Etapa implements Serializable {
 		this.id = id;
 	}
 
+	@Column(name = "ep_nome", nullable = false, length = 100)
 	public final String getNome() {
 		return nome;
 	}
@@ -35,6 +53,8 @@ public class Etapa implements Serializable {
 		this.nome = nome;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "ep_campeonato_id", nullable = false)
 	public final Campeonato getCampeonato() {
 		return campeonato;
 	}
@@ -43,6 +63,8 @@ public class Etapa implements Serializable {
 		this.campeonato = campeonato;
 	}
 
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ep_data_evento")
 	public final Date getDataEvento() {
 		return dataEvento;
 	}
@@ -51,6 +73,8 @@ public class Etapa implements Serializable {
 		this.dataEvento = dataEvento;
 	}
 
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ep_data_inicio_inscricoes")
 	public final Date getDataInicioInscricoes() {
 		return dataInicioInscricoes;
 	}
@@ -59,6 +83,8 @@ public class Etapa implements Serializable {
 		this.dataInicioInscricoes = dataInicioInscricoes;
 	}
 
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ep_data_fim_inscricoes")
 	public final Date getDataFimInscricoes() {
 		return dataFimInscricoes;
 	}
@@ -67,6 +93,7 @@ public class Etapa implements Serializable {
 		this.dataFimInscricoes = dataFimInscricoes;
 	}
 
+	@Column(name = "ep_organizador", nullable = false, length = 100)
 	public final String getOrganizador() {
 		return organizador;
 	}
@@ -75,6 +102,7 @@ public class Etapa implements Serializable {
 		this.organizador = organizador;
 	}
 
+	@Column(name = "ep_contato_organizador", nullable = false, length = 120)
 	public final String getContatoOrganizador() {
 		return contatoOrganizador;
 	}
@@ -83,6 +111,8 @@ public class Etapa implements Serializable {
 		this.contatoOrganizador = contatoOrganizador;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ep_us_alteracao")
 	public final Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
 	}
@@ -91,6 +121,8 @@ public class Etapa implements Serializable {
 		this.usuarioAlteracao = usuarioAlteracao;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "ep_data_alteracao")
 	public final Date getDataAlteracao() {
 		return dataAlteracao;
 	}
@@ -99,6 +131,8 @@ public class Etapa implements Serializable {
 		this.dataAlteracao = dataAlteracao;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ep_ocorrencia")
 	public final Ocorrencia getOcorrencia() {
 		return ocorrencia;
 	}

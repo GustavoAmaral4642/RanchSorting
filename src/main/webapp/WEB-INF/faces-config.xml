@@ -5,6 +5,16 @@
 			version="2.1">
 			
     <name>primefaces_apollo</name>
+
+	<application>
+ 
+		<message-bundle>com.ranchsorting.Messages</message-bundle>
+		
+		<locale-config>
+			<default-locale>pt_BR</default-locale>
+		</locale-config>
+	</application>
+
     
     <factory>
 			<exception-handler-factory>

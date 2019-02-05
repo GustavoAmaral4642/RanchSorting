@@ -3,6 +3,19 @@ package com.ranchsorting.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name = "tb_boi")
 public class Boi implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -13,6 +26,9 @@ public class Boi implements Serializable {
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
 
+	@Id
+	@GeneratedValue
+	@Column(name = "bo_id")
 	public final Long getId() {
 		return id;
 	}
@@ -21,6 +37,7 @@ public class Boi implements Serializable {
 		this.id = id;
 	}
 
+	@Column(name = "bo_numero", nullable = false)
 	public final Long getNumero() {
 		return numero;
 	}
@@ -29,6 +46,8 @@ public class Boi implements Serializable {
 		this.numero = numero;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "bo_us_alteracao")
 	public final Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
 	}
@@ -37,6 +56,8 @@ public class Boi implements Serializable {
 		this.usuarioAlteracao = usuarioAlteracao;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "bo_data_alteracao")
 	public final Date getDataAlteracao() {
 		return dataAlteracao;
 	}
@@ -45,6 +66,8 @@ public class Boi implements Serializable {
 		this.dataAlteracao = dataAlteracao;
 	}
 
+  	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "an_ocorrencia")
 	public final Ocorrencia getOcorrencia() {
 		return ocorrencia;
 	}

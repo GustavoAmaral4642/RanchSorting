@@ -51,7 +51,7 @@ public class Tarefa implements Serializable {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "tf_permissao_id", nullable = false)
+	@JoinColumn(name = "tf_permissao_id")
 	public PermissoesDeUsuario getPermissao() {
 		return permissao;
 	}

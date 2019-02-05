@@ -3,12 +3,27 @@ package com.ranchsorting.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name = "tb_divisao")
 public class Divisao implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	private String nome;
+	private Campeonato campeonato;
 	private String observacoes;
 	private String idadeInicial;
 	private String idadeFinal;
@@ -16,6 +31,9 @@ public class Divisao implements Serializable {
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
 
+	@Id
+	@GeneratedValue
+	@Column(name = "dv_id")
 	public final Long getId() {
 		return id;
 	}
@@ -24,6 +42,7 @@ public class Divisao implements Serializable {
 		this.id = id;
 	}
 
+	@Column(name = "dv_nome", nullable = false, length = 60)
 	public final String getNome() {
 		return nome;
 	}
@@ -32,6 +51,17 @@ public class Divisao implements Serializable {
 		this.nome = nome;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "dv_campeonato_id", nullable = false)
+	public Campeonato getCampeonato() {
+		return campeonato;
+	}
+
+	public void setCampeonato(Campeonato campeonato) {
+		this.campeonato = campeonato;
+	}
+
+	@Column(columnDefinition = "text")
 	public final String getObservacoes() {
 		return observacoes;
 	}
@@ -40,6 +70,7 @@ public class Divisao implements Serializable {
 		this.observacoes = observacoes;
 	}
 
+	@Column(name = "dv_idade_inicial", length = 2)
 	public final String getIdadeInicial() {
 		return idadeInicial;
 	}
@@ -48,6 +79,7 @@ public class Divisao implements Serializable {
 		this.idadeInicial = idadeInicial;
 	}
 
+	@Column(name = "dv_idade_final", length = 2)
 	public final String getIdadeFinal() {
 		return idadeFinal;
 	}
@@ -56,6 +88,8 @@ public class Divisao implements Serializable {
 		this.idadeFinal = idadeFinal;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "dv_us_alteracao")
 	public final Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
 	}
@@ -64,6 +98,8 @@ public class Divisao implements Serializable {
 		this.usuarioAlteracao = usuarioAlteracao;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "dv_data_alteracao")
 	public final Date getDataAlteracao() {
 		return dataAlteracao;
 	}
@@ -72,6 +108,8 @@ public class Divisao implements Serializable {
 		this.dataAlteracao = dataAlteracao;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "dv_ocorrencia")
 	public final Ocorrencia getOcorrencia() {
 		return ocorrencia;
 	}

@@ -13,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name="tb_usuario")
@@ -39,6 +42,8 @@ public class Usuario implements Serializable {
 		this.id = id;
 	}
 
+	@NotBlank
+	@Size(max=120)
 	@Column(name = "us_nome", nullable = false, length = 120)
 	public String getNome() {
 		return nome;
@@ -48,6 +53,7 @@ public class Usuario implements Serializable {
 		this.nome = nome;
 	}
 
+	@Size(max=120)
 	@Column(name = "us_sobrenome", length = 120)
 	public String getSobreNome() {
 		return sobreNome;
@@ -57,6 +63,8 @@ public class Usuario implements Serializable {
 		this.sobreNome = sobreNome;
 	}
 
+	@NotBlank
+	@Size(max=120)
 	@Column(name = "us_email", nullable=false, length = 120)
 	public String getEmail() {
 		return email;
@@ -66,6 +74,8 @@ public class Usuario implements Serializable {
 		this.email = email;
 	}
 
+	@NotBlank
+	@Size(max=35)
 	@Column(name = "us_senha", nullable = false, length = 35)
 	public String getSenha() {
 		return senha;
@@ -80,8 +90,8 @@ public class Usuario implements Serializable {
 	// posso usar o CascadeType.PERSIST para quando eu estiver persistindo, ou
 	// CascadeType.Type.MERGE, se eu for deletar, não é para fazer nada.
 	// CascadeType.ALL faz tudo!
-	/*@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "us_ocorrencia")*/
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "us_ocorrencia")
 	public Ocorrencia getOcorrencia() {
 		return ocorrencia;
 	}

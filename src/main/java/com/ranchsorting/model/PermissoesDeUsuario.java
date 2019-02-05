@@ -71,9 +71,9 @@ public class PermissoesDeUsuario implements Serializable {
 	public void setDataAlteracao(Date dataAlteracao) {
 		this.dataAlteracao = dataAlteracao;
 	}
-/*
+
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "pu_ocorrencia")*/
+	@JoinColumn(name = "pu_ocorrencia")
 	public Ocorrencia getOcorrencia() {
 		return ocorrencia;
 	}

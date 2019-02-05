@@ -1,10 +1,24 @@
 package com.ranchsorting.model;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name = "tb_Campeonato")
 public class Campeonato implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -15,13 +29,15 @@ public class Campeonato implements Serializable {
 	private Date dataEvento;
 	private BigDecimal valorInscricao;
 	private String observacao;
-	private Etapa etapa;
+	private List<Etapa> etapas;
 	private List<Divisao> divisoes;
-	private List<Competidor> competidores;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
 
+	@Id
+	@GeneratedValue
+	@Column(name = "cp_id")
 	public Long getId() {
 		return id;
 	}
@@ -30,6 +46,7 @@ public class Campeonato implements Serializable {
 		this.id = id;
 	}
 
+	@Column(name = "cp_nome", nullable = false, length = 120)
 	public String getNome() {
 		return nome;
 	}
@@ -38,6 +55,8 @@ public class Campeonato implements Serializable {
 		this.nome = nome;
 	}
 
+	@Temporal(TemporalType.DATE)
+	@Column(name = "cp_data_abertura")
 	public Date getDataAbertura() {
 		return dataAbertura;
 	}
@@ -46,6 +65,8 @@ public class Campeonato implements Serializable {
 		this.dataAbertura = dataAbertura;
 	}
 
+	@Temporal(TemporalType.DATE)
+	@Column(name = "cp_data_evento")
 	public Date getDataEvento() {
 		return dataEvento;
 	}
@@ -54,6 +75,7 @@ public class Campeonato implements Serializable {
 		this.dataEvento = dataEvento;
 	}
 
+	@Column(name = "valor_inscricao", nullable = false, precision = 10, scale = 2)
 	public BigDecimal getValorInscricao() {
 		return valorInscricao;
 	}
@@ -62,6 +84,7 @@ public class Campeonato implements Serializable {
 		this.valorInscricao = valorInscricao;
 	}
 
+	@Column(columnDefinition = "text")
 	public String getObservacao() {
 		return observacao;
 	}
@@ -70,14 +93,16 @@ public class Campeonato implements Serializable {
 		this.observacao = observacao;
 	}
 
-	public Etapa getEtapa() {
-		return etapa;
+	@OneToMany(mappedBy="campeonato", cascade=CascadeType.ALL)
+	public List<Etapa> getEtapas() {
+		return etapas;
 	}
 
-	public void setEtapa(Etapa etapa) {
-		this.etapa = etapa;
+	public void setEtapas(List<Etapa> etapas) {
+		this.etapas = etapas;
 	}
 
+	@OneToMany(mappedBy="campeonato", cascade=CascadeType.ALL)
 	public List<Divisao> getDivisoes() {
 		return divisoes;
 	}
@@ -86,14 +111,8 @@ public class Campeonato implements Serializable {
 		this.divisoes = divisoes;
 	}
 
-	public List<Competidor> getCompetidores() {
-		return competidores;
-	}
-
-	public void setCompetidores(List<Competidor> competidores) {
-		this.competidores = competidores;
-	}
-
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "cp_us_alteracao")
 	public Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
 	}
@@ -102,6 +121,8 @@ public class Campeonato implements Serializable {
 		this.usuarioAlteracao = usuarioAlteracao;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "cp_data_alteracao")
 	public Date getDataAlteracao() {
 		return dataAlteracao;
 	}
@@ -110,6 +131,8 @@ public class Campeonato implements Serializable {
 		this.dataAlteracao = dataAlteracao;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "cp_ocorrencia")
 	public Ocorrencia getOcorrencia() {
 		return ocorrencia;
 	}

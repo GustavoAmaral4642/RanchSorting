@@ -64,14 +64,18 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper {
 			// inicial.
 			// poderia enviar um e-mail.
 			boolean handle = false; // criar esta variável antes do try
+			
 			try {
 				if (exception instanceof ViewExpiredException) {
+					System.out.println("taqui 5");
 					handle = true;
 					redirect("/");
 				} else if (negocioException != null) {
+					
 					handle = true;
 					FacesUtil.addErrorMessage(negocioException.getMessage());
 				} else {
+					
 					handle = true;
 					// usando comando para gravar log. 
 					// primeiro parâmetro irá gravar a mensagem, segundo parâmetro é a causa da exceção.

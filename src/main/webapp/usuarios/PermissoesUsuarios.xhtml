@@ -13,15 +13,22 @@
 	</ui:define>
 
 	<ui:define name="content">
+
+		<f:metadata>
+			<f:viewParam name="dummy" />
+			<f:event listener="#{permissoesUsuariosBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
 		<h:form>
 			<div class="ui-fluid">
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
 							<h1>Permissões de Usuário</h1>
-							
+
 							<p:growl id="growl" autoUpdate="true" />
-							
+
 							<p:panelGrid columns="4"
 								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
 								layout="grid" styleClass="ui-panelgrid-blank"
@@ -35,16 +42,22 @@
 
 								<p:outputLabel for="nome" value="Nome do Usuário:" />
 								<p:inputText id="nome" />
-
-								<p:spacer />
-								<p:spacer />
+								
+								<p:outputLabel value="Tarefas" for="tarefa" />
+								<p:selectOneMenu id="tarefa" value="">
+									<f:selectItem itemLabel="Selecione a tarefa" />
+									<f:selectItems value="#{permissoesUsuariosBean.todasTarefas}"
+										var="tarefa" itemValue="#{tarefa}"
+										itemLabel="#{tarefa.nomePrograma}" />
+								</p:selectOneMenu>
 								<p:spacer />
 
 								<h:panelGroup>
 									<p:panelGrid columns="3" layout="grid">
 										<p:commandButton value="Salvar" icon="fa fa-save" />
-										<p:commandButton value="Limpar" icon="fa fa-refresh"/>
-										<p:button value="Pesquisa" icon="fa fa-search" outcome="/usuarios/PesquisaUsuarios"/>
+										<p:commandButton value="Limpar" icon="fa fa-refresh" />
+										<p:button value="Pesquisa" icon="fa fa-search"
+											outcome="/usuarios/PesquisaUsuarios" />
 									</p:panelGrid>
 								</h:panelGroup>
 
@@ -52,24 +65,6 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:tree value="#{treeSelectionView.root2}" var="doc"
-									selectionMode="checkbox">
-									<p:treeNode icon="ui-icon-note">
-										<h:outputText value="#{doc.name}" />
-									</p:treeNode>
-									<p:treeNode type="document" icon="ui-icon-document">
-										<h:outputText value="#{doc.name}" />
-									</p:treeNode>
-									<p:treeNode type="picture" icon="ui-icon-image">
-										<h:outputText value="#{doc.name}" />
-									</p:treeNode>
-									<p:treeNode type="mp3" icon="ui-icon-video">
-										<h:outputText value="#{doc.name}" />
-									</p:treeNode>
-									<p:treeNode type="mp3" icon="ui-icon-music">
-										<h:outputText value="#{doc.name}" />
-									</p:treeNode>
-								</p:tree>
 							</p:panelGrid>
 
 
