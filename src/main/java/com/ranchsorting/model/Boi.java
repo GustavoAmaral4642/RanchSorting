@@ -67,7 +67,7 @@ public class Boi implements Serializable {
 	}
 
   	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "an_ocorrencia")
+	@JoinColumn(name = "bo_ocorrencia")
 	public final Ocorrencia getOcorrencia() {
 		return ocorrencia;
 	}

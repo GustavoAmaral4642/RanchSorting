@@ -12,7 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="tb_oCorrencia")
+@Table(name="tb_ocorrencia")
 public class Ocorrencia implements Serializable {
 
 	private static final long serialVersionUID = 1L;

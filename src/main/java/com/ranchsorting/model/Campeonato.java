@@ -18,7 +18,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "tb_Campeonato")
+@Table(name = "tb_campeonato")
 public class Campeonato implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -75,7 +75,7 @@ public class Campeonato implements Serializable {
 		this.dataEvento = dataEvento;
 	}
 
-	@Column(name = "valor_inscricao", nullable = false, precision = 10, scale = 2)
+	@Column(name = "cp_valor_inscricao", nullable = false, precision = 10, scale = 2)
 	public BigDecimal getValorInscricao() {
 		return valorInscricao;
 	}
@@ -84,7 +84,7 @@ public class Campeonato implements Serializable {
 		this.valorInscricao = valorInscricao;
 	}
 
-	@Column(columnDefinition = "text")
+	@Column(name = "cp_observacao",columnDefinition = "text")
 	public String getObservacao() {
 		return observacao;
 	}

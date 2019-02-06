@@ -4,11 +4,27 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name = "tb_ficha_inscricao")
 public class FichaInscricao implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	private Long qntInscricoes;
 	private Date dataInscricao;
 	private Competidor competidor;
 	private Animal animal;
@@ -20,13 +36,15 @@ public class FichaInscricao implements Serializable {
 	private Date dataPagamento;
 	private FormaPagamento formaPagamento;
 	private String bancoPagamento;
-	private Boolean anuidadePaga;
+	private String anuidadePaga;
 	private TipoAnuidade tipoAnuidade;
-	private Long numeroImpressoes;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
 
+	@Id
+	@GeneratedValue
+	@Column(name = "fi_id")
 	public Long getId() {
 		return id;
 	}
@@ -35,6 +53,17 @@ public class FichaInscricao implements Serializable {
 		this.id = id;
 	}
 
+	@Column(name = "fi_qnt_inscricoes", nullable = false)
+	public Long getQntInscricoes() {
+		return qntInscricoes;
+	}
+
+	public void setQntInscricoes(Long qntInscricoes) {
+		this.qntInscricoes = qntInscricoes;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "fi_data_inscricao")
 	public Date getDataInscricao() {
 		return dataInscricao;
 	}
@@ -43,7 +72,9 @@ public class FichaInscricao implements Serializable {
 		this.dataInscricao = dataInscricao;
 	}
 
-	public Competidor getCompetidor() {
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fi_competidor")
+	Competidor getCompetidor() {
 		return competidor;
 	}
 
@@ -51,6 +82,8 @@ public class FichaInscricao implements Serializable {
 		this.competidor = competidor;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fi_animal")
 	public Animal getAnimal() {
 		return animal;
 	}
@@ -59,6 +92,8 @@ public class FichaInscricao implements Serializable {
 		this.animal = animal;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fi_campeonato")
 	public Campeonato getCampeonato() {
 		return campeonato;
 	}
@@ -67,6 +102,8 @@ public class FichaInscricao implements Serializable {
 		this.campeonato = campeonato;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fi_etapa")
 	public Etapa getEtapa() {
 		return etapa;
 	}
@@ -75,6 +112,8 @@ public class FichaInscricao implements Serializable {
 		this.etapa = etapa;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fi_divisao")
 	public Divisao getDivisao() {
 		return divisao;
 	}
@@ -83,6 +122,7 @@ public class FichaInscricao implements Serializable {
 		this.divisao = divisao;
 	}
 
+	@Column(name = "fi_valor_comprado", nullable = false, precision = 10, scale = 2)
 	public BigDecimal getValorComprado() {
 		return valorComprado;
 	}
@@ -91,6 +131,7 @@ public class FichaInscricao implements Serializable {
 		this.valorComprado = valorComprado;
 	}
 
+	@Column(name = "fi_valor_pago", precision = 10, scale = 2)
 	public BigDecimal getValorPago() {
 		return valorPago;
 	}
@@ -99,6 +140,8 @@ public class FichaInscricao implements Serializable {
 		this.valorPago = valorPago;
 	}
 
+	@Temporal(TemporalType.DATE)
+	@Column(name = "fi_data_pagamento")
 	public Date getDataPagamento() {
 		return dataPagamento;
 	}
@@ -107,6 +150,8 @@ public class FichaInscricao implements Serializable {
 		this.dataPagamento = dataPagamento;
 	}
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "fi_frm_pagamento", nullable = false, length = 15)
 	public FormaPagamento getFormaPagamento() {
 		return formaPagamento;
 	}
@@ -115,6 +160,7 @@ public class FichaInscricao implements Serializable {
 		this.formaPagamento = formaPagamento;
 	}
 
+	@Column(name = "fi_banco", length = 50)
 	public String getBancoPagamento() {
 		return bancoPagamento;
 	}
@@ -123,14 +169,17 @@ public class FichaInscricao implements Serializable {
 		this.bancoPagamento = bancoPagamento;
 	}
 
-	public Boolean getAnuidadePaga() {
+	@Column(name = "fi_anuidade_paga", nullable = false, length = 2)
+	public String getAnuidadePaga() {
 		return anuidadePaga;
 	}
 
-	public void setAnuidadePaga(Boolean anuidadePaga) {
+	public void setAnuidadePaga(String anuidadePaga) {
 		this.anuidadePaga = anuidadePaga;
 	}
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "fi_tp_anuidade", nullable = false, length = 12)
 	public TipoAnuidade getTipoAnuidade() {
 		return tipoAnuidade;
 	}
@@ -139,14 +188,8 @@ public class FichaInscricao implements Serializable {
 		this.tipoAnuidade = tipoAnuidade;
 	}
 
-	public Long getNumeroImpressoes() {
-		return numeroImpressoes;
-	}
-
-	public void setNumeroImpressoes(Long numeroImpressoes) {
-		this.numeroImpressoes = numeroImpressoes;
-	}
-
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fi_us_alteracao")
 	public Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
 	}
@@ -155,6 +198,8 @@ public class FichaInscricao implements Serializable {
 		this.usuarioAlteracao = usuarioAlteracao;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "fi_data_alteracao")
 	public Date getDataAlteracao() {
 		return dataAlteracao;
 	}
@@ -163,6 +208,8 @@ public class FichaInscricao implements Serializable {
 		this.dataAlteracao = dataAlteracao;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fi_ocorrencia")
 	public Ocorrencia getOcorrencia() {
 		return ocorrencia;
 	}

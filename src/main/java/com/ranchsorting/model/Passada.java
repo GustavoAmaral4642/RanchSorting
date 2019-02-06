@@ -3,6 +3,19 @@ package com.ranchsorting.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name = "tb_passada")
 public class Passada implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -10,15 +23,20 @@ public class Passada implements Serializable {
 	private Long id;
 	private Long numeroDupla;
 	private Competidor competidor1;
+	private Animal animal1;
 	private Competidor competidor2;
+	private Animal animal2;
 	private String tempo;
 	private Long qntBoi;
 	private Long ranking;
-	private Boolean sat;
+	private String sat;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
 
+	@Id
+	@GeneratedValue
+	@Column(name = "pa_id")
 	public Long getId() {
 		return id;
 	}
@@ -27,6 +45,8 @@ public class Passada implements Serializable {
 		this.id = id;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "pa_numer_dupla")
 	public Long getNumeroDupla() {
 		return numeroDupla;
 	}
@@ -35,6 +55,8 @@ public class Passada implements Serializable {
 		this.numeroDupla = numeroDupla;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "pa_competidor1")
 	public Competidor getCompetidor1() {
 		return competidor1;
 	}
@@ -43,6 +65,18 @@ public class Passada implements Serializable {
 		this.competidor1 = competidor1;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "pa_animal1")
+	public Animal getAnimal1() {
+		return animal1;
+	}
+
+	public void setAnimal1(Animal animal1) {
+		this.animal1 = animal1;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "pa_competidor2")
 	public Competidor getCompetidor2() {
 		return competidor2;
 	}
@@ -51,6 +85,17 @@ public class Passada implements Serializable {
 		this.competidor2 = competidor2;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "pa_animal2")
+	public Animal getAnimal2() {
+		return animal2;
+	}
+
+	public void setAnimal2(Animal animal2) {
+		this.animal2 = animal2;
+	}
+
+	@Column(name = "pa_tempo", nullable = false, length = 20)
 	public String getTempo() {
 		return tempo;
 	}
@@ -59,6 +104,7 @@ public class Passada implements Serializable {
 		this.tempo = tempo;
 	}
 
+	@Column(name = "pa_qnt_boi", nullable = false)
 	public Long getQntBoi() {
 		return qntBoi;
 	}
@@ -67,6 +113,7 @@ public class Passada implements Serializable {
 		this.qntBoi = qntBoi;
 	}
 
+	@Column(name = "pa_ranking", nullable = false)
 	public Long getRanking() {
 		return ranking;
 	}
@@ -75,14 +122,17 @@ public class Passada implements Serializable {
 		this.ranking = ranking;
 	}
 
-	public Boolean getSat() {
+	@Column(name = "pa_sat", nullable = false)
+	public String getSat() {
 		return sat;
 	}
 
-	public void setSat(Boolean sat) {
+	public void setSat(String sat) {
 		this.sat = sat;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "pa_us_alteracao")
 	public Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
 	}
@@ -91,6 +141,8 @@ public class Passada implements Serializable {
 		this.usuarioAlteracao = usuarioAlteracao;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "pa_data_alteracao")
 	public Date getDataAlteracao() {
 		return dataAlteracao;
 	}
@@ -99,6 +151,8 @@ public class Passada implements Serializable {
 		this.dataAlteracao = dataAlteracao;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "pa_ocorrencia")
 	public Ocorrencia getOcorrencia() {
 		return ocorrencia;
 	}

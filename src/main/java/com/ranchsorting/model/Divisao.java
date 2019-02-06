@@ -61,7 +61,7 @@ public class Divisao implements Serializable {
 		this.campeonato = campeonato;
 	}
 
-	@Column(columnDefinition = "text")
+	@Column(name="dv_observacao",columnDefinition = "text")
 	public final String getObservacoes() {
 		return observacoes;
 	}

@@ -4,6 +4,20 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name="tb_ordem_entrada")
 public class OrdemEntrada implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -15,11 +29,14 @@ public class OrdemEntrada implements Serializable {
 	private Divisao divisao;
 	private Date data;
 	private Date hora;
-	private List<Long> numerosDuplas;
+	private List<FolhaCompeticao> folhasCompeticoes;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
 
+	@Id
+	@GeneratedValue
+	@Column(name = "od_id")
 	public Long getId() {
 		return id;
 	}
@@ -28,6 +45,7 @@ public class OrdemEntrada implements Serializable {
 		this.id = id;
 	}
 
+	@Column(name = "od_numero_ordem", nullable = false)
 	public Long getOrdemEntrada() {
 		return ordemEntrada;
 	}
@@ -36,6 +54,8 @@ public class OrdemEntrada implements Serializable {
 		this.ordemEntrada = ordemEntrada;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "od_campeonato")
 	public Campeonato getCampeonato() {
 		return campeonato;
 	}
@@ -44,6 +64,8 @@ public class OrdemEntrada implements Serializable {
 		this.campeonato = campeonato;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "od_etapa")
 	public Etapa getEtapa() {
 		return etapa;
 	}
@@ -52,6 +74,8 @@ public class OrdemEntrada implements Serializable {
 		this.etapa = etapa;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "od_divisao")
 	public Divisao getDivisao() {
 		return divisao;
 	}
@@ -60,6 +84,8 @@ public class OrdemEntrada implements Serializable {
 		this.divisao = divisao;
 	}
 
+	@Temporal(TemporalType.DATE)
+	@Column(name = "od_data")
 	public Date getData() {
 		return data;
 	}
@@ -68,6 +94,8 @@ public class OrdemEntrada implements Serializable {
 		this.data = data;
 	}
 
+	@Temporal(TemporalType.TIME)
+	@Column(name = "od_hora")
 	public Date getHora() {
 		return hora;
 	}
@@ -76,14 +104,17 @@ public class OrdemEntrada implements Serializable {
 		this.hora = hora;
 	}
 
-	public List<Long> getNumerosDuplas() {
-		return numerosDuplas;
+	@OneToMany(mappedBy="ordemEntrada", cascade=CascadeType.ALL)
+	public List<FolhaCompeticao> getFolhasCompeticoes() {
+		return folhasCompeticoes;
 	}
 
-	public void setNumerosDuplas(List<Long> numerosDuplas) {
-		this.numerosDuplas = numerosDuplas;
+	public void setFolhasCompeticoes(List<FolhaCompeticao> folhasCompeticoes) {
+		this.folhasCompeticoes = folhasCompeticoes;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "od_us_alteracao")
 	public Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
 	}
@@ -92,6 +123,8 @@ public class OrdemEntrada implements Serializable {
 		this.usuarioAlteracao = usuarioAlteracao;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "od_data_alteracao")
 	public Date getDataAlteracao() {
 		return dataAlteracao;
 	}
@@ -100,6 +133,8 @@ public class OrdemEntrada implements Serializable {
 		this.dataAlteracao = dataAlteracao;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "od_ocorrencia")
 	public Ocorrencia getOcorrencia() {
 		return ocorrencia;
 	}
