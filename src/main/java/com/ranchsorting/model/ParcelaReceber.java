@@ -4,6 +4,18 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name = "tb_parcela_receber")
 public class ParcelaReceber implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -17,6 +29,9 @@ public class ParcelaReceber implements Serializable {
 	private ContasReceber titulo;
 	private String Banco;
 
+	@Id
+	@GeneratedValue
+	@Column(name = "pr_id")
 	public Long getId() {
 		return id;
 	}
@@ -25,6 +40,7 @@ public class ParcelaReceber implements Serializable {
 		this.id = id;
 	}
 
+	@Column(name = "pr_valor_pago", precision = 10, scale = 2)
 	public BigDecimal getValorPago() {
 		return valorPago;
 	}
@@ -33,6 +49,7 @@ public class ParcelaReceber implements Serializable {
 		this.valorPago = valorPago;
 	}
 
+	@Column(name = "pr_valor_devido", nullable = false, precision = 10, scale = 2)
 	public BigDecimal getValorDevido() {
 		return valorDevido;
 	}
@@ -41,6 +58,8 @@ public class ParcelaReceber implements Serializable {
 		this.valorDevido = valorDevido;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "pr_data_vencimento")
 	public Date getDataVencimento() {
 		return dataVencimento;
 	}
@@ -49,6 +68,8 @@ public class ParcelaReceber implements Serializable {
 		this.dataVencimento = dataVencimento;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "pr_data_pagamento")
 	public Date getDataPagamento() {
 		return dataPagamento;
 	}
@@ -57,6 +78,7 @@ public class ParcelaReceber implements Serializable {
 		this.dataPagamento = dataPagamento;
 	}
 
+	@Column(name = "pr_observacao", columnDefinition = "text")
 	public String getObservacao() {
 		return observacao;
 	}
@@ -65,6 +87,8 @@ public class ParcelaReceber implements Serializable {
 		this.observacao = observacao;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "pr_contas_receber_id", nullable = false)
 	public ContasReceber getTitulo() {
 		return titulo;
 	}
@@ -73,6 +97,7 @@ public class ParcelaReceber implements Serializable {
 		this.titulo = titulo;
 	}
 
+	@Column(name = "pr_banco", nullable = false, length = 60)
 	public String getBanco() {
 		return Banco;
 	}

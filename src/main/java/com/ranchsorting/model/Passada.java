@@ -21,6 +21,7 @@ public class Passada implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	private OrdemEntrada ordemEntrada;
 	private Long numeroDupla;
 	private Competidor competidor1;
 	private Animal animal1;
@@ -46,7 +47,16 @@ public class Passada implements Serializable {
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "pa_numer_dupla")
+	@JoinColumn(name = "pa_ordem_entrada")
+	public OrdemEntrada getOrdemEntrada() {
+		return ordemEntrada;
+	}
+
+	public void setOrdemEntrada(OrdemEntrada ordemEntrada) {
+		this.ordemEntrada = ordemEntrada;
+	}
+
+	@Column(name = "pa_num_dupla", nullable = false)
 	public Long getNumeroDupla() {
 		return numeroDupla;
 	}

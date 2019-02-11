@@ -13,6 +13,12 @@
 	</ui:define>
 
 	<ui:define name="content">
+		<f:metadata>
+			<f:viewParam name="dummy" />
+			<f:event listener="#{cadastroCompetidorBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
 		<h:form>
 			<div class="ui-fluid">
 				<div class="ui-g">
@@ -28,32 +34,45 @@
 								style="border:0px none; background-color:transparent;">
 
 								<p:outputLabel for="codigo" value="Código:" />
-								<p:inputText id="codigo" />
+								<p:inputText id="codigo"
+									value="#{cadastroCompetidorBean.competidor.id}" />
 
 								<p:outputLabel for="nome" value="Nome do Competidor:" />
-								<p:inputText id="nome" />
+								<p:inputText id="nome"
+									value="#{cadastroCompetidorBean.competidor.nome}" />
 
 								<p:outputLabel for="dataNascimento" value="Data de Nascimento:" />
 								<p:calendar id="dataNascimento" label="Data da Abertura"
 									placeholder="__/__/____" pattern="dd/MM/yyyy" title="Data"
-									size="10" value="" mask="99/99/9999" />
+									size="10"
+									value="#{cadastroCompetidorBean.competidor.dataNascimento}"
+									mask="99/99/9999" />
 
 								<p:outputLabel for="idade" value="Idade:" />
-								<p:inputText id="idade" />
+								<p:inputText id="idade"
+									value="#{cadastroCompetidorBean.competidor.idade}" />
 
 								<p:outputLabel for="nomeResponsavel"
 									value="Nome do Responsável:" />
-								<p:inputText id="nomeResponsavel" />
+								<p:inputText id="nomeResponsavel"
+									value="#{cadastroCompetidorBean.competidor.responsavel}" />
 
 								<p:outputLabel for="docResponsavel"
 									value="Número do Documento do Responsável:" />
-								<p:inputText id="docResponsavel" />
+								<p:inputText id="docResponsavel"
+									value="#{cadastroCompetidorBean.competidor.docResponsavel}" />
 
-								<p:outputLabel for="animal" value="Animal:" />
-								<p:inputText id="animal" />
+								<p:outputLabel value="Animais:" />
+								<p:dataList value="#{cadastroCompetidorBean.competidor.animais}" var="animal"
+									type="ordered" emptyMessage="Nenhum Animal Encontrado">
+									<f:facet name="header">
+									Animais do Competidor
+		                            </f:facet>
+		                            #{animal.nome}, #{animal.raca}
+		                        </p:dataList>
 
 								<p:outputLabel for="contato" value="Contato:" />
-								<p:inputTextarea id="contato" rows="3"
+								<p:inputTextarea id="contato" rows="3" value="#{cadastroCompetidorBean.competidor.contato}"
 									placeholder="Informe o contato" autoResize="false" />
 
 								<p:outputLabel for="anuidadePaga" value="Anuidade Paga em:" />
@@ -61,14 +80,16 @@
 									<p:panelGrid columns="3" layout="grid">
 										<p:calendar id="anuidadePaga" label="Anuidade Paga"
 											placeholder="__/__/____" pattern="dd/MM/yyyy" title="Data"
-											size="10" value="" mask="99/99/9999" />
-										<p:outputLabel value="N/A" style="color: red; font-weight:bold;" />
+											size="10" value="#{cadastroCompetidorBean.competidor.dataPagamentoAnuidade}" mask="99/99/9999" />
+										<p:outputLabel value="N/A"
+											style="color: red; font-weight:bold;" />
 										<p:commandButton value="Pagar" icon="fa fa-dollar" />
 									</p:panelGrid>
 								</h:panelGroup>
 
 								<p:outputLabel for="etnia" value="Etnia:" />
-								<p:selectOneRadio id="etnia" layout="responsive" columns="2">
+								<p:selectOneRadio id="etnia" layout="responsive" columns="2"
+									value="#{cadastroCompetidorBean.competidor.etnia}">
 									<f:selectItem itemLabel="Masculino" itemValue="masculino" />
 									<f:selectItem itemLabel="Feminino" itemValue="feminino" />
 								</p:selectOneRadio>

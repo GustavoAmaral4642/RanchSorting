@@ -3,7 +3,22 @@ package com.ranchsorting.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name = "tb_contas_receber")
 public class ContasReceber implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -15,10 +30,14 @@ public class ContasReceber implements Serializable {
 	private BigDecimal saldo;
 	private Date dataTitulo;
 	private String observacao;
+	private List<ParcelaReceber> parcelas;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
 
+	@Id
+	@GeneratedValue
+	@Column(name = "cr_id")
 	public Long getId() {
 		return id;
 	}
@@ -27,6 +46,8 @@ public class ContasReceber implements Serializable {
 		this.id = id;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "cr_competidor")
 	public Competidor getCompetidor() {
 		return competidor;
 	}
@@ -35,6 +56,8 @@ public class ContasReceber implements Serializable {
 		this.competidor = competidor;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "cr_campeonato")
 	public Campeonato getCampeonato() {
 		return campeonato;
 	}
@@ -43,6 +66,7 @@ public class ContasReceber implements Serializable {
 		this.campeonato = campeonato;
 	}
 
+	@Column(name = "cr_valor_titulo", nullable = false, precision = 10, scale = 2)
 	public BigDecimal getValorTitulo() {
 		return valorTitulo;
 	}
@@ -51,6 +75,7 @@ public class ContasReceber implements Serializable {
 		this.valorTitulo = valorTitulo;
 	}
 
+	@Column(name = "cr_saldo", precision = 10, scale = 2)
 	public BigDecimal getSaldo() {
 		return saldo;
 	}
@@ -59,6 +84,8 @@ public class ContasReceber implements Serializable {
 		this.saldo = saldo;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "cr_data_titulo")
 	public Date getDataTitulo() {
 		return dataTitulo;
 	}
@@ -67,6 +94,7 @@ public class ContasReceber implements Serializable {
 		this.dataTitulo = dataTitulo;
 	}
 
+	@Column(name = "cr_observacao",columnDefinition = "text")
 	public String getObservacao() {
 		return observacao;
 	}
@@ -74,7 +102,18 @@ public class ContasReceber implements Serializable {
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
 	}
+	
+	@OneToMany(mappedBy="titulo", cascade=CascadeType.ALL)
+	public List<ParcelaReceber> getParcelas() {
+		return parcelas;
+	}
+	
+	public void setParcelas(List<ParcelaReceber> parcelas) {
+		this.parcelas = parcelas;
+	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "cr_us_alteracao")
 	public Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
 	}
@@ -83,6 +122,8 @@ public class ContasReceber implements Serializable {
 		this.usuarioAlteracao = usuarioAlteracao;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "cr_data_alteracao")
 	public Date getDataAlteracao() {
 		return dataAlteracao;
 	}
@@ -91,6 +132,8 @@ public class ContasReceber implements Serializable {
 		this.dataAlteracao = dataAlteracao;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "cr_ocorrencia")
 	public Ocorrencia getOcorrencia() {
 		return ocorrencia;
 	}
