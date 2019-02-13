@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "tb_ficha_inscricao")
@@ -53,7 +54,7 @@ public class FichaInscricao implements Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "fi_qnt_inscricoes", nullable = false)
+	@Column(name = "fi_qnt_inscricoes")
 	public Long getQntInscricoes() {
 		return qntInscricoes;
 	}
@@ -121,8 +122,8 @@ public class FichaInscricao implements Serializable {
 	public void setDivisao(Divisao divisao) {
 		this.divisao = divisao;
 	}
-
-	@Column(name = "fi_valor_comprado", nullable = false, precision = 10, scale = 2)
+	
+	@Column(name = "fi_valor_comprado", precision = 10, scale = 2)
 	public BigDecimal getValorComprado() {
 		return valorComprado;
 	}
@@ -151,7 +152,7 @@ public class FichaInscricao implements Serializable {
 	}
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "fi_frm_pagamento", nullable = false, length = 15)
+	@Column(name = "fi_frm_pagamento", length = 15)
 	public FormaPagamento getFormaPagamento() {
 		return formaPagamento;
 	}
@@ -160,6 +161,7 @@ public class FichaInscricao implements Serializable {
 		this.formaPagamento = formaPagamento;
 	}
 
+	@Size(max=50)
 	@Column(name = "fi_banco", length = 50)
 	public String getBancoPagamento() {
 		return bancoPagamento;
@@ -169,7 +171,8 @@ public class FichaInscricao implements Serializable {
 		this.bancoPagamento = bancoPagamento;
 	}
 
-	@Column(name = "fi_anuidade_paga", nullable = false, length = 2)
+	@Size(max=2)
+	@Column(name = "fi_anuidade_paga", length = 2)
 	public String getAnuidadePaga() {
 		return anuidadePaga;
 	}

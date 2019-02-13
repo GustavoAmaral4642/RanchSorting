@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="tb_ocorrencia")
@@ -55,7 +56,8 @@ public class Ocorrencia implements Serializable {
 		this.hora = hora;
 	}
 
-	@Column(name = "oc_descricao", nullable = false, length = 255)
+	@Size(max=255)
+	@Column(name = "oc_descricao", length = 255)
 	public String getDescricao() {
 		return descricao;
 	}
@@ -64,7 +66,8 @@ public class Ocorrencia implements Serializable {
 		this.descricao = descricao;
 	}
 
-	@Column(name = "oc_programa", nullable = false, length = 100)
+	@Size(max=100)
+	@Column(name = "oc_programa", length = 100)
 	public String getPrograma() {
 		return programa;
 	}
@@ -73,7 +76,7 @@ public class Ocorrencia implements Serializable {
 		this.programa = programa;
 	}
 
-	@Column(name = "oc_usuario", nullable = false, length = 255)
+	@Column(name = "oc_usuario")
 	public Usuario getUsuario() {
 		return usuario;
 	}

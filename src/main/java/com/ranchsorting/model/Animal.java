@@ -16,6 +16,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_animal")
@@ -45,6 +48,8 @@ public class Animal implements Serializable {
 		this.id = id;
 	}
 
+	@NotBlank
+	@Size(max=120)
 	@Column(name = "an_nome", nullable = false, length = 120)
 	public final String getNome() {
 		return nome;
@@ -54,7 +59,7 @@ public class Animal implements Serializable {
 		this.nome = nome;
 	}
 
-	@Column(name = "an_idade", nullable = false)
+	@Column(name = "an_idade")
 	public final Long getIdade() {
 		return idade;
 	}
@@ -63,7 +68,8 @@ public class Animal implements Serializable {
 		this.idade = idade;
 	}
 
-	@Column(name = "an_cor", nullable = false, length = 50)
+	@Size(max=50)
+	@Column(name = "an_cor", length = 50)
 	public final String getCor() {
 		return cor;
 	}
@@ -73,7 +79,7 @@ public class Animal implements Serializable {
 	}
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "an_etnia", nullable = false, length = 15)
+	@Column(name = "an_etnia", length = 15)
 	public final Etnia getEtnia() {
 		return etnia;
 	}
@@ -82,7 +88,8 @@ public class Animal implements Serializable {
 		this.etnia = etnia;
 	}
 
-	@Column(name = "an_raca", nullable = false, length = 80)
+	@Size(max=80)
+	@Column(name = "an_raca", length = 80)
 	public final String getRaca() {
 		return raca;
 	}

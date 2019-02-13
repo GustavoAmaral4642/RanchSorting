@@ -16,6 +16,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_campeonato")
@@ -46,6 +49,8 @@ public class Campeonato implements Serializable {
 		this.id = id;
 	}
 
+	@NotBlank
+	@Size(max=120)
 	@Column(name = "cp_nome", nullable = false, length = 120)
 	public String getNome() {
 		return nome;
@@ -83,7 +88,7 @@ public class Campeonato implements Serializable {
 	public void setValorInscricao(BigDecimal valorInscricao) {
 		this.valorInscricao = valorInscricao;
 	}
-
+	
 	@Column(name = "cp_observacao",columnDefinition = "text")
 	public String getObservacao() {
 		return observacao;

@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "tb_parcela_receber")
@@ -49,6 +51,7 @@ public class ParcelaReceber implements Serializable {
 		this.valorPago = valorPago;
 	}
 
+	@NotNull
 	@Column(name = "pr_valor_devido", nullable = false, precision = 10, scale = 2)
 	public BigDecimal getValorDevido() {
 		return valorDevido;
@@ -58,6 +61,7 @@ public class ParcelaReceber implements Serializable {
 		this.valorDevido = valorDevido;
 	}
 
+	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "pr_data_vencimento")
 	public Date getDataVencimento() {
@@ -88,7 +92,7 @@ public class ParcelaReceber implements Serializable {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "pr_contas_receber_id", nullable = false)
+	@JoinColumn(name = "pr_contas_receber_id")
 	public ContasReceber getTitulo() {
 		return titulo;
 	}
@@ -97,7 +101,8 @@ public class ParcelaReceber implements Serializable {
 		this.titulo = titulo;
 	}
 
-	@Column(name = "pr_banco", nullable = false, length = 60)
+	@Size(max=60)
+	@Column(name = "pr_banco", length = 60)
 	public String getBanco() {
 		return Banco;
 	}

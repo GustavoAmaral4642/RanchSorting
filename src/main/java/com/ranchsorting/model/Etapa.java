@@ -14,6 +14,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_etapa")
@@ -44,6 +47,8 @@ public class Etapa implements Serializable {
 		this.id = id;
 	}
 
+	@NotBlank
+	@Size(max=100)
 	@Column(name = "ep_nome", nullable = false, length = 100)
 	public final String getNome() {
 		return nome;
@@ -54,7 +59,7 @@ public class Etapa implements Serializable {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "ep_campeonato_id", nullable = false)
+	@JoinColumn(name = "ep_campeonato_id")
 	public final Campeonato getCampeonato() {
 		return campeonato;
 	}
@@ -93,7 +98,8 @@ public class Etapa implements Serializable {
 		this.dataFimInscricoes = dataFimInscricoes;
 	}
 
-	@Column(name = "ep_organizador", nullable = false, length = 100)
+	@Size(max=100)
+	@Column(name = "ep_organizador", length = 100)
 	public final String getOrganizador() {
 		return organizador;
 	}
@@ -102,7 +108,8 @@ public class Etapa implements Serializable {
 		this.organizador = organizador;
 	}
 
-	@Column(name = "ep_contato_organizador", nullable = false, length = 120)
+	@Size(max=120)
+	@Column(name = "ep_contato_organizador", length = 120)
 	public final String getContatoOrganizador() {
 		return contatoOrganizador;
 	}

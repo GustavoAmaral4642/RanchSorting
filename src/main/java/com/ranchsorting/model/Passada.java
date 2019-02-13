@@ -13,6 +13,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_passada")
@@ -105,6 +108,8 @@ public class Passada implements Serializable {
 		this.animal2 = animal2;
 	}
 
+	@NotBlank
+	@Size(max=20)
 	@Column(name = "pa_tempo", nullable = false, length = 20)
 	public String getTempo() {
 		return tempo;
@@ -113,8 +118,8 @@ public class Passada implements Serializable {
 	public void setTempo(String tempo) {
 		this.tempo = tempo;
 	}
-
-	@Column(name = "pa_qnt_boi", nullable = false)
+	
+	@Column(name = "pa_qnt_boi")
 	public Long getQntBoi() {
 		return qntBoi;
 	}
@@ -123,7 +128,7 @@ public class Passada implements Serializable {
 		this.qntBoi = qntBoi;
 	}
 
-	@Column(name = "pa_ranking", nullable = false)
+	@Column(name = "pa_ranking")
 	public Long getRanking() {
 		return ranking;
 	}
@@ -132,7 +137,9 @@ public class Passada implements Serializable {
 		this.ranking = ranking;
 	}
 
-	@Column(name = "pa_sat", nullable = false)
+	@NotBlank
+	@Size(max=10)
+	@Column(name = "pa_sat", nullable = false, length=10)
 	public String getSat() {
 		return sat;
 	}

@@ -14,6 +14,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_divisao")
@@ -42,6 +45,8 @@ public class Divisao implements Serializable {
 		this.id = id;
 	}
 
+	@NotBlank
+	@Size(max=60)
 	@Column(name = "dv_nome", nullable = false, length = 60)
 	public final String getNome() {
 		return nome;
@@ -52,7 +57,7 @@ public class Divisao implements Serializable {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "dv_campeonato_id", nullable = false)
+	@JoinColumn(name = "dv_campeonato_id")
 	public Campeonato getCampeonato() {
 		return campeonato;
 	}

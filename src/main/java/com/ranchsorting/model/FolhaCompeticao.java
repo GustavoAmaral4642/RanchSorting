@@ -14,6 +14,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "tb_folha_competicao")
@@ -52,6 +54,7 @@ public class FolhaCompeticao implements Serializable {
 		this.id = id;
 	}
 
+	@NotNull
 	@Column(name = "fc_idade", nullable = false)
 	public Long getCodigoFolha() {
 		return codigoFolha;
@@ -131,7 +134,8 @@ public class FolhaCompeticao implements Serializable {
 		this.fichaInscricao1 = fichaInscricao1;
 	}
 
-	@Column(name = "fc_situ_ficha1", nullable=false, length = 10)
+	@Size(max=10)
+	@Column(name = "fc_situ_ficha1", length = 10)
 	public String getSituacaoFicha1() {
 		return situacaoFicha1;
 	}
@@ -170,6 +174,7 @@ public class FolhaCompeticao implements Serializable {
 		this.fichaInscricao2 = fichaInscricao2;
 	}
 
+	@Size(max=10)
 	@Column(name = "fc_situ_ficha2", nullable=false, length = 10)
 	public String getSituacaoFicha2() {
 		return situacaoFicha2;
@@ -179,6 +184,7 @@ public class FolhaCompeticao implements Serializable {
 		this.situacaoFicha2 = situacaoFicha2;
 	}
 
+	@NotNull
 	@Column(name = "fc_numero_dupla", nullable = false)
 	public Long getNumeroDupla() {
 		return numeroDupla;
@@ -189,7 +195,7 @@ public class FolhaCompeticao implements Serializable {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "fc_ordem_entrada_id", nullable=false)
+	@JoinColumn(name = "fc_ordem_entrada_id")
 	public OrdemEntrada getOrdemEntrada() {
 		return ordemEntrada;
 	}

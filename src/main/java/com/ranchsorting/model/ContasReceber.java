@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tb_contas_receber")
@@ -46,6 +47,7 @@ public class ContasReceber implements Serializable {
 		this.id = id;
 	}
 
+	@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "cr_competidor")
 	public Competidor getCompetidor() {
@@ -66,6 +68,7 @@ public class ContasReceber implements Serializable {
 		this.campeonato = campeonato;
 	}
 
+	@NotNull
 	@Column(name = "cr_valor_titulo", nullable = false, precision = 10, scale = 2)
 	public BigDecimal getValorTitulo() {
 		return valorTitulo;
@@ -84,6 +87,7 @@ public class ContasReceber implements Serializable {
 		this.saldo = saldo;
 	}
 
+	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "cr_data_titulo")
 	public Date getDataTitulo() {

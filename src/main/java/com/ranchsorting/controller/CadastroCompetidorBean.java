@@ -16,11 +16,11 @@ public class CadastroCompetidorBean implements Serializable {
 	private Competidor competidor;
 
 	public CadastroCompetidorBean() {
-
+		competidor = new Competidor();
 	}
 
 	public void inicializar() {
-
+	
 	}
 
 	public void limpar() {

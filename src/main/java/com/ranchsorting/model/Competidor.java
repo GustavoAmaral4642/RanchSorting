@@ -19,6 +19,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_competidor")
@@ -53,6 +57,8 @@ public class Competidor implements Serializable {
 		this.id = id;
 	}
 
+	@NotBlank
+	@Size(max=160)
 	@Column(name = "cp_nome", nullable = false, length = 160)
 	public final String getNome() {
 		return nome;
@@ -72,6 +78,7 @@ public class Competidor implements Serializable {
 		this.dataNascimento = dataNascimento;
 	}
 
+	@NotNull
 	@Column(name = "cp_idade", nullable = false)
 	public final Long getIdade() {
 		return idade;
@@ -81,6 +88,7 @@ public class Competidor implements Serializable {
 		this.idade = idade;
 	}
 
+	@Size(max=160)
 	@Column(name = "cp_responsavel", length = 160)
 	public final String getResponsavel() {
 		return responsavel;
@@ -90,6 +98,7 @@ public class Competidor implements Serializable {
 		this.responsavel = responsavel;
 	}
 
+	@Size(max=50)
 	@Column(name = "cp_doc_responsavel", length = 50)
 	public final String getDocResponsavel() {
 		return docResponsavel;
@@ -108,7 +117,8 @@ public class Competidor implements Serializable {
 		this.animais = animais;
 	}
 
-	@Column(name = "cp_contato", nullable = false, length = 150)
+	@Size(max=160)
+	@Column(name = "cp_contato", length = 160)
 	public final String getContato() {
 		return contato;
 	}
@@ -117,6 +127,7 @@ public class Competidor implements Serializable {
 		this.contato = contato;
 	}
 
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name = "cp_etnia", nullable = false, length = 15)
 	public final Etnia getEtnia() {
@@ -146,6 +157,7 @@ public class Competidor implements Serializable {
 		this.dataPagamentoAnuidade = dataPagamentoAnuidade;
 	}
 
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name = "cp_tp_anuidade", nullable = false, length = 15)
 	public TipoAnuidade getTipoAnuidade() {

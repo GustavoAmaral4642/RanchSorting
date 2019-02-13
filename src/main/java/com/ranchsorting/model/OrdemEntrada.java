@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="tb_ordem_entrada")
@@ -45,6 +46,7 @@ public class OrdemEntrada implements Serializable {
 		this.id = id;
 	}
 
+	@NotNull
 	@Column(name = "od_numero_ordem", nullable = false)
 	public Long getOrdemEntrada() {
 		return ordemEntrada;

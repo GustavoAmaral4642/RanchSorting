@@ -13,6 +13,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tb_boi")
@@ -37,6 +38,7 @@ public class Boi implements Serializable {
 		this.id = id;
 	}
 
+	@NotNull
 	@Column(name = "bo_numero", nullable = false)
 	public final Long getNumero() {
 		return numero;
