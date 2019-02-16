@@ -13,45 +13,52 @@
 	</ui:define>
 
 	<ui:define name="content">
+
+		<f:metadata>
+			<f:viewParam name="dummy" />
+			<f:event listener="#{cadastroAnimalBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
 		<h:form>
 			<div class="ui-fluid">
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
 							<h1>Cadastro de Animal</h1>
-							
+
 							<p:growl id="growl" autoUpdate="true" />
-							
+
 							<p:panelGrid columns="4"
 								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
 								layout="grid" styleClass="ui-panelgrid-blank"
 								style="border:0px none; background-color:transparent;">
 
 								<p:outputLabel for="codigo" value="Código:" />
-								<p:inputText id="codigo" />
+								<p:inputText id="codigo" value="#{cadastroAnimalBean.animal.id}"/>
 
 								<p:outputLabel for="nome" value="Nome do Animal:" />
-								<p:inputText id="nome" />
+								<p:inputText id="nome" value="#{cadastroAnimalBean.animal.nome}"/>
 
 								<p:outputLabel for="idade" value="Idade:" />
-								<p:inputText id="idade" />
+								<p:inputText id="idade" value="#{cadastroAnimalBean.animal.idade}"/>
 
 								<p:outputLabel for="cor" value="Cor:" />
-								<p:inputText id="cor" />
+								<p:inputText id="cor" value="#{cadastroAnimalBean.animal.cor}"/>
 
 								<p:outputLabel for="raca" value="Raça:" />
-								<p:inputText id="raca" />
+								<p:inputText id="raca" value="#{cadastroAnimalBean.animal.raca}" />
 
 								<p:outputLabel for="proprietario" value="Proprietário:" />
-								<p:inputText id="proprietario" />
+								<p:inputText id="proprietario" value="#{cadastroAnimalBean.animal.proprietario}"/>
 
 								<p:spacer />
 								<p:spacer />
 
-								<p:spacer />	
+								<p:spacer />
 								<h:panelGroup>
 									<p:panelGrid columns="3" layout="grid">
-										<p:commandButton value="Salvar" icon="fa fa-save" />
+										<p:commandButton value="Salvar" icon="fa fa-save" action="#{cadastroAnimalBean.salvar}" />
 										<p:commandButton value="Limpar" icon="fa fa-refresh" />
 										<p:button value="Pesquisa" icon="fa fa-search"
 											outcome="/animais/PesquisaAnimais" />

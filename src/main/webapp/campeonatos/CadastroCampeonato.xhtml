@@ -13,19 +13,26 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<h:form>
+
+		<f:metadata>
+			<f:viewParam name="dummy" />
+			<f:event listener="#{cadastroCampeonatoBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form id="formCampeonato">
 			<div class="ui-fluid">
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
 							<h1>Cadastro de Campeonato</h1>
-							
+
 							<p:growl id="growl" autoUpdate="true" />
-							
+
 							<ui:include
 								src="/WEB-INF/template/campeonatos/CapaCampeonato.xhtml" />
 
-							<p:tabView style="margin-top: 20px">
+							<p:tabView style="margin-top: 20px" id="tabCampeonato">
 								<p:tab title="Divisões">
 									<ui:include src="/WEB-INF/template/campeonatos/Divisoes.xhtml" />
 								</p:tab>

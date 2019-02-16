@@ -16,9 +16,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-@Table(name="tb_ordem_entrada")
+@Table(name = "tb_ordem_entrada")
 public class OrdemEntrada implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -30,6 +33,7 @@ public class OrdemEntrada implements Serializable {
 	private Divisao divisao;
 	private Date data;
 	private Date hora;
+	private String boiada;
 	private List<FolhaCompeticao> folhasCompeticoes;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
@@ -106,7 +110,18 @@ public class OrdemEntrada implements Serializable {
 		this.hora = hora;
 	}
 
-	@OneToMany(mappedBy="ordemEntrada", cascade=CascadeType.ALL)
+	@NotBlank
+	@Size(max=5)
+	@Column(name="od_boiada", nullable=false, length=5)
+	public String getBoiada() {
+		return boiada;
+	}
+
+	public void setBoiada(String boiada) {
+		this.boiada = boiada;
+	}
+
+	@OneToMany(mappedBy = "ordemEntrada", cascade = CascadeType.ALL)
 	public List<FolhaCompeticao> getFolhasCompeticoes() {
 		return folhasCompeticoes;
 	}

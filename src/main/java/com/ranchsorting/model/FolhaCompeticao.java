@@ -55,7 +55,7 @@ public class FolhaCompeticao implements Serializable {
 	}
 
 	@NotNull
-	@Column(name = "fc_idade", nullable = false)
+	@Column(name = "fc_codigo_folha", nullable = false)
 	public Long getCodigoFolha() {
 		return codigoFolha;
 	}

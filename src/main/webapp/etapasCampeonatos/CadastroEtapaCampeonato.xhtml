@@ -13,33 +13,40 @@
 	</ui:define>
 
 	<ui:define name="content">
+	
+		<f:metadata>
+			<f:viewParam name="dummy" />
+			<f:event listener="#{cadastroEtapaBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
 		<h:form>
 			<div class="ui-fluid">
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
 							<h1>Cadastro de Etapa de Campeonato</h1>
-							
+
 							<p:growl id="growl" autoUpdate="true" />
-							
+
 							<p:panelGrid columns="4"
 								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
 								layout="grid" styleClass="ui-panelgrid-blank"
 								style="border:0px none; background-color:transparent;">
 
 								<p:outputLabel for="codigo" value="Código:" />
-								<p:inputText id="codigo" />
+								<p:inputText id="codigo" value="#{cadastroEtapaBean.etapa.id}" />
 
 								<p:outputLabel for="nome" value="Nome:" />
-								<p:inputText id="nome" />
+								<p:inputText id="nome" value="#{cadastroEtapaBean.etapa.nome}" />
 
 								<p:outputLabel for="local" value="Local:" />
-								<p:inputText id="local" />
+								<p:inputText id="local" value="#{cadastroEtapaBean.etapa.local}" />
 
 								<p:outputLabel for="campeonato" value="Selecione o Campeonato:" />
 								<p:selectOneMenu id="campeonato" filter="true"
 									label="Competidor" filterMatchMode="contains"
-									style="margin-bottom:10px;" value="">
+									style="margin-bottom:10px;" value="#{cadastroEtapaBean.etapa.campeonato}">
 									<f:selectItem itemLabel="Selecione um Campeonato" />
 									<f:selectItem itemLabel="Campeonato 1" itemValue="Campeonato 1" />
 									<f:selectItem itemLabel="Campeonato 2" itemValue="Campeonato 2" />
@@ -48,33 +55,38 @@
 								</p:selectOneMenu>
 
 								<p:outputLabel for="organizador" value="Organizador:" />
-								<p:inputText id="organizador" />
+								<p:inputText id="organizador"
+									value="#{cadastroEtapaBean.etapa.organizador}" />
 
 								<p:outputLabel for="contatoOrganizador"
 									value="Contato do Organizador:" />
-								<p:inputText id="contatoOrganizador" />
+								<p:inputText id="contatoOrganizador"
+									value="#{cadastroEtapaBean.etapa.contatoOrganizador}" />
 
 								<p:outputLabel for="dataEvento" value="Data do Evento:" />
 								<p:calendar id="dataEvento" placeholder="__/__/____"
-									pattern="dd/MM/yyyy" title="Data do Evento" size="10" value=""
-									mask="99/99/9999" />
+									pattern="dd/MM/yyyy" title="Data do Evento" size="10" 
+									mask="99/99/9999" value="#{cadastroEtapaBean.etapa.dataEvento}" />
 
 								<p:outputLabel for="dataInicioInscricoes"
 									value="Início das Inscrições:" />
 								<p:calendar id="dataInicioInscricoes" placeholder="__/__/____"
 									pattern="dd/MM/yyyy" title="Início das Inscrições" size="10"
-									value="" mask="99/99/9999" />
+									mask="99/99/9999"
+									value="#{cadastroEtapaBean.etapa.dataInicioInscricoes}" />
 
 								<p:outputLabel for="dataTerminoInscricoes"
 									value="Término das Inscrições:" />
 								<p:calendar id="dataTerminoInscricoes" placeholder="__/__/____"
 									pattern="dd/MM/yyyy" title="Término Inscrições" size="10"
-									value="" mask="99/99/9999" />
+									mask="99/99/9999"
+									value="#{cadastroEtapaBean.etapa.dataFimInscricoes}" />
 
 								<p:spacer />
 								<h:panelGroup>
 									<p:panelGrid columns="3" layout="grid">
-										<p:commandButton value="Salvar" icon="fa fa-save" />
+										<p:commandButton value="Salvar" icon="fa fa-save"
+											action="#{cadastroEtapaBean.salvar}" />
 										<p:commandButton value="Limpar" icon="fa fa-refresh" />
 										<p:button value="Pesquisa" icon="fa fa-search" />
 									</p:panelGrid>

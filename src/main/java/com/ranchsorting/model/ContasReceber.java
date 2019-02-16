@@ -27,9 +27,12 @@ public class ContasReceber implements Serializable {
 	private Long id;
 	private Competidor competidor;
 	private Campeonato campeonato;
+	private Etapa etapa;
+	private Divisao divisao;
 	private BigDecimal valorTitulo;
 	private BigDecimal saldo;
 	private Date dataTitulo;
+	private Date dataEvento;
 	private String observacao;
 	private List<ParcelaReceber> parcelas;
 	private Usuario usuarioAlteracao;
@@ -68,6 +71,26 @@ public class ContasReceber implements Serializable {
 		this.campeonato = campeonato;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "cr_etapa")
+	public Etapa getEtapa() {
+		return etapa;
+	}
+
+	public void setEtapa(Etapa etapa) {
+		this.etapa = etapa;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "cr_divisao")
+	public Divisao getDivisao() {
+		return divisao;
+	}
+
+	public void setDivisao(Divisao divisao) {
+		this.divisao = divisao;
+	}
+
 	@NotNull
 	@Column(name = "cr_valor_titulo", nullable = false, precision = 10, scale = 2)
 	public BigDecimal getValorTitulo() {
@@ -98,7 +121,17 @@ public class ContasReceber implements Serializable {
 		this.dataTitulo = dataTitulo;
 	}
 
-	@Column(name = "cr_observacao",columnDefinition = "text")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "cr_data_evento")
+	public Date getDataEvento() {
+		return dataEvento;
+	}
+
+	public void setDataEvento(Date dataEvento) {
+		this.dataEvento = dataEvento;
+	}
+
+	@Column(name = "cr_observacao", columnDefinition = "text")
 	public String getObservacao() {
 		return observacao;
 	}
@@ -106,12 +139,12 @@ public class ContasReceber implements Serializable {
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
 	}
-	
-	@OneToMany(mappedBy="titulo", cascade=CascadeType.ALL)
+
+	@OneToMany(mappedBy = "titulo", cascade = CascadeType.ALL)
 	public List<ParcelaReceber> getParcelas() {
 		return parcelas;
 	}
-	
+
 	public void setParcelas(List<ParcelaReceber> parcelas) {
 		this.parcelas = parcelas;
 	}

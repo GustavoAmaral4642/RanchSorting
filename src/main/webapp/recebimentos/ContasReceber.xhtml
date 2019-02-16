@@ -13,6 +13,13 @@
 	</ui:define>
 
 	<ui:define name="content">
+
+		<f:metadata>
+			<f:viewParam name="dummy" />
+			<f:event listener="#{cadastroContasReceberBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
 		<h:form>
 			<div class="ui-fluid">
 				<div class="ui-g">

@@ -13,6 +13,13 @@
 	</ui:define>
 
 	<ui:define name="content">
+
+		<f:metadata>
+			<f:viewParam name="dummy" />
+			<f:event listener="#{cadastroOrdemEntradaBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
 		<h:form id="formPai">
 			<div class="ui-fluid">
 				<div class="ui-g">
@@ -28,12 +35,12 @@
 								style="border:0px none; background-color:transparent;">
 
 								<p:outputLabel for="codigoOrdem" value="Código da Ordem:" />
-								<p:inputText id="codigoOrdem" />
+								<p:inputText id="codigoOrdem" value="#{cadastroOrdemEntradaBean.ordemEntrada.id}"/>
 
 								<p:outputLabel for="campeonato" value="Selecione o Campeonato:" />
 								<p:selectOneMenu id="campeonato" filter="true"
 									label="Competidor" filterMatchMode="contains"
-									style="margin-bottom:10px;" value="">
+									style="margin-bottom:10px;" value="#{cadastroOrdemEntradaBean.ordemEntrada.campeonato}">
 									<f:selectItem itemLabel="Selecione um Campeonato" />
 									<f:selectItem itemLabel="Campeonato 1" itemValue="Campeonato 1" />
 									<f:selectItem itemLabel="Campeonato 2" itemValue="Campeonato 2" />
@@ -43,7 +50,7 @@
 
 								<p:outputLabel for="etapa" value="Selecione a Etapa:" />
 								<p:selectOneMenu id="etapa" filter="true" label="Etapa"
-									filterMatchMode="contains" style="margin-bottom:10px;" value="">
+									filterMatchMode="contains" style="margin-bottom:10px;" value="#{cadastroOrdemEntradaBean.ordemEntrada.etapa}">
 									<f:selectItem itemLabel="Selecione uma Etapa" />
 									<f:selectItem itemLabel="Etapa 1" itemValue="etapa1" />
 									<f:selectItem itemLabel="Etapa 2" itemValue="etapa2" />
@@ -52,7 +59,7 @@
 								</p:selectOneMenu>
 
 								<p:outputLabel for="divisao" value="Selecione a divisao:" />
-								<p:selectOneMenu id="divisao" showCheckbox="true">
+								<p:selectOneMenu id="divisao" showCheckbox="true" value="#{cadastroOrdemEntradaBean.ordemEntrada.divisao}">
 									<f:selectItem itemLabel="Divisão Amador" itemValue="1" />
 									<f:selectItem itemLabel="Divisão Aberto" itemValue="2" />
 									<f:selectItem itemLabel="Divisão 3" itemValue="3" />
@@ -61,10 +68,10 @@
 								<p:outputLabel for="dataCompeticao" value="Data da Competição:" />
 								<p:calendar id="dataCompeticao" placeholder="__/__/____"
 									pattern="dd/MM/yyyy" title="Data da Competição" size="10"
-									value="" mask="99/99/9999" />
+									value="#{cadastroOrdemEntradaBean.ordemEntrada.data}" mask="99/99/9999" />
 
 								<p:outputLabel for="hora" value="Hora:" />
-								<p:inputText id="hora" value="14:00" />
+								<p:inputText id="hora" value="#{cadastroOrdemEntradaBean.ordemEntrada.hora}"/>
 
 								<p:spacer />
 								<p:spacer />
@@ -94,7 +101,7 @@
 									rowsPerPageTemplate="3,6,9,12,16">
 
 									<f:facet name="header">
-	                                Cars For Sale
+	                                Passadas
 	                            	</f:facet>
 
 									<p:panel header="Dupla X" style="text-align:center">
@@ -150,7 +157,7 @@
 								<p:spacer />
 								<h:panelGroup>
 									<p:panelGrid columns="2" layout="grid">
-										<p:commandButton value="Salvar" icon="fa fa-save" />
+										<p:commandButton value="Salvar" icon="fa fa-save" action="#{cadastroOrdemEntradaBean.salvar}"/>
 										<p:commandButton value="Imprimir Folha" icon="fa fa-print" />
 									</p:panelGrid>
 								</h:panelGroup>

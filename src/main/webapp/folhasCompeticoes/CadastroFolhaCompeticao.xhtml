@@ -13,6 +13,13 @@
 	</ui:define>
 
 	<ui:define name="content">
+
+		<f:metadata>
+			<f:viewParam name="dummy" />
+			<f:event listener="#{cadastroFolhaCompeticaoBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
 		<h:form>
 			<div class="ui-fluid">
 				<div class="ui-g">
@@ -28,12 +35,12 @@
 								style="border:0px none; background-color:transparent;">
 
 								<p:outputLabel for="codigoFolha" value="Código da Folha:" />
-								<p:inputText id="codigoFolha" />
+								<p:inputText id="codigoFolha" value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.id}"/>
 
 								<p:outputLabel for="campeonato" value="Selecione o Campeonato:" />
 								<p:selectOneMenu id="campeonato" filter="true"
 									label="Competidor" filterMatchMode="contains"
-									style="margin-bottom:10px;" value="">
+									style="margin-bottom:10px;" value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.campeonato}">
 									<f:selectItem itemLabel="Selecione um Campeonato" />
 									<f:selectItem itemLabel="Campeonato 1" itemValue="Campeonato 1" />
 									<f:selectItem itemLabel="Campeonato 2" itemValue="Campeonato 2" />
@@ -43,7 +50,7 @@
 
 								<p:outputLabel for="etapa" value="Selecione a Etapa:" />
 								<p:selectOneMenu id="etapa" filter="true" label="Etapa"
-									filterMatchMode="contains" style="margin-bottom:10px;" value="">
+									filterMatchMode="contains" style="margin-bottom:10px;" value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.etapa}"> 
 									<f:selectItem itemLabel="Selecione um etapa" />
 									<f:selectItem itemLabel="Etapa 1" itemValue="etapa1" />
 									<f:selectItem itemLabel="Etapa 2" itemValue="etapa2" />
@@ -52,7 +59,7 @@
 								</p:selectOneMenu>
 
 								<p:outputLabel for="divisao" value="Selecione a divisao:" />
-								<p:selectOneMenu id="divisao" showCheckbox="true">
+								<p:selectOneMenu id="divisao" showCheckbox="true" value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.divisao}">
 									<f:selectItem itemLabel="Divisão Amador" itemValue="1" />
 									<f:selectItem itemLabel="Divisão Aberto" itemValue="2" />
 									<f:selectItem itemLabel="Divisão 3" itemValue="3" />
@@ -61,13 +68,10 @@
 								<p:outputLabel for="dataCompeticao" value="Data da Competição:" />
 								<p:calendar id="dataCompeticao" placeholder="__/__/____"
 									pattern="dd/MM/yyyy" title="Data da Competição" size="10"
-									value="" mask="99/99/9999" />
-
-								<p:outputLabel for="qntPassadas" value="Quantidade de Passadas:" />
-								<p:spinner id="qntPassadas" />
+									value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.data}" mask="99/99/9999" />
 
 								<p:outputLabel for="numeroDupla" value="Número da Dupla:" />
-								<p:inputText id="numeroDupla" value="5" />
+								<p:inputText id="numeroDupla" value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.numeroDupla}" />
 
 							</p:panelGrid>
 
@@ -90,7 +94,7 @@
 									value="Nome do Competidor 1:" />
 								<p:selectOneMenu id="nomeCompetidor1" filter="true"
 									label="Competidor" filterMatchMode="contains"
-									style="margin-bottom:10px;" value="">
+									style="margin-bottom:10px;" value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.competidor1}">
 									<f:selectItem itemLabel="Selecione um Competidor" />
 									<f:selectItem itemLabel="Guti" itemValue="Guti" />
 									<f:selectItem itemLabel="Nayara" itemValue="Nayara" />
@@ -100,7 +104,7 @@
 
 								<p:outputLabel for="nomeAnimal1" value="Animal:" />
 								<p:selectOneMenu id="nomeAnimal1" filter="true" label="Animal"
-									filterMatchMode="contains" style="margin-bottom:10px;" value="">
+									filterMatchMode="contains" style="margin-bottom:10px;" value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.animal1}">
 									<f:selectItem itemLabel="Selecione um Animal" />
 									<f:selectItem itemLabel="Preto" itemValue="preto" />
 									<f:selectItem itemLabel="Branco" itemValue="branco" />
@@ -110,7 +114,7 @@
 
 								<p:outputLabel for="numeroFicha1" value="Número da ficha:" />
 								<p:selectOneMenu id="numeroFicha1" filter="true" label="Ficha"
-									filterMatchMode="contains" style="margin-bottom:10px;" value="">
+									filterMatchMode="contains" style="margin-bottom:10px;" value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.fichaInscricao1}">
 									<f:selectItem itemLabel="Selecione uma ficha" />
 									<f:selectItem itemLabel="Ficha 1" itemValue="ficha1" />
 									<f:selectItem itemLabel="Ficha 2" itemValue="ficha2" />
@@ -143,7 +147,7 @@
 									value="Nome do Competidor 2:" />
 								<p:selectOneMenu id="nomeCompetidor2" filter="true"
 									label="Competidor" filterMatchMode="contains"
-									style="margin-bottom:10px;" value="">
+									style="margin-bottom:10px;" value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.competidor2}">
 									<f:selectItem itemLabel="Selecione um Competidor" />
 									<f:selectItem itemLabel="Guti" itemValue="Guti" />
 									<f:selectItem itemLabel="Nayara" itemValue="Nayara" />
@@ -153,7 +157,7 @@
 
 								<p:outputLabel for="nomeAnimal2" value="Animal:" />
 								<p:selectOneMenu id="nomeAnimal2" filter="true" label="Animal"
-									filterMatchMode="contains" style="margin-bottom:10px;" value="">
+									filterMatchMode="contains" style="margin-bottom:10px;" value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.animal2}">
 									<f:selectItem itemLabel="Selecione um Animal" />
 									<f:selectItem itemLabel="Branco" itemValue="branco" />
 									<f:selectItem itemLabel="Marrom" itemValue="marrom" />
@@ -161,7 +165,7 @@
 
 								<p:outputLabel for="numeroFicha2" value="Número da ficha:" />
 								<p:selectOneMenu id="numeroFicha2" filter="true" label="Ficha"
-									filterMatchMode="contains" style="margin-bottom:10px;" value="">
+									filterMatchMode="contains" style="margin-bottom:10px;" value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.fichaInscricao2}">
 									<f:selectItem itemLabel="Selecione uma ficha" />
 									<f:selectItem itemLabel="Ficha 1" itemValue="ficha1" />
 									<f:selectItem itemLabel="Ficha 2" itemValue="ficha2" />
@@ -189,7 +193,7 @@
 								<p:spacer />
 								<h:panelGroup>
 									<p:panelGrid columns="2" layout="grid">
-										<p:commandButton value="Salvar" icon="fa fa-save" />
+										<p:commandButton value="Salvar" icon="fa fa-save" action="#{cadastroFolhaCompeticaoBean.salvar}"/>
 										<p:commandButton value="Imprimir Folha" icon="fa fa-print" />
 									</p:panelGrid>
 								</h:panelGroup>

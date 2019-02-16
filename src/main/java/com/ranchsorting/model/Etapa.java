@@ -32,10 +32,11 @@ public class Etapa implements Serializable {
 	private Date dataFimInscricoes;
 	private String organizador;
 	private String contatoOrganizador;
+	private String Local;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
-	
+
 	@Id
 	@GeneratedValue
 	@Column(name = "ep_id")
@@ -48,7 +49,7 @@ public class Etapa implements Serializable {
 	}
 
 	@NotBlank
-	@Size(max=100)
+	@Size(max = 100)
 	@Column(name = "ep_nome", nullable = false, length = 100)
 	public final String getNome() {
 		return nome;
@@ -98,7 +99,7 @@ public class Etapa implements Serializable {
 		this.dataFimInscricoes = dataFimInscricoes;
 	}
 
-	@Size(max=100)
+	@Size(max = 100)
 	@Column(name = "ep_organizador", length = 100)
 	public final String getOrganizador() {
 		return organizador;
@@ -108,7 +109,7 @@ public class Etapa implements Serializable {
 		this.organizador = organizador;
 	}
 
-	@Size(max=120)
+	@Size(max = 120)
 	@Column(name = "ep_contato_organizador", length = 120)
 	public final String getContatoOrganizador() {
 		return contatoOrganizador;
@@ -116,6 +117,17 @@ public class Etapa implements Serializable {
 
 	public final void setContatoOrganizador(String contatoOrganizador) {
 		this.contatoOrganizador = contatoOrganizador;
+	}
+
+	@NotBlank
+	@Size(max = 150)
+	@Column(name = "ep_local", nullable = false, length = 150)
+	public String getLocal() {
+		return Local;
+	}
+
+	public void setLocal(String local) {
+		Local = local;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)
