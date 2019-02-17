@@ -2,7 +2,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
 
 	<ui:define name="title">Cadastro de Usuário</ui:define>
 
@@ -15,7 +16,7 @@
 	<ui:define name="content">
 
 		<f:metadata>
-			<f:viewParam name="dummy" />
+			<o:viewParam name="usuario" value="#{cadastroUsuarioBean.usuario}" />
 			<f:event listener="#{cadastroUsuarioBean.inicializar}"
 				type="preRenderView" />
 		</f:metadata>
@@ -29,7 +30,7 @@
 
 							<p:growl id="growl" autoUpdate="true" />
 
-							<p:panelGrid columns="4"
+							<p:panelGrid columns="4" id="panelGrid1"
 								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
 								layout="grid" styleClass="ui-panelgrid-blank"
 								style="border:0px none; background-color:transparent;">
@@ -62,9 +63,9 @@
 								<p:spacer />
 								<p:spacer />
 								<h:panelGroup>
-									<p:panelGrid columns="3" layout="grid">
-										<p:commandButton value="Salvar" icon="fa fa-save"
-											action="#{cadastroUsuarioBean.salvar}" />
+									<p:panelGrid columns="3" layout="grid" id="panelGrid2">
+										<p:commandButton value="Salvar" icon="fa fa-save" process="@this panelGrid1 panelGrid2"
+											action="#{cadastroUsuarioBean.salvar}" update="@form"/>
 										<p:commandButton value="Limpar" icon="fa fa-refresh" />
 										<p:button value="Pesquisa" icon="fa fa-search"
 											outcome="/usuarios/PesquisaUsuarios" />
