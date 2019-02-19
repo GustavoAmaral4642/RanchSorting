@@ -24,12 +24,13 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private String nome; // OK 
-	private String sobreNome; // OK
-	private String email; // OK
-	private String senha; // OK
-	private Ocorrencia ocorrencia; // Falta implementar
-	private List<PermissoesDeUsuario> permissoes = new ArrayList<>(); //OK
+	private String nome;  
+	private String sobreNome; 
+	private String email; 
+	private String senha; 
+	private String confirmaSenha;
+	private Ocorrencia ocorrencia; 
+	private List<PermissoesDeUsuario> permissoes = new ArrayList<>(); 
 
 	@Id
 	@GeneratedValue
@@ -83,6 +84,14 @@ public class Usuario implements Serializable {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public String getConfirmaSenha() {
+		return confirmaSenha;
+	}
+
+	public void setConfirmaSenha(String confirmaSenha) {
+		this.confirmaSenha = confirmaSenha;
 	}
 
 	// CascadeType.All Se eu estiver salvando, ele salva primeiro a ocorrencia,

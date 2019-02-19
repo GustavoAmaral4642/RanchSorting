@@ -108,7 +108,7 @@ public class Competidor implements Serializable {
 		this.docResponsavel = docResponsavel;
 	}
 
-	@OneToMany(mappedBy="proprietario", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="competidor", cascade=CascadeType.ALL)
 	public List<Animal> getAnimais() {
 		return animais;
 	}
@@ -157,9 +157,8 @@ public class Competidor implements Serializable {
 		this.dataPagamentoAnuidade = dataPagamentoAnuidade;
 	}
 
-	@NotNull
 	@Enumerated(EnumType.STRING)
-	@Column(name = "cp_tp_anuidade", nullable = false, length = 15)
+	@Column(name = "cp_tp_anuidade", length = 15)
 	public TipoAnuidade getTipoAnuidade() {
 		return tipoAnuidade;
 	}

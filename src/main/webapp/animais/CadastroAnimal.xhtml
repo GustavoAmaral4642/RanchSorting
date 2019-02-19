@@ -35,22 +35,41 @@
 								style="border:0px none; background-color:transparent;">
 
 								<p:outputLabel for="codigo" value="Código:" />
-								<p:inputText id="codigo" value="#{cadastroAnimalBean.animal.id}"/>
+								<p:inputText id="codigo" value="#{cadastroAnimalBean.animal.id}"
+									disabled="true" />
 
 								<p:outputLabel for="nome" value="Nome do Animal:" />
-								<p:inputText id="nome" value="#{cadastroAnimalBean.animal.nome}"/>
+								<p:inputText id="nome" value="#{cadastroAnimalBean.animal.nome}" />
 
 								<p:outputLabel for="idade" value="Idade:" />
-								<p:inputText id="idade" value="#{cadastroAnimalBean.animal.idade}"/>
+								<p:inputText id="idade"
+									value="#{cadastroAnimalBean.animal.idade}" />
 
 								<p:outputLabel for="cor" value="Cor:" />
-								<p:inputText id="cor" value="#{cadastroAnimalBean.animal.cor}"/>
+								<p:inputText id="cor" value="#{cadastroAnimalBean.animal.cor}" />
 
 								<p:outputLabel for="raca" value="Raça:" />
 								<p:inputText id="raca" value="#{cadastroAnimalBean.animal.raca}" />
 
 								<p:outputLabel for="proprietario" value="Proprietário:" />
-								<p:inputText id="proprietario" value="#{cadastroAnimalBean.animal.proprietario}"/>
+								<p:selectOneMenu id="proprietario" filter="true" label="Proprietário"
+									filterMatchMode="contains" style="margin-bottom:10px;"
+									value="#{cadastroAnimalBean.animal.competidor}">
+									<f:selectItem itemLabel="Selecione um Proprietário" />
+									<f:selectItems value="#{cadastroAnimalBean.todosCompetidores}"
+										var="todosCompetidores" itemValue="#{todosCompetidores}"
+										itemLabel="#{todosCompetidores.nome}" />
+								</p:selectOneMenu>
+
+								<p:spacer />
+								<p:spacer />
+
+								<p:outputLabel for="etnia" value="Etnia:" />
+								<p:selectOneRadio id="etnia" layout="responsive" columns="2"
+									value="#{cadastroAnimalBean.animal.etnia}">
+									<f:selectItem itemLabel="Macho" itemValue="MACHO" />
+									<f:selectItem itemLabel="Femêa" itemValue="FEMEA" />
+								</p:selectOneRadio>
 
 								<p:spacer />
 								<p:spacer />
@@ -58,7 +77,8 @@
 								<p:spacer />
 								<h:panelGroup>
 									<p:panelGrid columns="3" layout="grid">
-										<p:commandButton value="Salvar" icon="fa fa-save" action="#{cadastroAnimalBean.salvar}" />
+										<p:commandButton value="Salvar" icon="fa fa-save"
+											action="#{cadastroAnimalBean.salvar}" update="@form" />
 										<p:commandButton value="Limpar" icon="fa fa-refresh" />
 										<p:button value="Pesquisa" icon="fa fa-search"
 											outcome="/animais/PesquisaAnimais" />

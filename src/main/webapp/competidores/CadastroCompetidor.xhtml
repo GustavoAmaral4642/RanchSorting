@@ -34,7 +34,7 @@
 								style="border:0px none; background-color:transparent;">
 
 								<p:outputLabel for="codigo" value="Código:" />
-								<p:inputText id="codigo"
+								<p:inputText id="codigo" disabled="true"
 									value="#{cadastroCompetidorBean.competidor.id}" />
 
 								<p:outputLabel for="nome" value="Nome do Competidor:" />
@@ -78,11 +78,12 @@
 								<p:outputLabel for="anuidadePaga" value="Anuidade Paga em:" />
 								<h:panelGroup>
 									<p:panelGrid columns="3" layout="grid">
-										<p:calendar id="anuidadePaga" label="Anuidade Paga"
+										<p:calendar id="anuidadePaga" label="Anuidade Paga" disabled="true"
 											placeholder="__/__/____" pattern="dd/MM/yyyy" title="Data"
 											size="10" value="#{cadastroCompetidorBean.competidor.dataPagamentoAnuidade}" mask="99/99/9999" />
-										<p:outputLabel value="N/A"
-											style="color: red; font-weight:bold;" />
+										<p:outputLabel value="Não paga"
+											style="color: red; font-weight:bold;" rendered="#{cadastroCompetidorBean.competidor.tipoAnuidade == NAO}"/>
+										
 										<p:commandButton value="Pagar" icon="fa fa-dollar" />
 									</p:panelGrid>
 								</h:panelGroup>
@@ -90,8 +91,8 @@
 								<p:outputLabel for="etnia" value="Etnia:" />
 								<p:selectOneRadio id="etnia" layout="responsive" columns="2"
 									value="#{cadastroCompetidorBean.competidor.etnia}">
-									<f:selectItem itemLabel="Masculino" itemValue="masculino" />
-									<f:selectItem itemLabel="Feminino" itemValue="feminino" />
+									<f:selectItem itemLabel="Masculino" itemValue="MASCULINO" />
+									<f:selectItem itemLabel="Feminino" itemValue="FEMININO" />
 								</p:selectOneRadio>
 
 								<p:spacer />
@@ -100,7 +101,8 @@
 								<p:spacer />
 								<h:panelGroup>
 									<p:panelGrid columns="3" layout="grid">
-										<p:commandButton value="Salvar" icon="fa fa-save" />
+										<p:commandButton value="Salvar" icon="fa fa-save" 
+											action="#{cadastroCompetidorBean.salvar}" update="@form"/>
 										<p:commandButton value="Limpar" icon="fa fa-refresh" />
 										<p:button value="Pesquisa" icon="fa fa-search"
 											outcome="/competidores/PesquisaCompetidores" />

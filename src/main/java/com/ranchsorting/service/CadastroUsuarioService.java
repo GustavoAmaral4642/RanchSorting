@@ -19,18 +19,24 @@ public class CadastroUsuarioService implements Serializable{
 	@Transactional
 	public Usuario salvar(Usuario usuario){
 		
-		/*Usuario usuarioExistente = usuarios.porEmail(usuario.getEmail());
+		Usuario usuarioExistente = usuarios.porEmail(usuario.getEmail());
 	
 		if(usuarioExistente != null){
 			throw new NegocioException("Já existe um usuário cadastro com o e-mail informado.");
 		}
-	*/	
+	
+		if(!usuario.getSenha().equals(usuario.getConfirmaSenha())){
+			throw new NegocioException("A confirmação de senha está diferente da senha.");
+		}
 		
 		try{
 			return usuarios.guardar(usuario);	
 		} catch(ConstraintViolationException ex){
 			throw new NegocioException("Ocorreu algum promblema na gravação do usuário." +
 										"Entre em contato com o administrador do Sistema.");
+		} catch(RuntimeException ex){
+			throw new NegocioException("Ocorreu algum promblema na gravação do usuário." +
+					"Entre em contato com o administrador do Sistema.");
 		}
 		
 	}

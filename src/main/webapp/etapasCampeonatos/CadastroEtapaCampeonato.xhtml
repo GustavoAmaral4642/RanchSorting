@@ -2,7 +2,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
 
 	<ui:define name="title">Cadastro de Etapa de Campeonato</ui:define>
 
@@ -13,9 +14,9 @@
 	</ui:define>
 
 	<ui:define name="content">
-	
+
 		<f:metadata>
-			<f:viewParam name="dummy" />
+			<o:viewParam name="etapa" value="#{cadastroEtapaBean.etapa}" />
 			<f:event listener="#{cadastroEtapaBean.inicializar}"
 				type="preRenderView" />
 		</f:metadata>
@@ -46,7 +47,8 @@
 								<p:outputLabel for="campeonato" value="Selecione o Campeonato:" />
 								<p:selectOneMenu id="campeonato" filter="true"
 									label="Competidor" filterMatchMode="contains"
-									style="margin-bottom:10px;" value="#{cadastroEtapaBean.etapa.campeonato}">
+									style="margin-bottom:10px;"
+									value="#{cadastroEtapaBean.etapa.campeonato}">
 									<f:selectItem itemLabel="Selecione um Campeonato" />
 									<f:selectItem itemLabel="Campeonato 1" itemValue="Campeonato 1" />
 									<f:selectItem itemLabel="Campeonato 2" itemValue="Campeonato 2" />
@@ -65,7 +67,7 @@
 
 								<p:outputLabel for="dataEvento" value="Data do Evento:" />
 								<p:calendar id="dataEvento" placeholder="__/__/____"
-									pattern="dd/MM/yyyy" title="Data do Evento" size="10" 
+									pattern="dd/MM/yyyy" title="Data do Evento" size="10"
 									mask="99/99/9999" value="#{cadastroEtapaBean.etapa.dataEvento}" />
 
 								<p:outputLabel for="dataInicioInscricoes"

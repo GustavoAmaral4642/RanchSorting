@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -32,7 +33,7 @@ public class Animal implements Serializable {
 	private String cor; // OK
 	private Etnia etnia; // OK
 	private String raca; // OK
-	private Competidor proprietario; // OK
+	private Competidor competidor; // OK
 	private Usuario usuarioAlteracao; // OK
 	private Date dataAlteracao; // OK
 	private Ocorrencia ocorrencia; // Falta implementar
@@ -99,13 +100,13 @@ public class Animal implements Serializable {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "an_proprietario_id", nullable=false)
-	public final Competidor getProprietario() {
-		return proprietario;
+	@JoinColumn(name = "an_competidor_id")
+	public final Competidor getCompetidor() {
+		return competidor;
 	}
 
-	public final void setProprietario(Competidor proprietario) {
-		this.proprietario = proprietario;
+	public final void setCompetidor(Competidor competidor) {
+		this.competidor = competidor;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)

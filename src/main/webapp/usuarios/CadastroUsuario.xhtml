@@ -28,7 +28,7 @@
 						<div class="card no-margin">
 							<h1>Cadastro de Usuário</h1>
 
-							<p:growl id="growl" autoUpdate="true" />
+							<p:growl id="growl" />
 
 							<p:panelGrid columns="4" id="panelGrid1"
 								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
@@ -57,7 +57,7 @@
 
 								<p:outputLabel for="confirmaPassword"
 									value="Confirmar Senha de Acesso:" />
-								<p:password id="confirmaPassword" />
+								<p:password id="confirmaPassword" value="#{cadastroUsuarioBean.usuario.confirmaSenha}" />
 
 								<p:spacer />
 								<p:spacer />

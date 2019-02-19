@@ -1,6 +1,6 @@
 package com.ranchsorting.controller;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 
 import javax.faces.bean.ViewScoped;
 import javax.inject.Named;
