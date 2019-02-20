@@ -27,9 +27,11 @@
 		<param-name>javax.faces.FACELETS_LIBRARIES</param-name>
 		<param-value>/WEB-INF/primefaces-apollo.taglib.xml</param-value>
 	</context-param>
-	<listener>
+	<!-- este trecho está comentado pois estava dando erro no viewScoped. Ver link abaixo com a solução
+		https://stackoverflow.com/questions/22000012/jsf-handlerenderexception-due-to-nullpointerexception
+	<listener>    
 		<listener-class>com.sun.faces.config.ConfigureListener</listener-class>
-	</listener>
+	</listener> -->
 	<listener>
 			<listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
 	</listener>

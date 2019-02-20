@@ -29,30 +29,46 @@
 									style="border:0px none; background-color:transparent;">
 
 									<p:outputLabel for="nomeCompetidor" value="Nome do Competidor:" />
-									<p:inputText id="nomeCompetidor" />
+									<p:inputText id="nomeCompetidor"
+										value="#{pesquisaCompetidoresBean.filtro.nome}" />
 
 									<p:outputLabel value="Data de Nascimento:" />
 									<h:panelGroup>
 										<p:panelGrid columns="2" layout="grid">
-											<p:inputText id="idadeInicial" placeholder="Idade Inicial" />
-											<p:inputText id="idadeFinal" placeholder="Idade Final" />
+
+											<p:calendar id="idadeInicial" size="15" pattern="dd/MM/yyyy"
+												mask="99/99/9999" placeholder="Idade Inicial"
+												value="#{pesquisaCompetidoresBean.filtro.dtNascimentoDe}"  />
+
+											<p:calendar id="idadeFinal" size="15" pattern="dd/MM/yyyy"
+												mask="99/99/9999" placeholder="Idade Final"
+												value="#{pesquisaCompetidoresBean.filtro.dtNascimentoAte}"/>
+
 										</p:panelGrid>
 									</h:panelGroup>
 
 									<p:outputLabel for="nomeResponsavel"
 										value="Nome do Responsável:" />
-									<p:inputText id="nomeResponsavel" />
+									<p:inputText id="nomeResponsavel" 
+										value="#{pesquisaCompetidoresBean.filtro.responsavel}" />
 
 									<p:outputLabel for="contato" value="Contato do Competidor:" />
-									<p:inputText id="contato" />
+									<p:inputText id="contato" value="#{pesquisaCompetidoresBean.filtro.contato}" />
 
 									<p:spacer />
 
 									<p:panelGrid columns="3" layout="grid">
 										<p:button value="Incluir Novo" icon="fa fa-plus"
 											outcome="/competidores/CadastroCompetidor" />
-										<p:commandButton value="Limpar" icon="fa fa-refresh" />
-										<p:commandButton value="Pesquisar" icon="fa fa-search" />
+										<p:commandButton value="Pesquisar" icon="fa fa-search"
+											action="#{pesquisaCompetidoresBean.pesquisar}"
+											update="competidoresTable"
+											process="@this 
+												nomeCompetidor
+												idadeInicial
+												idadeFinal
+												nomeResponsavel
+												contato" />
 									</p:panelGrid>
 
 								</p:panelGrid>
@@ -60,36 +76,37 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:dataTable var="car" value="#{dtSelectionView.cars7}"
-									selectionMode="single" reflow="true"
-									emptyMessage="Nenhum Competidor Cadastrados"
-									selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}"
-									paginator="true" rows="10">
+								<p:dataTable var="competidor"
+									value="#{pesquisaCompetidoresBean.competidoresFiltrados}"
+									reflow="true" emptyMessage="Nenhum Competidor Cadastrado"
+									paginator="true" rows="10" id="competidoresTable">
 									<f:facet name="header">
                                 		Competidores Cadastrados
                             		</f:facet>
 									<p:column headerText="Código"
 										style="width: 100px; text-align: center">
-										<h:outputText value="1" />
+										<h:outputText value="#{competidor.id}" />
 									</p:column>
 
 									<p:column headerText="Nome do Competidor"
 										style="text-align: center">
-										<h:outputText value="Paulo Roberto Arrais Serodio" />
+										<h:outputText value="#{competidor.nome}" />
 									</p:column>
 
 									<p:column headerText="Data de Nascimento"
 										style="text-align: center">
-										<h:outputText value="01/01/1970" />
+										<h:outputText value="#{competidor.dataNascimento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
 									</p:column>
 
 									<p:column headerText="Nome do Responsável"
 										style="text-align: center">
-										<h:outputText value="" />
+										<h:outputText value="#{competidor.responsavel}" />
 									</p:column>
 
 									<p:column headerText="Contato" style="text-align: center">
-										<h:outputText value="(19) 99100 - 7991" />
+										<h:outputText value="#{competidor.contato}" />
 									</p:column>
 
 									<p:column style="text-align: center; width: 80px">

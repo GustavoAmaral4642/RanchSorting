@@ -59,7 +59,7 @@ public class Usuarios implements Serializable {
 			criteria.add(Restrictions.ilike("nome", filtro.getNome(), MatchMode.ANYWHERE));
 		}
 		
-		if(StringUtils.isNotBlank(filtro.getNome())){
+		if(StringUtils.isNotBlank(filtro.getEmail())){
 			criteria.add(Restrictions.ilike("email", filtro.getEmail(), MatchMode.ANYWHERE));
 		}
 		

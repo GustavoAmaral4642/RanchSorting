@@ -3,7 +3,7 @@ package com.ranchsorting.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -29,8 +29,7 @@ public class PesquisaUsuariosBean implements Serializable {
 	}
 	
 	public void pesquisar(){
-		usuariosFiltrados = usuarios.filtrados(filtro);
-		System.out.println(usuariosFiltrados.size());
+		usuariosFiltrados = usuarios.filtrados(filtro);		
 	}
 
 	public UsuarioFilter getFiltro() {

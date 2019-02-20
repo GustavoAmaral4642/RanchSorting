@@ -2,7 +2,7 @@ package com.ranchsorting.controller;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -12,7 +12,7 @@ import com.ranchsorting.service.CadastroCompetidorService;
 import com.ranchsorting.util.jsf.FacesUtil;
 
 @Named
-@RequestScoped
+@ViewScoped
 public class CadastroCompetidorBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;

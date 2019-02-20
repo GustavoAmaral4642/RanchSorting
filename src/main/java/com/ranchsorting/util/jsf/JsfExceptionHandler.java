@@ -67,7 +67,6 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper {
 			
 			try {
 				if (exception instanceof ViewExpiredException) {
-					System.out.println("taqui 5");
 					handle = true;
 					redirect("/");
 				} else if (negocioException != null) {

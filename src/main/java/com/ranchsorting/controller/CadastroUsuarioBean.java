@@ -26,7 +26,7 @@ public class CadastroUsuarioBean implements Serializable{
 	}
 	
 	public void inicializar() {
-		System.out.println("Inicializando..."); // está chamando este método duas vezes...
+		
 	}
 	
 	public void limpar(){
