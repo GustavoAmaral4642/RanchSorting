@@ -2,20 +2,21 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
 
 	<ui:define name="title">Cadastro de Animal</ui:define>
 
 	<ui:define name="breadcrumb">
 		<li>Cadastros</li>
 		<li>/</li>
-		<li><p:link outcome="/animais/CadastroAnimal">Cadastro de Animal</p:link></li>
+		<li><p:link outcome="/animais/CadastroAnimal">#{cadastroAnimalBean.editando ? 'Edição de Animal' : 'Novo Animal'}</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
 
 		<f:metadata>
-			<f:viewParam name="dummy" />
+			<o:viewParam name="animal" value="#{cadastroAnimalBean.animal}" />
 			<f:event listener="#{cadastroAnimalBean.inicializar}"
 				type="preRenderView" />
 		</f:metadata>
@@ -25,7 +26,7 @@
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
-							<h1>Cadastro de Animal</h1>
+							<h1>#{cadastroAnimalBean.editando ? 'Edição de Animal' : 'Novo Animal'}</h1>
 
 							<p:growl id="growl" autoUpdate="true" />
 

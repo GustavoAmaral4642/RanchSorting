@@ -81,8 +81,9 @@
 									</p:column>
 
 									<p:column style="text-align: center; width: 100px">
-										<p:button icon="fa fa-pencil" title="Editar"
+										<p:button outcome="/usuarios/CadastroUsuario" icon="fa fa-pencil" title="Editar"
 											style="width: 30px">
+											<f:param name="usuario" value="#{usuario.id}" />
 										</p:button>
 										<p:spacer />
 										<p:button icon="fa fa-check-square-o" title="Permissões"

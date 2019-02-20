@@ -36,7 +36,8 @@ public class CompetidorConverter implements Converter {
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 
 		if (value != null) {
-			return ((Competidor) value).getId().toString();
+			Competidor competidor = (Competidor) value;
+			return competidor.getId() == null ? null : competidor.getId().toString();
 		}
 
 		return "";

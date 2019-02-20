@@ -2,7 +2,7 @@ package com.ranchsorting.controller;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -11,38 +11,39 @@ import com.ranchsorting.service.CadastroUsuarioService;
 import com.ranchsorting.util.jsf.FacesUtil;
 
 @Named
-@RequestScoped
-public class CadastroUsuarioBean implements Serializable{
+@ViewScoped
+public class CadastroUsuarioBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-		
+
 	@Inject
 	private CadastroUsuarioService cadastroUsuarioService;
-	
+
 	private Usuario usuario;
-	
-	public CadastroUsuarioBean(){
-		limpar();		
+
+	public CadastroUsuarioBean() {
+		limpar();
 	}
-	
+
 	public void inicializar() {
-		
+
 	}
-	
-	public void limpar(){
+
+	public void limpar() {
 		usuario = new Usuario();
 	}
-	
-	public void salvar(){
+
+	public void salvar() {
+		
 		this.usuario = cadastroUsuarioService.salvar(this.usuario);
 		
 		limpar();
-		
+
 		FacesUtil.addInfoMessage("Usuário salvo com sucesso!");
 	}
 
 	public Usuario getUsuario() {
-		
+
 		return usuario;
 	}
 
@@ -50,4 +51,7 @@ public class CadastroUsuarioBean implements Serializable{
 		this.usuario = usuario;
 	}
 
+	public boolean isEditando() {
+		return this.usuario.getId() != null;
+	}
 }

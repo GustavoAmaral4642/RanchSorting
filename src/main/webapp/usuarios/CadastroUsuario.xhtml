@@ -10,7 +10,7 @@
 	<ui:define name="breadcrumb">
 		<li>Administrativo</li>
 		<li>/</li>
-		<li><p:link outcome="/usuarios/CadastroUsuario">Cadastro de Usuário</p:link></li>
+		<li><p:link outcome="/usuarios/CadastroUsuario">#{cadastroUsuarioBean.editando ? 'Edição de Usuário' : 'Novo Usuário'}</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
@@ -26,7 +26,7 @@
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
-							<h1>Cadastro de Usuário</h1>
+							<h1>#{cadastroUsuarioBean.editando ? 'Edição de Usuário' : 'Novo Usuário'}</h1>
 
 							<p:growl id="growl" />
 

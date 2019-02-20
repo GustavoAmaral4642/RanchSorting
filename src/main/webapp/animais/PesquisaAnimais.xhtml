@@ -94,7 +94,8 @@
 
 									<p:column style="text-align: center; width: 80px">
 										<p:button icon="fa fa-pencil" title="Editar"
-											style="width: 30px">
+											style="width: 30px" outcome="/animais/CadastroAnimal">
+											<f:param name="animal" value="#{animal.id}" />
 										</p:button>
 										<p:spacer />
 										<p:commandButton icon="fa fa-trash" title="Excluir"

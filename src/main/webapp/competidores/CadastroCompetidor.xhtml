@@ -2,19 +2,20 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
 
 	<ui:define name="title">Cadastro de Competidor</ui:define>
 
 	<ui:define name="breadcrumb">
 		<li>Cadastros</li>
 		<li>/</li>
-		<li><p:link outcome="/competidores/CadastroCompetidor">Cadastro de Competidor</p:link></li>
+		<li><p:link outcome="/competidores/CadastroCompetidor">#{cadastroCompetidorBean.editando ? 'Edição de Competidor' : 'Novo Competidor'}</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
 		<f:metadata>
-			<f:viewParam name="dummy" />
+			<o:viewParam name="competidor" value="#{cadastroCompetidorBean.competidor}" />
 			<f:event listener="#{cadastroCompetidorBean.inicializar}"
 				type="preRenderView" />
 		</f:metadata>
@@ -24,7 +25,7 @@
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
-							<h1>Cadastro de Competidor</h1>
+							<h1>#{cadastroCompetidorBean.editando ? 'Edição de Competidor' : 'Novo Competidor'}</h1>
 
 							<p:growl id="growl" autoUpdate="true" />
 
@@ -68,7 +69,7 @@
 									<f:facet name="header">
 									Animais do Competidor
 		                            </f:facet>
-		                            #{animal.nome}, #{animal.raca}
+		                            #{animal.nome}, #{animal.cor} ,#{animal.raca}
 		                        </p:dataList>
 
 								<p:outputLabel for="contato" value="Contato:" />

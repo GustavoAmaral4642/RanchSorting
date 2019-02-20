@@ -66,4 +66,8 @@ public class CadastroAnimalBean implements Serializable {
 		return todosCompetidores;
 	}
 
+	public boolean isEditando(){
+		return this.getAnimal().getId() != null;
+	}
+	
 }

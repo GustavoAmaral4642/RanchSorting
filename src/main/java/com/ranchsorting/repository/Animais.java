@@ -14,6 +14,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.ranchsorting.model.Animal;
+import com.ranchsorting.model.Competidor;
 import com.ranchsorting.repository.filter.AnimalFilter;
 
 public class Animais implements Serializable {
@@ -35,7 +36,12 @@ public class Animais implements Serializable {
 
 		return manager.createQuery("from Animal", Animal.class).getResultList();
 	}
-
+	
+	public List<Animal> animaisCompetidor(Competidor competidor) {
+		return manager.createQuery("from Animal where competidor = :competidor", 
+				Animal.class).setParameter("competidor", competidor).getResultList();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Animal> filtrados(AnimalFilter filtro){
 		
@@ -58,4 +64,4 @@ public class Animais implements Serializable {
 		return criteria.addOrder(Order.asc("nome")).list();
 	}
 
-	}
+}

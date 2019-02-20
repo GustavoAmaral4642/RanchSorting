@@ -20,8 +20,10 @@ public class CadastroUsuarioService implements Serializable{
 	public Usuario salvar(Usuario usuario){
 		
 		Usuario usuarioExistente = usuarios.porEmail(usuario.getEmail());
-	
-		if(usuarioExistente != null){
+		
+		//segundo teste para verificar se é uma edição.
+		if(usuarioExistente != null &&
+				!usuarioExistente.equals(usuario)){
 			throw new NegocioException("Já existe um usuário cadastro com o e-mail informado.");
 		}
 	

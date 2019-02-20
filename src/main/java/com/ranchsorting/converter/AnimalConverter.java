@@ -37,10 +37,13 @@ public class AnimalConverter implements Converter {
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 
 		if (value != null) {
-			return ((Animal) value).getId().toString();
+			Animal animal = (Animal) value;
+			return animal.getId() == null ? null : animal.getId().toString();
 		}
 
 		return "";
 	}
+	
+	
 
 }
