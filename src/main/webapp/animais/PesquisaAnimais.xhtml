@@ -29,27 +29,29 @@
 									style="border:0px none; background-color:transparent;">
 
 									<p:outputLabel for="nomeAnimal" value="Nome do Animal:" />
-									<p:inputText id="nomeAnimal" />
+									<p:inputText id="nomeAnimal" value="#{pesquisaAnimaisBean.filtro.nome}"/>
 
 									<p:outputLabel for="nomeProprietario"
 										value="Nome do Proprietário:" />
-									<p:inputText id="nomeProprietario" />
+									<p:inputText id="nomeProprietario" value="#{pesquisaAnimaisBean.filtro.competidor}" />
 
 									<p:outputLabel for="cor" value="Cor:" />
-									<p:inputText id="cor" />
-
-									<p:outputLabel for="raca" value="Raça:" />
-									<p:inputText id="raca" />
+									<p:inputText id="cor" value="#{pesquisaAnimaisBean.filtro.cor}"/>
 
 									<p:spacer />
 									<p:spacer />
 
 									<p:spacer />
-									<p:panelGrid columns="3" layout="grid">
+									<p:panelGrid columns="2" layout="grid">
 										<p:button value="Incluir Novo" icon="fa fa-plus"
 											outcome="/animais/CadastroAnimal" />
-										<p:commandButton value="Limpar" icon="fa fa-refresh" />
-										<p:commandButton value="Pesquisar" icon="fa fa-search" />
+										<p:commandButton value="Pesquisar" icon="fa fa-search" 
+											action="#{pesquisaAnimaisBean.pesquisar}"
+											update="animaisTable" 
+											process="@this 
+												nomeAnimal 
+												nomeProprietario
+												cor"/>
 									</p:panelGrid>
 
 								</p:panelGrid>
@@ -57,39 +59,37 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:dataTable var="car" value="#{dtSelectionView.cars7}"
-									selectionMode="single" reflow="true"
-									emptyMessage="Nenhum Competidor Cadastrados"
-									selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}"
+								<p:dataTable var="animal" value="#{pesquisaAnimaisBean.animaisFiltrados}"
+									reflow="true" emptyMessage="Nenhum Animal Encontrado" id="animaisTable"
 									paginator="true" rows="10">
 									<f:facet name="header">
                                 		Animais Cadastrados
                             		</f:facet>
 									<p:column headerText="Código"
 										style="width: 100px; text-align: center">
-										<h:outputText value="1" />
+										<h:outputText value="#{animal.id}" />
 									</p:column>
 
 									<p:column headerText="Nome do Animal"
 										style="text-align: center">
-										<h:outputText value="Peal" />
+										<h:outputText value="#{animal.nome}"/>
 									</p:column>
 
 									<p:column headerText="Nome do Proprietário"
 										style="text-align: center">
-										<h:outputText value="Guti" />
+										<h:outputText value="#{animal.competidor.nome}" />
 									</p:column>
 
 									<p:column headerText="Idade" style="text-align: center">
-										<h:outputText value="5 anos" />
+										<h:outputText value="#{animal.idade}"/>
 									</p:column>
 
 									<p:column headerText="Cor" style="text-align: center">
-										<h:outputText value="Branco" />
+										<h:outputText value="#{animal.cor}" />
 									</p:column>
 
 									<p:column headerText="Raça" style="text-align: center">
-										<h:outputText value="Galeão" />
+										<h:outputText value="#{animal.raca}"/>
 									</p:column>
 
 									<p:column style="text-align: center; width: 80px">
