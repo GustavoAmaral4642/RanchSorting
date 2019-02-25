@@ -29,25 +29,19 @@
 									style="border:0px none; background-color:transparent;">
 
 									<p:outputLabel for="nome" value="Nome da Divisão:" />
-									<p:inputText id="nome" />
-
-									<p:outputLabel value="Faixa de Idade:" />
-									<h:panelGroup>
-										<p:panelGrid columns="2" layout="grid">
-											<p:inputText id="faixaIdadeInicial"
-												placeholder="Faixa de Idade Inicial" />
-											<p:inputText id="faixaIdadeFinal"
-												placeholder="Faixa de Idade Final" />
-										</p:panelGrid>
-									</h:panelGroup>
+									<p:inputText id="nome" value="#{pesquisaDivisoesBean.filtro.nome}"/>
 
 									<p:spacer />
 
-									<p:panelGrid columns="3" layout="grid">
+									<p:panelGrid columns="2" layout="grid">
 										<p:button value="Incluir Novo" icon="fa fa-plus"
 											outcome="/divisoes/CadastroDivisao" />
-										<p:commandButton value="Limpar" icon="fa fa-refresh" />
-										<p:commandButton value="Pesquisar" icon="fa fa-search" />
+										<p:commandButton value="Pesquisar" icon="fa fa-search" 
+											action="#{pesquisaDivisoesBean.pesquisar}"
+											update="divisoesTable"
+											process="@this 
+												nome" />
+										
 									</p:panelGrid>
 
 								</p:panelGrid>
@@ -58,31 +52,31 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:dataTable var="car" value="#{dtSelectionView.cars7}"
-									selectionMode="single" reflow="true"
+								<p:dataTable var="divisao" value="#{pesquisaDivisoesBean.divisoesFiltrados}"
+									reflow="true" id="divisoesTable"
 									emptyMessage="Nenhuma Divisão Cadastrada"
-									selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}"
 									paginator="true" rows="10">
 									<f:facet name="header">
                                 		Divisões Cadastradas
                             		</f:facet>
 									<p:column headerText="Código"
 										style="width: 100px; text-align: center">
-										<h:outputText value="1" />
+										<h:outputText value="#{divisao.id}" />
 									</p:column>
 
 									<p:column headerText="Nome da Divisão"
 										style="text-align: center">
-										<h:outputText value="Amador" />
+										<h:outputText value="#{divisao.nome}" />
 									</p:column>
 
 									<p:column headerText="Faixa Etária" style="text-align: center">
-										<h:outputText value="19 a 40" />
+										<h:outputText value="#{divisao.idadeInicial} a #{divisao.idadeFinal}" />
 									</p:column>
 
 									<p:column style="text-align: center; width: 80px">
 										<p:button icon="fa fa-pencil" title="Editar"
-											style="width: 30px">
+											style="width: 30px" outcome="/divisoes/CadastroDivisao">
+											<f:param name="divisao" value="#{divisao.id}"/>
 										</p:button>
 										<p:spacer />
 										<p:commandButton icon="fa fa-trash" title="Excluir"

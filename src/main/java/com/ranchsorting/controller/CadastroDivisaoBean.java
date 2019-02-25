@@ -2,10 +2,13 @@ package com.ranchsorting.controller;
 
 import java.io.Serializable;
 
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.ranchsorting.model.Divisao;
+import com.ranchsorting.service.CadastroDivisaoService;
+import com.ranchsorting.util.jsf.FacesUtil;
 
 @Named
 @ViewScoped
@@ -13,6 +16,9 @@ public class CadastroDivisaoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Inject
+	private CadastroDivisaoService cadastroDivisaoService;
+	
 	private Divisao divisao;
 
 	public CadastroDivisaoBean() {
@@ -28,7 +34,12 @@ public class CadastroDivisaoBean implements Serializable {
 	}
 
 	public void salvar() {
-
+		this.divisao = cadastroDivisaoService.salvar(divisao);
+		
+		limpar();
+		
+		FacesUtil.addInfoMessage("Divisão salva com sucesso!");
+		
 	}
 	
 	public Divisao getDivisao() {
