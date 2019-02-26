@@ -15,7 +15,8 @@
 
 	<ui:define name="content">
 		<f:metadata>
-			<o:viewParam name="competidor" value="#{cadastroCompetidorBean.competidor}" />
+			<o:viewParam name="competidor"
+				value="#{cadastroCompetidorBean.competidor}" />
 			<f:event listener="#{cadastroCompetidorBean.inicializar}"
 				type="preRenderView" />
 		</f:metadata>
@@ -25,7 +26,8 @@
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
-							<h1>#{cadastroCompetidorBean.editando ? 'Edição de Competidor' : 'Novo Competidor'}</h1>
+							<h1>#{cadastroCompetidorBean.editando ? 'Edição de
+								Competidor' : 'Novo Competidor'}</h1>
 
 							<p:growl id="growl" autoUpdate="true" />
 
@@ -64,8 +66,9 @@
 									value="#{cadastroCompetidorBean.competidor.docResponsavel}" />
 
 								<p:outputLabel value="Animais:" />
-								<p:dataList value="#{cadastroCompetidorBean.competidor.animais}" var="animal"
-									type="ordered" emptyMessage="Nenhum Animal Encontrado">
+								<p:dataList value="#{cadastroCompetidorBean.competidor.animais}"
+									var="animal" type="ordered"
+									emptyMessage="Nenhum Animal Encontrado">
 									<f:facet name="header">
 									Animais do Competidor
 		                            </f:facet>
@@ -73,18 +76,22 @@
 		                        </p:dataList>
 
 								<p:outputLabel for="contato" value="Contato:" />
-								<p:inputTextarea id="contato" rows="3" value="#{cadastroCompetidorBean.competidor.contato}"
+								<p:inputTextarea id="contato" rows="3"
+									value="#{cadastroCompetidorBean.competidor.contato}"
 									placeholder="Informe o contato" autoResize="false" />
 
 								<p:outputLabel for="anuidadePaga" value="Anuidade Paga em:" />
 								<h:panelGroup>
 									<p:panelGrid columns="3" layout="grid">
-										<p:calendar id="anuidadePaga" label="Anuidade Paga" disabled="true"
-											placeholder="__/__/____" pattern="dd/MM/yyyy" title="Data"
-											size="10" value="#{cadastroCompetidorBean.competidor.dataPagamentoAnuidade}" mask="99/99/9999" />
+										<p:calendar id="anuidadePaga" label="Anuidade Paga"
+											disabled="true" placeholder="__/__/____" pattern="dd/MM/yyyy"
+											title="Data" size="10"
+											value="#{cadastroCompetidorBean.competidor.dataPagamentoAnuidade}"
+											mask="99/99/9999" />
 										<p:outputLabel value="Não paga"
-											style="color: red; font-weight:bold;" rendered="#{cadastroCompetidorBean.competidor.tipoAnuidade == NAO}"/>
-										
+											style="color: red; font-weight:bold;"
+											rendered="#{cadastroCompetidorBean.competidor.tipoAnuidade == NAO}" />
+
 										<p:commandButton value="Pagar" icon="fa fa-dollar" />
 									</p:panelGrid>
 								</h:panelGroup>
@@ -102,9 +109,10 @@
 								<p:spacer />
 								<h:panelGroup>
 									<p:panelGrid columns="3" layout="grid">
-										<p:commandButton value="Salvar" icon="fa fa-save" 
-											action="#{cadastroCompetidorBean.salvar}" update="@form"/>
-										<p:commandButton value="Limpar" icon="fa fa-refresh" />
+										<p:commandButton value="Salvar" icon="fa fa-save"
+											action="#{cadastroCompetidorBean.salvar}" update="@form" />
+										<p:button value="Limpar" icon="fa fa-refresh"
+											outcome="/competidores/CadastroCompetidor" />
 										<p:button value="Pesquisa" icon="fa fa-search"
 											outcome="/competidores/PesquisaCompetidores" />
 									</p:panelGrid>

@@ -26,7 +26,8 @@
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
-							<h1>#{cadastroUsuarioBean.editando ? 'Edição de Usuário' : 'Novo Usuário'}</h1>
+							<h1>#{cadastroUsuarioBean.editando ? 'Edição de Usuário' :
+								'Novo Usuário'}</h1>
 
 							<p:growl id="growl" />
 
@@ -57,16 +58,19 @@
 
 								<p:outputLabel for="confirmaPassword"
 									value="Confirmar Senha de Acesso:" />
-								<p:password id="confirmaPassword" value="#{cadastroUsuarioBean.usuario.confirmaSenha}" />
+								<p:password id="confirmaPassword"
+									value="#{cadastroUsuarioBean.usuario.confirmaSenha}" />
 
 								<p:spacer />
 								<p:spacer />
 								<p:spacer />
 								<h:panelGroup>
 									<p:panelGrid columns="3" layout="grid" id="panelGrid2">
-										<p:commandButton value="Salvar" icon="fa fa-save" process="@this panelGrid1 panelGrid2"
-											action="#{cadastroUsuarioBean.salvar}" update="@form"/>
-										<p:commandButton value="Limpar" icon="fa fa-refresh" />
+										<p:commandButton value="Salvar" icon="fa fa-save"
+											process="@this panelGrid1 panelGrid2"
+											action="#{cadastroUsuarioBean.salvar}" update="@form" />
+										<p:button value="Limpar" icon="fa fa-refresh"
+											outcome="/usuarios/CadastroUsuario" />
 										<p:button value="Pesquisa" icon="fa fa-search"
 											outcome="/usuarios/PesquisaUsuarios" />
 									</p:panelGrid>

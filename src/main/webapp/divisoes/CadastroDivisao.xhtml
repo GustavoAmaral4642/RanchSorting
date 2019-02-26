@@ -10,7 +10,7 @@
 	<ui:define name="breadcrumb">
 		<li>Cadastros</li>
 		<li>/</li>
-		<li><p:link outcome="/divisoes/CadastroDivisao">Cadastro de Divisão</p:link></li>
+		<li><p:link outcome="/divisoes/CadastroDivisao">#{cadastroDivisaoBean.editando ? 'Edição de Divisão' : 'Nova Divisão'}</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
@@ -26,7 +26,7 @@
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
-							<h1>Cadastro de Divisão</h1>
+							<h1>#{cadastroDivisaoBean.editando ? 'Edição de Divisão' : 'Nova Divisão'}</h1>
 
 							<p:growl id="growl" autoUpdate="true" />
 
@@ -71,7 +71,7 @@
 										<p:commandButton value="Salvar" icon="fa fa-save"
 											action="#{cadastroDivisaoBean.salvar}" 
 											update="@form"/>
-										<p:commandButton value="Limpar" icon="fa fa-refresh" />
+										<p:button value="Limpar" icon="fa fa-refresh" outcome="/divisoes/CadastroDivisao" />
 										<p:button value="Pesquisa" icon="fa fa-search" outcome="/divisoes/PesquisaDivisoes" />
 									</p:panelGrid>
 								</h:panelGroup>

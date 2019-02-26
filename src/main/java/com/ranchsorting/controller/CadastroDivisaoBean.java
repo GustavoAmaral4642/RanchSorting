@@ -18,7 +18,7 @@ public class CadastroDivisaoBean implements Serializable {
 
 	@Inject
 	private CadastroDivisaoService cadastroDivisaoService;
-	
+
 	private Divisao divisao;
 
 	public CadastroDivisaoBean() {
@@ -26,7 +26,7 @@ public class CadastroDivisaoBean implements Serializable {
 	}
 
 	public void inicializar() {
-	
+
 	}
 
 	public void limpar() {
@@ -35,19 +35,23 @@ public class CadastroDivisaoBean implements Serializable {
 
 	public void salvar() {
 		this.divisao = cadastroDivisaoService.salvar(divisao);
-		
+
 		limpar();
-		
+
 		FacesUtil.addInfoMessage("Divisão salva com sucesso!");
-		
+
 	}
-	
+
 	public Divisao getDivisao() {
 		return divisao;
 	}
 
 	public void setDivisao(Divisao divisao) {
 		this.divisao = divisao;
+	}
+
+	public boolean isEditando() {
+		return this.divisao.getId() != null;
 	}
 
 }

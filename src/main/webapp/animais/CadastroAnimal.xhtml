@@ -26,7 +26,8 @@
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
-							<h1>#{cadastroAnimalBean.editando ? 'Edição de Animal' : 'Novo Animal'}</h1>
+							<h1>#{cadastroAnimalBean.editando ? 'Edição de Animal' :
+								'Novo Animal'}</h1>
 
 							<p:growl id="growl" autoUpdate="true" />
 
@@ -53,8 +54,9 @@
 								<p:inputText id="raca" value="#{cadastroAnimalBean.animal.raca}" />
 
 								<p:outputLabel for="proprietario" value="Proprietário:" />
-								<p:selectOneMenu id="proprietario" filter="true" label="Proprietário"
-									filterMatchMode="contains" style="margin-bottom:10px;"
+								<p:selectOneMenu id="proprietario" filter="true"
+									label="Proprietário" filterMatchMode="contains"
+									style="margin-bottom:10px;"
 									value="#{cadastroAnimalBean.animal.competidor}">
 									<f:selectItem itemLabel="Selecione um Proprietário" />
 									<f:selectItems value="#{cadastroAnimalBean.todosCompetidores}"
@@ -80,7 +82,8 @@
 									<p:panelGrid columns="3" layout="grid">
 										<p:commandButton value="Salvar" icon="fa fa-save"
 											action="#{cadastroAnimalBean.salvar}" update="@form" />
-										<p:commandButton value="Limpar" icon="fa fa-refresh" />
+										<p:commandButton value="Limpar" icon="fa fa-refresh"
+											action="#{cadastroAnimalBean.limpar}" update="@form" />
 										<p:button value="Pesquisa" icon="fa fa-search"
 											outcome="/animais/PesquisaAnimais" />
 									</p:panelGrid>
