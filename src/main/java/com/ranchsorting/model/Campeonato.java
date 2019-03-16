@@ -31,7 +31,6 @@ public class Campeonato implements Serializable {
 	private Date dataEvento;
 	private String observacao;
 	private List<Etapa> etapas;
-	private List<Divisao> divisoes;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
@@ -48,7 +47,7 @@ public class Campeonato implements Serializable {
 	}
 
 	@NotBlank
-	@Size(max=120)
+	@Size(max = 120)
 	@Column(name = "cp_nome", nullable = false, length = 120)
 	public String getNome() {
 		return nome;
@@ -77,8 +76,8 @@ public class Campeonato implements Serializable {
 	public void setDataEvento(Date dataEvento) {
 		this.dataEvento = dataEvento;
 	}
-		
-	@Column(name = "cp_observacao",columnDefinition = "text")
+
+	@Column(name = "cp_observacao", columnDefinition = "text")
 	public String getObservacao() {
 		return observacao;
 	}
@@ -87,22 +86,13 @@ public class Campeonato implements Serializable {
 		this.observacao = observacao;
 	}
 
-	@OneToMany(mappedBy="campeonato", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "campeonato", cascade = CascadeType.ALL)
 	public List<Etapa> getEtapas() {
 		return etapas;
 	}
 
 	public void setEtapas(List<Etapa> etapas) {
 		this.etapas = etapas;
-	}
-
-	@OneToMany(mappedBy="campeonato", cascade=CascadeType.ALL)
-	public List<Divisao> getDivisoes() {
-		return divisoes;
-	}
-
-	public void setDivisoes(List<Divisao> divisoes) {
-		this.divisoes = divisoes;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)

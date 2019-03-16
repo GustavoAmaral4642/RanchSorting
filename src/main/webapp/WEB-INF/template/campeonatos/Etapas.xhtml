@@ -5,8 +5,35 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<h:form>
-		<p:panelGrid>
-			<p:schedule id="schedule" value="#{scheduleView.eventModel}"/>
-		</p:panelGrid>
+		<p:dataTable var="car" value="#{dtSelectionView.cars7}"
+			selectionMode="single" reflow="true"
+			selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}"
+			paginator="true" rows="10">
+			<f:facet name="header">
+        	Competidores Inscritos
+		</f:facet>
+			<p:column headerText="Código"
+				style="width: 150px; text-align: center ">
+				<h:outputText value="3" />
+			</p:column>
+
+			<p:column headerText="Nome do Competidor" style="text-align: center ">
+				<h:outputText value="Tchuck Norris" />
+			</p:column>
+
+			<p:column headerText="Idade"
+				style="width: 150px; text-align: center ">
+				<h:outputText value="19" />
+			</p:column>
+
+			<p:column headerText="Responsável" style="text-align: center ">
+				<h:outputText value="Paulinho" />
+			</p:column>
+
+			<p:column headerText="Contato"
+				style="width: 200px; text-align: center ">
+				<h:outputText value="19 992205500" />
+			</p:column>
+		</p:dataTable>
 	</h:form>
 </ui:composition>

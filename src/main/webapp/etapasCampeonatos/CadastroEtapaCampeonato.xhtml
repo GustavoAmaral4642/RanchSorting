@@ -20,7 +20,7 @@
 			<f:event listener="#{cadastroEtapaBean.inicializar}"
 				type="preRenderView" />
 		</f:metadata>
-
+	
 		<h:form>
 			<div class="ui-fluid">
 				<div class="ui-g">
@@ -36,7 +36,8 @@
 								style="border:0px none; background-color:transparent;">
 
 								<p:outputLabel for="codigo" value="Código:" />
-								<p:inputText id="codigo" value="#{cadastroEtapaBean.etapa.id}" />
+								<p:inputText id="codigo" value="#{cadastroEtapaBean.etapa.id}"
+									disabled="true" />
 
 								<p:outputLabel for="nome" value="Nome:" />
 								<p:inputText id="nome" value="#{cadastroEtapaBean.etapa.nome}" />
@@ -50,10 +51,9 @@
 									style="margin-bottom:10px;"
 									value="#{cadastroEtapaBean.etapa.campeonato}">
 									<f:selectItem itemLabel="Selecione um Campeonato" />
-									<f:selectItem itemLabel="Campeonato 1" itemValue="Campeonato 1" />
-									<f:selectItem itemLabel="Campeonato 2" itemValue="Campeonato 2" />
-									<f:selectItem itemLabel="Campeonato 3" itemValue="Campeonato 3" />
-									<f:selectItem itemLabel="Campeonato 4" itemValue="Campeonato 4" />
+									<f:selectItems value="#{cadastroEtapaBean.todosCampeonatos}"
+										var="todosCampeonatos" itemValue="#{todosCampeonatos}"
+										itemLabel="#{todosCampeonatos.nome}" />
 								</p:selectOneMenu>
 
 								<p:outputLabel for="organizador" value="Organizador:" />
@@ -85,12 +85,16 @@
 									value="#{cadastroEtapaBean.etapa.dataFimInscricoes}" />
 
 								<p:spacer />
+								<p:spacer />
+
+								<p:spacer />
 								<h:panelGroup>
 									<p:panelGrid columns="3" layout="grid">
 										<p:commandButton value="Salvar" icon="fa fa-save"
-											action="#{cadastroEtapaBean.salvar}" />
+											action="#{cadastroEtapaBean.salvar}" update="@form"  />
 										<p:commandButton value="Limpar" icon="fa fa-refresh" />
-										<p:button value="Pesquisa" icon="fa fa-search" />
+										<p:button value="Pesquisa" icon="fa fa-search" 
+											outcome="/etapasCampeonatos/PesquisaEtapasCampeonatos" />
 									</p:panelGrid>
 								</h:panelGroup>
 							</p:panelGrid>

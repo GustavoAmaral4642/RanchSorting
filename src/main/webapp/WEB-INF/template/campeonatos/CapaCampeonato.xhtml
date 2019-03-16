@@ -10,29 +10,32 @@
 		style="border:0px none; background-color:transparent;">
 
 		<p:outputLabel for="numeroCampeonato" value="Número do Campeonato" />
-		<p:inputText id="numeroCampeonato" value="#{cadastroCampeonatoBean.campeonato.id}" />
+		<p:inputText id="numeroCampeonato"
+			value="#{cadastroCampeonatoBean.campeonato.id}" disabled="true" />
 
 		<p:outputLabel for="nomeCampeonato" value="Nome do Campeonato" />
-		<p:inputText id="nomeCampeonato" value="#{cadastroCampeonatoBean.campeonato.nome}" />
+		<p:inputText id="nomeCampeonato"
+			value="#{cadastroCampeonatoBean.campeonato.nome}" />
 
 		<p:outputLabel value="Data de Abertura" />
 		<p:calendar id="dataAbertura" label="Data da Abertura"
-			placeholder="__/__/_____" pattern="dd/MM/yyyy" title="Data"
-			size="10" value="#{cadastroCampeonatoBean.campeonato.dataAbertura}"  mask="99/99/9999" />
+			placeholder="__/__/_____" pattern="dd/MM/yyyy" title="Data" size="10"
+			value="#{cadastroCampeonatoBean.campeonato.dataAbertura}"
+			mask="99/99/9999" />
 
-		<p:outputLabel for="dataEvento"  value="Data do Evento" />
+		<p:outputLabel for="dataEvento" value="Data do Evento" />
 		<p:calendar id="dataEvento" label="Data do Evento"
-			placeholder="__/__/_____" pattern="dd/MM/yyyy" title="Data"
-			size="10" value="#{cadastroCampeonatoBean.campeonato.dataEvento}"  mask="99/99/9999" />
+			placeholder="__/__/_____" pattern="dd/MM/yyyy" title="Data" size="10"
+			value="#{cadastroCampeonatoBean.campeonato.dataEvento}"
+			mask="99/99/9999" />
 
-		<p:spacer/>
-		<p:spacer/>
-		
 		<p:spacer />
 		<h:panelGroup>
 			<p:panelGrid columns="3" layout="grid">
-				<p:commandButton value="Salvar" icon="fa fa-save" action="#{cadastroCampeonatoBean.salvar}"/>
-				<p:commandButton value="Limpar" icon="fa fa-refresh" />
+				<p:commandButton value="Salvar" icon="fa fa-save"
+					action="#{cadastroCampeonatoBean.salvar}" update="@form" />
+				<p:button value="Limpar" icon="fa fa-refresh"
+					outcome="/campeonatos/CadastroCampeonato" />
 				<p:button value="Pesquisa" icon="fa fa-search"
 					outcome="/campeonatos/PesquisaCampeonatos" />
 			</p:panelGrid>

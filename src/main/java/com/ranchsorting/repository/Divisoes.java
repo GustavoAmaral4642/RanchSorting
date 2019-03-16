@@ -31,7 +31,7 @@ public class Divisoes implements Serializable {
 		return manager.find(Divisao.class, id);
 	}
 	
-	public List<Divisao> todosDivisoes() {
+	public List<Divisao> todasDivisoes() {
 		return manager.createQuery("from Divisao", Divisao.class).getResultList();
 	}
 	

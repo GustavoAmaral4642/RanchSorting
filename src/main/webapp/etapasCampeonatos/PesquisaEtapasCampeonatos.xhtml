@@ -30,32 +30,38 @@
 									style="border:0px none; background-color:transparent;">
 
 									<p:outputLabel for="nomeEtapa" value="Nome da Etapa:" />
-									<p:inputText id="nomeEtapa" />
+									<p:inputText id="nomeEtapa"
+										value="#{pesquisaEtapasBean.filtro.nome}" />
 
 									<p:outputLabel for="campeonato" value="Campeonato:" />
-									<p:inputText id="campeonato" />
-
-									<p:outputLabel for="local" value="Local:" />
-									<p:inputText id="local" />
-
-									<p:outputLabel for="organizador" value="Organizador:" />
-									<p:inputText id="organizador" />
+									<p:inputText id="campeonato"
+										value="#{pesquisaEtapasBean.filtro.campeonato}" />
 
 									<p:outputLabel value="Data do Evento:" />
 									<h:panelGroup>
 										<p:panelGrid columns="2" layout="grid">
-											<p:inputText id="dataInicial" placeholder="Data Inicial" />
-											<p:inputText id="dataFinal" placeholder="Data Final" />
+											<p:calendar id="dataInicial" size="15" pattern="dd/MM/yyyy"
+												mask="99/99/9999" placeholder="Data Inicial"
+												value="#{pesquisaEtapasBean.filtro.dataEventoInicial}" />
+											<p:calendar id="dataFinal" size="15" pattern="dd/MM/yyyy"
+												mask="99/99/9999" placeholder="Data Final"
+												value="#{pesquisaEtapasBean.filtro.dataEventoFinal}" />
 										</p:panelGrid>
 									</h:panelGroup>
 
 									<p:spacer />
 
-									<p:panelGrid columns="3" layout="grid">
+									<p:panelGrid columns="2" layout="grid">
 										<p:button value="Incluir Novo" icon="fa fa-plus"
 											outcome="/etapasCampeonatos/CadastroEtapaCampeonato" />
-										<p:commandButton value="Limpar" icon="fa fa-refresh" />
-										<p:commandButton value="Pesquisar" icon="fa fa-search" />
+										<p:commandButton value="Pesquisar" icon="fa fa-search"
+											action="#{pesquisaEtapasBean.pesquisar}"
+											update="etapasTable"
+											process="@this 
+												nomeEtapa
+												campeonato
+												dataInicial
+												dataFinal" />
 									</p:panelGrid>
 
 								</p:panelGrid>
@@ -66,40 +72,40 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:dataTable var="car" value="#{dtSelectionView.cars7}"
-									selectionMode="single" reflow="true"
-									emptyMessage="Nenhuma Divisão Cadastrada"
-									selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}"
+								<p:dataTable var="etapa" value="#{pesquisaEtapasBean.etapasFiltradas}"
+									reflow="true" emptyMessage="Nenhuma Etapa Cadastrada" id="etapasTable"
 									paginator="true" rows="10">
 									<f:facet name="header">
                                 		Etapas Cadastradas
                             		</f:facet>
 									<p:column headerText="Código"
 										style="width: 100px; text-align: center">
-										<h:outputText value="1" />
+										<h:outputText value="#{etapa.id}" />
 									</p:column>
 
 									<p:column headerText="Nome da Etapa" style="text-align: center">
-										<h:outputText value="Toca da Onça" />
+										<h:outputText value="#{etapa.nome}" />
 									</p:column>
 
 									<p:column headerText="Campeonato" style="text-align: center">
-										<h:outputText value="Mundial" />
+										<h:outputText value="#{etapa.campeonato.nome}" />
 									</p:column>
 
 									<p:column headerText="Organizador" style="text-align: center">
-										<h:outputText value="Paulinho" />
+										<h:outputText value="#{etapa.organizador}" />
 									</p:column>
 
 									<p:column headerText="Data do Evento"
 										style="text-align: center">
-										<h:outputText value="20/07/2019" />
+										<h:outputText value="#{etapa.dataEvento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
 									</p:column>
-
 
 									<p:column style="text-align: center; width: 80px">
 										<p:button icon="fa fa-pencil" title="Editar"
-											style="width: 30px">
+											style="width: 30px" outcome="/etapasCampeonatos/CadastroEtapaCampeonato">
+											<f:param name="etapa" value="#{etapa.id}"/>
 										</p:button>
 										<p:spacer />
 										<p:commandButton icon="fa fa-trash" title="Excluir"

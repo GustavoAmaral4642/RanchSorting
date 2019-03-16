@@ -2,20 +2,22 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
 
 	<ui:define name="title">Cadastro de Ficha de Inscrição</ui:define>
 
 	<ui:define name="breadcrumb">
 		<li>Provas</li>
 		<li>/</li>
-		<li><p:link outcome="/fichasInscricoes/CadastroFichaInscricao">Cadastro de Ficha de Inscrição</p:link></li>
+		<li><p:link outcome="/fichasInscricoes/CadastroFichaInscricao">#{cadastroFichaInscricao.editando ? 'Edição de Ficha' : 'Nova Ficha'}</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
 
 		<f:metadata>
-			<f:viewParam name="dummy" />
+			<o:viewParam name="fichaInscricao"
+				value="#{cadastroFichaInscricaoBean.fichaInscricao}" />
 			<f:event listener="#{cadastroFichaInscricaoBean.inicializar}"
 				type="preRenderView" />
 		</f:metadata>
@@ -25,7 +27,8 @@
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
-							<h1>Cadastro de Ficha de Inscrição</h1>
+							<h1>#{cadastroFichaInscricaoBean.editando ? 'Edição de
+								Ficha' : 'Nova Ficha'}</h1>
 
 							<p:growl id="growl" autoUpdate="true" />
 
@@ -35,64 +38,82 @@
 								style="border:0px none; background-color:transparent;">
 
 								<p:outputLabel for="codigoFicha" value="Código da Ficha:" />
-								<p:inputText id="codigoFicha" value="#{cadastroFichaInscricaoBean.fichaInscricao.id}"/>
+								<p:inputText id="codigoFicha" disabled="true"
+									value="#{cadastroFichaInscricaoBean.fichaInscricao.id}" />
 
 								<p:outputLabel for="dataInscricao" value="Data da Inscricão:" />
 								<p:calendar id="dataInscricao" placeholder="__/__/____"
 									pattern="dd/MM/yyyy" title="Data da Inscrição" size="10"
-									value="#{cadastroFichaInscricaoBean.fichaInscricao.dataInscricao}" mask="99/99/9999" />
+									value="#{cadastroFichaInscricaoBean.fichaInscricao.dataInscricao}"
+									mask="99/99/9999" />
 
 								<p:outputLabel for="nomeCompetidor" value="Nome do Competidor:" />
 								<p:selectOneMenu id="nomeCompetidor" filter="true"
 									label="Competidor" filterMatchMode="contains"
-									style="margin-bottom:10px;" value="">
+									style="margin-bottom:10px;"
+									value="#{cadastroFichaInscricaoBean.fichaInscricao.competidor}">
 									<f:selectItem itemLabel="Selecione um Competidor" />
-									<f:selectItem itemLabel="Guti" itemValue="Guti" />
-									<f:selectItem itemLabel="Nayara" itemValue="Nayara" />
-									<f:selectItem itemLabel="Paulinho" itemValue="Paulinho" />
-									<f:selectItem itemLabel="Josi" itemValue="Josi" />
+									<f:selectItems
+										value="#{cadastroFichaInscricaoBean.todosCompetidores}"
+										var="todosCompetidores" itemValue="#{todosCompetidores}"
+										itemLabel="#{todosCompetidores.nome}" />
 								</p:selectOneMenu>
 
 								<p:outputLabel for="animal" value="Nome do Animal:" />
 								<p:selectOneMenu id="animal" filter="true" label="Animal"
-									filterMatchMode="contains" style="margin-bottom:10px;" value="">
+									filterMatchMode="contains" style="margin-bottom:10px;"
+									value="#{cadastroFichaInscricaoBean.fichaInscricao.animal}">
 									<f:selectItem itemLabel="Selecione um Animal" />
-									<f:selectItem itemLabel="Cavalo branco" itemValue="branco" />
-									<f:selectItem itemLabel="Cavalo preto" itemValue="preto" />
-									<f:selectItem itemLabel="Cavalo cinza" itemValue="cinza" />
-									<f:selectItem itemLabel="Cavalo marron" itemValue="marron" />
+									<f:selectItems
+										value="#{cadastroFichaInscricaoBean.todosAnimais}"
+										var="todosAnimais" itemValue="#{todosAnimais}"
+										itemLabel="#{todosAnimais.nome}" />
 								</p:selectOneMenu>
 
 								<p:outputLabel for="campeonato" value="Selecione o Campeonato:" />
 								<p:selectOneMenu id="campeonato" filter="true"
-									label="Competidor" filterMatchMode="contains"
-									style="margin-bottom:10px;" value="">
+									label="Campeonato" filterMatchMode="contains"
+									style="margin-bottom:10px;"
+									value="#{cadastroFichaInscricaoBean.fichaInscricao.campeonato}">
 									<f:selectItem itemLabel="Selecione um Campeonato" />
-									<f:selectItem itemLabel="Campeonato 1" itemValue="Campeonato 1" />
-									<f:selectItem itemLabel="Campeonato 2" itemValue="Campeonato 2" />
-									<f:selectItem itemLabel="Campeonato 3" itemValue="Campeonato 3" />
-									<f:selectItem itemLabel="Campeonato 4" itemValue="Campeonato 4" />
+									<f:selectItems
+										value="#{cadastroFichaInscricaoBean.todosCampeonatos}"
+										var="todosCampeonatos" itemValue="#{todosCampeonatos}"
+										itemLabel="#{todosCampeonatos.nome}" />
+									<p:ajax listener="#{cadastroFichaInscricaoBean.carregarEtapas}"
+										update="etapa" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="etapa" value="Selecione a Etapa:" />
+								<p:selectOneMenu id="etapa" filter="true" label="Etapa"
+									filterMatchMode="contains" style="margin-bottom:10px;"
+									value="#{cadastroFichaInscricaoBean.fichaInscricao.etapa}">
+									<f:selectItem itemLabel="Selecione uma Etapa" />
+									<f:selectItems
+										value="#{cadastroFichaInscricaoBean.etapasCampeonatos}"
+										var="etapasCampeonatos" itemValue="#{etapasCampeonatos}"
+										itemLabel="#{etapasCampeonatos.nome}" />
 								</p:selectOneMenu>
 
 								<p:outputLabel for="valorComprado" value="Valor Comprado:" />
 								<p:inputText id="valorComprado" label="Valor Comprado"
 									placeholder="Valor Comprado" size="20" maxlength="20"
-									value="#{cadastroFichaInscricaoBean.fichaInscricao.valorComprado}" styleClass="moeda">
+									value="#{cadastroFichaInscricaoBean.fichaInscricao.valorComprado}"
+									styleClass="moeda">
 									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 								</p:inputText>
 
-								<p:outputLabel for="divisao" value="Selecione a divisao:" />
-								<p:selectManyMenu id="divisao" showCheckbox="true" value="#{cadastroFichaInscricaoBean.fichaInscricao.divisao}">
-									<f:selectItem itemLabel="Divisão Amador - Valor R$ 50,00"
-										itemValue="1" />
-									<f:selectItem itemLabel="Divisão Aberto - Valor R$ 50,00"
-										itemValue="2" />
-									<f:selectItem itemLabel="Divisão 3 - Valor R$ 25,00"
-										itemValue="3" />
-								</p:selectManyMenu>
-
-								<p:spacer />
-								<p:spacer />
+								<p:outputLabel for="divisao" value="Selecione a divisão:" />
+								<p:selectOneMenu id="divisao" filter="true" label="Divisão"
+									filterMatchMode="contains" style="margin-bottom:10px;"
+									value="#{cadastroFichaInscricaoBean.fichaInscricao.divisao}">
+									<f:selectItem itemLabel="Selecione a Divisão" />
+									<f:selectItems
+										value="#{cadastroFichaInscricaoBean.todasDivisoes}"
+										var="todasDivisoes" itemValue="#{todasDivisoes}"
+										itemLabel="#{todasDivisoes.nome}" />
+								</p:selectOneMenu>
+								
 								<p:outputLabel value="Anuidade Paga:" />
 								<h:panelGroup>
 									<p:panelGrid columns="2" layout="grid">
@@ -123,19 +144,21 @@
 								<p:outputLabel for="valorPago" value="Valor Pago:" />
 								<p:inputText id="valorPago" label="Valor Pago:"
 									placeholder="Valor Pago" size="20" maxlength="20"
-									value="#{cadastroFichaInscricaoBean.fichaInscricao.valorPago}" styleClass="moeda">
-									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" /> 
+									value="#{cadastroFichaInscricaoBean.fichaInscricao.valorPago}"
+									styleClass="moeda">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 								</p:inputText>
 
 								<p:outputLabel for="dataPagamento" value="Data do Pagamento:" />
 								<p:calendar id="dataPagamento" placeholder="__/__/____"
 									pattern="dd/MM/yyyy" title="Data do Pagamento" size="10"
-									value="#{cadastroFichaInscricaoBean.fichaInscricao.dataPagamento}" mask="99/99/9999" />
+									value="#{cadastroFichaInscricaoBean.fichaInscricao.dataPagamento}"
+									mask="99/99/9999" />
 
 								<p:outputLabel for="formaPagamento" value="Forma de Pagamento:" />
 								<p:selectOneMenu id="formaPagamento" filter="true"
 									label="Forma de Pagamento" filterMatchMode="contains"
-									style="margin-bottom:10px;" value="">
+									style="margin-bottom:10px;">
 									<f:selectItem itemLabel="Selecione uma Forma de Pagamento" />
 									<f:selectItem itemLabel="Forma de Pagamento 1"
 										itemValue="Forma de Pagamento 1" />
@@ -166,7 +189,8 @@
 								<p:spacer />
 								<h:panelGroup>
 									<p:panelGrid columns="2" layout="grid">
-										<p:commandButton value="Salvar" icon="fa fa-save" action="#{cadastroFichaInscricaoBean.salvar}" />
+										<p:commandButton value="Salvar" icon="fa fa-save"
+											update="@form" action="#{cadastroFichaInscricaoBean.salvar}" />
 										<p:commandButton value="Imprimir Ficha" icon="fa fa-print" />
 									</p:panelGrid>
 								</h:panelGroup>

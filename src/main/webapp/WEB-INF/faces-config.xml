@@ -35,4 +35,12 @@
         </renderer>
     </render-kit>
     
+    <!-- depois de muito procurar, encontrei que para o selectManyCheckBox precisa disso -->
+    <!-- https://www.guj.com.br/t/converter-jsf/198937/5 -->
+    <converter>
+		<display-name>DivisaoConverter</display-name>
+		<converter-id>DivisaoConverter</converter-id>
+		<converter-class>com.ranchsorting.converter.DivisaoConverter</converter-class>
+	</converter>
+    
 </faces-config>

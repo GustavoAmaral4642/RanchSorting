@@ -75,7 +75,7 @@ public class FichaInscricao implements Serializable {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "fi_competidor")
-	Competidor getCompetidor() {
+	public Competidor getCompetidor() {
 		return competidor;
 	}
 
@@ -182,7 +182,7 @@ public class FichaInscricao implements Serializable {
 	}
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "fi_tp_anuidade", nullable = false, length = 12)
+	@Column(name = "fi_tp_anuidade", length = 12)
 	public TipoAnuidade getTipoAnuidade() {
 		return tipoAnuidade;
 	}

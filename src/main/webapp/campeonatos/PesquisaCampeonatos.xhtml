@@ -28,39 +28,55 @@
 									layout="grid" styleClass="ui-panelgrid-blank"
 									style="border:0px none; background-color:transparent;">
 
-									<p:outputLabel for="numeroCampeonato"
-										value="Número do Campeonato:" />
-									<p:inputText id="numeroCampeonato" />
-
 									<p:outputLabel for="nomeCampeonato" value="Nome do Campeonato:" />
-									<p:inputText id="nomeCampeonato" />
+									<p:inputText id="nomeCampeonato"
+										value="#{pesquisaCampeonatosBean.filtro.nome}" />
 
 
 									<p:outputLabel value="Data de Abertura:" />
 									<h:panelGroup>
 										<p:panelGrid columns="2" layout="grid">
-											<p:inputText id="dataAberturaInicial"
-												placeholder="Data Inicial" />
-											<p:inputText id="dataAberturaFinal" placeholder="Data Final" />
+											<p:calendar id="aberturaInicial" size="15"
+												pattern="dd/MM/yyyy" mask="99/99/9999"
+												placeholder="Abertura Inicial"
+												value="#{pesquisaCampeonatosBean.filtro.dataAberturaInicial}" />
+
+											<p:calendar id="aberturaFinal" size="15" pattern="dd/MM/yyyy"
+												mask="99/99/9999" placeholder="Abertura Final"
+												value="#{pesquisaCampeonatosBean.filtro.dataAberturaFinal}" />
+
 										</p:panelGrid>
 									</h:panelGroup>
 
 									<p:outputLabel value="Data do Evento:" />
 									<h:panelGroup>
 										<p:panelGrid columns="2" layout="grid">
-											<p:inputText id="dataEventoInicial"
-												placeholder="Data Inicial" />
-											<p:inputText id="dataEventoFinal" placeholder="Data Final" />
+											<p:calendar id="eventoInicial" size="15"
+												pattern="dd/MM/yyyy" mask="99/99/9999"
+												placeholder="Evento Inicial"
+												value="#{pesquisaCampeonatosBean.filtro.dataEventoInicial}" />
+
+											<p:calendar id="eventoFinal" size="15" pattern="dd/MM/yyyy"
+												mask="99/99/9999" placeholder="Evento Final"
+												value="#{pesquisaCampeonatosBean.filtro.dataEventoFinal}" />
+
 										</p:panelGrid>
 									</h:panelGroup>
 
 									<p:spacer />
 
-									<p:panelGrid columns="3" layout="grid">
+									<p:panelGrid columns="2" layout="grid">
 										<p:button value="Incluir Novo" icon="fa fa-plus"
 											outcome="/campeonatos/CadastroCampeonato" />
-										<p:commandButton value="Limpar" icon="fa fa-refresh" />
-										<p:commandButton value="Pesquisar" icon="fa fa-search" />
+										<p:commandButton value="Pesquisar" icon="fa fa-search"
+											action="#{pesquisaCampeonatosBean.pesquisar}"
+											update="campeonatosTable"
+											process="@this 
+												nomeCampeonato
+												aberturaInicial
+												aberturaFinal
+												eventoInicial
+												eventoFinal" />
 									</p:panelGrid>
 
 								</p:panelGrid>
@@ -68,53 +84,51 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:dataTable var="car" value="#{dtSelectionView.cars7}"
-									selectionMode="single" reflow="true"
-									emptyMessage="Nenhum Competidor Cadastrados"
-									selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}"
+								<p:dataTable var="campeonato" value="#{pesquisaCampeonatosBean.campeonatosFiltrados}"
+									reflow="true" emptyMessage="Nenhum Campeonato Cadastrado" id="campeonatosTable"
 									paginator="true" rows="10">
 									<f:facet name="header">
-                                		Competidores Campeonatos
+                                		Campeonatos Cadastrados
                             		</f:facet>
 									<p:column headerText="Nº do Campeonato"
 										style="width: 100px; text-align: center">
-										<h:outputText value="12" />
+										<h:outputText value="#{campeonato.id}" />
 									</p:column>
 
 									<p:column headerText="Nome do Campeonato"
 										style="text-align: center">
-										<h:outputText value="4º Ranch Sorting Toca da Onça" />
+										<h:outputText value="#{campeonato.nome}" />
 									</p:column>
 
 									<p:column headerText="Data de Abertura"
 										style="width: 150px; text-align: center ">
-										<h:outputText value="01/01/1970" />
+										<h:outputText value="#{campeonato.dataAbertura}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
 									</p:column>
 
 									<p:column headerText="Data do Evento"
 										style="width: 150px; text-align: center">
-										<h:outputText value="01/01/1970" />
-									</p:column>
-
-									<p:column headerText="Valor do Evento"
-										style="width: 150px; text-align: center">
-										<h:outputText value="R$ 50,00" />
+										<h:outputText value="#{campeonato.dataEvento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
 									</p:column>
 
 									<p:column headerText="Qnt. Divisões"
 										style="width: 100px; text-align: center">
-										<h:outputText value="25" />
+										<h:outputText value="Ainda não funciona" />
 									</p:column>
 
 									<p:column headerText="Qnt. Competidores"
 										style="width: 100px; text-align: center">
-										<h:outputText value="25" />
+										<h:outputText value="Ainda não funciona" />
 									</p:column>
 
 
 									<p:column style="text-align: center; width: 80px">
 										<p:button icon="fa fa-pencil" title="Editar"
-											style="width: 30px">
+											style="width: 30px" outcome="/campeonatos/CadastroCampeonato">
+											<f:param name="campeonato" value="#{campeonato.id}"/>
 										</p:button>
 										<p:spacer />
 										<p:commandButton icon="fa fa-trash" title="Excluir"

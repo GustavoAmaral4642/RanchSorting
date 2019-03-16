@@ -3,7 +3,7 @@ package com.ranchsorting.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -15,7 +15,7 @@ import com.ranchsorting.service.CadastroAnimalService;
 import com.ranchsorting.util.jsf.FacesUtil;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class CadastroAnimalBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -44,8 +44,6 @@ public class CadastroAnimalBean implements Serializable {
 	}
 
 	public void salvar() {
-
-		System.out.println(animal.getCompetidor());
 		
 		this.animal = cadastroAnimalService.salvar(animal);
 		

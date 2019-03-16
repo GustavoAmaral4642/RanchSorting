@@ -2,20 +2,22 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
 
 	<ui:define name="title">Cadastro de Campeonatos</ui:define>
 
 	<ui:define name="breadcrumb">
 		<li>Provas</li>
 		<li>/</li>
-		<li><p:link outcome="/campeonatos/CadastroCampeonato">Cadastro de Campeonato</p:link></li>
+		<li><p:link outcome="/campeonatos/CadastroCampeonato">#{cadastroCampeonatoBean.editando ? 'Edição de Campeonato' : 'Novo Campeonato'}</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
 
 		<f:metadata>
-			<f:viewParam name="dummy" />
+			<o:viewParam name="campeonato"
+				value="#{cadastroCampeonatoBean.campeonato}" />
 			<f:event listener="#{cadastroCampeonatoBean.inicializar}"
 				type="preRenderView" />
 		</f:metadata>
@@ -25,7 +27,8 @@
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
-							<h1>Cadastro de Campeonato</h1>
+							<h1>#{cadastroCampeonatoBean.editando ? 'Edição de
+								Campeonato' : 'Novo Campeonato'}</h1>
 
 							<p:growl id="growl" autoUpdate="true" />
 
@@ -33,9 +36,6 @@
 								src="/WEB-INF/template/campeonatos/CapaCampeonato.xhtml" />
 
 							<p:tabView style="margin-top: 20px" id="tabCampeonato">
-								<p:tab title="Divisões">
-									<ui:include src="/WEB-INF/template/campeonatos/Divisoes.xhtml" />
-								</p:tab>
 								<p:tab title="Etapas">
 									<ui:include src="/WEB-INF/template/campeonatos/Etapas.xhtml" />
 								</p:tab>
