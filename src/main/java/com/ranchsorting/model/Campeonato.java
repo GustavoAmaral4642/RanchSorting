@@ -1,6 +1,7 @@
 package com.ranchsorting.model;
 
-import java.io.Serializable; 
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class Campeonato implements Serializable {
 	private Date dataAbertura;
 	private Date dataEvento;
 	private String observacao;
+	private BigDecimal valorAnuidade;
 	private List<Etapa> etapas;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
@@ -84,6 +86,15 @@ public class Campeonato implements Serializable {
 
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
+	}
+
+	@Column(name = "cp_valor_anuidade", precision = 10, scale = 2)
+	public BigDecimal getValorAnuidade() {
+		return valorAnuidade;
+	}
+
+	public void setValorAnuidade(BigDecimal valorAnuidade) {
+		this.valorAnuidade = valorAnuidade;
 	}
 
 	@OneToMany(mappedBy = "campeonato", cascade = CascadeType.ALL)

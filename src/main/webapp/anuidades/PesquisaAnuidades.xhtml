@@ -1,0 +1,137 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">Pesquisa de Anuidades</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Cadastros</li>
+		<li>/</li>
+		<li><p:link outcome="/anuidades/PesquisaAnuidades">Pesquisa de Anuidades</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form>
+			<div class="ui-fluid">
+				<div class="ui-g">
+					<div class="ui-g-12">
+						<div class="card no-margin">
+							<h1>Pesquisa de Anuidades</h1>
+
+							<p:growl id="growl" autoUpdate="true" />
+
+							<h:form>
+								<p:panelGrid columns="4"
+									columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+									layout="grid" styleClass="ui-panelgrid-blank"
+									style="border:0px none; background-color:transparent;">
+
+									<p:outputLabel for="competidor" value="Nome do Competidor:" />
+									<p:inputText id="competidor"
+										value="#{pesquisaAnuidadesBean.filtro.competidor}" />
+
+									<p:outputLabel for="campeonato" value="Nome do Campeonato:" />
+									<p:inputText id="campeonato"
+										value="#{pesquisaAnuidadesBean.filtro.campeonato}" />
+
+									<p:outputLabel value="Data de Pagamento:" />
+									<h:panelGroup>
+										<p:panelGrid columns="2" layout="grid">
+											<p:calendar id="pagamentoInicial" size="15"
+												pattern="dd/MM/yyyy" mask="99/99/9999"
+												placeholder="Pagamento Inicial"
+												value="#{pesquisaAnuidadesBean.filtro.dataPagamentoInicial}" />
+
+											<p:calendar id="pagamentoFinal" size="15"
+												pattern="dd/MM/yyyy" mask="99/99/9999"
+												placeholder="Pagamento Final"
+												value="#{pesquisaAnuidadesBean.filtro.dataPagamentoFinal}" />
+
+										</p:panelGrid>
+									</h:panelGroup>
+
+									<p:spacer />
+									<p:spacer />
+
+									<p:spacer />
+									<p:panelGrid columns="2" layout="grid">
+										<p:button value="Incluir Novo" icon="fa fa-plus"
+											outcome="/anuidades/CadastroAnuidade" />
+										<p:commandButton value="Pesquisar" icon="fa fa-search"
+											action="#{pesquisaAnuidadesBean.pesquisar}"
+											update="anuidadesTable"
+											process="@this 
+												competidor
+												campeonato
+												pagamentoInicial
+												pagamentoFinal" />
+									</p:panelGrid>
+
+								</p:panelGrid>
+
+								<p:spacer />
+								<p:spacer />
+
+								<p:dataTable var="anuidade"
+									value="#{pesquisaAnuidadesBean.anuidadesFiltradas}"
+									reflow="true" emptyMessage="Nenhuma Anuidade Encontrada"
+									id="anuidadesTable" paginator="true" rows="10">
+									<f:facet name="header">
+                                		Anuidades Cadastradas
+                            		</f:facet>
+									<p:column headerText="Código"
+										style="width: 100px; text-align: center">
+										<h:outputText value="#{anuidade.id}" />
+									</p:column>
+
+									<p:column headerText="Nome do Competidor"
+										style="text-align: center">
+										<h:outputText value="#{anuidade.competidor.nome}" />
+									</p:column>
+
+									<p:column headerText="Nome do Campeonato"
+										style="text-align: center">
+										<h:outputText value="#{anuidade.campeonato.nome}" />
+									</p:column>
+
+									<p:column headerText="Vlr.Anuidade" style="text-align: center">
+										<h:outputText value="#{anuidade.campeonato.valorAnuidade}">
+											<f:convertNumber type="currency" />
+										</h:outputText>
+									</p:column>
+						
+									<p:column headerText="Vlr.Pago" style="text-align: center">
+										<h:outputText value="#{anuidade.valorPago}">
+											<f:convertNumber type="currency" />
+										</h:outputText>
+									</p:column>
+						
+									<p:column headerText="Data do Pagamento"
+										style="text-align: center; width: 140px">
+										<h:outputText value="#{anuidade.dataPagamento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
+									</p:column>
+
+									<p:column style="text-align: center; width: 80px">
+										<p:button icon="fa fa-pencil" title="Editar"
+											style="width: 30px" outcome="/anuidades/CadastroAnuidade">
+											<f:param name="anuidade" value="#{anuidade.id}" />
+										</p:button>
+										<p:spacer />
+										<p:commandButton icon="fa fa-trash" title="Excluir"
+											style="width: 30px">
+										</p:commandButton>
+									</p:column>
+								</p:dataTable>
+							</h:form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

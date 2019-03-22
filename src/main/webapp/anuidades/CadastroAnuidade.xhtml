@@ -1,0 +1,103 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="title">Cadastro de Anuidade</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Cadastros</li>
+		<li>/</li>
+		<li><p:link outcome="/anuidades/CadastroAnuidade">#{cadastroAnuidadeBean.editando ? 'Edição de Anuidade' : 'Nova Anuidade'}</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="anuidade" value="#{cadastroAnuidadeBean.anuidade}" />
+			<f:event listener="#{cadastroAnuidadeBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form>
+			<div class="ui-fluid">
+				<div class="ui-g">
+					<div class="ui-g-12">
+						<div class="card no-margin">
+							<h1>#{cadastroAnuidadeBean.editando ? 'Edição de Anuidade' :
+								'Nova Anuidade'}</h1>
+
+							<p:growl id="growl" autoUpdate="true" />
+
+							<p:panelGrid columns="4"
+								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+								layout="grid" styleClass="ui-panelgrid-blank"
+								style="border:0px none; background-color:transparent;">
+
+								<p:outputLabel for="codigo" value="Código:" />
+								<p:inputText id="codigo" value="#{cadastroAnuidadeBean.anuidade.id}"
+									disabled="true" />
+
+								<p:outputLabel for="competidor" value="Competidor:" />
+								<p:selectOneMenu id="competidor" filter="true"
+									label="Competidor" filterMatchMode="contains"
+									style="margin-bottom:10px;"
+									value="#{cadastroAnuidadeBean.anuidade.competidor}">
+									<f:selectItem itemLabel="Selecione um Proprietário" />
+									<f:selectItems value="#{cadastroAnuidadeBean.todosCompetidores}"
+										var="todosCompetidores" itemValue="#{todosCompetidores}"
+										itemLabel="#{todosCompetidores.nome}" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="campeonato" value="Campeonato:" />
+								<p:selectOneMenu id="campeonato" filter="true"
+									label="Campeonato" filterMatchMode="contains"
+									style="margin-bottom:10px;"
+									value="#{cadastroAnuidadeBean.anuidade.campeonato}">
+									<f:selectItem itemLabel="Selecione um Campeonato" />
+									<f:selectItems value="#{cadastroAnuidadeBean.todosCampeonatos}"
+										var="todosCampeonatos" itemValue="#{todosCampeonatos}"
+										itemLabel="#{todosCampeonatos.nome}" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="valorPago" value="Valor Pago:" />
+								<p:inputText id="valorPago" label="Valor Comprado"
+									placeholder="Valor Pago" size="20" maxlength="20"
+									value="#{cadastroAnuidadeBean.anuidade.valorPago}"
+									styleClass="moeda">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
+
+								<p:outputLabel for="dataPagamento" value="Data do Pagamento:" />
+								<p:calendar id="dataPagamento" placeholder="__/__/____"
+									pattern="dd/MM/yyyy" title="Data do Pagamento" size="10"
+									value="#{cadastroAnuidadeBean.anuidade.dataPagamento}"
+									mask="99/99/9999" />
+
+								<p:spacer />
+								<p:spacer />
+
+								<p:spacer />
+								<h:panelGroup>
+									<p:panelGrid columns="3" layout="grid">
+										<p:commandButton value="Salvar" icon="fa fa-save"
+											action="#{cadastroAnuidadeBean.salvar}" update="@form" />
+										<p:commandButton value="Limpar" icon="fa fa-refresh"
+											action="#{cadastroAnuidadeBean.limpar}" update="@form" />
+										<p:button value="Pesquisa" icon="fa fa-search"
+											outcome="/anuidades/PesquisaAnuidades" />
+									</p:panelGrid>
+								</h:panelGroup>
+
+							</p:panelGrid>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

@@ -1,9 +1,8 @@
 package com.ranchsorting.model;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,21 +18,20 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tb_contas_receber")
-public class ContasReceber implements Serializable {
+public class Titulo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	private Long numeroParcela;
 	private Competidor competidor;
 	private Campeonato campeonato;
 	private Etapa etapa;
 	private Divisao divisao;
 	private BigDecimal valorTitulo;
-	private BigDecimal saldo;
 	private Date dataTitulo;
 	private Date dataEvento;
 	private String observacao;
-	private List<ParcelaReceber> parcelas;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
@@ -49,8 +46,16 @@ public class ContasReceber implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	@Column(name = "cr_parcela")
+	public Long getNumeroParcela() {
+		return numeroParcela;
+	}
 
-	@NotNull
+	public void setNumeroParcela(Long numeroParcela) {
+		this.numeroParcela = numeroParcela;
+	}
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "cr_competidor")
 	public Competidor getCompetidor() {
@@ -101,15 +106,6 @@ public class ContasReceber implements Serializable {
 		this.valorTitulo = valorTitulo;
 	}
 
-	@Column(name = "cr_saldo", precision = 10, scale = 2)
-	public BigDecimal getSaldo() {
-		return saldo;
-	}
-
-	public void setSaldo(BigDecimal saldo) {
-		this.saldo = saldo;
-	}
-
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "cr_data_titulo")
@@ -138,15 +134,6 @@ public class ContasReceber implements Serializable {
 
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
-	}
-
-	@OneToMany(mappedBy = "titulo", cascade = CascadeType.ALL)
-	public List<ParcelaReceber> getParcelas() {
-		return parcelas;
-	}
-
-	public void setParcelas(List<ParcelaReceber> parcelas) {
-		this.parcelas = parcelas;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -195,7 +182,7 @@ public class ContasReceber implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ContasReceber other = (ContasReceber) obj;
+		Titulo other = (Titulo) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

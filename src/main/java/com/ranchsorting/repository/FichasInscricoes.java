@@ -1,6 +1,6 @@
 package com.ranchsorting.repository;
 
-import java.io.Serializable;   
+import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -23,45 +23,45 @@ public class FichasInscricoes implements Serializable {
 	@Inject
 	private EntityManager manager;
 
-	public FichaInscricao guardar(FichaInscricao ficha){
+	public FichaInscricao guardar(FichaInscricao ficha) {
 		return manager.merge(ficha);
 	}
-	
+
 	public FichaInscricao porId(Long id) {
 		return manager.find(FichaInscricao.class, id);
 	}
-	
+
 	public List<FichaInscricao> todasFichas() {
 
 		return manager.createQuery("from FichaInscricao", FichaInscricao.class).getResultList();
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public List<FichaInscricao> filtrados(FichaInscricaoFilter filtro){
-		
+	public List<FichaInscricao> filtradas(FichaInscricaoFilter filtro) {
+
 		Session session = manager.unwrap(Session.class);
 		Criteria criteria = session.createCriteria(FichaInscricao.class)
 				.createAlias("campeonato", "ca")
 				.createAlias("etapa", "e")
 				.createAlias("competidor", "co")
 				.createAlias("animal", "a");
-		
-		if(StringUtils.isNotBlank(filtro.getCampeonato())){
+
+		if (StringUtils.isNotBlank(filtro.getCampeonato())) {
 			criteria.add(Restrictions.ilike("ca.nome", filtro.getCampeonato(), MatchMode.ANYWHERE));
 		}
 
-		if(StringUtils.isNotBlank(filtro.getEtapa())){
+		if (StringUtils.isNotBlank(filtro.getEtapa())) {
 			criteria.add(Restrictions.ilike("e.nome", filtro.getEtapa(), MatchMode.ANYWHERE));
 		}
-		
-		if(StringUtils.isNotBlank(filtro.getCompetidor())){
+
+		if (StringUtils.isNotBlank(filtro.getCompetidor())) {
 			criteria.add(Restrictions.ilike("co.nome", filtro.getCompetidor(), MatchMode.ANYWHERE));
 		}
-		
-		if(StringUtils.isNotBlank(filtro.getAnimal())){
+
+		if (StringUtils.isNotBlank(filtro.getAnimal())) {
 			criteria.add(Restrictions.ilike("a.nome", filtro.getAnimal(), MatchMode.ANYWHERE));
 		}
-		
+
 		if (filtro.getDataInscricaoInicial() != null) {
 			criteria.add(Restrictions.ge("dataInscricao", filtro.getDataInscricaoInicial()));
 		}
@@ -70,7 +70,7 @@ public class FichasInscricoes implements Serializable {
 			criteria.add(Restrictions.le("dataInscricao", filtro.getDataInscricaoFinal()));
 		}
 
-		return criteria.addOrder(Order.asc("nome")).list();
+		return criteria.addOrder(Order.asc("ca.nome")).list();
 	}
 
 }

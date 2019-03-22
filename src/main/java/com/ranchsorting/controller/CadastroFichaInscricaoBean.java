@@ -1,6 +1,6 @@
 package com.ranchsorting.controller;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
@@ -13,6 +13,7 @@ import com.ranchsorting.model.Competidor;
 import com.ranchsorting.model.Divisao;
 import com.ranchsorting.model.Etapa;
 import com.ranchsorting.model.FichaInscricao;
+import com.ranchsorting.model.FormaPagamento;
 import com.ranchsorting.repository.Animais;
 import com.ranchsorting.repository.Campeonatos;
 import com.ranchsorting.repository.Competidores;
@@ -35,13 +36,13 @@ public class CadastroFichaInscricaoBean implements Serializable {
 
 	@Inject
 	private Campeonatos campeonatos;
-	
+
 	@Inject
 	private Etapas etapas;
-	
+
 	@Inject
 	private Divisoes divisoes;
-	
+
 	@Inject
 	private CadastroFichaInscricaoService cadastroFichaInscricaoService;
 
@@ -52,7 +53,7 @@ public class CadastroFichaInscricaoBean implements Serializable {
 	private List<Campeonato> todosCampeonatos;
 	private List<Etapa> etapasCampeonatos;
 	private List<Divisao> todasDivisoes;
-	
+
 	public CadastroFichaInscricaoBean() {
 		fichaInscricao = new FichaInscricao();
 	}
@@ -78,10 +79,15 @@ public class CadastroFichaInscricaoBean implements Serializable {
 
 	}
 
-	public void carregarEtapas(){
+	public void carregarEtapas() {
 		etapasCampeonatos = etapas.etapasDoCampeonato(fichaInscricao.getCampeonato());
 	}
-	
+
+	// retornar a forma de pagamento em um array
+	public FormaPagamento[] getFormasPagamento() {
+		return FormaPagamento.values();
+	}
+
 	public FichaInscricao getFichaInscricao() {
 		return fichaInscricao;
 	}

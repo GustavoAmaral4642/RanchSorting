@@ -36,14 +36,15 @@ public class Competidor implements Serializable {
 	private Long idade; // OK
 	private String responsavel; // OK
 	private String docResponsavel;// OK
-	private List<Animal> animais = new ArrayList<>(); //OK
-	private String contato;//OK
-	private Etnia etnia;//OK
-	private BigDecimal valorPagoAnuidade;//OK
-	private Date dataPagamentoAnuidade;//OK
-	private TipoAnuidade tipoAnuidade;//OK
-	private Usuario usuarioAlteracao;//OK
-	private Date dataAlteracao;//OK
+	private List<Animal> animais = new ArrayList<>(); // OK
+	private String contato;// OK
+	private Etnia etnia;// OK
+	private BigDecimal valorPagoAnuidade;// OK
+	private Date dataPagamentoAnuidade;// OK
+	private TipoAnuidade tipoAnuidade;// OK
+	private List<Anuidade> anuidades = new ArrayList<>(); // OK
+	private Usuario usuarioAlteracao;// OK
+	private Date dataAlteracao;// OK
 	private Ocorrencia ocorrencia;// Falta implementar
 
 	@Id
@@ -58,7 +59,7 @@ public class Competidor implements Serializable {
 	}
 
 	@NotBlank
-	@Size(max=160)
+	@Size(max = 160)
 	@Column(name = "cp_nome", nullable = false, length = 160)
 	public final String getNome() {
 		return nome;
@@ -88,7 +89,7 @@ public class Competidor implements Serializable {
 		this.idade = idade;
 	}
 
-	@Size(max=160)
+	@Size(max = 160)
 	@Column(name = "cp_responsavel", length = 160)
 	public final String getResponsavel() {
 		return responsavel;
@@ -98,7 +99,7 @@ public class Competidor implements Serializable {
 		this.responsavel = responsavel;
 	}
 
-	@Size(max=50)
+	@Size(max = 50)
 	@Column(name = "cp_doc_responsavel", length = 50)
 	public final String getDocResponsavel() {
 		return docResponsavel;
@@ -108,7 +109,7 @@ public class Competidor implements Serializable {
 		this.docResponsavel = docResponsavel;
 	}
 
-	@OneToMany(mappedBy="competidor", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "competidor", cascade = CascadeType.ALL)
 	public List<Animal> getAnimais() {
 		return animais;
 	}
@@ -117,7 +118,7 @@ public class Competidor implements Serializable {
 		this.animais = animais;
 	}
 
-	@Size(max=160)
+	@Size(max = 160)
 	@Column(name = "cp_contato", length = 160)
 	public final String getContato() {
 		return contato;
@@ -165,6 +166,15 @@ public class Competidor implements Serializable {
 
 	public void setTipoAnuidade(TipoAnuidade tipoAnuidade) {
 		this.tipoAnuidade = tipoAnuidade;
+	}
+
+	@OneToMany(mappedBy = "competidor", cascade = CascadeType.ALL)
+	public List<Anuidade> getAnuidades() {
+		return anuidades;
+	}
+
+	public void setAnuidades(List<Anuidade> anuidades) {
+		this.anuidades = anuidades;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)

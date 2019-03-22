@@ -1,6 +1,6 @@
 package com.ranchsorting.model;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -54,6 +55,7 @@ public class FichaInscricao implements Serializable {
 		this.id = id;
 	}
 
+	@NotNull
 	@Column(name = "fi_qnt_inscricoes")
 	public Long getQntInscricoes() {
 		return qntInscricoes;
@@ -63,6 +65,7 @@ public class FichaInscricao implements Serializable {
 		this.qntInscricoes = qntInscricoes;
 	}
 
+	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fi_data_inscricao")
 	public Date getDataInscricao() {
@@ -73,6 +76,7 @@ public class FichaInscricao implements Serializable {
 		this.dataInscricao = dataInscricao;
 	}
 
+	@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "fi_competidor")
 	public Competidor getCompetidor() {
@@ -93,6 +97,7 @@ public class FichaInscricao implements Serializable {
 		this.animal = animal;
 	}
 
+	@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "fi_campeonato")
 	public Campeonato getCampeonato() {
@@ -103,6 +108,7 @@ public class FichaInscricao implements Serializable {
 		this.campeonato = campeonato;
 	}
 
+	@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "fi_etapa")
 	public Etapa getEtapa() {
@@ -113,6 +119,7 @@ public class FichaInscricao implements Serializable {
 		this.etapa = etapa;
 	}
 
+	@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "fi_divisao")
 	public Divisao getDivisao() {
@@ -123,6 +130,7 @@ public class FichaInscricao implements Serializable {
 		this.divisao = divisao;
 	}
 	
+	@NotNull
 	@Column(name = "fi_valor_comprado", precision = 10, scale = 2)
 	public BigDecimal getValorComprado() {
 		return valorComprado;

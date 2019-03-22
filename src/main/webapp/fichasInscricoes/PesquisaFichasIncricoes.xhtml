@@ -29,40 +29,35 @@
 									style="border:0px none; background-color:transparent;">
 
 									<p:outputLabel for="codigoFicha" value="Código da Ficha:" />
-									<p:inputText id="codigoFicha" />
+									<p:inputText id="codigoFicha"
+										value="#{pesquisaFichasInscricoesBean.filtro.id}" />
 
 									<p:outputLabel for="nomeCompetidor" value="Nome do Competidor:" />
-									<p:inputText id="nomeCompetidor" />
+									<p:inputText id="nomeCompetidor"
+										value="#{pesquisaFichasInscricoesBean.filtro.competidor}" />
 
 									<p:outputLabel value="Data da Inscrição:" />
 									<h:panelGroup>
 										<p:panelGrid columns="2" layout="grid">
-											<p:inputText id="idadeInscricaoInicial"
-												placeholder="Idade Inicial" />
-											<p:inputText id="idadeInscricaoFinal"
-												placeholder="Idade Final" />
-										</p:panelGrid>
-									</h:panelGroup>
-
-									<p:outputLabel value="Data de Pagamento:" />
-									<h:panelGroup>
-										<p:panelGrid columns="2" layout="grid">
-											<p:inputText id="idadePagamentoInicial"
-												placeholder="Idade Inicial" />
-											<p:inputText id="idadePagamentoFinal"
-												placeholder="Idade Final" />
+											<p:inputText id="dataInscricaoInicial"
+												placeholder="Data Inicial"
+												value="#{pesquisaFichasInscricoesBean.filtro.dataInscricaoInicial}" />
+											<p:inputText id="dataInscricaoFinal" placeholder="Data Final"
+												value="#{pesquisaFichasInscricoesBean.filtro.dataInscricaoFinal}" />
 										</p:panelGrid>
 									</h:panelGroup>
 
 									<p:outputLabel for="campeonato" value="Campeonato:" />
-									<p:inputText id="campeonato" />
+									<p:inputText id="campeonato"
+										value="#{pesquisaFichasInscricoesBean.filtro.campeonato}" />
 
-									<p:outputLabel for="divisao" value="Divisão:" />
-									<p:inputText id="divisao" />
+									<p:outputLabel for="etapa" value="Etapa:" />
+									<p:inputText id="etapa"
+										value="#{pesquisaFichasInscricoesBean.filtro.etapa}" />
 
-									<p:outputLabel for="nomeResponsavel"
-										value="Nome do Responsável:" />
-									<p:inputText id="nomeResponsavel" />
+									<p:outputLabel for="animal" value="Animal:" />
+									<p:inputText id="animal"
+										value="#{pesquisaFichasInscricoesBean.filtro.animal}" />
 
 									<p:spacer />
 
@@ -70,7 +65,16 @@
 										<p:button value="Incluir Novo" icon="fa fa-plus"
 											outcome="/fichasInscricoes/CadastroFichaInscricao" />
 										<p:commandButton value="Limpar" icon="fa fa-refresh" />
-										<p:commandButton value="Pesquisar" icon="fa fa-search" />
+										<p:commandButton value="Pesquisar" icon="fa fa-search"
+											action="#{pesquisaFichasInscricoesBean.pesquisar}"
+											update="fichasTable"
+											process="@this
+												codigoFicha
+												nomeCompetidor
+												dataInscricaoInicial dataInscricaoFinal
+												campeonato
+												etapa
+												animal" />
 									</p:panelGrid>
 
 								</p:panelGrid>
@@ -78,50 +82,51 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:dataTable var="car" value="#{dtSelectionView.cars7}"
-									selectionMode="single" reflow="true"
-									emptyMessage="Nenhum Competidor Cadastrados"
-									selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}"
-									paginator="true" rows="10">
+								<p:dataTable var="ficha"
+									value="#{pesquisaFichasInscricoesBean.fichasFiltradas}"
+									reflow="true" emptyMessage="Nenhuma Ficha Encontrada"
+									paginator="true" rows="50" id="fichasTable">
 									<f:facet name="header">
-                                		Competidores Cadastrados
+                                		Fichas de Inscrições Cadastradas
                             		</f:facet>
 									<p:column headerText="Código"
 										style="width: 100px; text-align: center">
-										<h:outputText value="1" />
+										<h:outputText value="#{ficha.id}" />
+									</p:column>
+
+									<p:column headerText="Campeonato" style="text-align: center">
+										<h:outputText value="#{ficha.campeonato.nome}" />
+									</p:column>
+
+									<p:column headerText="Etapa" style="text-align: center">
+										<h:outputText value="#{ficha.etapa.nome}" />
 									</p:column>
 
 									<p:column headerText="Nome do Competidor"
 										style="text-align: center">
-										<h:outputText value="Paulo Roberto Arrais Serodio" />
+										<h:outputText value="#{ficha.competidor.nome}" />
 									</p:column>
 
 									<p:column headerText="Animal" style="text-align: center">
-										<h:outputText value="Peal" />
-									</p:column>
-
-									<p:column headerText="Data de Nascimento"
-										style="width: 150px; text-align: center">
-										<h:outputText value="01/01/1970" />
-									</p:column>
-
-									<p:column headerText="Nome do Responsável"
-										style="text-align: center">
-										<h:outputText value="" />
+										<h:outputText value="#{ficha.animal.nome}" />
 									</p:column>
 
 									<p:column headerText="Contato" style="text-align: center">
-										<h:outputText value="(19) 99100 - 7991" />
+										<h:outputText value="#{ficha.competidor.contato}" />
 									</p:column>
 
 									<p:column headerText="Pagamento"
 										style="width: 150px; text-align: center">
-										<h:outputText value="24/01/2019" />
+										<h:outputText value="#{ficha.dataPagamento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
 									</p:column>
 
 									<p:column style="text-align: center; width: 80px">
 										<p:button icon="fa fa-pencil" title="Editar"
-											style="width: 30px">
+											style="width: 30px"
+											outcome="/fichasInscricoes/CadastroFichaInscricao">
+											<f:param name="ficha" value="#{ficha.id}" />
 										</p:button>
 										<p:spacer />
 										<p:commandButton icon="fa fa-trash" title="Excluir"

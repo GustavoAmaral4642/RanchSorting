@@ -1,0 +1,147 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="title">Contas a Receber</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Financeiro</li>
+		<li>/</li>
+		<li><p:link outcome="/recebimentos/CadastroTitulo">Contas a Receber</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="titulo" value="#{cadastroTituloBean.titulo}" />
+			<f:event listener="#{cadastroTituloBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form>
+			<div class="ui-fluid">
+				<div class="ui-g">
+					<div class="ui-g-12">
+						<div class="card no-margin">
+							<h1>Contas a Receber</h1>
+
+							<p:growl id="growl" autoUpdate="true" />
+
+							<p:panelGrid columns="4"
+								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+								layout="grid" styleClass="ui-panelgrid-blank"
+								style="border:0px none; background-color:transparent;">
+
+								<p:outputLabel value="N.Título/Parcela:" />
+								<h:panelGroup>
+									<p:panelGrid columns="2" layout="grid">
+										<p:inputText value="#{cadastroTituloBean.titulo.id}" />
+										<p:inputText
+											value="#{cadastroTituloBean.titulo.numeroParcela}" />
+									</p:panelGrid>
+								</h:panelGroup>
+
+								<p:outputLabel value="Data do Título" />
+								<p:calendar id="dataTitulo" label="Data do Titulo"
+									placeholder="__/__/____" pattern="dd/MM/yyyy" title="Data"
+									size="10" value="#{cadastroTituloBean.titulo.dataTitulo}"
+									mask="99/99/9999" />
+
+								<p:outputLabel for="campeonato" value="Selecione o Campeonato:" />
+								<p:selectOneMenu id="campeonato" filter="true"
+									label="Campeonato" filterMatchMode="contains"
+									style="margin-bottom:10px;"
+									value="#{cadastroTituloBean.titulo.campeonato}">
+									<f:selectItem itemLabel="Selecione um Campeonato" />
+									<f:selectItems value="#{cadastroTituloBean.todosCampeonatos}"
+										var="todosCampeonatos" itemValue="#{todosCampeonatos}"
+										itemLabel="#{todosCampeonatos.nome}" />
+									<p:ajax listener="#{cadastroTituloBean.carregarEtapas}"
+										update="etapa" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="etapa" value="Selecione a Etapa:" />
+								<p:selectOneMenu id="etapa" filter="true" label="Etapa"
+									filterMatchMode="contains" style="margin-bottom:10px;"
+									value="#{cadastroTituloBean.titulo.etapa}">>
+									<f:selectItem itemLabel="Selecione uma Etapa" />
+									<f:selectItems value="#{cadastroTituloBean.etapasCampeonatos}"
+										var="etapasCampeonatos" itemValue="#{etapasCampeonatos}"
+										itemLabel="#{etapasCampeonatos.nome}" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="divisao" value="Selecione a divisão:" />
+								<p:selectOneMenu id="divisao" filter="true" label="Divisão"
+									filterMatchMode="contains" style="margin-bottom:10px;"
+									value="#{cadastroTituloBean.titulo.divisao}">
+									<f:selectItem itemLabel="Selecione a Divisão" />
+									<f:selectItems
+										value="#{cadastroTituloBean.todasDivisoes}"
+										var="todasDivisoes" itemValue="#{todasDivisoes}"
+										itemLabel="#{todasDivisoes.nome}" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="nomeCompetidor" value="Nome do Competidor:" />
+								<p:selectOneMenu id="nomeCompetidor" filter="true"
+									label="Competidor" filterMatchMode="contains"
+									style="margin-bottom:10px;"
+									value="#{cadastroTituloBean.titulo.competidor}">
+									<f:selectItem itemLabel="Selecione um Competidor" />
+									<f:selectItems
+										value="#{cadastroTituloBean.todosCompetidores}"
+										var="todosCompetidores" itemValue="#{todosCompetidores}"
+										itemLabel="#{todosCompetidores.nome}" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="dataEvento" value="Data do Evento" />
+								<p:calendar id="dataEvento" label="Data do Evento"
+									placeholder="__/__/____" pattern="dd/MM/yyyy" title="Data"
+									size="10" value="#{cadastroTituloBean.titulo.dataEvento}"
+									mask="99/99/9999" />
+
+								<p:outputLabel value="Valor do Titulo" />
+								<p:inputText value="#{cadastroTituloBean.titulo.valorTitulo}" />
+
+								<p:outputLabel value="Observações" />
+								<p:inputTextarea rows="3" placeholder="Sua mensagem"
+									autoResize="false"
+									value="#{cadastroTituloBean.titulo.observacao}" />
+
+								<p:outputLabel value="Saldo devedor" />
+								<p:inputText value="R$ 1000" />
+
+								<p:outputLabel for="dataRecebimento" value="Data de Recebimento" />
+								<p:calendar id="dataRecebimento" label="Data do Recebimento"
+									placeholder="__/__/____" pattern="dd/MM/yyyy" title="Data"
+									size="10" mask="99/99/9999" />
+
+								<p:outputLabel for="valorRecebimento"
+									value="Valor do Recebimento" />
+								<p:inputText id="valorRecebimento" value="R$ 1000" />
+
+								<p:spacer />
+								<p:spacer />
+								<p:spacer />
+
+								<h:panelGroup>
+									<p:panelGrid columns="3" layout="grid">
+										<p:commandButton value="Salvar" icon="fa fa-save"
+											action="#{cadastroTituloBean.salvar}" />
+										<p:commandButton value="Limpar" icon="fa fa-refresh" />
+										<p:button value="Pesquisa" icon="fa fa-search"
+											outcome="/recebimentos/PesquisaTitulos" />
+									</p:panelGrid>
+								</h:panelGroup>
+							</p:panelGrid>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

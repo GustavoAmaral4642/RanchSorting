@@ -22,7 +22,7 @@ public class CadastroDivisaoBean implements Serializable {
 	private Divisao divisao;
 
 	public CadastroDivisaoBean() {
-		divisao = new Divisao();
+		limpar();
 	}
 
 	public void inicializar() {

@@ -1,13 +1,12 @@
 package com.ranchsorting.model;
 
-import java.io.Serializable; 
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -16,30 +15,25 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-@Table(name = "tb_animal")
+@Table(name = "tb_anuidade")
 public class Anuidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private String nome; // OK
-	private Long idade; // OK
-	private String cor; // OK
-	private Etnia etnia; // OK
-	private String raca; // OK
-	private Competidor competidor; // OK
+	private Competidor competidor;
+	private Campeonato campeonato;
+	private BigDecimal valorPago;
+	private Date dataPagamento;
 	private Usuario usuarioAlteracao; // OK
 	private Date dataAlteracao; // OK
 	private Ocorrencia ocorrencia; // Falta implementar
 
 	@Id
 	@GeneratedValue
-	@Column(name = "an_id")
+	@Column(name = "anu_id")
 	public final Long getId() {
 		return id;
 	}
@@ -48,93 +42,72 @@ public class Anuidade implements Serializable {
 		this.id = id;
 	}
 
-	@NotBlank
-	@Size(max=120)
-	@Column(name = "an_nome", nullable = false, length = 120)
-	public final String getNome() {
-		return nome;
-	}
-
-	public final void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	@Column(name = "an_idade")
-	public final Long getIdade() {
-		return idade;
-	}
-
-	public final void setIdade(Long idade) {
-		this.idade = idade;
-	}
-
-	@Size(max=50)
-	@Column(name = "an_cor", length = 50)
-	public final String getCor() {
-		return cor;
-	}
-
-	public final void setCor(String cor) {
-		this.cor = cor;
-	}
-
-	@Enumerated(EnumType.STRING)
-	@Column(name = "an_etnia", length = 15)
-	public final Etnia getEtnia() {
-		return etnia;
-	}
-
-	public final void setEtnia(Etnia etnia) {
-		this.etnia = etnia;
-	}
-
-	@Size(max=80)
-	@Column(name = "an_raca", length = 80)
-	public final String getRaca() {
-		return raca;
-	}
-
-	public final void setRaca(String raca) {
-		this.raca = raca;
-	}
-
 	@ManyToOne
-	@JoinColumn(name = "an_competidor_id")
-	public final Competidor getCompetidor() {
+	@JoinColumn(name = "anu_competidor_id")
+	public Competidor getCompetidor() {
 		return competidor;
 	}
 
-	public final void setCompetidor(Competidor competidor) {
+	public void setCompetidor(Competidor competidor) {
 		this.competidor = competidor;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "an_us_alteracao")
-	public final Usuario getUsuarioAlteracao() {
+	@JoinColumn(name = "anu_campeonato")
+	public Campeonato getCampeonato() {
+		return campeonato;
+	}
+
+	public void setCampeonato(Campeonato campeonato) {
+		this.campeonato = campeonato;
+	}
+
+	@Column(name = "anu_valor_pago", precision = 10, scale = 2)
+	public BigDecimal getValorPago() {
+		return valorPago;
+	}
+
+	public void setValorPago(BigDecimal valorPago) {
+		this.valorPago = valorPago;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "anu_data_pagamento")
+	public Date getDataPagamento() {
+		return dataPagamento;
+	}
+
+	public void setDataPagamento(Date dataPagamento) {
+		this.dataPagamento = dataPagamento;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "anu_us_alteracao")
+	public Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
 	}
 
-	public final void setUsuarioAlteracao(Usuario usuarioAlteracao) {
+	public void setUsuarioAlteracao(Usuario usuarioAlteracao) {
 		this.usuarioAlteracao = usuarioAlteracao;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "an_data_alteracao")
-	public final Date getDataAlteracao() {
+	@Column(name = "anu_data_alteracao")
+	public Date getDataAlteracao() {
 		return dataAlteracao;
 	}
 
-	public final void setDataAlteracao(Date dataAlteracao) {
+	public void setDataAlteracao(Date dataAlteracao) {
 		this.dataAlteracao = dataAlteracao;
 	}
 
-  	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "an_ocorrencia")
-	public final Ocorrencia getOcorrencia() {
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "anu_ocorrencia")
+	public Ocorrencia getOcorrencia() {
 		return ocorrencia;
 	}
 
-	public final void setOcorrencia(Ocorrencia ocorrencia) {
+	public void setOcorrencia(Ocorrencia ocorrencia) {
 		this.ocorrencia = ocorrencia;
 	}
 

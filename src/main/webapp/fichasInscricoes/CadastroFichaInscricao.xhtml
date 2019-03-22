@@ -16,7 +16,7 @@
 	<ui:define name="content">
 
 		<f:metadata>
-			<o:viewParam name="fichaInscricao"
+			<o:viewParam name="ficha"
 				value="#{cadastroFichaInscricaoBean.fichaInscricao}" />
 			<f:event listener="#{cadastroFichaInscricaoBean.inicializar}"
 				type="preRenderView" />
@@ -103,6 +103,13 @@
 									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 								</p:inputText>
 
+								<p:outputLabel for="qntFichas"
+									value="Quantidade de Fichas Compradas:" />
+								<p:inputMask id="qntFichas" label="Quantidade" size="20"
+									maxlength="20" mask="9?999999999999999"
+									placeHolder="Quantidade" title="Quantidade"
+									value="#{cadastroFichaInscricaoBean.fichaInscricao.qntInscricoes}" />
+
 								<p:outputLabel for="divisao" value="Selecione a divisão:" />
 								<p:selectOneMenu id="divisao" filter="true" label="Divisão"
 									filterMatchMode="contains" style="margin-bottom:10px;"
@@ -113,7 +120,10 @@
 										var="todasDivisoes" itemValue="#{todasDivisoes}"
 										itemLabel="#{todasDivisoes.nome}" />
 								</p:selectOneMenu>
-								
+
+								<p:spacer />
+								<p:spacer />
+
 								<p:outputLabel value="Anuidade Paga:" />
 								<h:panelGroup>
 									<p:panelGrid columns="2" layout="grid">
@@ -124,7 +134,7 @@
 								</h:panelGroup>
 								<p:outputLabel value="Tipo de Anuidade:" />
 								<p:outputLabel value="PARCIAL"
-									style="color: blue; font-weight:bold; font-size:large" />
+									style="color: green; font-weight:bold; font-size:large" />
 
 							</p:panelGrid>
 
@@ -158,17 +168,19 @@
 								<p:outputLabel for="formaPagamento" value="Forma de Pagamento:" />
 								<p:selectOneMenu id="formaPagamento" filter="true"
 									label="Forma de Pagamento" filterMatchMode="contains"
-									style="margin-bottom:10px;">
+									style="margin-bottom:10px;"
+									value="#{cadastroFichaInscricaoBean.fichaInscricao.formaPagamento}">
 									<f:selectItem itemLabel="Selecione uma Forma de Pagamento" />
-									<f:selectItem itemLabel="Forma de Pagamento 1"
-										itemValue="Forma de Pagamento 1" />
-									<f:selectItem itemLabel="Forma de Pagamento 2"
-										itemValue="Forma de Pagamento 2" />
-									<f:selectItem itemLabel="Forma de Pagamento 3"
-										itemValue="Forma de Pagamento 3" />
-									<f:selectItem itemLabel="Forma de Pagamento 4"
-										itemValue="Forma de Pagamento 4" />
+									<f:selectItems
+										value="#{cadastroFichaInscricaoBean.formasPagamento}"
+										var="formaPagamento" itemValue="#{formaPagamento}"
+										itemLabel="#{formaPagamento.descricao}" />
 								</p:selectOneMenu>
+
+								<p:outputLabel for="banco" value="Banco para pagamento:" />
+								<p:inputText id="banco" label="Banco:" placeholder="Banco"
+									size="50" maxlength="50"
+									value="#{cadastroFichaInscricaoBean.fichaInscricao.bancoPagamento}" />
 
 
 							</p:panelGrid>
@@ -190,7 +202,8 @@
 								<h:panelGroup>
 									<p:panelGrid columns="2" layout="grid">
 										<p:commandButton value="Salvar" icon="fa fa-save"
-											update="@form" action="#{cadastroFichaInscricaoBean.salvar}" />
+											onclick="/fichasIncricoes/CadastroFichaInscricao.xhtml"
+											action="#{cadastroFichaInscricaoBean.salvar}" />
 										<p:commandButton value="Imprimir Ficha" icon="fa fa-print" />
 									</p:panelGrid>
 								</h:panelGroup>

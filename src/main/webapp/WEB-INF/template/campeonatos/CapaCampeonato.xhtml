@@ -29,6 +29,14 @@
 			value="#{cadastroCampeonatoBean.campeonato.dataEvento}"
 			mask="99/99/9999" />
 
+		<p:outputLabel for="valorAnuidade" value="Valor Anuidade:" />
+		<p:inputText id="valorAnuidade" label="Valor Anuidade"
+			placeholder="Valor Anuidade" size="20" maxlength="20"
+			value="#{cadastroCampeonatoBean.campeonato.valorAnuidade}"
+			styleClass="moeda">
+			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+		</p:inputText>
+
 		<p:spacer />
 		<h:panelGroup>
 			<p:panelGrid columns="3" layout="grid">
