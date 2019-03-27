@@ -4,12 +4,12 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
-	<ui:define name="title">Pesquisa Contas a Receber</ui:define>
+	<ui:define name="title">Pesquisa de Títulos a Receber</ui:define>
 
 	<ui:define name="breadcrumb">
 		<li>Financeiro</li>
 		<li>/</li>
-		<li><p:link outcome="/recebimentos/PesquisaTitulos">Pesquisa Contas a Receber</p:link></li>
+		<li><p:link outcome="/recebimentos/PesquisaTitulos">Pesquisa de Títulos a Receber</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
@@ -18,7 +18,7 @@
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
-							<h1>Pesquisa Contas a Receber</h1>
+							<h1>Pesquisa de Títulos a Receber</h1>
 
 							<p:growl id="growl" autoUpdate="true" />
 
@@ -29,33 +29,46 @@
 									style="border:0px none; background-color:transparent;">
 
 									<p:outputLabel for="numeroTitulo" value="Nº Título:" />
-									<p:inputText id="numeroTitulo" />
+									<p:inputText id="numeroTitulo"
+										value="#{pesquisaTitulosBean.filtro.numeroTitulo}" />
 
 									<p:outputLabel for="nomeCompetidor" value="Competidor:" />
-									<p:inputText id="nomeCompetidor" />
+									<p:inputText id="nomeCompetidor"
+										value="#{pesquisaTitulosBean.filtro.competidor}" />
 
 									<p:outputLabel for="campeonato" value="Campeonato:" />
-									<p:inputText id="campeonato" />
+									<p:inputText id="campeonato"
+										value="#{pesquisaTitulosBean.filtro.campeonato}" />
 
 									<p:outputLabel for="etapa" value="Etapa:" />
-									<p:inputText id="etapa" />
+									<p:inputText id="etapa"
+										value="#{pesquisaTitulosBean.filtro.etapa}" />
 
-									<p:outputLabel value="Data da Competicao:" />
+									<p:outputLabel value="Data do Título:" />
 									<h:panelGroup>
 										<p:panelGrid columns="2" layout="grid">
-											<p:inputText id="dataCompeticaoInicial"
-												placeholder="Data Inicial" />
-											<p:inputText id="dataCompeticaoFinal"
-												placeholder="Data Final" />
+											<p:inputText id="dataTituloInicial"
+												placeholder="Data inicial"
+												value="#{pesquisaTitulosBean.filtro.dataTituloInicial}" />
+											<p:inputText id="dataTituloFinal" placeholder="Data Final"
+												value="#{pesquisaTitulosBean.filtro.dataTituloFinal}" />
 										</p:panelGrid>
 									</h:panelGroup>
 
 									<p:spacer />
-									<p:panelGrid columns="3" layout="grid">
+									<p:panelGrid columns="2" layout="grid">
 										<p:button value="Incluir Novo" icon="fa fa-plus"
 											outcome="/recebimentos/CadastroTitulo" />
-										<p:commandButton value="Limpar" icon="fa fa-refresh" />
-										<p:commandButton value="Pesquisar" icon="fa fa-search" />
+
+										<p:commandButton value="Pesquisar" icon="fa fa-search"
+											action="#{pesquisaTitulosBean.pesquisar}"
+											update="titulosTable"
+											process="@this
+												numeroTitulo
+												nomeCompetidor
+												dataTituloInicial dataTituloFinal
+												campeonato
+												etapa" />
 									</p:panelGrid>
 
 								</p:panelGrid>
@@ -63,47 +76,43 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:dataTable var="car" value="#{dtSelectionView.cars7}"
-									selectionMode="single" reflow="true"
-									emptyMessage="Nenhum Competidor Cadastrados"
-									selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}"
+								<p:dataTable var="titulo"
+									value="#{pesquisaTitulosBean.titulosFiltrados}" reflow="true"
+									id="titulosTable" emptyMessage="Nenhum Titulo Cadastrado"
 									paginator="true" rows="10">
 									<f:facet name="header">
-                                		Contas a Receber
+                                		Títulos a Receber
                             		</f:facet>
 
 									<p:column headerText="Titulo" style="text-align: center">
-										<h:outputText value="1" />
+										<h:outputText value="#{titulo.numeroTitulo}" />
 									</p:column>
 
 									<p:column headerText="Competidor" style="text-align: center">
-										<h:outputText value="GutiGuti" />
+										<h:outputText value="#{titulo.competidor.nome}" />
 									</p:column>
 
 									<p:column headerText="Campeonato" style="text-align: center">
-										<h:outputText value="RS Toca" />
+										<h:outputText value="#{titulo.campeonato.nome}" />
 									</p:column>
 
 									<p:column headerText="Etapa" style="text-align: center">
-										<h:outputText value="24" />
+										<h:outputText value="#{titulo.etapa.nome}" />
 									</p:column>
 
 									<p:column headerText="Data da Competição"
 										style="text-align: center">
-										<h:outputText value="28/01/2019" />
+										<h:outputText value="#{titulo.dataTitulo}" />
 									</p:column>
 
 									<p:column headerText="Valor Titulo" style="text-align: center">
-										<h:outputText value="R$ 350,00" />
-									</p:column>
-
-									<p:column headerText="Valor Pago" style="text-align: center">
-										<h:outputText value="R$ 350,00" />
+										<h:outputText value="#{titulo.valorTitulo}" />
 									</p:column>
 
 									<p:column style="text-align: center; width: 80px">
 										<p:button icon="fa fa-pencil" title="Editar"
-											style="width: 30px">
+											style="width: 30px" outcome="/recebimentos/CadastroTitulo" >
+											<f:param name="titulo" value="#{titulo.id}" />
 										</p:button>
 										<p:spacer />
 										<p:commandButton icon="fa fa-trash" title="Excluir"

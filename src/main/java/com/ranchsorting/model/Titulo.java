@@ -17,12 +17,13 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "tb_contas_receber")
+@Table(name = "tb_titulo")
 public class Titulo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	private Long numeroTitulo;
 	private Long numeroParcela;
 	private Competidor competidor;
 	private Campeonato campeonato;
@@ -38,7 +39,7 @@ public class Titulo implements Serializable {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "cr_id")
+	@Column(name = "tt_id")
 	public Long getId() {
 		return id;
 	}
@@ -47,7 +48,16 @@ public class Titulo implements Serializable {
 		this.id = id;
 	}
 	
-	@Column(name = "cr_parcela")
+	@Column(name="tt_titulo")
+	public Long getNumeroTitulo() {
+		return numeroTitulo;
+	}
+
+	public void setNumeroTitulo(Long numeroTitulo) {
+		this.numeroTitulo = numeroTitulo;
+	}
+
+	@Column(name = "tt_parcela")
 	public Long getNumeroParcela() {
 		return numeroParcela;
 	}
@@ -57,7 +67,7 @@ public class Titulo implements Serializable {
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "cr_competidor")
+	@JoinColumn(name = "tt_competidor")
 	public Competidor getCompetidor() {
 		return competidor;
 	}
@@ -67,7 +77,7 @@ public class Titulo implements Serializable {
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "cr_campeonato")
+	@JoinColumn(name = "tt_campeonato")
 	public Campeonato getCampeonato() {
 		return campeonato;
 	}
@@ -77,7 +87,7 @@ public class Titulo implements Serializable {
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "cr_etapa")
+	@JoinColumn(name = "tt_etapa")
 	public Etapa getEtapa() {
 		return etapa;
 	}
@@ -87,7 +97,7 @@ public class Titulo implements Serializable {
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "cr_divisao")
+	@JoinColumn(name = "tt_divisao")
 	public Divisao getDivisao() {
 		return divisao;
 	}
@@ -97,7 +107,7 @@ public class Titulo implements Serializable {
 	}
 
 	@NotNull
-	@Column(name = "cr_valor_titulo", nullable = false, precision = 10, scale = 2)
+	@Column(name = "tt_valor_titulo", nullable = false, precision = 10, scale = 2)
 	public BigDecimal getValorTitulo() {
 		return valorTitulo;
 	}
@@ -108,7 +118,7 @@ public class Titulo implements Serializable {
 
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "cr_data_titulo")
+	@Column(name = "tt_data_titulo")
 	public Date getDataTitulo() {
 		return dataTitulo;
 	}
@@ -118,7 +128,7 @@ public class Titulo implements Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "cr_data_evento")
+	@Column(name = "tt_data_evento")
 	public Date getDataEvento() {
 		return dataEvento;
 	}
@@ -127,7 +137,7 @@ public class Titulo implements Serializable {
 		this.dataEvento = dataEvento;
 	}
 
-	@Column(name = "cr_observacao", columnDefinition = "text")
+	@Column(name = "tt_observacao", columnDefinition = "text")
 	public String getObservacao() {
 		return observacao;
 	}
@@ -137,7 +147,7 @@ public class Titulo implements Serializable {
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "cr_us_alteracao")
+	@JoinColumn(name = "tt_us_alteracao")
 	public Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
 	}
@@ -147,7 +157,7 @@ public class Titulo implements Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "cr_data_alteracao")
+	@Column(name = "tt_data_alteracao")
 	public Date getDataAlteracao() {
 		return dataAlteracao;
 	}
@@ -157,7 +167,7 @@ public class Titulo implements Serializable {
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "cr_ocorrencia")
+	@JoinColumn(name = "tt_ocorrencia")
 	public Ocorrencia getOcorrencia() {
 		return ocorrencia;
 	}

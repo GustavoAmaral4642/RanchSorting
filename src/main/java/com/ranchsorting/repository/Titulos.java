@@ -1,6 +1,6 @@
 package com.ranchsorting.repository;
 
-import java.io.Serializable;     
+import java.io.Serializable;      
 import java.util.List;
 
 import javax.inject.Inject;
@@ -15,6 +15,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.ranchsorting.model.Titulo;
+import com.ranchsorting.repository.filter.TituloFilter;
 
 public class Titulos implements Serializable {
 
@@ -39,31 +40,42 @@ public class Titulos implements Serializable {
 		}
 	}
 	
-	/*
+	
 	@SuppressWarnings("unchecked")
-	public List<ContasReceber> filtradas(ContasReceberFilter filtro){
+	public List<Titulo> filtrados(TituloFilter filtro){
 		
 		Session session = manager.unwrap(Session.class);
-		Criteria criteria = session.createCriteria(ContasReceber.class)
-				.createAlias("campeonato", "c");
+		Criteria criteria = session.createCriteria(Titulo.class)
+				.createAlias("competidor", "co")
+				.createAlias("campeonato", "ca")
+				.createAlias("etapa", "e")
+				.createAlias("recebimento", "r");
 		
-		if(StringUtils.isNotBlank(filtro.getNome())){
-			criteria.add(Restrictions.ilike("nome", filtro.getNome(), MatchMode.ANYWHERE));
+		if(StringUtils.isNotBlank(filtro.getNumeroTitulo())){
+			criteria.add(Restrictions.ilike("numeroTitulo", filtro.getNumeroTitulo(), MatchMode.ANYWHERE));
+		}
+		
+		if(StringUtils.isNotBlank(filtro.getCompetidor())){
+			criteria.add(Restrictions.ilike("co.nome", filtro.getCompetidor(), MatchMode.ANYWHERE));
 		}
 		
 		if(StringUtils.isNotBlank(filtro.getCampeonato())){
-			criteria.add(Restrictions.ilike("c.nome", filtro.getCampeonato(), MatchMode.ANYWHERE));
+			criteria.add(Restrictions.ilike("ca.nome", filtro.getCampeonato(), MatchMode.ANYWHERE));
 		}
 		
-		if (filtro.getDataEventoInicial() != null) {
-			criteria.add(Restrictions.ge("dataEvento", filtro.getDataEventoInicial()));
+		if(StringUtils.isNotBlank(filtro.getEtapa())){
+			criteria.add(Restrictions.ilike("e.nome", filtro.getEtapa(), MatchMode.ANYWHERE));
+		}
+		
+		if (filtro.getDataTituloInicial() != null) {
+			criteria.add(Restrictions.ge("dataTitulo", filtro.getDataTituloInicial()));
 		}
 
-		if (filtro.getDataEventoFinal() != null) {
-			criteria.add(Restrictions.le("dataEvento", filtro.getDataEventoFinal()));
+		if (filtro.getDataTituloFinal() != null) {
+			criteria.add(Restrictions.le("dataTitulo", filtro.getDataTituloFinal()));
 		}
-				
-		return criteria.addOrder(Order.asc("nome")).list();
+		
+		return criteria.addOrder(Order.asc("numeroTitulo")).list();
 	}
-*/
+
 }

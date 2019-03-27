@@ -23,7 +23,7 @@ public class Recebimento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private Titulo contasReceber;
+	private Titulo titulo;
 	private BigDecimal valorRecebimento;
 	private Date dataRecebimento;
 	private Usuario usuarioAlteracao;
@@ -43,13 +43,13 @@ public class Recebimento implements Serializable {
 
 	@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "re_contas_receber")
-	public Titulo getContasReceber() {
-		return contasReceber;
+	@JoinColumn(name = "re_titulo")
+	public Titulo getTitulo() {
+		return titulo;
 	}
 
-	public void setContasReceber(Titulo contasReceber) {
-		this.contasReceber = contasReceber;
+	public void setTitulo(Titulo titulo) {
+		this.titulo = titulo;
 	}
 	
 	@Column(name = "cr_valor_recebimento", precision = 10, scale = 2)

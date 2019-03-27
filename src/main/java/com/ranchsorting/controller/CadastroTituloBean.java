@@ -13,6 +13,7 @@ import com.ranchsorting.repository.Competidores;
 import com.ranchsorting.repository.Divisoes;
 import com.ranchsorting.repository.Etapas;
 import com.ranchsorting.service.CadastroTituloService;
+import com.ranchsorting.service.NegocioException;
 import com.ranchsorting.util.jsf.FacesUtil;
 import com.ranchsorting.model.Campeonato;
 import com.ranchsorting.model.Competidor;
@@ -57,6 +58,10 @@ public class CadastroTituloBean implements Serializable {
 		todosCompetidores = competidores.todosCompetidores();
 		todosCampeonatos = campeonatos.todosCampeonatos();
 		todasDivisoes = divisoes.todasDivisoes();
+		
+		if(isEditando()){
+			
+		}
 	}
 
 	public void limpar() {
@@ -65,11 +70,33 @@ public class CadastroTituloBean implements Serializable {
 	}
 
 	public void salvar() {
-		this.titulo = cadastroTituloService.salvar(titulo);
+		
+		//este teste não foi feito no service pq lá ia ficar muito extenso
+		if(this.recebimento.getDataRecebimento() == null 
+				&& this.recebimento.getValorRecebimento() == null){
+			this.titulo = cadastroTituloService.salvar(titulo);
 
-		limpar();
+			limpar();
 
-		FacesUtil.addInfoMessage("Título salvo com sucesso!");
+			FacesUtil.addInfoMessage("Título registrado com sucesso!");
+
+		} else if (this.recebimento.getDataRecebimento() == null) {
+			throw new NegocioException("Informe data para recebimento");
+		
+		} else if (this.recebimento.getValorRecebimento() == null) {
+			throw new NegocioException("Informe valor para recebimento");
+
+		} else {
+			//fazer merge do recebimento
+			//mudar este teste para service
+			this.recebimento.setTitulo(this.titulo);
+			this.titulo = cadastroTituloService.salvarRecebimento(titulo,recebimento);
+
+			limpar();
+
+			FacesUtil.addInfoMessage("Título e Recebimento registrados com sucesso!");
+			
+		}
 
 	}
 
@@ -92,11 +119,11 @@ public class CadastroTituloBean implements Serializable {
 	public void setRecebimento(Recebimento recebimento) {
 		this.recebimento = recebimento;
 	}
-	
+
 	public List<Competidor> getTodosCompetidores() {
 		return todosCompetidores;
 	}
-	
+
 	public List<Campeonato> getTodosCampeonatos() {
 		return todosCampeonatos;
 	}

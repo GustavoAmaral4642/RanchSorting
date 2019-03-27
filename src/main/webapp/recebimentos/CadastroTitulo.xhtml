@@ -38,7 +38,8 @@
 								<p:outputLabel value="N.Título/Parcela:" />
 								<h:panelGroup>
 									<p:panelGrid columns="2" layout="grid">
-										<p:inputText value="#{cadastroTituloBean.titulo.id}" />
+										<p:inputText value="#{cadastroTituloBean.titulo.numeroTitulo}"
+											disabled="true" />
 										<p:inputText
 											value="#{cadastroTituloBean.titulo.numeroParcela}" />
 									</p:panelGrid>
@@ -78,8 +79,7 @@
 									filterMatchMode="contains" style="margin-bottom:10px;"
 									value="#{cadastroTituloBean.titulo.divisao}">
 									<f:selectItem itemLabel="Selecione a Divisão" />
-									<f:selectItems
-										value="#{cadastroTituloBean.todasDivisoes}"
+									<f:selectItems value="#{cadastroTituloBean.todasDivisoes}"
 										var="todasDivisoes" itemValue="#{todasDivisoes}"
 										itemLabel="#{todasDivisoes.nome}" />
 								</p:selectOneMenu>
@@ -90,8 +90,7 @@
 									style="margin-bottom:10px;"
 									value="#{cadastroTituloBean.titulo.competidor}">
 									<f:selectItem itemLabel="Selecione um Competidor" />
-									<f:selectItems
-										value="#{cadastroTituloBean.todosCompetidores}"
+									<f:selectItems value="#{cadastroTituloBean.todosCompetidores}"
 										var="todosCompetidores" itemValue="#{todosCompetidores}"
 										itemLabel="#{todosCompetidores.nome}" />
 								</p:selectOneMenu>
@@ -102,8 +101,13 @@
 									size="10" value="#{cadastroTituloBean.titulo.dataEvento}"
 									mask="99/99/9999" />
 
-								<p:outputLabel value="Valor do Titulo" />
-								<p:inputText value="#{cadastroTituloBean.titulo.valorTitulo}" />
+								<p:outputLabel for="valorTitulo" value="Valor do Titulo" />
+								<p:inputText id="valorTitulo" label="Valor do Título"
+									placeholder="Valor do Título" size="20" maxlength="20"
+									value="#{cadastroTituloBean.titulo.valorTitulo}"
+									styleClass="moeda">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
 
 								<p:outputLabel value="Observações" />
 								<p:inputTextarea rows="3" placeholder="Sua mensagem"
@@ -116,11 +120,17 @@
 								<p:outputLabel for="dataRecebimento" value="Data de Recebimento" />
 								<p:calendar id="dataRecebimento" label="Data do Recebimento"
 									placeholder="__/__/____" pattern="dd/MM/yyyy" title="Data"
-									size="10" mask="99/99/9999" />
+									size="10" mask="99/99/9999"
+									value="#{cadastroTituloBean.recebimento.dataRecebimento}" />
 
 								<p:outputLabel for="valorRecebimento"
 									value="Valor do Recebimento" />
-								<p:inputText id="valorRecebimento" value="R$ 1000" />
+								<p:inputText id="valorRecebimento" label="Valor Recebido"
+									placeholder="Valor Recebido" size="20" maxlength="20"
+									value="#{cadastroTituloBean.recebimento.valorRecebimento}"
+									styleClass="moeda">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
 
 								<p:spacer />
 								<p:spacer />
@@ -129,7 +139,8 @@
 								<h:panelGroup>
 									<p:panelGrid columns="3" layout="grid">
 										<p:commandButton value="Salvar" icon="fa fa-save"
-											action="#{cadastroTituloBean.salvar}" />
+											action="#{cadastroTituloBean.salvar}"
+											onclick="/recebimentos/CadastroTitulo.xhtml" />
 										<p:commandButton value="Limpar" icon="fa fa-refresh" />
 										<p:button value="Pesquisa" icon="fa fa-search"
 											outcome="/recebimentos/PesquisaTitulos" />
