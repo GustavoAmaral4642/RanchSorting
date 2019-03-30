@@ -48,11 +48,14 @@ public class Titulos implements Serializable {
 		Criteria criteria = session.createCriteria(Titulo.class)
 				.createAlias("competidor", "co")
 				.createAlias("campeonato", "ca")
-				.createAlias("etapa", "e")
-				.createAlias("recebimento", "r");
+				.createAlias("etapa", "e");
 		
-		if(StringUtils.isNotBlank(filtro.getNumeroTitulo())){
-			criteria.add(Restrictions.ilike("numeroTitulo", filtro.getNumeroTitulo(), MatchMode.ANYWHERE));
+		if(filtro.getNumeroTituloDe() != null){
+			criteria.add(Restrictions.ge("id", filtro.getNumeroTituloDe()));
+		}
+		
+		if(filtro.getNumeroTituloAte() != null){
+			criteria.add(Restrictions.le("id", filtro.getNumeroTituloAte()));
 		}
 		
 		if(StringUtils.isNotBlank(filtro.getCompetidor())){
@@ -74,8 +77,8 @@ public class Titulos implements Serializable {
 		if (filtro.getDataTituloFinal() != null) {
 			criteria.add(Restrictions.le("dataTitulo", filtro.getDataTituloFinal()));
 		}
-		
-		return criteria.addOrder(Order.asc("numeroTitulo")).list();
+
+		return criteria.addOrder(Order.asc("id")).list();
 	}
 
 }

@@ -35,16 +35,9 @@
 								layout="grid" styleClass="ui-panelgrid-blank"
 								style="border:0px none; background-color:transparent;">
 
-								<p:outputLabel value="N.Título/Parcela:" />
-								<h:panelGroup>
-									<p:panelGrid columns="2" layout="grid">
-										<p:inputText value="#{cadastroTituloBean.titulo.numeroTitulo}"
-											disabled="true" />
-										<p:inputText
-											value="#{cadastroTituloBean.titulo.numeroParcela}" />
-									</p:panelGrid>
-								</h:panelGroup>
-
+								<p:outputLabel value="N.Título" for="numeroTitulo"/>
+								<p:inputText id="numeroTitulo" value="#{cadastroTituloBean.titulo.id}" disabled="true"/>
+								
 								<p:outputLabel value="Data do Título" />
 								<p:calendar id="dataTitulo" label="Data do Titulo"
 									placeholder="__/__/____" pattern="dd/MM/yyyy" title="Data"

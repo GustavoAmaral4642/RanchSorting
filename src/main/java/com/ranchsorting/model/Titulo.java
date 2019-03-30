@@ -23,8 +23,8 @@ public class Titulo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private Long numeroTitulo;
 	private Long numeroParcela;
+	private Recebimento recebimento;
 	private Competidor competidor;
 	private Campeonato campeonato;
 	private Etapa etapa;
@@ -48,15 +48,6 @@ public class Titulo implements Serializable {
 		this.id = id;
 	}
 	
-	@Column(name="tt_titulo")
-	public Long getNumeroTitulo() {
-		return numeroTitulo;
-	}
-
-	public void setNumeroTitulo(Long numeroTitulo) {
-		this.numeroTitulo = numeroTitulo;
-	}
-
 	@Column(name = "tt_parcela")
 	public Long getNumeroParcela() {
 		return numeroParcela;
@@ -67,6 +58,17 @@ public class Titulo implements Serializable {
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "tt_recebimento")
+	public Recebimento getRecebimento() {
+		return recebimento;
+	}
+
+	public void setRecebimento(Recebimento recebimento) {
+		this.recebimento = recebimento;
+	}
+
+	@NotNull
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "tt_competidor")
 	public Competidor getCompetidor() {
 		return competidor;
@@ -76,6 +78,7 @@ public class Titulo implements Serializable {
 		this.competidor = competidor;
 	}
 
+	@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "tt_campeonato")
 	public Campeonato getCampeonato() {
@@ -86,6 +89,7 @@ public class Titulo implements Serializable {
 		this.campeonato = campeonato;
 	}
 
+	@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "tt_etapa")
 	public Etapa getEtapa() {
@@ -96,6 +100,7 @@ public class Titulo implements Serializable {
 		this.etapa = etapa;
 	}
 
+	@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "tt_divisao")
 	public Divisao getDivisao() {

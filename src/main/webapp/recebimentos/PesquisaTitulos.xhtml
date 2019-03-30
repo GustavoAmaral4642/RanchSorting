@@ -28,10 +28,15 @@
 									layout="grid" styleClass="ui-panelgrid-blank"
 									style="border:0px none; background-color:transparent;">
 
-									<p:outputLabel for="numeroTitulo" value="Nº Título:" />
-									<p:inputText id="numeroTitulo"
-										value="#{pesquisaTitulosBean.filtro.numeroTitulo}" />
-
+									<p:outputLabel value="Nº Título:" />
+									<h:panelGroup>
+										<p:panelGrid columns="2" layout="grid">
+											<p:inputText id="numeroTituloDe" placeholder="De"
+												value="#{pesquisaTitulosBean.filtro.numeroTituloDe}" />
+											<p:inputText id="numeroTituloAte" placeholder="Até"
+												value="#{pesquisaTitulosBean.filtro.numeroTituloAte}" />
+										</p:panelGrid>
+									</h:panelGroup>
 									<p:outputLabel for="nomeCompetidor" value="Competidor:" />
 									<p:inputText id="nomeCompetidor"
 										value="#{pesquisaTitulosBean.filtro.competidor}" />
@@ -64,7 +69,8 @@
 											action="#{pesquisaTitulosBean.pesquisar}"
 											update="titulosTable"
 											process="@this
-												numeroTitulo
+												numeroTituloDe
+												numeroTituloAte
 												nomeCompetidor
 												dataTituloInicial dataTituloFinal
 												campeonato
@@ -79,13 +85,13 @@
 								<p:dataTable var="titulo"
 									value="#{pesquisaTitulosBean.titulosFiltrados}" reflow="true"
 									id="titulosTable" emptyMessage="Nenhum Titulo Cadastrado"
-									paginator="true" rows="10">
+									paginator="true" rows="30">
 									<f:facet name="header">
                                 		Títulos a Receber
                             		</f:facet>
 
 									<p:column headerText="Titulo" style="text-align: center">
-										<h:outputText value="#{titulo.numeroTitulo}" />
+										<h:outputText value="#{titulo.id}" />
 									</p:column>
 
 									<p:column headerText="Competidor" style="text-align: center">
@@ -100,18 +106,35 @@
 										<h:outputText value="#{titulo.etapa.nome}" />
 									</p:column>
 
-									<p:column headerText="Data da Competição"
+									<p:column headerText="Data do Título"
 										style="text-align: center">
-										<h:outputText value="#{titulo.dataTitulo}" />
+										<h:outputText value="#{titulo.dataTitulo}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
 									</p:column>
 
 									<p:column headerText="Valor Titulo" style="text-align: center">
-										<h:outputText value="#{titulo.valorTitulo}" />
+										<h:outputText value="#{titulo.valorTitulo}">
+											<f:convertNumber type="currency" />
+										</h:outputText>
+									</p:column>
+
+									<p:column headerText="Data do Recebimento"
+										style="text-align: center">
+										<h:outputText value="#{titulo.recebimento.dataRecebimento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
+									</p:column>
+
+									<p:column headerText="Valor Recebido" style="text-align: center">
+										<h:outputText value="#{titulo.recebimento.valorRecebimento}">
+											<f:convertNumber type="currency" />
+										</h:outputText>
 									</p:column>
 
 									<p:column style="text-align: center; width: 80px">
 										<p:button icon="fa fa-pencil" title="Editar"
-											style="width: 30px" outcome="/recebimentos/CadastroTitulo" >
+											style="width: 30px" outcome="/recebimentos/CadastroTitulo">
 											<f:param name="titulo" value="#{titulo.id}" />
 										</p:button>
 										<p:spacer />

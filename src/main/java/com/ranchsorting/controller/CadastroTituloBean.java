@@ -1,6 +1,6 @@
 package com.ranchsorting.controller;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
@@ -55,12 +55,15 @@ public class CadastroTituloBean implements Serializable {
 	}
 
 	public void inicializar() {
+		System.out.println("Entrou");
+		carregarEtapas();
 		todosCompetidores = competidores.todosCompetidores();
 		todosCampeonatos = campeonatos.todosCampeonatos();
 		todasDivisoes = divisoes.todasDivisoes();
-		
+
 		if(isEditando()){
-			
+			recebimento = new Recebimento();
+			recebimento = this.titulo.getRecebimento();
 		}
 	}
 
@@ -70,10 +73,9 @@ public class CadastroTituloBean implements Serializable {
 	}
 
 	public void salvar() {
-		
-		//este teste não foi feito no service pq lá ia ficar muito extenso
-		if(this.recebimento.getDataRecebimento() == null 
-				&& this.recebimento.getValorRecebimento() == null){
+
+		// este teste não foi feito no service pq lá ia ficar muito extenso
+		if (this.recebimento.getDataRecebimento() == null && this.recebimento.getValorRecebimento() == null) {
 			this.titulo = cadastroTituloService.salvar(titulo);
 
 			limpar();
@@ -82,20 +84,20 @@ public class CadastroTituloBean implements Serializable {
 
 		} else if (this.recebimento.getDataRecebimento() == null) {
 			throw new NegocioException("Informe data para recebimento");
-		
+
 		} else if (this.recebimento.getValorRecebimento() == null) {
 			throw new NegocioException("Informe valor para recebimento");
 
 		} else {
-			//fazer merge do recebimento
-			//mudar este teste para service
-			this.recebimento.setTitulo(this.titulo);
-			this.titulo = cadastroTituloService.salvarRecebimento(titulo,recebimento);
+			// fazer merge do recebimento
+			// mudar este teste para service
+			this.titulo.setRecebimento(recebimento);
+			this.titulo = cadastroTituloService.salvarRecebimento(titulo, recebimento);
 
 			limpar();
 
 			FacesUtil.addInfoMessage("Título e Recebimento registrados com sucesso!");
-			
+
 		}
 
 	}

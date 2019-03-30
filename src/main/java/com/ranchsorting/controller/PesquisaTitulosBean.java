@@ -30,7 +30,7 @@ public class PesquisaTitulosBean implements Serializable {
 	}
 	
 	public void pesquisar(){
-		titulosFiltrados = titulos.filtrados(filtro);		
+		titulosFiltrados = titulos.filtrados(filtro);
 	}
 
 	public TituloFilter getFiltro() {

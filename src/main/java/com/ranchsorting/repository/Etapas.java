@@ -1,6 +1,6 @@
 package com.ranchsorting.repository;
 
-import java.io.Serializable;   
+import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -25,37 +25,36 @@ public class Etapas implements Serializable {
 	@Inject
 	private EntityManager manager;
 
-	public Etapa  guardar(Etapa etapa){
+	public Etapa guardar(Etapa etapa) {
 		return manager.merge(etapa);
 	}
-	
+
 	public Etapa porId(Long id) {
 		return manager.find(Etapa.class, id);
 	}
-	
+
 	public List<Etapa> todasEtapas() {
-		try{
-			return manager.createQuery("from Etapa", Etapa.class).getResultList();	
-		}  catch (NoResultException e) {
+		try {
+			return manager.createQuery("from Etapa", Etapa.class).getResultList();
+		} catch (NoResultException e) {
 			return null;
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public List<Etapa> filtradas(EtapaFilter filtro){
-		
+	public List<Etapa> filtradas(EtapaFilter filtro) {
+
 		Session session = manager.unwrap(Session.class);
-		Criteria criteria = session.createCriteria(Etapa.class)
-				.createAlias("campeonato", "c");
-		
-		if(StringUtils.isNotBlank(filtro.getNome())){
+		Criteria criteria = session.createCriteria(Etapa.class).createAlias("campeonato", "c");
+
+		if (StringUtils.isNotBlank(filtro.getNome())) {
 			criteria.add(Restrictions.ilike("nome", filtro.getNome(), MatchMode.ANYWHERE));
 		}
-		
-		if(StringUtils.isNotBlank(filtro.getCampeonato())){
+
+		if (StringUtils.isNotBlank(filtro.getCampeonato())) {
 			criteria.add(Restrictions.ilike("c.nome", filtro.getCampeonato(), MatchMode.ANYWHERE));
 		}
-		
+
 		if (filtro.getDataEventoInicial() != null) {
 			criteria.add(Restrictions.ge("dataEvento", filtro.getDataEventoInicial()));
 		}
@@ -63,14 +62,14 @@ public class Etapas implements Serializable {
 		if (filtro.getDataEventoFinal() != null) {
 			criteria.add(Restrictions.le("dataEvento", filtro.getDataEventoFinal()));
 		}
-				
+
 		return criteria.addOrder(Order.asc("nome")).list();
 	}
 
-	//busca etapas do campeonato
+	// busca etapas do campeonato
 	public List<Etapa> etapasDoCampeonato(Campeonato campeonato) {
 		return manager.createQuery("from Etapa where campeonato = :campeonato", Etapa.class)
 				.setParameter("campeonato", campeonato).getResultList();
 	}
-
+	
 }

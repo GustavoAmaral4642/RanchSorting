@@ -1,3 +1,4 @@
+
 package com.ranchsorting.repository.filter;
 
 import java.io.Serializable;
@@ -7,19 +8,28 @@ public class TituloFilter implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String numeroTitulo;
+	private Long numeroTituloDe;
+	private Long numeroTituloAte;
 	private String campeonato;
 	private String etapa;
 	private String competidor;
 	private Date dataTituloInicial;
 	private Date dataTituloFinal;
 
-	public String getNumeroTitulo() {
-		return numeroTitulo;
+	public Long getNumeroTituloDe() {
+		return numeroTituloDe;
 	}
 
-	public void setNumeroTitulo(String numeroTitulo) {
-		this.numeroTitulo = numeroTitulo;
+	public void setNumeroTituloDe(Long numeroTituloDe) {
+		this.numeroTituloDe = numeroTituloDe;
+	}
+
+	public Long getNumeroTituloAte() {
+		return numeroTituloAte;
+	}
+
+	public void setNumeroTituloAte(Long numeroTituloAte) {
+		this.numeroTituloAte = numeroTituloAte;
 	}
 
 	public String getCampeonato() {
