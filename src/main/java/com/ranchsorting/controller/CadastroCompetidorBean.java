@@ -47,8 +47,7 @@ public class CadastroCompetidorBean implements Serializable {
 	public void limpar() {
 		competidor = new Competidor();
 		competidor.setEtnia(Etnia.MASCULINO);
-		animaisCompetidor = new ArrayList<>();
-		
+		animaisCompetidor = new ArrayList<>();		
 	}
 
 	public void carregarAnimaisCompetidor() {

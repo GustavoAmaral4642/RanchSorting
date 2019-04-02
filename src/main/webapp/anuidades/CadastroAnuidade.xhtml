@@ -37,8 +37,8 @@
 								style="border:0px none; background-color:transparent;">
 
 								<p:outputLabel for="codigo" value="Código:" />
-								<p:inputText id="codigo" value="#{cadastroAnuidadeBean.anuidade.id}"
-									disabled="true" />
+								<p:inputText id="codigo"
+									value="#{cadastroAnuidadeBean.anuidade.id}" disabled="true" />
 
 								<p:outputLabel for="competidor" value="Competidor:" />
 								<p:selectOneMenu id="competidor" filter="true"
@@ -46,7 +46,8 @@
 									style="margin-bottom:10px;"
 									value="#{cadastroAnuidadeBean.anuidade.competidor}">
 									<f:selectItem itemLabel="Selecione um Proprietário" />
-									<f:selectItems value="#{cadastroAnuidadeBean.todosCompetidores}"
+									<f:selectItems
+										value="#{cadastroAnuidadeBean.todosCompetidores}"
 										var="todosCompetidores" itemValue="#{todosCompetidores}"
 										itemLabel="#{todosCompetidores.nome}" />
 								</p:selectOneMenu>
@@ -60,7 +61,15 @@
 									<f:selectItems value="#{cadastroAnuidadeBean.todosCampeonatos}"
 										var="todosCampeonatos" itemValue="#{todosCampeonatos}"
 										itemLabel="#{todosCampeonatos.nome}" />
+									<p:ajax update="valorAnuidade" />
 								</p:selectOneMenu>
+
+								<p:outputLabel for="valorAnuidade" value="Valor da Anuidade:" />
+								<p:inputText id="valorAnuidade" styleClass="moeda"
+									value="#{cadastroAnuidadeBean.anuidade.campeonato.valorAnuidade}"
+									readonly="true">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
 
 								<p:outputLabel for="valorPago" value="Valor Pago:" />
 								<p:inputText id="valorPago" label="Valor Comprado"

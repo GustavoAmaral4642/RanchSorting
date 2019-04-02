@@ -28,10 +28,6 @@
 									layout="grid" styleClass="ui-panelgrid-blank"
 									style="border:0px none; background-color:transparent;">
 
-									<p:outputLabel for="codigoFicha" value="Código da Ficha:" />
-									<p:inputText id="codigoFicha"
-										value="#{pesquisaFichasInscricoesBean.filtro.id}" />
-
 									<p:outputLabel for="nomeCompetidor" value="Nome do Competidor:" />
 									<p:inputText id="nomeCompetidor"
 										value="#{pesquisaFichasInscricoesBean.filtro.competidor}" />
@@ -55,26 +51,19 @@
 									<p:inputText id="etapa"
 										value="#{pesquisaFichasInscricoesBean.filtro.etapa}" />
 
-									<p:outputLabel for="animal" value="Animal:" />
-									<p:inputText id="animal"
-										value="#{pesquisaFichasInscricoesBean.filtro.animal}" />
-
 									<p:spacer />
 
-									<p:panelGrid columns="3" layout="grid">
+									<p:panelGrid columns="2" layout="grid">
 										<p:button value="Incluir Novo" icon="fa fa-plus"
 											outcome="/fichasInscricoes/CadastroFichaInscricao" />
-										<p:commandButton value="Limpar" icon="fa fa-refresh" />
 										<p:commandButton value="Pesquisar" icon="fa fa-search"
 											action="#{pesquisaFichasInscricoesBean.pesquisar}"
 											update="fichasTable"
 											process="@this
-												codigoFicha
 												nomeCompetidor
 												dataInscricaoInicial dataInscricaoFinal
 												campeonato
-												etapa
-												animal" />
+												etapa" />
 									</p:panelGrid>
 
 								</p:panelGrid>
@@ -102,23 +91,34 @@
 										<h:outputText value="#{ficha.etapa.nome}" />
 									</p:column>
 
+									<p:column headerText="Divisão" style="text-align: center">
+										<h:outputText value="#{ficha.divisao.nome}" />
+									</p:column>
+
 									<p:column headerText="Nome do Competidor"
 										style="text-align: center">
 										<h:outputText value="#{ficha.competidor.nome}" />
 									</p:column>
 
-									<p:column headerText="Animal" style="text-align: center">
-										<h:outputText value="#{ficha.animal.nome}" />
-									</p:column>
 
-									<p:column headerText="Contato" style="text-align: center">
-										<h:outputText value="#{ficha.competidor.contato}" />
+									<p:column headerText="Vlr.Comprado"
+										style="width: 150px; text-align: center">
+										<h:outputText value="#{ficha.valorComprado}">
+											<f:convertNumber type="currency" />
+										</h:outputText>
 									</p:column>
-
+									
 									<p:column headerText="Pagamento"
 										style="width: 150px; text-align: center">
 										<h:outputText value="#{ficha.dataPagamento}">
 											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
+									</p:column>
+
+									<p:column headerText="Vlr.Pago"
+										style="width: 150px; text-align: center">
+										<h:outputText value="#{ficha.valorPago}">
+											<f:convertNumber type="currency" />
 										</h:outputText>
 									</p:column>
 

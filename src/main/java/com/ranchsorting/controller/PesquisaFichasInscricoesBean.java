@@ -1,6 +1,6 @@
 package com.ranchsorting.controller;
 
-import java.io.Serializable;   
+import java.io.Serializable;    
 import java.util.List;
 
 import javax.faces.view.ViewScoped;

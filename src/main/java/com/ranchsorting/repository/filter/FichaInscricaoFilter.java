@@ -7,21 +7,11 @@ public class FichaInscricaoFilter implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String id;
 	private String campeonato;
 	private String etapa;
 	private String competidor;
-	private String animal;
 	private Date dataInscricaoInicial;
 	private Date dataInscricaoFinal;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getCampeonato() {
 		return campeonato;
@@ -45,14 +35,6 @@ public class FichaInscricaoFilter implements Serializable {
 
 	public void setCompetidor(String competidor) {
 		this.competidor = competidor;
-	}
-
-	public String getAnimal() {
-		return animal;
-	}
-
-	public void setAnimal(String animal) {
-		this.animal = animal;
 	}
 
 	public Date getDataInscricaoInicial() {

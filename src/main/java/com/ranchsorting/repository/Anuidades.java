@@ -1,6 +1,6 @@
 package com.ranchsorting.repository;
 
-import java.io.Serializable;    
+import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -14,6 +14,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.ranchsorting.model.Anuidade;
+import com.ranchsorting.model.Competidor;
 import com.ranchsorting.repository.filter.AnuidadeFilter;
 
 public class Anuidades implements Serializable {
@@ -23,32 +24,36 @@ public class Anuidades implements Serializable {
 	@Inject
 	private EntityManager manager;
 
-	public Anuidade guardar(Anuidade anuidade){
+	public Anuidade guardar(Anuidade anuidade) {
 		return manager.merge(anuidade);
 	}
-	
+
 	public Anuidade porId(Long id) {
 		return manager.find(Anuidade.class, id);
 	}
-	
+
 	public List<Anuidade> todasAnuidades() {
 
 		return manager.createQuery("from Anuidade", Anuidade.class).getResultList();
 	}
-	
+
+	public List<Anuidade> anuidadesCompetidor(Competidor competidor) {
+		return manager.createQuery("from Anuidade where competidor = :competidor", Anuidade.class)
+				.setParameter("competidor", competidor).getResultList();
+	}
+
 	@SuppressWarnings("unchecked")
-	public List<Anuidade> filtrados(AnuidadeFilter filtro){
-		
+	public List<Anuidade> filtrados(AnuidadeFilter filtro) {
+
 		Session session = manager.unwrap(Session.class);
-		Criteria criteria = session.createCriteria(Anuidade.class)
-				.createAlias("competidor", "co")
+		Criteria criteria = session.createCriteria(Anuidade.class).createAlias("competidor", "co")
 				.createAlias("campeonato", "ca");
-		
-		if(StringUtils.isNotBlank(filtro.getCompetidor())){
+
+		if (StringUtils.isNotBlank(filtro.getCompetidor())) {
 			criteria.add(Restrictions.ilike("co.nome", filtro.getCompetidor(), MatchMode.ANYWHERE));
 		}
-		
-		if(StringUtils.isNotBlank(filtro.getCampeonato())){
+
+		if (StringUtils.isNotBlank(filtro.getCampeonato())) {
 			criteria.add(Restrictions.ilike("ca.nome", filtro.getCampeonato(), MatchMode.ANYWHERE));
 		}
 
@@ -59,7 +64,7 @@ public class Anuidades implements Serializable {
 		if (filtro.getDataPagamentoFinal() != null) {
 			criteria.add(Restrictions.le("dataPagamento", filtro.getDataPagamentoFinal()));
 		}
-		
+
 		return criteria.addOrder(Order.asc("co.nome")).list();
 	}
 
