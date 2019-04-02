@@ -14,8 +14,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "tb_folha_competicao")
@@ -24,7 +22,6 @@ public class FolhaCompeticao implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private Long codigoFolha;
 	private Campeonato campeonato;
 	private Etapa etapa;
 	private Divisao divisao;
@@ -32,11 +29,9 @@ public class FolhaCompeticao implements Serializable {
 	private Competidor competidor1;
 	private Animal animal1;
 	private FichaInscricao fichaInscricao1;
-	private String situacaoFicha1;
 	private Competidor competidor2;
 	private Animal animal2;
 	private FichaInscricao fichaInscricao2;
-	private String situacaoFicha2;
 	private Long numeroDupla;
 	private OrdemEntrada ordemEntrada;
 	private Usuario usuarioAlteracao;
@@ -52,16 +47,6 @@ public class FolhaCompeticao implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	@NotNull
-	@Column(name = "fc_codigo_folha", nullable = false)
-	public Long getCodigoFolha() {
-		return codigoFolha;
-	}
-
-	public void setCodigoFolha(Long codigoFolha) {
-		this.codigoFolha = codigoFolha;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -134,16 +119,7 @@ public class FolhaCompeticao implements Serializable {
 		this.fichaInscricao1 = fichaInscricao1;
 	}
 
-	@Size(max=10)
-	@Column(name = "fc_situ_ficha1", length = 10)
-	public String getSituacaoFicha1() {
-		return situacaoFicha1;
-	}
-
-	public void setSituacaoFicha1(String situacaoFicha1) {
-		this.situacaoFicha1 = situacaoFicha1;
-	}
-
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "fc_competidor2")
 	public Competidor getCompetidor2() {
@@ -173,19 +149,8 @@ public class FolhaCompeticao implements Serializable {
 	public void setFichaInscricao2(FichaInscricao fichaInscricao2) {
 		this.fichaInscricao2 = fichaInscricao2;
 	}
-
-	@Size(max=10)
-	@Column(name = "fc_situ_ficha2", nullable=false, length = 10)
-	public String getSituacaoFicha2() {
-		return situacaoFicha2;
-	}
-
-	public void setSituacaoFicha2(String situacaoFicha2) {
-		this.situacaoFicha2 = situacaoFicha2;
-	}
-
-	@NotNull
-	@Column(name = "fc_numero_dupla", nullable = false)
+	
+	@Column(name = "fc_numero_dupla")
 	public Long getNumeroDupla() {
 		return numeroDupla;
 	}

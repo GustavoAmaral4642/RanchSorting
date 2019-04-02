@@ -57,8 +57,9 @@
 										value="#{cadastroFichaInscricaoBean.todosCompetidores}"
 										var="todosCompetidores" itemValue="#{todosCompetidores}"
 										itemLabel="#{todosCompetidores.nome}" />
-									<p:ajax listener="#{cadastroFichaInscricaoBean.carregarAnuidadesCompetidor}"
-						update="anuidades" />
+									<p:ajax
+										listener="#{cadastroFichaInscricaoBean.carregarAnuidadesCompetidor}"
+										update="anuidades" />
 								</p:selectOneMenu>
 
 								<p:outputLabel for="animal" value="Nome do Animal:" />
@@ -127,14 +128,14 @@
 								<p:spacer />
 
 								<p:outputLabel for="anuidades" value="Anuidade Paga:" />
-								<p:dataList id="anuidades" 
+								<p:dataList id="anuidades"
 									value="#{cadastroFichaInscricaoBean.anuidadesCompetidor}"
 									var="anuidade" type="ordered"
 									emptyMessage="Nenhuma Anuidade Encontrada">
 									<f:facet name="header">
 										Anuidades do Competidor
 				                    </f:facet>
-				                    <h:outputText value=" - " />
+									<h:outputText value=" - " />
 									<h:outputText value="#{anuidade.dataPagamento}">
 										<f:convertDateTime pattern="dd/MM/yyyy" />
 									</h:outputText>
@@ -143,7 +144,7 @@
 										<f:convertNumber type="currency" />
 									</h:outputText>
 									<h:outputText value=" - " />
-									<h:outputText value="#{anuidade.campeonato.nome}"/>
+									<h:outputText value="#{anuidade.campeonato.nome}" />
 								</p:dataList>
 
 							</p:panelGrid>
