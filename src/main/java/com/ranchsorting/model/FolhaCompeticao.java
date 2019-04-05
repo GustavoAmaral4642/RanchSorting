@@ -34,6 +34,7 @@ public class FolhaCompeticao implements Serializable {
 	private FichaInscricao fichaInscricao2;
 	private Long numeroDupla;
 	private OrdemEntrada ordemEntrada;
+	private Passada passada;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
@@ -119,7 +120,6 @@ public class FolhaCompeticao implements Serializable {
 		this.fichaInscricao1 = fichaInscricao1;
 	}
 
-	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "fc_competidor2")
 	public Competidor getCompetidor2() {
@@ -149,7 +149,7 @@ public class FolhaCompeticao implements Serializable {
 	public void setFichaInscricao2(FichaInscricao fichaInscricao2) {
 		this.fichaInscricao2 = fichaInscricao2;
 	}
-	
+
 	@Column(name = "fc_numero_dupla")
 	public Long getNumeroDupla() {
 		return numeroDupla;
@@ -167,6 +167,16 @@ public class FolhaCompeticao implements Serializable {
 
 	public void setOrdemEntrada(OrdemEntrada ordemEntrada) {
 		this.ordemEntrada = ordemEntrada;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fc_passada")
+	public Passada getPassada() {
+		return passada;
+	}
+
+	public void setPassada(Passada passada) {
+		this.passada = passada;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)

@@ -10,6 +10,7 @@ public class FolhaCompeticaoFilter implements Serializable {
 	private String campeonato;
 	private String etapa;
 	private String competidor;
+	private String divisao;
 	private Date dataInscricaoInicial;
 	private Date dataInscricaoFinal;
 
@@ -35,6 +36,14 @@ public class FolhaCompeticaoFilter implements Serializable {
 
 	public void setCompetidor(String competidor) {
 		this.competidor = competidor;
+	}
+
+	public String getDivisao() {
+		return divisao;
+	}
+
+	public void setDivisao(String divisao) {
+		this.divisao = divisao;
 	}
 
 	public Date getDataInscricaoInicial() {

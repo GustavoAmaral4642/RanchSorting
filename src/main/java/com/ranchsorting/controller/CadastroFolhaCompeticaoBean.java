@@ -131,4 +131,7 @@ public class CadastroFolhaCompeticaoBean implements Serializable {
 		return fichasCompetidores2;
 	}
 
+	public boolean isEditando() {
+		return this.folhaCompeticao.getId() != null;
+	}
 }

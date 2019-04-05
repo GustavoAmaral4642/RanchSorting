@@ -94,7 +94,11 @@
 									<f:facet name="header">
                                 		Folhas de Competições Cadastradas
                             		</f:facet>
-
+                            		
+                            		<p:column headerText="Código" style="text-align: center">
+										<h:outputText value="#{folha.id}" />
+									</p:column>
+                            
 									<p:column headerText="Campeonato" style="text-align: center">
 										<h:outputText value="#{folha.campeonato.nome}" />
 									</p:column>
@@ -129,7 +133,9 @@
 
 									<p:column style="text-align: center; width: 80px">
 										<p:button icon="fa fa-pencil" title="Editar"
-											style="width: 30px">
+											style="width: 30px"
+											outcome="/folhasCompeticoes/CadastroFolhaCompeticao">
+											<f:param name="folha" value="#{folha.id}" />
 										</p:button>
 										<p:spacer />
 										<p:commandButton icon="fa fa-trash" title="Excluir"

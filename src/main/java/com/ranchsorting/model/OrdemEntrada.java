@@ -1,4 +1,4 @@
-package com.ranchsorting.model;
+package com.ranchsorting.model; 
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,10 +15,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_ordem_entrada")
@@ -33,7 +29,6 @@ public class OrdemEntrada implements Serializable {
 	private Divisao divisao;
 	private Date data;
 	private Date hora;
-	private String boiada;
 	private List<FolhaCompeticao> folhasCompeticoes;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
@@ -49,9 +44,8 @@ public class OrdemEntrada implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	@NotNull
-	@Column(name = "od_numero_ordem", nullable = false)
+	
+	@Column(name = "od_numero_ordem")
 	public Long getOrdemEntrada() {
 		return ordemEntrada;
 	}
@@ -108,17 +102,6 @@ public class OrdemEntrada implements Serializable {
 
 	public void setHora(Date hora) {
 		this.hora = hora;
-	}
-
-	@NotBlank
-	@Size(max=5)
-	@Column(name="od_boiada", nullable=false, length=5)
-	public String getBoiada() {
-		return boiada;
-	}
-
-	public void setBoiada(String boiada) {
-		this.boiada = boiada;
 	}
 
 	@OneToMany(mappedBy = "ordemEntrada", cascade = CascadeType.ALL)

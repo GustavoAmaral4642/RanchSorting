@@ -5,12 +5,12 @@
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
 	xmlns:o="http://omnifaces.org/ui">
 
-	<ui:define name="title">Cadastro de Ordem de Entrada</ui:define>
+	<ui:define name="title">Manutenção de Ordem de Entrada</ui:define>
 
 	<ui:define name="breadcrumb">
 		<li>Provas</li>
 		<li>/</li>
-		<li><p:link outcome="/ordensEntradas/CadastroOrdemEntrada">Cadastro de Ordem de Entrada</p:link></li>
+		<li><p:link outcome="/ordensEntradas/ManutencaoOrdemEntrada">Manutenção de Ordem de Entrada</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
@@ -27,7 +27,7 @@
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
-							<h1>Cadastro de Ordem de Entrada</h1>
+							<h1>Manutenção de Ordem de Entrada</h1>
 
 							<p:growl id="growl" autoUpdate="true" />
 
@@ -106,30 +106,52 @@
 							<p:spacer />
 							<p:spacer />
 
-							<p:dataTable var="passada"
-								value="#{cadastroOrdemEntradaBean.passadasGeradas}"
-								reflow="true" emptyMessage="Nenhuma Passada Encontrada"
-								paginator="true" rows="50" id="passadasTable">
-								<f:facet name="header">
-                                		Passadas
-                            		</f:facet>
-								<p:column headerText="Código"
-									style="width: 100px; text-align: center">
-									<h:outputText value="#{passada.id}" />
-								</p:column>
+							<h:form id="formFilho1">
+								<p:dataGrid var="car" value="#{dataGridView.cars}" columns="3"
+									layout="grid" rows="6" paginator="true" id="cars"
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									rowsPerPageTemplate="3,6,9,12,16">
 
-								<p:column headerText="Competidor 1" style="text-align: center">
-									<h:outputText value="#{passada.competidor1}" />
-								</p:column>
+									<f:facet name="header">
+	                                Passadas
+	                            	</f:facet>
 
-								<p:column headerText="Competidor 2" style="text-align: center">
-									<h:outputText value="#{passada.competidor2}" />
-								</p:column>
+									<p:panel header="Dupla X" style="text-align:center">
+										<h:panelGrid columns="2" style="width:100%">
+											<h:outputText value="Competidor 1:"
+												styleClass="Fs14 FontDosisMedium" />
+											<h:outputText value="Paulinho"
+												styleClass="Fs14 FontDosisMedium" />
 
-								<p:column headerText="Número Dupla" style="text-align: center">
-									<h:outputText value="#{passada.numeroDupla}" />
-								</p:column>
-							</p:dataTable>
+											<h:outputText value="Competidor 2:"
+												styleClass="Fs14 FontDosisMedium" />
+											<h:outputText value="GutiGuti"
+												styleClass="Fs14 FontDosisMedium" />
+
+											<h:outputText value="Tempo:" />
+											<h:outputText value="40 segundos" />
+
+											<h:outputText value="Quantidade de Boi:" />
+											<h:outputText value="9" />
+
+											<h:outputText value="Ranking:" />
+											<h:outputText value="1º" />
+
+											<p:commandButton icon="fa fa-thumbs-o-up"
+												styleClass="AquaButton" update=":formPai:formFilho1:cars"
+												oncomplete="PF('carDialog').show()">
+												<f:setPropertyActionListener value="#{car}"
+													target="#{dataGridView.selectedCar}" />
+											</p:commandButton>
+
+											<p:commandButton icon="fa fa-thumbs-down"
+												styleClass="AquaButton">
+											</p:commandButton>
+										</h:panelGrid>
+									</p:panel>
+
+								</p:dataGrid>
+							</h:form>
 
 							<p:spacer />
 							<p:spacer />

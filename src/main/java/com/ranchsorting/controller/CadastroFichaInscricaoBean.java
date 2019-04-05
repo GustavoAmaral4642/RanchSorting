@@ -73,6 +73,7 @@ public class CadastroFichaInscricaoBean implements Serializable {
 		if (FacesUtil.isNotPostback()){
 			if (isEditando()) {
 				carregarAnuidadesCompetidor();
+				carregarEtapas();
 			}
 		}
 	}
@@ -112,6 +113,7 @@ public class CadastroFichaInscricaoBean implements Serializable {
 
 	public void setFichaInscricao(FichaInscricao fichaInscricao) {
 		this.fichaInscricao = fichaInscricao;
+		
 	}
 
 	public List<Competidor> getTodosCompetidores() {

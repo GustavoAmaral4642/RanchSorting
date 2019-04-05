@@ -15,8 +15,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 @Entity
 @Table(name = "tb_passada")
 public class Passada implements Serializable {
@@ -24,12 +22,6 @@ public class Passada implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private OrdemEntrada ordemEntrada;
-	private Long numeroDupla;
-	private Competidor competidor1;
-	private Animal animal1;
-	private Competidor competidor2;
-	private Animal animal2;
 	private String tempo;
 	private Long qntBoi;
 	private Long ranking;
@@ -49,68 +41,8 @@ public class Passada implements Serializable {
 		this.id = id;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "pa_ordem_entrada")
-	public OrdemEntrada getOrdemEntrada() {
-		return ordemEntrada;
-	}
-
-	public void setOrdemEntrada(OrdemEntrada ordemEntrada) {
-		this.ordemEntrada = ordemEntrada;
-	}
-
-	@Column(name = "pa_num_dupla", nullable = false)
-	public Long getNumeroDupla() {
-		return numeroDupla;
-	}
-
-	public void setNumeroDupla(Long numeroDupla) {
-		this.numeroDupla = numeroDupla;
-	}
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "pa_competidor1")
-	public Competidor getCompetidor1() {
-		return competidor1;
-	}
-
-	public void setCompetidor1(Competidor competidor1) {
-		this.competidor1 = competidor1;
-	}
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "pa_animal1")
-	public Animal getAnimal1() {
-		return animal1;
-	}
-
-	public void setAnimal1(Animal animal1) {
-		this.animal1 = animal1;
-	}
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "pa_competidor2")
-	public Competidor getCompetidor2() {
-		return competidor2;
-	}
-
-	public void setCompetidor2(Competidor competidor2) {
-		this.competidor2 = competidor2;
-	}
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "pa_animal2")
-	public Animal getAnimal2() {
-		return animal2;
-	}
-
-	public void setAnimal2(Animal animal2) {
-		this.animal2 = animal2;
-	}
-
-	@NotBlank
 	@Size(max=20)
-	@Column(name = "pa_tempo", nullable = false, length = 20)
+	@Column(name = "pa_tempo", length = 20)
 	public String getTempo() {
 		return tempo;
 	}
@@ -137,9 +69,8 @@ public class Passada implements Serializable {
 		this.ranking = ranking;
 	}
 
-	@NotBlank
 	@Size(max=10)
-	@Column(name = "pa_sat", nullable = false, length=10)
+	@Column(name = "pa_sat", length=10)
 	public String getSat() {
 		return sat;
 	}
