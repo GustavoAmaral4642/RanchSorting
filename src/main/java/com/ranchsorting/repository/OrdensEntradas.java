@@ -14,6 +14,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.ranchsorting.model.OrdemEntrada;
+import com.ranchsorting.repository.filter.OrdemEntradaFilter;
 
 
 public class OrdensEntradas implements Serializable {
@@ -31,37 +32,13 @@ public class OrdensEntradas implements Serializable {
 		return manager.find(OrdemEntrada.class, id);
 	}
 
-	/*
+	
 	@SuppressWarnings("unchecked")
-	public List<FichaInscricao> filtradas(FichaInscricaoFilter filtro) {
+	public List<OrdemEntrada> filtradas(OrdemEntradaFilter filtro) {
 
 		Session session = manager.unwrap(Session.class);
-		Criteria criteria = session.createCriteria(FichaInscricao.class).createAlias("campeonato", "ca")
-				.createAlias("etapa", "e").createAlias("competidor", "co");
+		Criteria criteria = session.createCriteria(OrdemEntrada.class);
 
-		if (StringUtils.isNotBlank(filtro.getCampeonato())) {
-			criteria.add(Restrictions.ilike("ca.nome", filtro.getCampeonato(), MatchMode.ANYWHERE));
-		}
-
-		if (StringUtils.isNotBlank(filtro.getEtapa())) {
-			criteria.add(Restrictions.ilike("e.nome", filtro.getEtapa(), MatchMode.ANYWHERE));
-		}
-
-		if (StringUtils.isNotBlank(filtro.getCompetidor())) {
-			criteria.add(Restrictions.ilike("co.nome", filtro.getCompetidor(), MatchMode.ANYWHERE));
-		}
-
-		if (filtro.getDataInscricaoInicial() != null) {
-			criteria.add(Restrictions.ge("dataInscricao", filtro.getDataInscricaoInicial()));
-		}
-
-		if (filtro.getDataInscricaoFinal() != null) {
-			criteria.add(Restrictions.le("dataInscricao", filtro.getDataInscricaoFinal()));
-		}
-
-		return criteria.addOrder(Order.asc("ca.nome")).list();
+		return criteria.addOrder(Order.asc("id")).list();
 	}
-*/
-	
-
 }

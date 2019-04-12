@@ -44,7 +44,7 @@
 								<p:selectOneMenu id="campeonato" filter="true"
 									label="Competidor" filterMatchMode="contains"
 									style="margin-bottom:10px;"
-									value="#{cadastroOrdemEntradaBean.ordemEntrada.campeonato}">
+									value="#{cadastroOrdemEntradaBean.ordemEntradaFilter.campeonato}">
 									<f:selectItem itemLabel="Selecione um Campeonato" />
 									<f:selectItems
 										value="#{cadastroOrdemEntradaBean.todosCampeonatos}"
@@ -57,17 +57,19 @@
 								<p:outputLabel for="etapa" value="Selecione a Etapa:" />
 								<p:selectOneMenu id="etapa" filter="true" label="Etapa"
 									filterMatchMode="contains" style="margin-bottom:10px;"
-									value="#{cadastroOrdemEntradaBean.ordemEntrada.etapa}">
+									value="#{cadastroOrdemEntradaBean.ordemEntradaFilter.etapa}">
 									<f:selectItem itemLabel="Selecione uma Etapa" />
 									<f:selectItems
 										value="#{cadastroOrdemEntradaBean.etapasCampeonatos}"
 										var="etapasCampeonatos" itemValue="#{etapasCampeonatos}"
 										itemLabel="#{etapasCampeonatos.nome}" />
+									<p:ajax listener="#{cadastroOrdemEntradaBean.carregarDataEtapa}"
+										update="dataCompeticao" />
 								</p:selectOneMenu>
 
 								<p:outputLabel for="divisao" value="Selecione a divisao:" />
 								<p:selectOneMenu id="divisao" showCheckbox="true"
-									value="#{cadastroOrdemEntradaBean.ordemEntrada.divisao}">
+									value="#{cadastroOrdemEntradaBean.ordemEntradaFilter.divisao}">
 									<f:selectItem itemLabel="Selecione a Divisão" />
 									<f:selectItems
 										value="#{cadastroOrdemEntradaBean.todasDivisoes}"
@@ -86,12 +88,24 @@
 									value="#{cadastroOrdemEntradaBean.ordemEntrada.hora}" />
 
 								<p:spacer />
-								<p:spacer />
+								<h:panelGroup>
+									<p:panelGrid columns="1" layout="grid">
+										<p:commandButton value="Carregar Competidores" icon="fa fa-users"
+										update="passadasTable" action="#{cadastroOrdemEntradaBean.carregarCompetidores}"
+										process="@this
+										campeonato
+										etapa
+										divisao" />										
+									</p:panelGrid>
+								</h:panelGroup>
 
 								<p:spacer />
 								<h:panelGroup>
 									<p:panelGrid columns="2" layout="grid">
-										<p:commandButton value="Gerar Ordem" icon="fa fa-upload" />
+										<p:commandButton value="Gerar Ordem" icon="fa fa-upload" 
+											action="#{cadastroOrdemEntradaBean.gerarOrdemEntrada}"
+											process="@this"
+											update="passadasTable"/>
 										<p:commandButton value="Pesquisar" icon="fa fa-search" />
 									</p:panelGrid>
 								</h:panelGroup>
@@ -107,26 +121,26 @@
 							<p:spacer />
 
 							<p:dataTable var="passada"
-								value="#{cadastroOrdemEntradaBean.passadasGeradas}"
+								value="#{cadastroOrdemEntradaBean.folhas}"
 								reflow="true" emptyMessage="Nenhuma Passada Encontrada"
 								paginator="true" rows="50" id="passadasTable">
 								<f:facet name="header">
                                 		Passadas
                             		</f:facet>
-								<p:column headerText="Código"
+								<p:column headerText="Cód.Folha" sortBy="#{passada.id}" 
 									style="width: 100px; text-align: center">
 									<h:outputText value="#{passada.id}" />
 								</p:column>
 
-								<p:column headerText="Competidor 1" style="text-align: center">
-									<h:outputText value="#{passada.competidor1}" />
+								<p:column headerText="Competidor 1" sortBy="#{passada.competidor1.nome}" style="text-align: center">
+									<h:outputText value="#{passada.competidor1.nome}" />
 								</p:column>
 
-								<p:column headerText="Competidor 2" style="text-align: center">
-									<h:outputText value="#{passada.competidor2}" />
+								<p:column headerText="Competidor 2" sortBy="#{passada.competidor2.nome}" style="text-align: center">
+									<h:outputText value="#{passada.competidor2.nome}" />
 								</p:column>
 
-								<p:column headerText="Número Dupla" style="text-align: center">
+								<p:column headerText="Número Dupla" sortBy="#{passada.numeroDupla}" style="text-align: center">
 									<h:outputText value="#{passada.numeroDupla}" />
 								</p:column>
 							</p:dataTable>
@@ -148,7 +162,8 @@
 								<h:panelGroup>
 									<p:panelGrid columns="2" layout="grid">
 										<p:commandButton value="Salvar" icon="fa fa-save"
-											action="#{cadastroOrdemEntradaBean.salvar}" />
+											action="#{cadastroOrdemEntradaBean.salvar}" 
+											update="@form"/>
 										<p:commandButton value="Imprimir Folha" icon="fa fa-print" />
 									</p:panelGrid>
 								</h:panelGroup>

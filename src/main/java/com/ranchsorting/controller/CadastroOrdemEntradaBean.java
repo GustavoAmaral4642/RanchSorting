@@ -1,6 +1,8 @@
 package com.ranchsorting.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
@@ -10,11 +12,17 @@ import javax.inject.Named;
 import com.ranchsorting.model.Campeonato;
 import com.ranchsorting.model.Divisao;
 import com.ranchsorting.model.Etapa;
+import com.ranchsorting.model.FolhaCompeticao;
 import com.ranchsorting.model.OrdemEntrada;
 import com.ranchsorting.model.Passada;
 import com.ranchsorting.repository.Campeonatos;
 import com.ranchsorting.repository.Divisoes;
 import com.ranchsorting.repository.Etapas;
+import com.ranchsorting.repository.FolhasCompeticoes;
+import com.ranchsorting.repository.filter.FolhaCompeticaoFilter;
+import com.ranchsorting.repository.filter.OrdemEntradaFilter;
+import com.ranchsorting.service.CadastroOrdemEntradaService;
+import com.ranchsorting.util.jsf.FacesUtil;
 
 @Named
 @ViewScoped
@@ -31,12 +39,21 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	@Inject
 	private Divisoes divisoes;
 
+	@Inject
+	private FolhasCompeticoes folhasCompeticoes;
+
+	@Inject
+	private CadastroOrdemEntradaService cadastroOrdemEntradaService;
+
 	private List<Campeonato> todosCampeonatos;
 	private List<Etapa> etapasCampeonatos;
 	private List<Divisao> todasDivisoes;
 	private List<Passada> passadasGeradas;
+	private List<FolhaCompeticao> folhas;
 
 	private OrdemEntrada ordemEntrada;
+	private OrdemEntradaFilter ordemEntradaFilter;
+	private FolhaCompeticaoFilter filtroFolhaCompeticao;
 
 	public CadastroOrdemEntradaBean() {
 		limpar();
@@ -49,18 +66,58 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	public void limpar() {
 		ordemEntrada = new OrdemEntrada();
+		ordemEntradaFilter = new OrdemEntradaFilter();
+		filtroFolhaCompeticao = new FolhaCompeticaoFilter();
+		folhas = new ArrayList<>();
 	}
 
 	public void salvar() {
 
+		ordemEntrada.setFolhasCompeticoes(folhas);
+		this.ordemEntrada = cadastroOrdemEntradaService.salvar(ordemEntrada);
+
+		limpar();
+
+		FacesUtil.addInfoMessage("Ordem de entrada registrada com sucesso!");
+
+	}
+
+	public void carregarCompetidores() {
+		// filtroFolhaCompeticao.setCampeonato(this.ordemEntrada.getCampeonato().getNome());
+		// filtroFolhaCompeticao.setEtapa(this.ordemEntrada.getEtapa().getNome());
+		// filtroFolhaCompeticao.setDivisao(this.ordemEntrada.getDivisao().getNome());
+		folhas = folhasCompeticoes.filtradas(filtroFolhaCompeticao);
 	}
 
 	public void carregarEtapas() {
-		etapasCampeonatos = etapas.etapasDoCampeonato(ordemEntrada.getCampeonato());
+		etapasCampeonatos = etapas.etapasDoCampeonato(this.ordemEntradaFilter.getCampeonato());
+	}
+
+	public void carregarDataEtapa() {
+		this.ordemEntrada.setData(this.ordemEntradaFilter.getEtapa().getDataEvento());
 	}
 
 	public void gerarOrdemEntrada() {
-		
+
+		List<Integer> embaralhados = new ArrayList<Integer>();
+
+		for (int i = 0; i < folhas.size(); i++) {
+			embaralhados.add(i + 1);
+		}
+
+		Collections.shuffle(embaralhados);
+
+		for (int i = 0; i < folhas.size(); i++) {
+			folhas.get(i).setNumeroDupla(Long.valueOf(embaralhados.get(i)));
+		}
+
+		/*
+		 * embaralhar numero da dupla List<Integer> numeros = new
+		 * ArrayList<Integer>(); for (int i = 0; i < 26; i++) { numeros.add(i);
+		 * } Collections.shuffle(numeros); System.out.print("Sorteados: "); for
+		 * (int i = 0; i < 15; i++) { System.out.print(numeros.get(i));
+		 * System.out.print(" "); } System.out.println();
+		 */
 	}
 
 	public OrdemEntrada getOrdemEntrada() {
@@ -89,6 +146,26 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	public void setPassadasGeradas(List<Passada> passadasGeradas) {
 		this.passadasGeradas = passadasGeradas;
+	}
+
+	public List<FolhaCompeticao> getFolhas() {
+		return folhas;
+	}
+
+	public FolhaCompeticaoFilter getFiltroFolhaCompeticao() {
+		return filtroFolhaCompeticao;
+	}
+
+	public void setFiltroFolhaCompeticao(FolhaCompeticaoFilter filtroFolhaCompeticao) {
+		this.filtroFolhaCompeticao = filtroFolhaCompeticao;
+	}
+
+	public OrdemEntradaFilter getOrdemEntradaFilter() {
+		return ordemEntradaFilter;
+	}
+
+	public void setOrdemEntradaFilter(OrdemEntradaFilter ordemEntradaFilter) {
+		this.ordemEntradaFilter = ordemEntradaFilter;
 	}
 
 	public boolean isEditando() {

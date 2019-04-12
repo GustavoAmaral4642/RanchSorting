@@ -51,11 +51,13 @@
 									</h:panelGroup>
 
 									<p:spacer />
-									<p:panelGrid columns="3" layout="grid">
+									<p:panelGrid columns="2" layout="grid">
 										<p:button value="Incluir Novo" icon="fa fa-plus"
 											outcome="/ordensEntradas/CadastroOrdemEntrada" />
-										<p:commandButton value="Limpar" icon="fa fa-refresh" />
-										<p:commandButton value="Pesquisar" icon="fa fa-search" />
+										<p:commandButton value="Pesquisar" icon="fa fa-search"
+											action="#{pesquisaOrdensEntradasBean.pesquisar}"
+											update="ordensEntradasTable"
+											process="@this" />
 									</p:panelGrid>
 
 								</p:panelGrid>
@@ -63,34 +65,19 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:dataTable var="car" value="#{dtSelectionView.cars7}"
-									selectionMode="single" reflow="true"
-									emptyMessage="Nenhum Competidor Cadastrados"
-									selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}"
-									paginator="true" rows="10">
+								<p:dataTable var="ordemEntrada" value="#{pesquisaOrdensEntradasBean.ordensFiltradas}"
+									reflow="true" emptyMessage="Nenhuma Ordem Encontrada"
+									paginator="true" rows="10" id="ordensEntradasTable">
 									<f:facet name="header">
                                 		Ordens de Entradas Cadastradas
                             		</f:facet>
 
-									<p:column headerText="Campeonato" style="text-align: center">
-										<h:outputText value="RS 1" />
+									<p:column headerText="Id" style="text-align: center">
+										<h:outputText value="#{ordemEntrada.id}" />
 									</p:column>
 
-									<p:column headerText="Etapa" style="text-align: center">
-										<h:outputText value="Etapa 20" />
-									</p:column>
-
-									<p:column headerText="Divisão" style="text-align: center">
-										<h:outputText value="Amador" />
-									</p:column>
-
-									<p:column headerText="Qnt.Passadas" style="text-align: center">
-										<h:outputText value="90" />
-									</p:column>
-
-									<p:column headerText="Data da Competição"
-										style="text-align: center">
-										<h:outputText value="28/01/2019" />
+									<p:column headerText="Data" style="text-align: center">
+										<h:outputText value="#{ordemEntrada.data}" />
 									</p:column>
 
 									<p:column style="text-align: center; width: 80px">

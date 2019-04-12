@@ -27,13 +27,13 @@ public class CadastroFolhaCompeticaoService implements Serializable {
 			throw new NegocioException("Ocorreu algum promblema na gravação da Folha de Competiçao."
 					+ "Entre em contato com o administrador do Sistema. (ConstraintViolationException)");
 		} catch (ArithmeticException ex) {
-			throw new NegocioException("Ocorreu algum promblema na gravação da ficha de inscrição."
+			throw new NegocioException("Ocorreu algum promblema na gravação da Folha de Competiçao."
 					+ "Entre em contato com o administrador do Sistema. (ArithmeticException)");
 		} catch (RuntimeException ex) {
-			throw new NegocioException("Ocorreu algum promblema na gravação da ficha de inscrição."
+			throw new NegocioException("Ocorreu algum promblema na gravação da Folha de Competiçao."
 					+ "Entre em contato com o administrador do Sistema. (RuntimeException)");
 		} catch (Exception ex) {
-			throw new NegocioException("Ocorreu algum promblema na gravação da ficha de inscrição."
+			throw new NegocioException("Ocorreu algum promblema na gravação da Folha de Competiçao."
 					+ "Entre em contato com o administrador do Sistema. (Exception)");
 		}
 	}
