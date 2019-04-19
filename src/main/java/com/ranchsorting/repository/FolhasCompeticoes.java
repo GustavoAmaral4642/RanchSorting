@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
@@ -46,16 +45,16 @@ public class FolhasCompeticoes implements Serializable {
 				.createAlias("divisao", "d");
 
 		if (StringUtils.isNotBlank(filtro.getCampeonato())) {
-			criteria.add(Restrictions.ilike("ca.nome", filtro.getCampeonato(), MatchMode.ANYWHERE));
+			criteria.add(Restrictions.eq("ca.nome", filtro.getCampeonato()));
 		}
 
 		
 		if (StringUtils.isNotBlank(filtro.getEtapa())) {
-			criteria.add(Restrictions.ilike("e.nome", filtro.getEtapa(), MatchMode.ANYWHERE));
+			criteria.add(Restrictions.eq("e.nome", filtro.getEtapa()));
 		}
 		
 		if (StringUtils.isNotBlank(filtro.getDivisao())) {
-			criteria.add(Restrictions.ilike("d.nome", filtro.getDivisao(), MatchMode.ANYWHERE));
+			criteria.add(Restrictions.eq("d.nome", filtro.getDivisao()));
 		}
 		/*
 		if (filtro.getDataInscricaoInicial() != null) {

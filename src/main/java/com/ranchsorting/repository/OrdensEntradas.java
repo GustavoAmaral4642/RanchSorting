@@ -1,15 +1,13 @@
 package com.ranchsorting.repository;
 
-import java.io.Serializable;  
+import java.io.Serializable;   
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
@@ -37,8 +35,33 @@ public class OrdensEntradas implements Serializable {
 	public List<OrdemEntrada> filtradas(OrdemEntradaFilter filtro) {
 
 		Session session = manager.unwrap(Session.class);
-		Criteria criteria = session.createCriteria(OrdemEntrada.class);
+		Criteria criteria = session.createCriteria(OrdemEntrada.class)
+				.createAlias("campeonato", "ca")
+				.createAlias("etapa", "e")
+				.createAlias("divisao", "d");
 
+		if (filtro.getCampeonato() != null) {
+			criteria.add(Restrictions.eq("ca.nome", filtro.getCampeonato().getNome()));
+		}
+
+		
+		if (filtro.getEtapa() != null) {
+			criteria.add(Restrictions.eq("e.nome", filtro.getEtapa().getNome()));
+		}
+		
+		if (filtro.getDivisao() != null) {
+			criteria.add(Restrictions.eq("d.nome", filtro.getDivisao().getNome()));
+		}
+		/*
+		if (filtro.getDataInscricaoInicial() != null) {
+			criteria.add(Restrictions.ge("dataInscricao", filtro.getDataInscricaoInicial()));
+		}
+
+		if (filtro.getDataInscricaoFinal() != null) {
+			criteria.add(Restrictions.le("dataInscricao", filtro.getDataInscricaoFinal()));
+		}
+	*/	
 		return criteria.addOrder(Order.asc("id")).list();
 	}
+	
 }

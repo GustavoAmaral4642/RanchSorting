@@ -11,8 +11,8 @@ public class FolhaCompeticaoFilter implements Serializable {
 	private String etapa;
 	private String competidor;
 	private String divisao;
-	private Date dataInscricaoInicial;
-	private Date dataInscricaoFinal;
+	private Date dataCompeticaoInicial;
+	private Date dataCompeticaoFinal;
 
 	public String getCampeonato() {
 		return campeonato;
@@ -46,20 +46,21 @@ public class FolhaCompeticaoFilter implements Serializable {
 		this.divisao = divisao;
 	}
 
-	public Date getDataInscricaoInicial() {
-		return dataInscricaoInicial;
+	public Date getDataCompeticaoInicial() {
+		return dataCompeticaoInicial;
 	}
 
-	public void setDataInscricaoInicial(Date dataInscricaoInicial) {
-		this.dataInscricaoInicial = dataInscricaoInicial;
+	public void setDataCompeticaoInicial(Date dataCompeticaoInicial) {
+		this.dataCompeticaoInicial = dataCompeticaoInicial;
 	}
 
-	public Date getDataInscricaoFinal() {
-		return dataInscricaoFinal;
+	public Date getDataCompeticaoFinal() {
+		return dataCompeticaoFinal;
 	}
 
-	public void setDataInscricaoFinal(Date dataInscricaoFinal) {
-		this.dataInscricaoFinal = dataInscricaoFinal;
+	public void setDataCompeticaoFinal(Date dataCompeticaoFinal) {
+		this.dataCompeticaoFinal = dataCompeticaoFinal;
 	}
 
+	
 }

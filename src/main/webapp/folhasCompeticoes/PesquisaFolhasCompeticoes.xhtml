@@ -39,35 +39,17 @@
 									<p:inputText id="etapa" value="#{pesquisaFolhasCompeticoesBean.filtro.etapa}"/>
 
 									<p:outputLabel for="divisao" value="Divisão:" />
-									<p:inputText id="divisao" />
+									<p:inputText id="divisao" value="#{pesquisaFolhasCompeticoesBean.filtro.divisao}"/>
 
 									<p:outputLabel value="Data da Competicao:" />
 									<h:panelGroup>
 										<p:panelGrid columns="2" layout="grid">
 											<p:inputText id="dataCompeticaoInicial"
-												placeholder="Data Inicial" />
+												placeholder="Data Inicial" value="#{pesquisaFolhasCompeticoesBean.filtro.dataCompeticaoInicial}"/>
 											<p:inputText id="dataCompeticaoFinal"
-												placeholder="Data Final" />
+												placeholder="Data Final" value="#{pesquisaFolhasCompeticoesBean.filtro.dataCompeticaoFinal}"/>
 										</p:panelGrid>
 									</h:panelGroup>
-
-									<p:outputLabel for="numeroDupla" value="Número da Dupla:" />
-									<p:inputText id="numeroDupla" />
-
-									<p:outputLabel for="competidor1" value="Competidor 1:" />
-									<p:inputText id="competidor1" />
-
-									<p:outputLabel for="animal1" value="Animal 1:" />
-									<p:inputText id="animal1" />
-
-									<p:outputLabel for="competidor2" value="Competidor 2:" />
-									<p:inputText id="competidor2" />
-
-									<p:outputLabel for="animal2" value="Animal 2:" />
-									<p:inputText id="animal2" />
-
-									<p:outputLabel for="situacaoFicha" value="Situacao Ficha:" />
-									<p:inputText id="situacaoFicha" />
 
 									<p:spacer />
 									<p:panelGrid columns="2" layout="grid">

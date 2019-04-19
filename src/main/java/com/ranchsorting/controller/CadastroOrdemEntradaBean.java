@@ -52,7 +52,6 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	private List<FolhaCompeticao> folhas;
 
 	private OrdemEntrada ordemEntrada;
-	private OrdemEntradaFilter ordemEntradaFilter;
 	private FolhaCompeticaoFilter filtroFolhaCompeticao;
 
 	public CadastroOrdemEntradaBean() {
@@ -66,7 +65,6 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	public void limpar() {
 		ordemEntrada = new OrdemEntrada();
-		ordemEntradaFilter = new OrdemEntradaFilter();
 		filtroFolhaCompeticao = new FolhaCompeticaoFilter();
 		folhas = new ArrayList<>();
 	}
@@ -74,6 +72,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	public void salvar() {
 
 		ordemEntrada.setFolhasCompeticoes(folhas);
+		
 		this.ordemEntrada = cadastroOrdemEntradaService.salvar(ordemEntrada);
 
 		limpar();
@@ -83,18 +82,18 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	}
 
 	public void carregarCompetidores() {
-		// filtroFolhaCompeticao.setCampeonato(this.ordemEntrada.getCampeonato().getNome());
-		// filtroFolhaCompeticao.setEtapa(this.ordemEntrada.getEtapa().getNome());
-		// filtroFolhaCompeticao.setDivisao(this.ordemEntrada.getDivisao().getNome());
+		filtroFolhaCompeticao.setCampeonato(this.ordemEntrada.getCampeonato().getNome());
+		filtroFolhaCompeticao.setEtapa(this.ordemEntrada.getEtapa().getNome());
+		filtroFolhaCompeticao.setDivisao(this.ordemEntrada.getDivisao().getNome());
 		folhas = folhasCompeticoes.filtradas(filtroFolhaCompeticao);
 	}
 
 	public void carregarEtapas() {
-		etapasCampeonatos = etapas.etapasDoCampeonato(this.ordemEntradaFilter.getCampeonato());
+		etapasCampeonatos = etapas.etapasDoCampeonato(this.ordemEntrada.getCampeonato());
 	}
 
 	public void carregarDataEtapa() {
-		this.ordemEntrada.setData(this.ordemEntradaFilter.getEtapa().getDataEvento());
+		this.ordemEntrada.setData(this.ordemEntrada.getEtapa().getDataEvento());
 	}
 
 	public void gerarOrdemEntrada() {
@@ -158,14 +157,6 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	public void setFiltroFolhaCompeticao(FolhaCompeticaoFilter filtroFolhaCompeticao) {
 		this.filtroFolhaCompeticao = filtroFolhaCompeticao;
-	}
-
-	public OrdemEntradaFilter getOrdemEntradaFilter() {
-		return ordemEntradaFilter;
-	}
-
-	public void setOrdemEntradaFilter(OrdemEntradaFilter ordemEntradaFilter) {
-		this.ordemEntradaFilter = ordemEntradaFilter;
 	}
 
 	public boolean isEditando() {
