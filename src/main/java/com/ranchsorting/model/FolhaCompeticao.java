@@ -22,15 +22,8 @@ public class FolhaCompeticao implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private Campeonato campeonato;
-	private Etapa etapa;
-	private Divisao divisao;
 	private Date data;
-	private Competidor competidor1;
-	private Animal animal1;
 	private FichaInscricao fichaInscricao1;
-	private Competidor competidor2;
-	private Animal animal2;
 	private FichaInscricao fichaInscricao2;
 	private Long numeroDupla;
 	private OrdemEntrada ordemEntrada;
@@ -49,37 +42,7 @@ public class FolhaCompeticao implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fc_campeonato")
-	public Campeonato getCampeonato() {
-		return campeonato;
-	}
-
-	public void setCampeonato(Campeonato campeonato) {
-		this.campeonato = campeonato;
-	}
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fc_etapa")
-	public Etapa getEtapa() {
-		return etapa;
-	}
-
-	public void setEtapa(Etapa etapa) {
-		this.etapa = etapa;
-	}
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fc_divisao")
-	public Divisao getDivisao() {
-		return divisao;
-	}
-
-	public void setDivisao(Divisao divisao) {
-		this.divisao = divisao;
-	}
-
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fc_data")
 	public Date getData() {
@@ -89,27 +52,7 @@ public class FolhaCompeticao implements Serializable {
 	public void setData(Date data) {
 		this.data = data;
 	}
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fc_competidor1")
-	public Competidor getCompetidor1() {
-		return competidor1;
-	}
-
-	public void setCompetidor1(Competidor competidor1) {
-		this.competidor1 = competidor1;
-	}
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fc_animal1")
-	public Animal getAnimal1() {
-		return animal1;
-	}
-
-	public void setAnimal1(Animal animal1) {
-		this.animal1 = animal1;
-	}
-
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "fc_ficha_inscricao1")
 	public FichaInscricao getFichaInscricao1() {
@@ -118,26 +61,6 @@ public class FolhaCompeticao implements Serializable {
 
 	public void setFichaInscricao1(FichaInscricao fichaInscricao1) {
 		this.fichaInscricao1 = fichaInscricao1;
-	}
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fc_competidor2")
-	public Competidor getCompetidor2() {
-		return competidor2;
-	}
-
-	public void setCompetidor2(Competidor competidor2) {
-		this.competidor2 = competidor2;
-	}
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fc_animal2")
-	public Animal getAnimal2() {
-		return animal2;
-	}
-
-	public void setAnimal2(Animal animal2) {
-		this.animal2 = animal2;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)

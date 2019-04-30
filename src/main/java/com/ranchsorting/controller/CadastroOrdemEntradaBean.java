@@ -82,9 +82,9 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	}
 
 	public void carregarCompetidores() {
-		filtroFolhaCompeticao.setCampeonato(this.ordemEntrada.getCampeonato().getNome());
-		filtroFolhaCompeticao.setEtapa(this.ordemEntrada.getEtapa().getNome());
-		filtroFolhaCompeticao.setDivisao(this.ordemEntrada.getDivisao().getNome());
+		//filtroFolhaCompeticao.setCampeonato(this.ordemEntrada.getCampeonato().getNome());
+		//filtroFolhaCompeticao.setEtapa(this.ordemEntrada.getEtapa().getNome());
+		//filtroFolhaCompeticao.setDivisao(this.ordemEntrada.getDivisao().getNome());
 		folhas = folhasCompeticoes.filtradas(filtroFolhaCompeticao);
 	}
 

@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<p:panelGrid columns="4"
+		columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+		layout="grid" styleClass="ui-panelgrid-blank"
+		style="border:0px none; background-color:transparent;">
+
+		<p:outputLabel for="nomeCompetidor1" value="Nome do Competidor 1:" />
+		<p:selectOneMenu id="nomeCompetidor1" filter="true" label="Competidor"
+			filterMatchMode="contains" style="margin-bottom:10px;"
+			value="#{cadastroFolhaCompeticaoBean.filtro.objCompetidor1}">
+			<f:selectItem itemLabel="Selecione um Competidor" />
+			<f:selectItems
+				value="#{cadastroFolhaCompeticaoBean.todosCompetidores}"
+				var="todosCompetidores" itemValue="#{todosCompetidores}"
+				itemLabel="#{todosCompetidores.nome}" />
+			<p:ajax
+				listener="#{cadastroFolhaCompeticaoBean.carregarFichasCompetidor1}"
+				update="numeroFicha1"
+				process="@this 
+						campeonato 
+						etapa 
+						divisao" />
+		</p:selectOneMenu>
+
+		<p:outputLabel for="nomeAnimal1" value="Animal:" />
+		<p:selectOneMenu id="nomeAnimal1" filter="true" label="Animal"
+			filterMatchMode="contains" style="margin-bottom:10px;"
+			value="#{cadastroFolhaCompeticaoBean.filtro.objAnimal1}">
+			<f:selectItem itemLabel="Selecione um Animal" />
+			<f:selectItem itemLabel="Preto" itemValue="preto" />
+			<f:selectItem itemLabel="Branco" itemValue="branco" />
+			<f:selectItem itemLabel="Cinza" itemValue="cinza" />
+			<f:selectItem itemLabel="Marrom" itemValue="marrom" />
+		</p:selectOneMenu>
+
+		<p:outputLabel for="numeroFicha1" value="Número da ficha:" />
+		<p:selectOneMenu id="numeroFicha1" filter="true" label="Ficha"
+			filterMatchMode="contains" style="margin-bottom:10px;"
+			value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.fichaInscricao1}">
+			<f:selectItem itemLabel="Selecione uma Ficha" />
+			<f:selectItems
+				value="#{cadastroFolhaCompeticaoBean.fichasCompetidores1}"
+				var="fichasCampeonatos1" itemValue="#{fichasCompetidores1}"
+				itemLabel="Cód: #{fichasCampeonatos1.id} - Vlr.Pago #{fichasCampeonatos1.valorPago}" />
+		</p:selectOneMenu>
+
+	</p:panelGrid>
+
+
+</ui:composition>

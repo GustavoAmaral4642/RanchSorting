@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="4"
+		columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+		layout="grid" styleClass="ui-panelgrid-blank"
+		style="border:0px none; background-color:transparent;">
+
+		<p:outputLabel for="codigoFolha" value="Código da Folha:" />
+		<p:inputText id="codigoFolha" disabled="true"
+			value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.id}" />
+
+		<p:outputLabel for="campeonato" value="Selecione o Campeonato:" />
+		<p:selectOneMenu id="campeonato" filter="true" label="Competidor"
+			filterMatchMode="contains" style="margin-bottom:10px;"
+			value="#{cadastroFolhaCompeticaoBean.filtro.objCampeonato}">
+			<f:selectItem itemLabel="Selecione um Campeonato" />
+			<f:selectItems
+				value="#{cadastroFolhaCompeticaoBean.todosCampeonatos}"
+				var="todosCampeonatos" itemValue="#{todosCampeonatos}"
+				itemLabel="#{todosCampeonatos.nome}" />
+			<p:ajax listener="#{cadastroFolhaCompeticaoBean.carregarEtapas}"
+				update="etapa" />
+		</p:selectOneMenu>
+
+		<p:outputLabel for="etapa" value="Selecione a Etapa:" />
+		<p:selectOneMenu id="etapa" filter="true" label="Etapa"
+			filterMatchMode="contains" style="margin-bottom:10px;"
+			value="#{cadastroFolhaCompeticaoBean.filtro.objEtapa}">
+			<f:selectItem itemLabel="Selecione uma Etapa" />
+			<f:selectItems
+				value="#{cadastroFolhaCompeticaoBean.etapasCampeonatos}"
+				var="etapasCampeonatos" itemValue="#{etapasCampeonatos}"
+				itemLabel="#{etapasCampeonatos.nome}" />
+			<p:ajax listener="#{cadastroFolhaCompeticaoBean.carregarDataEtapa}"
+					update="dataCompeticao"/>
+		</p:selectOneMenu>
+
+		<p:outputLabel for="divisao" value="Selecione a divisao:" />
+		<p:selectOneMenu id="divisao"
+			value="#{cadastroFolhaCompeticaoBean.filtro.objDivisao}">
+			<f:selectItem itemLabel="Selecione a Divisão" />
+			<f:selectItems value="#{cadastroFolhaCompeticaoBean.todasDivisoes}"
+				var="todasDivisoes" itemValue="#{todasDivisoes}"
+				itemLabel="#{todasDivisoes.nome}" />
+		</p:selectOneMenu>
+
+		<p:outputLabel for="dataCompeticao" value="Data da Competição:" />
+		<p:calendar id="dataCompeticao" placeholder="__/__/____"
+			pattern="dd/MM/yyyy" title="Data da Competição" size="10"
+			value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.data}"
+			mask="99/99/9999" />
+
+		<p:outputLabel for="numeroDupla" value="Número da Dupla:" />
+		<p:inputText id="numeroDupla"
+			value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.numeroDupla}" />
+
+	</p:panelGrid>
+
+</ui:composition>

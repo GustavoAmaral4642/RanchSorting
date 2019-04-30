@@ -1,12 +1,11 @@
 package com.ranchsorting.repository;
 
-import java.io.Serializable; 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
@@ -39,34 +38,29 @@ public class FolhasCompeticoes implements Serializable {
 	public List<FolhaCompeticao> filtradas(FolhaCompeticaoFilter filtro) {
 
 		Session session = manager.unwrap(Session.class);
-		Criteria criteria = session.createCriteria(FolhaCompeticao.class)
-				.createAlias("campeonato", "ca")
-				.createAlias("etapa", "e")
-				.createAlias("divisao", "d");
+		Criteria criteria = session.createCriteria(FolhaCompeticao.class).createAlias("fichaInscricao1", "fi1");
 
-		if (StringUtils.isNotBlank(filtro.getCampeonato())) {
-			criteria.add(Restrictions.eq("ca.nome", filtro.getCampeonato()));
+		if (filtro.getObjCampeonato() != null) {
+			criteria.add(Restrictions.eq("fi1.campeonato", filtro.getObjCampeonato()));
 		}
 
+		if (filtro.getObjEtapa() != null) {
+			criteria.add(Restrictions.eq("fi1.etapa", filtro.getObjEtapa()));
+		}
+
+		if (filtro.getObjDivisao() != null) {
+			criteria.add(Restrictions.eq("fi1.divisao", filtro.getObjDivisao()));
+		}
 		
-		if (StringUtils.isNotBlank(filtro.getEtapa())) {
-			criteria.add(Restrictions.eq("e.nome", filtro.getEtapa()));
-		}
-		
-		if (StringUtils.isNotBlank(filtro.getDivisao())) {
-			criteria.add(Restrictions.eq("d.nome", filtro.getDivisao()));
-		}
-		/*
-		if (filtro.getDataInscricaoInicial() != null) {
-			criteria.add(Restrictions.ge("dataInscricao", filtro.getDataInscricaoInicial()));
+		if (filtro.getDataCompeticaoInicial() != null) {
+			criteria.add(Restrictions.ge("data", filtro.getDataCompeticaoInicial()));
 		}
 
-		if (filtro.getDataInscricaoFinal() != null) {
-			criteria.add(Restrictions.le("dataInscricao", filtro.getDataInscricaoFinal()));
+		if (filtro.getDataCompeticaoFinal() != null) {
+			criteria.add(Restrictions.le("data", filtro.getDataCompeticaoFinal()));
 		}
-	*/	
-		return criteria.addOrder(Order.asc("ca.nome")).list();
+
+		return criteria.addOrder(Order.asc("fi1.campeonato")).list();
 	}
 
-	
 }

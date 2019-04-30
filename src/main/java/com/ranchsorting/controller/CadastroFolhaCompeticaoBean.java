@@ -1,6 +1,7 @@
 package com.ranchsorting.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
@@ -20,6 +21,7 @@ import com.ranchsorting.repository.Competidores;
 import com.ranchsorting.repository.Divisoes;
 import com.ranchsorting.repository.Etapas;
 import com.ranchsorting.repository.FichasInscricoes;
+import com.ranchsorting.repository.filter.FolhaCompeticaoFilter;
 import com.ranchsorting.service.CadastroFolhaCompeticaoService;
 import com.ranchsorting.util.jsf.FacesUtil;
 
@@ -46,11 +48,12 @@ public class CadastroFolhaCompeticaoBean implements Serializable {
 
 	@Inject
 	private Divisoes divisoes;
-	
-	@Inject 
+
+	@Inject
 	private FichasInscricoes fichas;
 
 	private FolhaCompeticao folhaCompeticao;
+	private FolhaCompeticaoFilter filtro;
 
 	private List<Competidor> todosCompetidores;
 	private List<Animal> todosAnimais;
@@ -59,7 +62,7 @@ public class CadastroFolhaCompeticaoBean implements Serializable {
 	private List<Divisao> todasDivisoes;
 	private List<FichaInscricao> fichasCompetidores1;
 	private List<FichaInscricao> fichasCompetidores2;
-	
+
 	public CadastroFolhaCompeticaoBean() {
 		limpar();
 	}
@@ -73,34 +76,53 @@ public class CadastroFolhaCompeticaoBean implements Serializable {
 
 	public void limpar() {
 		folhaCompeticao = new FolhaCompeticao();
+		filtro = new FolhaCompeticaoFilter();
+		fichasCompetidores1 = new ArrayList<>();
+		fichasCompetidores2 = new ArrayList<>();
 	}
 
 	public void salvar() {
 		this.folhaCompeticao = cadastroFolhaCompeticaoService.salvar(folhaCompeticao);
-		
+
 		limpar();
 
 		FacesUtil.addInfoMessage("Folha de Competição registrada com sucesso!");
 	}
 
 	public void carregarEtapas() {
-		etapasCampeonatos = etapas.etapasDoCampeonato(folhaCompeticao.getCampeonato());
+		etapasCampeonatos = etapas.etapasDoCampeonato(filtro.getObjCampeonato());		
+	}
+	
+	public void carregarDataEtapa(){
+		if(filtro.getObjEtapa() != null){
+			folhaCompeticao.setData(filtro.getObjEtapa().getDataEvento());
+		}
 	}
 
 	public void carregarFichasCompetidor1() {
-		fichasCompetidores1 = fichas.carregarFichasCompetidores(folhaCompeticao.getCompetidor1());
+		fichasCompetidores1 = fichas.carregarFichasCompetidores(filtro.getObjCompetidor1(), filtro.getObjCampeonato(),
+				filtro.getObjEtapa(), filtro.getObjDivisao());
 	}
 
 	public void carregarFichasCompetidor2() {
-		fichasCompetidores2 = fichas.carregarFichasCompetidores(folhaCompeticao.getCompetidor2());
+		fichasCompetidores2 = fichas.carregarFichasCompetidores(filtro.getObjCompetidor2(), filtro.getObjCampeonato(),
+				filtro.getObjEtapa(), filtro.getObjDivisao());
 	}
-	
+
 	public FolhaCompeticao getFolhaCompeticao() {
 		return folhaCompeticao;
 	}
 
 	public void setFolhaCompeticao(FolhaCompeticao folhaCompeticao) {
 		this.folhaCompeticao = folhaCompeticao;
+	}
+
+	public FolhaCompeticaoFilter getFiltro() {
+		return filtro;
+	}
+
+	public void setFiltro(FolhaCompeticaoFilter filtro) {
+		this.filtro = filtro;
 	}
 
 	public List<Campeonato> getTodosCampeonatos() {

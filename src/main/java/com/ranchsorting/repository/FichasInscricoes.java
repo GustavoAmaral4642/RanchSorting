@@ -13,7 +13,10 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
+import com.ranchsorting.model.Campeonato;
 import com.ranchsorting.model.Competidor;
+import com.ranchsorting.model.Divisao;
+import com.ranchsorting.model.Etapa;
 import com.ranchsorting.model.FichaInscricao;
 import com.ranchsorting.repository.filter.FichaInscricaoFilter;
 
@@ -67,9 +70,15 @@ public class FichasInscricoes implements Serializable {
 		return criteria.addOrder(Order.asc("ca.nome")).list();
 	}
 
-	public List<FichaInscricao> carregarFichasCompetidores(Competidor competidor1) {
-		return manager.createQuery("from FichaInscricao where competidor = :competidor", FichaInscricao.class)
-				.setParameter("competidor", competidor1).getResultList();
+	public List<FichaInscricao> carregarFichasCompetidores(Competidor competidor1,Campeonato campeonato, Etapa etapa, Divisao divisao) {
+		return manager.createQuery("from FichaInscricao where competidor = :competidor"
+				+ " and campeonato = :campeonato"
+				+ " and etapa = :etapa"
+				+ " and divisao = :divisao", FichaInscricao.class)
+				.setParameter("competidor", competidor1)
+				.setParameter("campeonato", campeonato)
+				.setParameter("etapa", etapa)
+				.setParameter("divisao", divisao).getResultList();
 	}
 
 }

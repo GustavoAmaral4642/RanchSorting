@@ -14,6 +14,12 @@
 	</ui:define>
 
 	<ui:define name="content">
+
+		<f:metadata>
+			<f:event listener="#{pesquisaFolhasCompeticoesBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
 		<h:form>
 			<div class="ui-fluid">
 				<div class="ui-g">
@@ -29,25 +35,50 @@
 									layout="grid" styleClass="ui-panelgrid-blank"
 									style="border:0px none; background-color:transparent;">
 
-									<p:outputLabel for="codigoFolha" value="Código da Folha:" />
-									<p:inputText id="codigoFolha" />
+									<p:outputLabel for="campeonato" value="Selecione o Campeonato:" />
+									<p:selectOneMenu id="campeonato" filter="true"
+										label="Competidor" filterMatchMode="contains"
+										style="margin-bottom:10px;"
+										value="#{pesquisaFolhasCompeticoesBean.filtro.objCampeonato}">
+										<f:selectItem itemLabel="Selecione um Campeonato" />
+										<f:selectItems
+											value="#{pesquisaFolhasCompeticoesBean.todosCampeonatos}"
+											var="todosCampeonatos" itemValue="#{todosCampeonatos}"
+											itemLabel="#{todosCampeonatos.nome}" />
+									</p:selectOneMenu>
 
-									<p:outputLabel for="nomeCampeonato" value="Nome do Campeonato:" />
-									<p:inputText id="nomeCampeonato" value="#{pesquisaFolhasCompeticoesBean.filtro.campeonato}" />
+									<p:outputLabel for="etapa" value="Selecione a Etapa:" />
+									<p:selectOneMenu id="etapa" filter="true" label="Etapa"
+										filterMatchMode="contains" style="margin-bottom:10px;"
+										value="#{pesquisaFolhasCompeticoesBean.filtro.objEtapa}">
+										<f:selectItem itemLabel="Selecione uma Etapa" />
+										<f:selectItems
+											value="#{pesquisaFolhasCompeticoesBean.todasEtapas}"
+											var="etapasCampeonatos" itemValue="#{etapasCampeonatos}"
+											itemLabel="#{etapasCampeonatos.nome}" />
+									</p:selectOneMenu>
 
-									<p:outputLabel for="etapa" value="Etapa:" />
-									<p:inputText id="etapa" value="#{pesquisaFolhasCompeticoesBean.filtro.etapa}"/>
-
-									<p:outputLabel for="divisao" value="Divisão:" />
-									<p:inputText id="divisao" value="#{pesquisaFolhasCompeticoesBean.filtro.divisao}"/>
+									<p:outputLabel for="divisao" value="Selecione a divisao:" />
+									<p:selectOneMenu id="divisao"
+										value="#{pesquisaFolhasCompeticoesBean.filtro.objDivisao}">
+										<f:selectItem itemLabel="Selecione a Divisão" />
+										<f:selectItems
+											value="#{pesquisaFolhasCompeticoesBean.todasDivisoes}"
+											var="todasDivisoes" itemValue="#{todasDivisoes}"
+											itemLabel="#{todasDivisoes.nome}" />
+									</p:selectOneMenu>
 
 									<p:outputLabel value="Data da Competicao:" />
 									<h:panelGroup>
 										<p:panelGrid columns="2" layout="grid">
-											<p:inputText id="dataCompeticaoInicial"
-												placeholder="Data Inicial" value="#{pesquisaFolhasCompeticoesBean.filtro.dataCompeticaoInicial}"/>
-											<p:inputText id="dataCompeticaoFinal"
-												placeholder="Data Final" value="#{pesquisaFolhasCompeticoesBean.filtro.dataCompeticaoFinal}"/>
+											
+											<p:calendar id="dataCompeticaoInicial" size="15" pattern="dd/MM/yyyy"
+												mask="99/99/9999" placeholder="Data Inicial"
+												value="#{pesquisaFolhasCompeticoesBean.filtro.dataCompeticaoInicial}" />
+
+											<p:calendar id="dataCompeticaoFinal" size="15" pattern="dd/MM/yyyy"
+												mask="99/99/9999" placeholder="Data Final"
+												value="#{pesquisaFolhasCompeticoesBean.filtro.dataCompeticaoFinal}" />
 										</p:panelGrid>
 									</h:panelGroup>
 
@@ -58,10 +89,13 @@
 
 										<p:commandButton value="Pesquisar" icon="fa fa-search"
 											action="#{pesquisaFolhasCompeticoesBean.pesquisar}"
-											update="folhasTable" 
+											update="folhasTable"
 											process="@this
-											nomeCampeonato
-											etapa" />
+											campeonato
+											etapa
+											divisao
+											dataCompeticaoInicial
+											dataCompeticaoFinal" />
 									</p:panelGrid>
 
 								</p:panelGrid>
@@ -76,34 +110,34 @@
 									<f:facet name="header">
                                 		Folhas de Competições Cadastradas
                             		</f:facet>
-                            		
-                            		<p:column headerText="Código" style="text-align: center">
+
+									<p:column headerText="Código" style="text-align: center">
 										<h:outputText value="#{folha.id}" />
 									</p:column>
-                            
+
 									<p:column headerText="Campeonato" style="text-align: center">
-										<h:outputText value="#{folha.campeonato.nome}" />
+										<h:outputText value="#{folha.fichaInscricao1.campeonato.nome}" />
 									</p:column>
 
 									<p:column headerText="Etapa" style="text-align: center">
-										<h:outputText value="#{folha.etapa.nome}" />
+										<h:outputText value="#{folha.fichaInscricao1.etapa.nome}" />
 									</p:column>
 
 									<p:column headerText="Divisão" style="text-align: center">
-										<h:outputText value="#{folha.divisao.nome}" />
+										<h:outputText value="#{folha.fichaInscricao1.divisao.nome}" />
 									</p:column>
 
 									<p:column headerText="Competidor 1" style="text-align: center">
-										<h:outputText value="#{folha.competidor1.nome}" />
+										<h:outputText value="#{folha.fichaInscricao1.competidor.nome}" />
 									</p:column>
 
 									<p:column headerText="Competidor 2" style="text-align: center">
-										<h:outputText value="#{folha.competidor2.nome}" />
+										<h:outputText value="#{folha.fichaInscricao2.competidor.nome}" />
 									</p:column>
 
 									<p:column headerText="Dupla"
 										style="width: 80px; text-align: center">
-										<h:outputText value="#{folha.numeroDupla}"/>
+										<h:outputText value="#{folha.numeroDupla}" />
 									</p:column>
 
 									<p:column headerText="Data da Competição"
