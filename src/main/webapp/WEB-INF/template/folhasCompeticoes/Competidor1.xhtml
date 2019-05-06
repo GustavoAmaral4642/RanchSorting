@@ -16,12 +16,13 @@
 			value="#{cadastroFolhaCompeticaoBean.filtro.objCompetidor1}">
 			<f:selectItem itemLabel="Selecione um Competidor" />
 			<f:selectItems
-				value="#{cadastroFolhaCompeticaoBean.todosCompetidores}"
-				var="todosCompetidores" itemValue="#{todosCompetidores}"
-				itemLabel="#{todosCompetidores.nome}" />
+				value="#{cadastroFolhaCompeticaoBean.todosCompetidores1}"
+				var="todosCompetidores1" itemValue="#{todosCompetidores1}"
+				itemLabel="#{todosCompetidores1.nome}" />
 			<p:ajax
 				listener="#{cadastroFolhaCompeticaoBean.carregarFichasCompetidor1}"
-				update="numeroFicha1"
+				update="numeroFicha1 
+						nomeCompetidor2"
 				process="@this 
 						campeonato 
 						etapa 
@@ -47,7 +48,7 @@
 			<f:selectItems
 				value="#{cadastroFolhaCompeticaoBean.fichasCompetidores1}"
 				var="fichasCampeonatos1" itemValue="#{fichasCompetidores1}"
-				itemLabel="Cód: #{fichasCampeonatos1.id} - Vlr.Pago #{fichasCampeonatos1.valorPago}" />
+				itemLabel="Código Ficha: #{fichasCampeonatos1.id} - Vlr.Pago #{fichasCampeonatos1.valorPago}" />
 		</p:selectOneMenu>
 
 	</p:panelGrid>

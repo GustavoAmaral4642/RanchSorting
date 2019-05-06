@@ -18,11 +18,24 @@ public class CadastroFolhaCompeticaoService implements Serializable {
 
 	@Transactional
 	public FolhaCompeticao salvar(FolhaCompeticao folha) {
-
+		
+		if(folha.getFichaInscricao1() == null){
+			throw new NegocioException("Por favor, selecione uma ficha de inscrição!");
+		}
+		
+		if(folha.getFichaInscricao2() == null){
+			throw new NegocioException("Por favor, selecione uma ficha de inscrição!");
+		}
+		
+		if(folha.getFichaInscricao1().getCompetidor().getId() == folha.getFichaInscricao2().getCompetidor().getId()){
+			throw new NegocioException("Os competidores devem ser diferentes!");
+		}
+		
+		
+		
 		try {
 			return folhas.guardar(folha);
-	
-
+			
 		} catch (ConstraintViolationException ex) {
 			throw new NegocioException("Ocorreu algum promblema na gravação da Folha de Competiçao."
 					+ "Entre em contato com o administrador do Sistema. (ConstraintViolationException)");

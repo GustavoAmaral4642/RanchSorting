@@ -13,9 +13,9 @@
 		<p:inputText id="codigoFolha" disabled="true"
 			value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.id}" />
 
-		<p:outputLabel for="campeonato" value="Selecione o Campeonato:" />
+		<p:outputLabel for="campeonato" value="Campeonato:" />
 		<p:selectOneMenu id="campeonato" filter="true" label="Competidor"
-			filterMatchMode="contains" style="margin-bottom:10px;"
+			filterMatchMode="contains" style="margin-bottom:10px;" 
 			value="#{cadastroFolhaCompeticaoBean.filtro.objCampeonato}">
 			<f:selectItem itemLabel="Selecione um Campeonato" />
 			<f:selectItems
@@ -26,7 +26,7 @@
 				update="etapa" />
 		</p:selectOneMenu>
 
-		<p:outputLabel for="etapa" value="Selecione a Etapa:" />
+		<p:outputLabel for="etapa" value="Etapa:" />
 		<p:selectOneMenu id="etapa" filter="true" label="Etapa"
 			filterMatchMode="contains" style="margin-bottom:10px;"
 			value="#{cadastroFolhaCompeticaoBean.filtro.objEtapa}">
@@ -36,11 +36,11 @@
 				var="etapasCampeonatos" itemValue="#{etapasCampeonatos}"
 				itemLabel="#{etapasCampeonatos.nome}" />
 			<p:ajax listener="#{cadastroFolhaCompeticaoBean.carregarDataEtapa}"
-					update="dataCompeticao"/>
+				update="dataCompeticao" />
 		</p:selectOneMenu>
 
-		<p:outputLabel for="divisao" value="Selecione a divisao:" />
-		<p:selectOneMenu id="divisao"
+		<p:outputLabel for="divisao" value="Divisao:" />
+		<p:selectOneMenu id="divisao" 
 			value="#{cadastroFolhaCompeticaoBean.filtro.objDivisao}">
 			<f:selectItem itemLabel="Selecione a Divisão" />
 			<f:selectItems value="#{cadastroFolhaCompeticaoBean.todasDivisoes}"
@@ -57,7 +57,6 @@
 		<p:outputLabel for="numeroDupla" value="Número da Dupla:" />
 		<p:inputText id="numeroDupla"
 			value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.numeroDupla}" />
-
 	</p:panelGrid>
 
 </ui:composition>

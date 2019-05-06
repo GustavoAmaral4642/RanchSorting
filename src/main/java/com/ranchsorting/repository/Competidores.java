@@ -39,7 +39,7 @@ public class Competidores implements Serializable {
 			return null;
 		}
 	}
-
+		
 	@SuppressWarnings("unchecked")
 	public List<Competidor> filtrados(CompetidorFilter filtro) {
 

@@ -1,6 +1,6 @@
 package com.ranchsorting.controller;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,13 +14,11 @@ import com.ranchsorting.model.Divisao;
 import com.ranchsorting.model.Etapa;
 import com.ranchsorting.model.FolhaCompeticao;
 import com.ranchsorting.model.OrdemEntrada;
-import com.ranchsorting.model.Passada;
 import com.ranchsorting.repository.Campeonatos;
 import com.ranchsorting.repository.Divisoes;
 import com.ranchsorting.repository.Etapas;
 import com.ranchsorting.repository.FolhasCompeticoes;
 import com.ranchsorting.repository.filter.FolhaCompeticaoFilter;
-import com.ranchsorting.repository.filter.OrdemEntradaFilter;
 import com.ranchsorting.service.CadastroOrdemEntradaService;
 import com.ranchsorting.util.jsf.FacesUtil;
 
@@ -48,7 +46,6 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	private List<Campeonato> todosCampeonatos;
 	private List<Etapa> etapasCampeonatos;
 	private List<Divisao> todasDivisoes;
-	private List<Passada> passadasGeradas;
 	private List<FolhaCompeticao> folhas;
 
 	private OrdemEntrada ordemEntrada;
@@ -82,18 +79,15 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	}
 
 	public void carregarCompetidores() {
-		//filtroFolhaCompeticao.setCampeonato(this.ordemEntrada.getCampeonato().getNome());
-		//filtroFolhaCompeticao.setEtapa(this.ordemEntrada.getEtapa().getNome());
-		//filtroFolhaCompeticao.setDivisao(this.ordemEntrada.getDivisao().getNome());
 		folhas = folhasCompeticoes.filtradas(filtroFolhaCompeticao);
 	}
 
 	public void carregarEtapas() {
-		etapasCampeonatos = etapas.etapasDoCampeonato(this.ordemEntrada.getCampeonato());
+		etapasCampeonatos = etapas.etapasDoCampeonato(this.filtroFolhaCompeticao.getObjCampeonato());
 	}
 
 	public void carregarDataEtapa() {
-		this.ordemEntrada.setData(this.ordemEntrada.getEtapa().getDataEvento());
+		this.ordemEntrada.setData(this.filtroFolhaCompeticao.getObjEtapa().getDataEvento());
 	}
 
 	public void gerarOrdemEntrada() {
@@ -137,14 +131,6 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	public List<Divisao> getTodasDivisoes() {
 		return todasDivisoes;
-	}
-
-	public List<Passada> getPassadasGeradas() {
-		return passadasGeradas;
-	}
-
-	public void setPassadasGeradas(List<Passada> passadasGeradas) {
-		this.passadasGeradas = passadasGeradas;
 	}
 
 	public List<FolhaCompeticao> getFolhas() {

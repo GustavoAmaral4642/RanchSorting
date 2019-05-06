@@ -10,23 +10,23 @@
 		style="border:0px none; background-color:transparent;">
 
 		<p:outputLabel for="numeroCampeonato" value="Número do Campeonato" />
-		<p:inputText id="numeroCampeonato"
+		<p:inputText id="numeroCampeonato" 
 			value="#{cadastroCampeonatoBean.campeonato.id}" disabled="true" />
 
 		<p:outputLabel for="nomeCampeonato" value="Nome do Campeonato" />
 		<p:inputText id="nomeCampeonato"
 			value="#{cadastroCampeonatoBean.campeonato.nome}" />
 
-		<p:outputLabel value="Data de Abertura" />
+		<p:outputLabel value="Data de Abertura" for="dataAbertura"/>
 		<p:calendar id="dataAbertura" label="Data da Abertura"
 			placeholder="__/__/_____" pattern="dd/MM/yyyy" title="Data" size="10"
 			value="#{cadastroCampeonatoBean.campeonato.dataAbertura}"
 			mask="99/99/9999" />
 
-		<p:outputLabel for="dataEvento" value="Data do Evento" />
-		<p:calendar id="dataEvento" label="Data do Evento"
+		<p:outputLabel for="dataTermino" value="Data do Término" />
+		<p:calendar id="dataTermino" label="Data do Término"
 			placeholder="__/__/_____" pattern="dd/MM/yyyy" title="Data" size="10"
-			value="#{cadastroCampeonatoBean.campeonato.dataEvento}"
+			value="#{cadastroCampeonatoBean.campeonato.dataTermino}"
 			mask="99/99/9999" />
 
 		<p:outputLabel for="valorAnuidade" value="Valor Anuidade:" />
@@ -36,6 +36,14 @@
 			styleClass="moeda">
 			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 		</p:inputText>
+
+		<p:outputLabel for="duplaRepetida" value="Repetir Dupla/Vezes:" />
+		<p:inputText id="duplaRepetida" label="Repetir Dupla" 	
+			placeholder="Repetir Dupla" size="20" maxlength="20"
+			value="#{cadastroCampeonatoBean.campeonato.qntDuplasRepetidas}"/>
+
+		<p:spacer />
+		<p:spacer />
 
 		<p:spacer />
 		<h:panelGroup>

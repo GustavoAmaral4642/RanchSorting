@@ -10,8 +10,8 @@ public class CampeonatoFilter implements Serializable {
 	private String nome;
 	private Date dataAberturaInicial;
 	private Date dataAberturaFinal;
-	private Date dataEventoInicial;
-	private Date dataEventoFinal;
+	private Date dataTerminoInicial;
+	private Date dataTerminoFinal;
 
 	public String getNome() {
 		return nome;
@@ -37,20 +37,20 @@ public class CampeonatoFilter implements Serializable {
 		this.dataAberturaFinal = dataAberturaFinal;
 	}
 
-	public Date getDataEventoInicial() {
-		return dataEventoInicial;
+	public Date getDataTerminoInicial() {
+		return dataTerminoInicial;
 	}
 
-	public void setDataEventoInicial(Date dataEventoInicial) {
-		this.dataEventoInicial = dataEventoInicial;
+	public void setDataTerminoInicial(Date dataEventoInicial) {
+		this.dataTerminoInicial = dataEventoInicial;
 	}
 
-	public Date getDataEventoFinal() {
-		return dataEventoFinal;
+	public Date getDataTerminoFinal() {
+		return dataTerminoFinal;
 	}
 
-	public void setDataEventoFinal(Date dataEventoFinal) {
-		this.dataEventoFinal = dataEventoFinal;
+	public void setDataTerminoFinal(Date dataEventoFinal) {
+		this.dataTerminoFinal = dataEventoFinal;
 	}
 
 }

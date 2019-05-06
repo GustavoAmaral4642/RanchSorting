@@ -35,12 +35,9 @@ public class OrdensEntradas implements Serializable {
 	public List<OrdemEntrada> filtradas(OrdemEntradaFilter filtro) {
 
 		Session session = manager.unwrap(Session.class);
-		Criteria criteria = session.createCriteria(OrdemEntrada.class)
-				.createAlias("campeonato", "ca")
-				.createAlias("etapa", "e")
-				.createAlias("divisao", "d");
+		Criteria criteria = session.createCriteria(OrdemEntrada.class);
 
-		if (filtro.getCampeonato() != null) {
+		/*if (filtro.getCampeonato() != null) {
 			criteria.add(Restrictions.eq("ca.nome", filtro.getCampeonato().getNome()));
 		}
 
@@ -52,7 +49,7 @@ public class OrdensEntradas implements Serializable {
 		if (filtro.getDivisao() != null) {
 			criteria.add(Restrictions.eq("d.nome", filtro.getDivisao().getNome()));
 		}
-		/*
+		
 		if (filtro.getDataInscricaoInicial() != null) {
 			criteria.add(Restrictions.ge("dataInscricao", filtro.getDataInscricaoInicial()));
 		}

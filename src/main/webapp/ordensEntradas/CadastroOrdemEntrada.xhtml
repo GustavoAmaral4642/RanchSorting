@@ -44,7 +44,7 @@
 								<p:selectOneMenu id="campeonato" filter="true"
 									label="Competidor" filterMatchMode="contains"
 									style="margin-bottom:10px;"
-									value="#{cadastroOrdemEntradaBean.ordemEntrada.campeonato}">
+									value="#{cadastroOrdemEntradaBean.filtroFolhaCompeticao.objCampeonato}">
 									<f:selectItem itemLabel="Selecione um Campeonato" />
 									<f:selectItems
 										value="#{cadastroOrdemEntradaBean.todosCampeonatos}"
@@ -57,7 +57,7 @@
 								<p:outputLabel for="etapa" value="Selecione a Etapa:" />
 								<p:selectOneMenu id="etapa" filter="true" label="Etapa"
 									filterMatchMode="contains" style="margin-bottom:10px;"
-									value="#{cadastroOrdemEntradaBean.ordemEntrada.etapa}">
+									value="#{cadastroOrdemEntradaBean.filtroFolhaCompeticao.objEtapa}">
 									<f:selectItem itemLabel="Selecione uma Etapa" />
 									<f:selectItems
 										value="#{cadastroOrdemEntradaBean.etapasCampeonatos}"
@@ -70,7 +70,7 @@
 
 								<p:outputLabel for="divisao" value="Selecione a divisao:" />
 								<p:selectOneMenu id="divisao" showCheckbox="true"
-									value="#{cadastroOrdemEntradaBean.ordemEntrada.divisao}">
+									value="#{cadastroOrdemEntradaBean.filtroFolhaCompeticao.objDivisao}">
 									<f:selectItem itemLabel="Selecione a Divisão" />
 									<f:selectItems
 										value="#{cadastroOrdemEntradaBean.todasDivisoes}"
@@ -130,13 +130,13 @@
 								</p:column>
 
 								<p:column headerText="Competidor 1"
-									sortBy="#{passada.competidor1.nome}" style="text-align: center">
-									<h:outputText value="#{passada.competidor1.nome}" />
+									sortBy="#{passada.fichaInscricao1.competidor.nome}" style="text-align: center">
+									<h:outputText value="#{passada.fichaInscricao1.competidor.nome}" />
 								</p:column>
 
 								<p:column headerText="Competidor 2"
-									sortBy="#{passada.competidor2.nome}" style="text-align: center">
-									<h:outputText value="#{passada.competidor2.nome}" />
+									sortBy="#{passada.fichaInscricao2.competidor.nome}" style="text-align: center">
+									<h:outputText value="#{passada.fichaInscricao2.competidor.nome}" />
 								</p:column>
 
 								<p:column headerText="Número Dupla"

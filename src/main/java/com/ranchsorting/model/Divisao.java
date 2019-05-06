@@ -55,7 +55,7 @@ public class Divisao implements Serializable {
 	public final void setNome(String nome) {
 		this.nome = nome;
 	}
-
+	
 	@ManyToOne
 	@JoinColumn(name = "dv_campeonato_id")
 	public Campeonato getCampeonato() {

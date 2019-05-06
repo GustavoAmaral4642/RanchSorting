@@ -15,12 +15,14 @@ import com.ranchsorting.model.Divisao;
 import com.ranchsorting.model.Etapa;
 import com.ranchsorting.model.FichaInscricao;
 import com.ranchsorting.model.FolhaCompeticao;
+import com.ranchsorting.model.TipoFolha;
 import com.ranchsorting.repository.Animais;
 import com.ranchsorting.repository.Campeonatos;
 import com.ranchsorting.repository.Competidores;
 import com.ranchsorting.repository.Divisoes;
 import com.ranchsorting.repository.Etapas;
 import com.ranchsorting.repository.FichasInscricoes;
+import com.ranchsorting.repository.filter.FichaInscricaoFilter;
 import com.ranchsorting.repository.filter.FolhaCompeticaoFilter;
 import com.ranchsorting.service.CadastroFolhaCompeticaoService;
 import com.ranchsorting.util.jsf.FacesUtil;
@@ -54,8 +56,10 @@ public class CadastroFolhaCompeticaoBean implements Serializable {
 
 	private FolhaCompeticao folhaCompeticao;
 	private FolhaCompeticaoFilter filtro;
+	private FichaInscricaoFilter filtroFichaInscricao;
 
-	private List<Competidor> todosCompetidores;
+	private List<Competidor> todosCompetidores1;
+	private List<Competidor> todosCompetidores2;
 	private List<Animal> todosAnimais;
 	private List<Campeonato> todosCampeonatos;
 	private List<Etapa> etapasCampeonatos;
@@ -68,10 +72,26 @@ public class CadastroFolhaCompeticaoBean implements Serializable {
 	}
 
 	public void inicializar() {
-		todosCompetidores = competidores.todosCompetidores();
+		todosCompetidores1 = competidores.todosCompetidores();
+		todosCompetidores2 = competidores.todosCompetidores();
 		todosAnimais = animais.todosAnimais();
 		todosCampeonatos = campeonatos.todosCampeonatos();
 		todasDivisoes = divisoes.todasDivisoes();
+
+		// se não for atualização de página, carrega listagem
+		if (FacesUtil.isNotPostback()) {
+			if (isEditando()) {
+				filtro.setObjCampeonato(folhaCompeticao.getFichaInscricao1().getCampeonato());
+				carregarEtapas();
+				filtro.setObjEtapa(folhaCompeticao.getFichaInscricao1().getEtapa());
+				filtro.setObjDivisao(folhaCompeticao.getFichaInscricao1().getDivisao());
+				carregarDataEtapa();
+				filtro.setObjCompetidor1(folhaCompeticao.getFichaInscricao1().getCompetidor());
+				filtro.setObjCompetidor2(folhaCompeticao.getFichaInscricao2().getCompetidor());
+				carregarFichasCompetidor1();
+				carregarFichasCompetidor2();
+			}
+		}
 	}
 
 	public void limpar() {
@@ -79,9 +99,14 @@ public class CadastroFolhaCompeticaoBean implements Serializable {
 		filtro = new FolhaCompeticaoFilter();
 		fichasCompetidores1 = new ArrayList<>();
 		fichasCompetidores2 = new ArrayList<>();
+		filtroFichaInscricao = new FichaInscricaoFilter();
 	}
 
 	public void salvar() {
+		
+		if (!isEditando()) {
+			this.folhaCompeticao.setTipoFolha(TipoFolha.MANUAL);
+		}
 		this.folhaCompeticao = cadastroFolhaCompeticaoService.salvar(folhaCompeticao);
 
 		limpar();
@@ -90,15 +115,15 @@ public class CadastroFolhaCompeticaoBean implements Serializable {
 	}
 
 	public void carregarEtapas() {
-		etapasCampeonatos = etapas.etapasDoCampeonato(filtro.getObjCampeonato());		
+		etapasCampeonatos = etapas.etapasDoCampeonato(filtro.getObjCampeonato());
 	}
-	
-	public void carregarDataEtapa(){
-		if(filtro.getObjEtapa() != null){
+
+	public void carregarDataEtapa() {
+		if (filtro.getObjEtapa() != null) {
 			folhaCompeticao.setData(filtro.getObjEtapa().getDataEvento());
 		}
 	}
-
+	
 	public void carregarFichasCompetidor1() {
 		fichasCompetidores1 = fichas.carregarFichasCompetidores(filtro.getObjCompetidor1(), filtro.getObjCampeonato(),
 				filtro.getObjEtapa(), filtro.getObjDivisao());
@@ -137,8 +162,20 @@ public class CadastroFolhaCompeticaoBean implements Serializable {
 		return todasDivisoes;
 	}
 
-	public List<Competidor> getTodosCompetidores() {
-		return todosCompetidores;
+	public List<Competidor> getTodosCompetidores1() {
+		return todosCompetidores1;
+	}
+
+	public void setTodosCompetidores1(List<Competidor> todosCompetidores1) {
+		this.todosCompetidores1 = todosCompetidores1;
+	}
+
+	public List<Competidor> getTodosCompetidores2() {
+		return todosCompetidores2;
+	}
+
+	public void setTodosCompetidores2(List<Competidor> todosCompetidores2) {
+		this.todosCompetidores2 = todosCompetidores2;
 	}
 
 	public List<Animal> getTodosAnimais() {
@@ -151,6 +188,14 @@ public class CadastroFolhaCompeticaoBean implements Serializable {
 
 	public List<FichaInscricao> getFichasCompetidores2() {
 		return fichasCompetidores2;
+	}
+
+	public FichaInscricaoFilter getFiltroFichaInscricao() {
+		return filtroFichaInscricao;
+	}
+
+	public void setFiltroFichaInscricao(FichaInscricaoFilter filtroFichaInscricao) {
+		this.filtroFichaInscricao = filtroFichaInscricao;
 	}
 
 	public boolean isEditando() {

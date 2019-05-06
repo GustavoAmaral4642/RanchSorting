@@ -20,7 +20,7 @@
 			<f:event listener="#{cadastroEtapaBean.inicializar}"
 				type="preRenderView" />
 		</f:metadata>
-	
+
 		<h:form>
 			<div class="ui-fluid">
 				<div class="ui-g">
@@ -40,12 +40,12 @@
 									disabled="true" />
 
 								<p:outputLabel for="nome" value="Nome:" />
-								<p:inputText id="nome" value="#{cadastroEtapaBean.etapa.nome}" />
+								<p:inputText id="nome" value="#{cadastroEtapaBean.etapa.nome}"/>
 
 								<p:outputLabel for="local" value="Local:" />
-								<p:inputText id="local" value="#{cadastroEtapaBean.etapa.local}" />
+								<p:inputText id="local" value="#{cadastroEtapaBean.etapa.local}"/>
 
-								<p:outputLabel for="campeonato" value="Selecione o Campeonato:" />
+								<p:outputLabel for="campeonato" value="Campeonato:" />
 								<p:selectOneMenu id="campeonato" filter="true"
 									label="Competidor" filterMatchMode="contains"
 									style="margin-bottom:10px;"
@@ -91,9 +91,9 @@
 								<h:panelGroup>
 									<p:panelGrid columns="3" layout="grid">
 										<p:commandButton value="Salvar" icon="fa fa-save"
-											action="#{cadastroEtapaBean.salvar}" update="@form"  />
+											action="#{cadastroEtapaBean.salvar}" update="@form" />
 										<p:commandButton value="Limpar" icon="fa fa-refresh" />
-										<p:button value="Pesquisa" icon="fa fa-search" 
+										<p:button value="Pesquisa" icon="fa fa-search"
 											outcome="/etapasCampeonatos/PesquisaEtapasCampeonatos" />
 									</p:panelGrid>
 								</h:panelGroup>

@@ -71,13 +71,15 @@
 									<p:outputLabel value="Data da Competicao:" />
 									<h:panelGroup>
 										<p:panelGrid columns="2" layout="grid">
-											
-											<p:calendar id="dataCompeticaoInicial" size="15" pattern="dd/MM/yyyy"
-												mask="99/99/9999" placeholder="Data Inicial"
+
+											<p:calendar id="dataCompeticaoInicial" size="15"
+												pattern="dd/MM/yyyy" mask="99/99/9999"
+												placeholder="Data Inicial"
 												value="#{pesquisaFolhasCompeticoesBean.filtro.dataCompeticaoInicial}" />
 
-											<p:calendar id="dataCompeticaoFinal" size="15" pattern="dd/MM/yyyy"
-												mask="99/99/9999" placeholder="Data Final"
+											<p:calendar id="dataCompeticaoFinal" size="15"
+												pattern="dd/MM/yyyy" mask="99/99/9999"
+												placeholder="Data Final"
 												value="#{pesquisaFolhasCompeticoesBean.filtro.dataCompeticaoFinal}" />
 										</p:panelGrid>
 									</h:panelGroup>
@@ -98,6 +100,8 @@
 											dataCompeticaoFinal" />
 									</p:panelGrid>
 
+									<p:spacer />
+									<p:spacer />
 								</p:panelGrid>
 
 								<p:spacer />

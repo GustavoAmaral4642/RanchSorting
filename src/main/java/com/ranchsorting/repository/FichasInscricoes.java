@@ -1,6 +1,6 @@
 package com.ranchsorting.repository;
 
-import java.io.Serializable; 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -70,15 +70,12 @@ public class FichasInscricoes implements Serializable {
 		return criteria.addOrder(Order.asc("ca.nome")).list();
 	}
 
-	public List<FichaInscricao> carregarFichasCompetidores(Competidor competidor1,Campeonato campeonato, Etapa etapa, Divisao divisao) {
-		return manager.createQuery("from FichaInscricao where competidor = :competidor"
-				+ " and campeonato = :campeonato"
-				+ " and etapa = :etapa"
-				+ " and divisao = :divisao", FichaInscricao.class)
-				.setParameter("competidor", competidor1)
-				.setParameter("campeonato", campeonato)
-				.setParameter("etapa", etapa)
-				.setParameter("divisao", divisao).getResultList();
+	public List<FichaInscricao> carregarFichasCompetidores(Competidor competidor1, Campeonato campeonato, Etapa etapa,
+			Divisao divisao) {
+		return manager
+				.createQuery("from FichaInscricao where competidor = :competidor" + " and campeonato = :campeonato"
+						+ " and etapa = :etapa" + " and divisao = :divisao", FichaInscricao.class)
+				.setParameter("competidor", competidor1).setParameter("campeonato", campeonato)
+				.setParameter("etapa", etapa).setParameter("divisao", divisao).getResultList();
 	}
-
 }

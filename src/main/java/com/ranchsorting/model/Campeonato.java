@@ -1,6 +1,6 @@
 package com.ranchsorting.model;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -29,9 +29,10 @@ public class Campeonato implements Serializable {
 	private Long id;
 	private String nome;
 	private Date dataAbertura;
-	private Date dataEvento;
+	private Date dataTermino;
 	private String observacao;
 	private BigDecimal valorAnuidade;
+	private Long qntDuplasRepetidas; 
 	private List<Etapa> etapas;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
@@ -70,13 +71,13 @@ public class Campeonato implements Serializable {
 	}
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "cp_data_evento")
-	public Date getDataEvento() {
-		return dataEvento;
+	@Column(name = "cp_data_termino")
+	public Date getDataTermino() {
+		return dataTermino;
 	}
 
-	public void setDataEvento(Date dataEvento) {
-		this.dataEvento = dataEvento;
+	public void setDataTermino(Date dataTermino) {
+		this.dataTermino = dataTermino;
 	}
 
 	@Column(name = "cp_observacao", columnDefinition = "text")
@@ -95,6 +96,15 @@ public class Campeonato implements Serializable {
 
 	public void setValorAnuidade(BigDecimal valorAnuidade) {
 		this.valorAnuidade = valorAnuidade;
+	}
+
+	@Column(name = "cp_dupla_repetida", nullable = false)
+	public Long getQntDuplasRepetidas() {
+		return qntDuplasRepetidas;
+	}
+
+	public void setQntDuplasRepetidas(Long qntDuplasRepetidas) {
+		this.qntDuplasRepetidas = qntDuplasRepetidas;
 	}
 
 	@OneToMany(mappedBy = "campeonato", cascade = CascadeType.ALL)

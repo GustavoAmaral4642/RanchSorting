@@ -36,8 +36,7 @@
 								style="border:0px none; background-color:transparent;">
 
 								<p:outputLabel for="codigo" value="Código:" />
-								<p:inputText id="codigo" disabled="true"
-									value="#{cadastroDivisaoBean.divisao.id}" />
+								<p:inputText id="codigo" disabled="true" value="#{cadastroDivisaoBean.divisao.id}" />
 
 								<p:outputLabel for="nome" value="Nome:" />
 								<p:inputText id="nome"
@@ -47,11 +46,11 @@
 								<h:panelGroup>
 									<p:panelGrid columns="2" layout="grid">
 										<p:outputLabel for="idadeInicial" value="Idade Inicial:" />
-										<p:inputText id="idadeInicial"
+										<p:inputText id="idadeInicial" maxlength="2" 
 											value="#{cadastroDivisaoBean.divisao.idadeInicial}" />
 
 										<p:outputLabel for="idadeFinal" value="Idade Final:" />
-										<p:inputText id="idadeFinal"
+										<p:inputText id="idadeFinal" maxlength="2"
 											value="#{cadastroDivisaoBean.divisao.idadeFinal}" />
 									</p:panelGrid>
 								</h:panelGroup>

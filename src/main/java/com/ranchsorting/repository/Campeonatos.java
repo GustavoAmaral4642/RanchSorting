@@ -58,12 +58,12 @@ public class Campeonatos implements Serializable {
 			criteria.add(Restrictions.le("dataAbertura", filtro.getDataAberturaFinal()));
 		}
 
-		if (filtro.getDataEventoInicial() != null) {
-			criteria.add(Restrictions.ge("dataEvento", filtro.getDataEventoInicial()));
+		if (filtro.getDataTerminoInicial() != null) {
+			criteria.add(Restrictions.ge("dataTermino", filtro.getDataTerminoInicial()));
 		}
 
-		if (filtro.getDataEventoFinal() != null) {
-			criteria.add(Restrictions.le("dataEvento", filtro.getDataEventoFinal()));
+		if (filtro.getDataTerminoFinal() != null) {
+			criteria.add(Restrictions.le("dataTermino", filtro.getDataTerminoFinal()));
 		}
 
 		return criteria.addOrder(Order.asc("nome")).list();

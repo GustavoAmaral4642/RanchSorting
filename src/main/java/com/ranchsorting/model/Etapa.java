@@ -14,6 +14,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -59,6 +60,7 @@ public class Etapa implements Serializable {
 		this.nome = nome;
 	}
 
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "ep_campeonato_id")
 	public final Campeonato getCampeonato() {

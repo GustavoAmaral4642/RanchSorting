@@ -29,19 +29,19 @@
 									style="border:0px none; background-color:transparent;">
 
 									<p:outputLabel for="nome" value="Nome da Divisão:" />
-									<p:inputText id="nome" value="#{pesquisaDivisoesBean.filtro.nome}"/>
+									<p:inputText id="nome"
+										value="#{pesquisaDivisoesBean.filtro.nome}" />
 
 									<p:spacer />
 
 									<p:panelGrid columns="2" layout="grid">
 										<p:button value="Incluir Novo" icon="fa fa-plus"
 											outcome="/divisoes/CadastroDivisao" />
-										<p:commandButton value="Pesquisar" icon="fa fa-search" 
+										<p:commandButton value="Pesquisar" icon="fa fa-search"
 											action="#{pesquisaDivisoesBean.pesquisar}"
-											update="divisoesTable"
-											process="@this 
+											update="divisoesTable" process="@this 
 												nome" />
-										
+
 									</p:panelGrid>
 
 								</p:panelGrid>
@@ -52,9 +52,9 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:dataTable var="divisao" value="#{pesquisaDivisoesBean.divisoesFiltrados}"
-									reflow="true" id="divisoesTable"
-									emptyMessage="Nenhuma Divisão Cadastrada"
+								<p:dataTable var="divisao"
+									value="#{pesquisaDivisoesBean.divisoesFiltrados}" reflow="true"
+									id="divisoesTable" emptyMessage="Nenhuma Divisão Cadastrada"
 									paginator="true" rows="10">
 									<f:facet name="header">
                                 		Divisões Cadastradas
@@ -69,14 +69,22 @@
 										<h:outputText value="#{divisao.nome}" />
 									</p:column>
 
-									<p:column headerText="Faixa Etária" style="text-align: center">
-										<h:outputText value="#{divisao.idadeInicial} a #{divisao.idadeFinal}" />
+									<p:column headerText="Faixa Etária(Anos)"
+										style="text-align: center">
+										<h:outputText
+											value="De: #{divisao.idadeInicial} a: #{divisao.idadeFinal}" />
 									</p:column>
+
+									<p:column headerText="Observação"
+										style="text-align: center">
+										<h:outputText value="#{divisao.observacoes}" />
+									</p:column>
+
 
 									<p:column style="text-align: center; width: 80px">
 										<p:button icon="fa fa-pencil" title="Editar"
 											style="width: 30px" outcome="/divisoes/CadastroDivisao">
-											<f:param name="divisao" value="#{divisao.id}"/>
+											<f:param name="divisao" value="#{divisao.id}" />
 										</p:button>
 										<p:spacer />
 										<p:commandButton icon="fa fa-trash" title="Excluir"

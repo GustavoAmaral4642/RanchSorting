@@ -23,10 +23,6 @@ public class OrdemEntrada implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private Long ordemEntrada;
-	private Campeonato campeonato;
-	private Etapa etapa;
-	private Divisao divisao;
 	private Date data;
 	private Date hora;
 	private List<FolhaCompeticao> folhasCompeticoes;
@@ -43,45 +39,6 @@ public class OrdemEntrada implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	@Column(name = "od_numero_ordem")
-	public Long getOrdemEntrada() {
-		return ordemEntrada;
-	}
-
-	public void setOrdemEntrada(Long ordemEntrada) {
-		this.ordemEntrada = ordemEntrada;
-	}
-
-	@OneToOne
-	@JoinColumn(name = "od_campeonato")
-	public Campeonato getCampeonato() {
-		return campeonato;
-	}
-
-	public void setCampeonato(Campeonato campeonato) {
-		this.campeonato = campeonato;
-	}
-
-	@OneToOne
-	@JoinColumn(name = "od_etapa")
-	public Etapa getEtapa() {
-		return etapa;
-	}
-
-	public void setEtapa(Etapa etapa) {
-		this.etapa = etapa;
-	}
-
-	@OneToOne
-	@JoinColumn(name = "od_divisao")
-	public Divisao getDivisao() {
-		return divisao;
-	}
-
-	public void setDivisao(Divisao divisao) {
-		this.divisao = divisao;
 	}
 
 	@Temporal(TemporalType.DATE)

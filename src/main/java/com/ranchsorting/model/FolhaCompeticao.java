@@ -1,11 +1,13 @@
 package com.ranchsorting.model;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -28,6 +30,7 @@ public class FolhaCompeticao implements Serializable {
 	private Long numeroDupla;
 	private OrdemEntrada ordemEntrada;
 	private Passada passada;
+	private TipoFolha tipoFolha;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
@@ -42,7 +45,7 @@ public class FolhaCompeticao implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fc_data")
 	public Date getData() {
@@ -52,7 +55,7 @@ public class FolhaCompeticao implements Serializable {
 	public void setData(Date data) {
 		this.data = data;
 	}
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "fc_ficha_inscricao1")
 	public FichaInscricao getFichaInscricao1() {
@@ -100,6 +103,16 @@ public class FolhaCompeticao implements Serializable {
 
 	public void setPassada(Passada passada) {
 		this.passada = passada;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "fc_tipo_folha", length = 15)
+	public TipoFolha getTipoFolha() {
+		return tipoFolha;
+	}
+
+	public void setTipoFolha(TipoFolha tipoFolha) {
+		this.tipoFolha = tipoFolha;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)

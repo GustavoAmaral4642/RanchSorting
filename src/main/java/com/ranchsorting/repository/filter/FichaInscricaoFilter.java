@@ -9,6 +9,7 @@ public class FichaInscricaoFilter implements Serializable {
 
 	private String campeonato;
 	private String etapa;
+	private String divisao;
 	private String competidor;
 	private Date dataInscricaoInicial;
 	private Date dataInscricaoFinal;
@@ -27,6 +28,14 @@ public class FichaInscricaoFilter implements Serializable {
 
 	public void setEtapa(String etapa) {
 		this.etapa = etapa;
+	}
+
+	public String getDivisao() {
+		return divisao;
+	}
+
+	public void setDivisao(String divisao) {
+		this.divisao = divisao;
 	}
 
 	public String getCompetidor() {

@@ -18,11 +18,15 @@
     <h:body styleClass="exception-body error-body">
         <div class="exception-container">
             <p:graphicImage name="#{guestPreferences.dark ? 'images/logo-white.png' : 'images/logo-dark.png'}" library="apollo-layout" />
-            <h1>Error</h1>
+            <h1>Problemas Encontrados</h1>
             <p>
-               Please contact the system administrator.
+               Por favor, entre em contato com administrador do Sistema.
             </p>
-           <p:button outcome="dashboard" value="Go to Dashboard" icon="fa fa-arrow-left" style="border-radius:5px;height:40px;" />
+            <br/>
+            <p>
+               Cel/WhatsApp: (19) 992-205-500.
+            </p>
+           <p:button outcome="dashboard" value="Início" icon="fa fa-arrow-left" style="border-radius:5px;height:40px;" />
         </div>
 
         <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="apollo-layout" />

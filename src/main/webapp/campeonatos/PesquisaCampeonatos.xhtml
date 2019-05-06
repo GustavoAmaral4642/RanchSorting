@@ -48,17 +48,17 @@
 										</p:panelGrid>
 									</h:panelGroup>
 
-									<p:outputLabel value="Data do Evento:" />
+									<p:outputLabel value="Data do Término:" />
 									<h:panelGroup>
 										<p:panelGrid columns="2" layout="grid">
-											<p:calendar id="eventoInicial" size="15"
+											<p:calendar id="terminoInicial" size="15"
 												pattern="dd/MM/yyyy" mask="99/99/9999"
-												placeholder="Evento Inicial"
-												value="#{pesquisaCampeonatosBean.filtro.dataEventoInicial}" />
+												placeholder="Término Inicial"
+												value="#{pesquisaCampeonatosBean.filtro.dataTerminoInicial}" />
 
-											<p:calendar id="eventoFinal" size="15" pattern="dd/MM/yyyy"
-												mask="99/99/9999" placeholder="Evento Final"
-												value="#{pesquisaCampeonatosBean.filtro.dataEventoFinal}" />
+											<p:calendar id="terminoFinal" size="15" pattern="dd/MM/yyyy"
+												mask="99/99/9999" placeholder="Término Final"
+												value="#{pesquisaCampeonatosBean.filtro.dataTerminoFinal}" />
 
 										</p:panelGrid>
 									</h:panelGroup>
@@ -75,8 +75,8 @@
 												nomeCampeonato
 												aberturaInicial
 												aberturaFinal
-												eventoInicial
-												eventoFinal" />
+												terminoInicial
+												terminoFinal" />
 									</p:panelGrid>
 
 								</p:panelGrid>
@@ -107,9 +107,9 @@
 										</h:outputText>
 									</p:column>
 
-									<p:column headerText="Data do Evento"
+									<p:column headerText="Data Término"
 										style="width: 150px; text-align: center">
-										<h:outputText value="#{campeonato.dataEvento}">
+										<h:outputText value="#{campeonato.dataTermino}">
 											<f:convertDateTime pattern="dd/MM/yyyy" />
 										</h:outputText>
 									</p:column>

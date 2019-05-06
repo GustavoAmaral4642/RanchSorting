@@ -63,4 +63,6 @@ public class FolhasCompeticoes implements Serializable {
 		return criteria.addOrder(Order.asc("fi1.campeonato")).list();
 	}
 
+	
+	
 }
