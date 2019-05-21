@@ -26,7 +26,7 @@ public class RecebimentoConverter implements Converter {
 		if (value != null) {
 			Long id = new Long(value);
 			
-			retorno = recebimentos.recebimentoPorId(id);
+			retorno = recebimentos.porId(id);
 		}
 
 		return retorno;

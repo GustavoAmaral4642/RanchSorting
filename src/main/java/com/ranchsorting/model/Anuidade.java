@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tb_anuidade")
@@ -27,6 +28,7 @@ public class Anuidade implements Serializable {
 	private Campeonato campeonato;
 	private BigDecimal valorPago;
 	private Date dataPagamento;
+	private String observacao;
 	private Usuario usuarioAlteracao; // OK
 	private Date dataAlteracao; // OK
 	private Ocorrencia ocorrencia; // Falta implementar
@@ -42,6 +44,7 @@ public class Anuidade implements Serializable {
 		this.id = id;
 	}
 
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "anu_competidor_id")
 	public Competidor getCompetidor() {
@@ -52,6 +55,7 @@ public class Anuidade implements Serializable {
 		this.competidor = competidor;
 	}
 
+	@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "anu_campeonato")
 	public Campeonato getCampeonato() {
@@ -62,6 +66,7 @@ public class Anuidade implements Serializable {
 		this.campeonato = campeonato;
 	}
 
+	@NotNull
 	@Column(name = "anu_valor_pago", precision = 10, scale = 2)
 	public BigDecimal getValorPago() {
 		return valorPago;
@@ -71,6 +76,7 @@ public class Anuidade implements Serializable {
 		this.valorPago = valorPago;
 	}
 
+	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "anu_data_pagamento")
 	public Date getDataPagamento() {
@@ -79,6 +85,15 @@ public class Anuidade implements Serializable {
 
 	public void setDataPagamento(Date dataPagamento) {
 		this.dataPagamento = dataPagamento;
+	}
+
+	@Column(name = "anu_observacao", columnDefinition = "text")
+	public String getObservacao() {
+		return observacao;
+	}
+
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)

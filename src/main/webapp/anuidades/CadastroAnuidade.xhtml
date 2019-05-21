@@ -85,8 +85,11 @@
 									value="#{cadastroAnuidadeBean.anuidade.dataPagamento}"
 									mask="99/99/9999" />
 
-								<p:spacer />
-								<p:spacer />
+								<p:outputLabel value="Observações" />
+								<p:inputTextarea rows="3" placeholder="Sua mensagem"
+									autoResize="false"
+									value="#{cadastroAnuidadeBean.anuidade.observacao}" />
+
 
 								<p:spacer />
 								<h:panelGroup>

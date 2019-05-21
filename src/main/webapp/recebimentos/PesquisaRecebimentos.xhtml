@@ -1,0 +1,179 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">Pesquisa de Contas a Receber</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Financeiro</li>
+		<li>/</li>
+		<li><p:link outcome="/recebimentos/PesquisaRecebimentos">Pesquisa de Contas a Receber</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form>
+			<div class="ui-fluid">
+				<div class="ui-g">
+					<div class="ui-g-12">
+						<div class="card no-margin">
+							<h1>Pesquisa de Contas a Receber</h1>
+
+							<p:growl id="growl" autoUpdate="true" />
+
+							<h:form>
+								<p:panelGrid columns="4"
+									columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+									layout="grid" styleClass="ui-panelgrid-blank"
+									style="border:0px none; background-color:transparent;">
+
+									<p:outputLabel for="nomeCompetidor" value="Competidor:" />
+									<p:inputText id="nomeCompetidor"
+										value="#{pesquisaRecebimentosBean.filtro.competidor}" />
+
+									<p:outputLabel for="campeonato" value="Campeonato:" />
+									<p:inputText id="campeonato"
+										value="#{pesquisaRecebimentosBean.filtro.campeonato}" />
+
+									<p:outputLabel for="etapa" value="Etapa:" />
+									<p:inputText id="etapa"
+										value="#{pesquisaRecebimentosBean.filtro.etapa}" />
+
+									<p:outputLabel for="divisao" value="Divisão:" />
+									<p:inputText id="divisao"
+										value="#{pesquisaRecebimentosBean.filtro.divisao}" />
+
+									<p:outputLabel value="Data do Cadastro:" />
+									<h:panelGroup>
+										<p:panelGrid columns="2" layout="grid">
+											<p:inputText id="dataCadastroInicial"
+												placeholder="Data inicial"
+												value="#{pesquisaRecebimentosBean.filtro.dataCadastroInicial}" />
+											<p:inputText id="dataCadastroFinal" placeholder="Data Final"
+												value="#{pesquisaRecebimentosBean.filtro.dataCadastroFinal}" />
+										</p:panelGrid>
+									</h:panelGroup>
+
+									<p:outputLabel value="Data do Recebimento:" />
+									<h:panelGroup>
+										<p:panelGrid columns="2" layout="grid">
+											<p:inputText id="dataRecebimentoInicial"
+												placeholder="Data inicial"
+												value="#{pesquisaRecebimentosBean.filtro.dataRecebimentoInicial}" />
+											<p:inputText id="dataRecebimentoFinal"
+												placeholder="Data Final"
+												value="#{pesquisaRecebimentosBean.filtro.dataRecebimentoFinal}" />
+										</p:panelGrid>
+									</h:panelGroup>
+
+									<p:spacer />
+									<p:spacer />
+
+									<p:spacer />
+									<p:panelGrid columns="2" layout="grid">
+										<p:button value="Incluir Novo" icon="fa fa-plus"
+											outcome="/recebimentos/CadastroRecebimento" />
+
+										<p:commandButton value="Pesquisar" icon="fa fa-search"
+											action="#{pesquisaRecebimentosBean.pesquisar}"
+											update="recebimentosTable"
+											process="@this
+												nomeCompetidor
+												dataCadastroInicial dataCadastroFinal
+												dataRecebimentoInicial dataRecebimentoFinal
+												campeonato
+												etapa
+												divisao" />
+									</p:panelGrid>
+
+								</p:panelGrid>
+
+								<p:spacer />
+								<p:spacer />
+
+								<p:dataTable var="recebimento"
+									value="#{pesquisaRecebimentosBean.recebimentosFiltrados}"
+									reflow="true" id="recebimentosTable"
+									emptyMessage="Nenhum Recebimento Cadastrado" paginator="true"
+									rows="30">
+									<f:facet name="header">
+                                		Contas a Receber
+                            		</f:facet>
+
+									<p:column headerText="Recebimento" style="text-align: center">
+										<h:outputText value="#{recebimento.id}" />
+									</p:column>
+
+									<p:column headerText="Competidor" style="text-align: center">
+										<h:outputText value="#{recebimento.competidor.nome}" />
+									</p:column>
+
+									<p:column headerText="Campeonato" style="text-align: center">
+										<h:outputText value="#{recebimento.campeonato.nome}" />
+									</p:column>
+
+									<p:column headerText="Etapa" style="text-align: center">
+										<h:outputText value="#{recebimento.etapa.nome}" />
+									</p:column>
+
+									<p:column headerText="Data do Título"
+										style="text-align: center">
+										<h:outputText value="#{recebimento.dataCadastro}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
+									</p:column>
+
+									<p:column headerText="Valor Título" style="text-align: center">
+										<h:outputText value="#{recebimento.valorTitulo}">
+											<f:convertNumber type="currency" />
+										</h:outputText>
+									</p:column>
+
+									<p:column headerText="Data de Recebimento"
+										style="text-align: center">
+										<h:outputText value="#{recebimento.dataRecebimento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
+									</p:column>
+
+									<p:column headerText="Valor Recebimento"
+										style="text-align: center">
+										<h:outputText value="#{recebimento.valorRecebimento}">
+											<f:convertNumber type="currency" />
+										</h:outputText>
+									</p:column>
+
+									<p:column style="text-align: center; width: 80px">
+										<p:button icon="fa fa-pencil" title="Editar"
+											style="width: 30px"
+											outcome="/recebimentos/CadastroRecebimento">
+											<f:param name="recebimento" value="#{recebimento.id}" />
+										</p:button>
+										<p:spacer />
+										<p:commandButton icon="ui-icon-trash" title="Excluir"
+											id="botaoExcluirRecebimento" update="recebimentosTable"
+											style="width: 30px"
+											actionListener="#{pesquisaRecebimentosBean.excluir(recebimento)}">
+											<p:confirm header="Exclusão de Título"
+												message="Tem certeza que deseja excluir título #{recebimento.id}?"
+												icon="ui-icon-alert" />
+										</p:commandButton>
+									</p:column>
+								</p:dataTable>
+							</h:form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

@@ -10,14 +10,15 @@
 	<ui:define name="breadcrumb">
 		<li>Financeiro</li>
 		<li>/</li>
-		<li><p:link outcome="/recebimentos/CadastroTitulo">Contas a Receber</p:link></li>
+		<li><p:link outcome="/recebimentos/CadastroRecebimento">Contas a Receber</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
 
 		<f:metadata>
-			<o:viewParam name="titulo" value="#{cadastroTituloBean.titulo}" />
-			<f:event listener="#{cadastroTituloBean.inicializar}"
+			<o:viewParam name="recebimento"
+				value="#{cadastroRecebimentoBean.recebimento}" />
+			<f:event listener="#{cadastroRecebimentoBean.inicializar}"
 				type="preRenderView" />
 		</f:metadata>
 
@@ -35,34 +36,51 @@
 								layout="grid" styleClass="ui-panelgrid-blank"
 								style="border:0px none; background-color:transparent;">
 
-								<p:outputLabel value="N.Título" for="numeroTitulo"/>
-								<p:inputText id="numeroTitulo" value="#{cadastroTituloBean.titulo.id}" disabled="true"/>
-								
-								<p:outputLabel value="Data do Título" />
-								<p:calendar id="dataTitulo" label="Data do Titulo"
+								<p:outputLabel value="N.Título" for="numeroRecebimento" />
+								<p:inputText id="numeroRecebimento"
+									value="#{cadastroRecebimentoBean.recebimento.id}"
+									disabled="true" />
+
+								<p:outputLabel for="dataCadastro" value="Data de Cadastro" />
+								<p:calendar id="dataCadastro" label="Data do Cadastro"
 									placeholder="__/__/____" pattern="dd/MM/yyyy" title="Data"
-									size="10" value="#{cadastroTituloBean.titulo.dataTitulo}"
+									size="10"
+									value="#{cadastroRecebimentoBean.recebimento.dataCadastro}"
 									mask="99/99/9999" />
+
+								<p:outputLabel for="nomeCompetidor" value="Nome do Competidor:" />
+								<p:selectOneMenu id="nomeCompetidor" filter="true"
+									label="Competidor" filterMatchMode="contains"
+									style="margin-bottom:10px;"
+									value="#{cadastroRecebimentoBean.recebimento.competidor}">
+									<f:selectItem itemLabel="Selecione um Competidor" />
+									<f:selectItems
+										value="#{cadastroRecebimentoBean.todosCompetidores}"
+										var="todosCompetidores" itemValue="#{todosCompetidores}"
+										itemLabel="#{todosCompetidores.nome}" />
+								</p:selectOneMenu>
 
 								<p:outputLabel for="campeonato" value="Selecione o Campeonato:" />
 								<p:selectOneMenu id="campeonato" filter="true"
 									label="Campeonato" filterMatchMode="contains"
 									style="margin-bottom:10px;"
-									value="#{cadastroTituloBean.titulo.campeonato}">
+									value="#{cadastroRecebimentoBean.recebimento.campeonato}">
 									<f:selectItem itemLabel="Selecione um Campeonato" />
-									<f:selectItems value="#{cadastroTituloBean.todosCampeonatos}"
+									<f:selectItems
+										value="#{cadastroRecebimentoBean.todosCampeonatos}"
 										var="todosCampeonatos" itemValue="#{todosCampeonatos}"
 										itemLabel="#{todosCampeonatos.nome}" />
-									<p:ajax listener="#{cadastroTituloBean.carregarEtapas}"
+									<p:ajax listener="#{cadastroRecebimentoBean.carregarEtapas}"
 										update="etapa" />
 								</p:selectOneMenu>
 
 								<p:outputLabel for="etapa" value="Selecione a Etapa:" />
 								<p:selectOneMenu id="etapa" filter="true" label="Etapa"
 									filterMatchMode="contains" style="margin-bottom:10px;"
-									value="#{cadastroTituloBean.titulo.etapa}">>
+									value="#{cadastroRecebimentoBean.recebimento.etapa}">>
 									<f:selectItem itemLabel="Selecione uma Etapa" />
-									<f:selectItems value="#{cadastroTituloBean.etapasCampeonatos}"
+									<f:selectItems
+										value="#{cadastroRecebimentoBean.etapasCampeonatos}"
 										var="etapasCampeonatos" itemValue="#{etapasCampeonatos}"
 										itemLabel="#{etapasCampeonatos.nome}" />
 								</p:selectOneMenu>
@@ -70,34 +88,33 @@
 								<p:outputLabel for="divisao" value="Selecione a divisão:" />
 								<p:selectOneMenu id="divisao" filter="true" label="Divisão"
 									filterMatchMode="contains" style="margin-bottom:10px;"
-									value="#{cadastroTituloBean.titulo.divisao}">
+									value="#{cadastroRecebimentoBean.recebimento.divisao}">
 									<f:selectItem itemLabel="Selecione a Divisão" />
-									<f:selectItems value="#{cadastroTituloBean.todasDivisoes}"
+									<f:selectItems value="#{cadastroRecebimentoBean.todasDivisoes}"
 										var="todasDivisoes" itemValue="#{todasDivisoes}"
 										itemLabel="#{todasDivisoes.nome}" />
 								</p:selectOneMenu>
 
-								<p:outputLabel for="nomeCompetidor" value="Nome do Competidor:" />
-								<p:selectOneMenu id="nomeCompetidor" filter="true"
-									label="Competidor" filterMatchMode="contains"
-									style="margin-bottom:10px;"
-									value="#{cadastroTituloBean.titulo.competidor}">
-									<f:selectItem itemLabel="Selecione um Competidor" />
-									<f:selectItems value="#{cadastroTituloBean.todosCompetidores}"
-										var="todosCompetidores" itemValue="#{todosCompetidores}"
-										itemLabel="#{todosCompetidores.nome}" />
-								</p:selectOneMenu>
-
-								<p:outputLabel for="dataEvento" value="Data do Evento" />
-								<p:calendar id="dataEvento" label="Data do Evento"
-									placeholder="__/__/____" pattern="dd/MM/yyyy" title="Data"
-									size="10" value="#{cadastroTituloBean.titulo.dataEvento}"
-									mask="99/99/9999" />
-
-								<p:outputLabel for="valorTitulo" value="Valor do Titulo" />
+								<p:outputLabel for="valorTitulo" value="Valor do Título" />
 								<p:inputText id="valorTitulo" label="Valor do Título"
 									placeholder="Valor do Título" size="20" maxlength="20"
-									value="#{cadastroTituloBean.titulo.valorTitulo}"
+									value="#{cadastroRecebimentoBean.recebimento.valorTitulo}"
+									styleClass="moeda">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
+
+								<p:outputLabel for="dataRecebimento" value="Data de Recebimento" />
+								<p:calendar id="dataRecebimento" label="Data do Recebimento"
+									placeholder="__/__/____" pattern="dd/MM/yyyy" title="Data"
+									size="10"
+									value="#{cadastroRecebimentoBean.recebimento.dataRecebimento}"
+									mask="99/99/9999" />
+
+								<p:outputLabel for="valorRecebimento"
+									value="Valor do Recebimento" />
+								<p:inputText id="valorRecebimento" label="Valor Recebido"
+									placeholder="Valor Recebido" size="20" maxlength="20"
+									value="#{cadastroRecebimentoBean.recebimento.valorRecebimento}"
 									styleClass="moeda">
 									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 								</p:inputText>
@@ -105,25 +122,8 @@
 								<p:outputLabel value="Observações" />
 								<p:inputTextarea rows="3" placeholder="Sua mensagem"
 									autoResize="false"
-									value="#{cadastroTituloBean.titulo.observacao}" />
+									value="#{cadastroRecebimentoBean.recebimento.observacao}" />
 
-								<p:outputLabel value="Saldo devedor" />
-								<p:inputText value="R$ 1000" />
-
-								<p:outputLabel for="dataRecebimento" value="Data de Recebimento" />
-								<p:calendar id="dataRecebimento" label="Data do Recebimento"
-									placeholder="__/__/____" pattern="dd/MM/yyyy" title="Data"
-									size="10" mask="99/99/9999"
-									value="#{cadastroTituloBean.recebimento.dataRecebimento}" />
-
-								<p:outputLabel for="valorRecebimento"
-									value="Valor do Recebimento" />
-								<p:inputText id="valorRecebimento" label="Valor Recebido"
-									placeholder="Valor Recebido" size="20" maxlength="20"
-									value="#{cadastroTituloBean.recebimento.valorRecebimento}"
-									styleClass="moeda">
-									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-								</p:inputText>
 
 								<p:spacer />
 								<p:spacer />
@@ -132,11 +132,11 @@
 								<h:panelGroup>
 									<p:panelGrid columns="3" layout="grid">
 										<p:commandButton value="Salvar" icon="fa fa-save"
-											action="#{cadastroTituloBean.salvar}"
-											onclick="/recebimentos/CadastroTitulo.xhtml" />
+											action="#{cadastroRecebimentoBean.salvar}"
+											onclick="/recebimentos/CadastroRecebimento.xhtml" />
 										<p:commandButton value="Limpar" icon="fa fa-refresh" />
 										<p:button value="Pesquisa" icon="fa fa-search"
-											outcome="/recebimentos/PesquisaTitulos" />
+											outcome="/recebimentos/PesquisaRecebimentos" />
 									</p:panelGrid>
 								</h:panelGroup>
 							</p:panelGrid>

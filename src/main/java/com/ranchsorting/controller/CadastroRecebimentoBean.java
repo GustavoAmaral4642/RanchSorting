@@ -1,19 +1,17 @@
 package com.ranchsorting.controller;
 
-import java.io.Serializable; 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.ranchsorting.model.Titulo;
 import com.ranchsorting.repository.Campeonatos;
 import com.ranchsorting.repository.Competidores;
 import com.ranchsorting.repository.Divisoes;
 import com.ranchsorting.repository.Etapas;
-import com.ranchsorting.service.CadastroTituloService;
-import com.ranchsorting.service.NegocioException;
+import com.ranchsorting.service.CadastroRecebimentoService;
 import com.ranchsorting.util.jsf.FacesUtil;
 import com.ranchsorting.model.Campeonato;
 import com.ranchsorting.model.Competidor;
@@ -23,9 +21,12 @@ import com.ranchsorting.model.Recebimento;
 
 @Named
 @ViewScoped
-public class CadastroTituloBean implements Serializable {
+public class CadastroRecebimentoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	@Inject
+	private CadastroRecebimentoService cadastroRecebimentoService;
 
 	@Inject
 	private Campeonatos campeonatos;
@@ -39,10 +40,6 @@ public class CadastroTituloBean implements Serializable {
 	@Inject
 	private Competidores competidores;
 
-	@Inject
-	private CadastroTituloService cadastroTituloService;
-
-	private Titulo titulo;
 	private Recebimento recebimento;
 
 	private List<Competidor> todosCompetidores;
@@ -50,68 +47,39 @@ public class CadastroTituloBean implements Serializable {
 	private List<Etapa> etapasCampeonatos;
 	private List<Divisao> todasDivisoes;
 
-	public CadastroTituloBean() {
+	public CadastroRecebimentoBean() {
 		limpar();
 	}
 
 	public void inicializar() {
-		System.out.println("Entrou");
+		System.out.println("passou");
 		carregarEtapas();
 		todosCompetidores = competidores.todosCompetidores();
 		todosCampeonatos = campeonatos.todosCampeonatos();
 		todasDivisoes = divisoes.todasDivisoes();
 
-		if(isEditando()){
+		if (!isEditando()) {
 			recebimento = new Recebimento();
-			recebimento = this.titulo.getRecebimento();
 		}
 	}
 
 	public void limpar() {
-		titulo = new Titulo();
 		recebimento = new Recebimento();
 	}
 
 	public void salvar() {
 
-		// este teste não foi feito no service pq lá ia ficar muito extenso
-		if (this.recebimento.getDataRecebimento() == null && this.recebimento.getValorRecebimento() == null) {
-			this.titulo = cadastroTituloService.salvar(titulo);
+		this.recebimento = cadastroRecebimentoService.salvar(recebimento);
 
-			limpar();
+		limpar();
 
-			FacesUtil.addInfoMessage("Título registrado com sucesso!");
+		FacesUtil.addInfoMessage("Título registrado com sucesso!");
 
-		} else if (this.recebimento.getDataRecebimento() == null) {
-			throw new NegocioException("Informe data para recebimento");
-
-		} else if (this.recebimento.getValorRecebimento() == null) {
-			throw new NegocioException("Informe valor para recebimento");
-
-		} else {
-			// fazer merge do recebimento
-			// mudar este teste para service
-			this.titulo.setRecebimento(recebimento);
-			this.titulo = cadastroTituloService.salvarRecebimento(titulo, recebimento);
-
-			limpar();
-
-			FacesUtil.addInfoMessage("Título e Recebimento registrados com sucesso!");
-
-		}
 
 	}
 
 	public void carregarEtapas() {
-		etapasCampeonatos = etapas.etapasDoCampeonato(titulo.getCampeonato());
-	}
-
-	public Titulo getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(Titulo titulo) {
-		this.titulo = titulo;
+		etapasCampeonatos = etapas.etapasDoCampeonato(recebimento.getCampeonato());
 	}
 
 	public Recebimento getRecebimento() {
@@ -139,7 +107,7 @@ public class CadastroTituloBean implements Serializable {
 	}
 
 	public boolean isEditando() {
-		return this.titulo.getId() != null;
+		return this.recebimento.getId() != null;
 	}
 
 }
