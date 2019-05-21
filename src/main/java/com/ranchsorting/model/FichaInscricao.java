@@ -1,8 +1,9 @@
 package com.ranchsorting.model;
 
-import java.io.Serializable; 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,21 +26,21 @@ public class FichaInscricao implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/* parei verificando esta classe*/
+	/* ajustar o requisito e depois a classe*/
+	
 	private Long id;
 	private Long qntInscricoes;
 	private Date dataInscricao;
-	private Competidor competidor;
-	private Animal animal;
+	private List<Passada> passada;
 	private Campeonato campeonato;
 	private Etapa etapa;
 	private Divisao divisao;
 	private BigDecimal valorComprado;
 	private BigDecimal valorPago;
-	private Date dataPagamento;
-	private FormaPagamento formaPagamento;
-	private String bancoPagamento;
 	private String anuidadePaga;
 	private TipoAnuidade tipoAnuidade;
+	private StatusFicha statusFicha;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
@@ -78,27 +79,6 @@ public class FichaInscricao implements Serializable {
 
 	@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fi_competidor")
-	public Competidor getCompetidor() {
-		return competidor;
-	}
-
-	public void setCompetidor(Competidor competidor) {
-		this.competidor = competidor;
-	}
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fi_animal")
-	public Animal getAnimal() {
-		return animal;
-	}
-
-	public void setAnimal(Animal animal) {
-		this.animal = animal;
-	}
-
-	@NotNull
-	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "fi_campeonato")
 	public Campeonato getCampeonato() {
 		return campeonato;
@@ -129,7 +109,7 @@ public class FichaInscricao implements Serializable {
 	public void setDivisao(Divisao divisao) {
 		this.divisao = divisao;
 	}
-	
+
 	@NotNull
 	@Column(name = "fi_valor_comprado", precision = 10, scale = 2)
 	public BigDecimal getValorComprado() {
@@ -149,37 +129,8 @@ public class FichaInscricao implements Serializable {
 		this.valorPago = valorPago;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "fi_data_pagamento")
-	public Date getDataPagamento() {
-		return dataPagamento;
-	}
 
-	public void setDataPagamento(Date dataPagamento) {
-		this.dataPagamento = dataPagamento;
-	}
-
-	@Enumerated(EnumType.STRING)
-	@Column(name = "fi_frm_pagamento", length = 15)
-	public FormaPagamento getFormaPagamento() {
-		return formaPagamento;
-	}
-
-	public void setFormaPagamento(FormaPagamento formaPagamento) {
-		this.formaPagamento = formaPagamento;
-	}
-
-	@Size(max=50)
-	@Column(name = "fi_banco", length = 50)
-	public String getBancoPagamento() {
-		return bancoPagamento;
-	}
-
-	public void setBancoPagamento(String bancoPagamento) {
-		this.bancoPagamento = bancoPagamento;
-	}
-
-	@Size(max=2)
+	@Size(max = 2)
 	@Column(name = "fi_anuidade_paga", length = 2)
 	public String getAnuidadePaga() {
 		return anuidadePaga;
@@ -197,6 +148,16 @@ public class FichaInscricao implements Serializable {
 
 	public void setTipoAnuidade(TipoAnuidade tipoAnuidade) {
 		this.tipoAnuidade = tipoAnuidade;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "fi_status_ficha", length = 15)
+	public StatusFicha getStatusFicha() {
+		return statusFicha;
+	}
+
+	public void setStatusFicha(StatusFicha statusFicha) {
+		this.statusFicha = statusFicha;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)

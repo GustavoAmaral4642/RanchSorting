@@ -10,6 +10,7 @@ import javax.inject.Named;
 import com.ranchsorting.model.Usuario;
 import com.ranchsorting.repository.Usuarios;
 import com.ranchsorting.repository.filter.UsuarioFilter;
+import com.ranchsorting.util.jsf.FacesUtil;
 
 @Named
 @ViewScoped
@@ -19,17 +20,26 @@ public class PesquisaUsuariosBean implements Serializable {
 
 	@Inject
 	private Usuarios usuarios;
-	
+
 	private UsuarioFilter filtro;
-	
+
 	private List<Usuario> usuariosFiltrados;
-	
-	public PesquisaUsuariosBean(){
+
+	public PesquisaUsuariosBean() {
 		filtro = new UsuarioFilter();
 	}
+
+	public void pesquisar() {
+		usuariosFiltrados = usuarios.filtrados(filtro);
+	}
 	
-	public void pesquisar(){
-		usuariosFiltrados = usuarios.filtrados(filtro);		
+	public void excluir(Usuario usuarioSelecionado) {
+		
+		usuarios.remover(usuarioSelecionado);
+
+		usuariosFiltrados.remove(usuarioSelecionado);
+
+		FacesUtil.addInfoMessage("Usuário " + usuarioSelecionado.getNome() + " excluído com sucesso.");
 	}
 
 	public UsuarioFilter getFiltro() {
@@ -43,5 +53,5 @@ public class PesquisaUsuariosBean implements Serializable {
 	public List<Usuario> getUsuariosFiltrados() {
 		return usuariosFiltrados;
 	}
-	
+
 }

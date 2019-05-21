@@ -11,59 +11,61 @@
 
 		<p:outputLabel for="codigoFolha" value="Código da Folha:" />
 		<p:inputText id="codigoFolha" disabled="true"
-			value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.id}" />
+			value="#{cadastroFolhaAutomaticaBean.folhaCompeticao.id}" />
 
 		<p:outputLabel for="campeonato" value="Campeonato:" />
 		<p:selectOneMenu id="campeonato" filter="true" label="Competidor"
 			filterMatchMode="contains" style="margin-bottom:10px;"
-			value="#{cadastroFolhaCompeticaoBean.filtro.objCampeonato}">
+			value="#{cadastroFolhaAutomaticaBean.filtroFichaInscricao.objCampeonato}">
 			<f:selectItem itemLabel="Selecione um Campeonato" />
 			<f:selectItems
-				value="#{cadastroFolhaCompeticaoBean.todosCampeonatos}"
+				value="#{cadastroFolhaAutomaticaBean.todosCampeonatos}"
 				var="todosCampeonatos" itemValue="#{todosCampeonatos}"
 				itemLabel="#{todosCampeonatos.nome}" />
-			<p:ajax listener="#{cadastroFolhaCompeticaoBean.carregarEtapas}"
+			<p:ajax listener="#{cadastroFolhaAutomaticaBean.carregarEtapas}"
 				update="etapa" />
 		</p:selectOneMenu>
 
 		<p:outputLabel for="etapa" value="Etapa:" />
 		<p:selectOneMenu id="etapa" filter="true" label="Etapa"
 			filterMatchMode="contains" style="margin-bottom:10px;"
-			value="#{cadastroFolhaCompeticaoBean.filtro.objEtapa}">
+			value="#{cadastroFolhaAutomaticaBean.filtroFichaInscricao.objEtapa}">
 			<f:selectItem itemLabel="Selecione uma Etapa" />
 			<f:selectItems
-				value="#{cadastroFolhaCompeticaoBean.etapasCampeonatos}"
+				value="#{cadastroFolhaAutomaticaBean.etapasCampeonatos}"
 				var="etapasCampeonatos" itemValue="#{etapasCampeonatos}"
 				itemLabel="#{etapasCampeonatos.nome}" />
-			<p:ajax listener="#{cadastroFolhaCompeticaoBean.carregarDataEtapa}"
-				update="dataCompeticao" />
+			<p:ajax listener="#{cadastroFolhaAutomaticaBean.carregarDataEtapa}"
+				update="dataCompeticaoAutomatica" />
 		</p:selectOneMenu>
 
 		<p:outputLabel for="divisao" value="Divisao:" />
 		<p:selectOneMenu id="divisao"
-			value="#{cadastroFolhaCompeticaoBean.filtro.objDivisao}">
+			value="#{cadastroFolhaAutomaticaBean.filtroFichaInscricao.objDivisao}">
 			<f:selectItem itemLabel="Selecione a Divisão" />
-			<f:selectItems value="#{cadastroFolhaCompeticaoBean.todasDivisoes}"
+			<f:selectItems value="#{cadastroFolhaAutomaticaBean.todasDivisoes}"
 				var="todasDivisoes" itemValue="#{todasDivisoes}"
 				itemLabel="#{todasDivisoes.nome}" />
-			<p:ajax
-				listener="#{cadastroFolhaCompeticaoBean.recarregarFichasInscricao}"
-				update="numeroFicha1 
-						numeroFicha2"
-				process="@this
-						numeroFicha1 
-						numeroFicha2" />
 		</p:selectOneMenu>
 
-		<p:outputLabel for="dataCompeticao" value="Data da Competição:" />
-		<p:calendar id="dataCompeticao" placeholder="__/__/____"
+		<p:outputLabel for="dataCompeticaoAutomatica" value="Data da Competição:" />
+		<p:calendar id="dataCompeticaoAutomatica" placeholder="__/__/____"
 			pattern="dd/MM/yyyy" title="Data da Competição" size="10"
-			value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.data}"
+			value="#{cadastroFolhaAutomaticaBean.folhaCompeticao.data}"
 			mask="99/99/9999" />
+		
+		<p:spacer />
+		<p:panelGrid columns="2" layout="grid">
+			<p:commandButton value="Gerar Listagem" 
+				action="#{cadastroFolhaAutomaticaBean.carregarListagemFichas}"
+				update="folhasTable"
+				process="@this
+						campeonato
+						etapa
+						divisao"/>
 
-		<p:outputLabel for="numeroDupla" value="Número da Dupla:" />
-		<p:inputText id="numeroDupla"
-			value="#{cadastroFolhaCompeticaoBean.folhaCompeticao.numeroDupla}" />
+			<p:commandButton value="Embaralhar Listagem" />
+		</p:panelGrid>
 	</p:panelGrid>
 
 </ui:composition>

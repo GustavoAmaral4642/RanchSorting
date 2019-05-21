@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="title">Cadastro de Folha de Competição</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Provas</li>
+		<li>/</li>
+		<li><p:link outcome="/folhasCompeticoes/CadastroFolhaCompeticao">Cadastro de Folha de Competição</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<f:event listener="#{cadastroFolhaAutomaticaBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form>
+			<div class="ui-fluid">
+				<div class="ui-g">
+					<div class="ui-g-12">
+						<div class="card no-margin">
+							<h1>Cadastro de Folha de Competição</h1>
+
+							<p:growl id="growl" autoUpdate="true" />
+
+							<ui:include
+								src="/WEB-INF/template/folhasCompeticoes/CapaFolhaAutomatica.xhtml" />
+
+							<p:spacer />
+							<p:spacer />
+
+							<p:separator />
+
+							<p:spacer />
+							<p:spacer />
+
+							<ui:include
+								src="/WEB-INF/template/folhasCompeticoes/ListagemFolhaAutomatica.xhtml" />
+
+							<p:spacer />
+							<p:spacer />
+
+							<p:separator />
+
+							<p:spacer />
+							<p:spacer />
+
+							<ui:include
+								src="/WEB-INF/template/folhasCompeticoes/BotoesFolhaAutomatica.xhtml" />
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

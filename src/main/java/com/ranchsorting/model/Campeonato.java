@@ -8,6 +8,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -16,6 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -32,7 +35,7 @@ public class Campeonato implements Serializable {
 	private Date dataTermino;
 	private String observacao;
 	private BigDecimal valorAnuidade;
-	private Long qntDuplasRepetidas; 
+	private TipoCampeonato tipoCampeonato;
 	private List<Etapa> etapas;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
@@ -98,13 +101,15 @@ public class Campeonato implements Serializable {
 		this.valorAnuidade = valorAnuidade;
 	}
 
-	@Column(name = "cp_dupla_repetida", nullable = false)
-	public Long getQntDuplasRepetidas() {
-		return qntDuplasRepetidas;
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	@Column(name = "cp_tipo_campeonato", nullable = false, length = 15)
+	public TipoCampeonato getTipoCampeonato() {
+		return tipoCampeonato;
 	}
 
-	public void setQntDuplasRepetidas(Long qntDuplasRepetidas) {
-		this.qntDuplasRepetidas = qntDuplasRepetidas;
+	public void setTipoCampeonato(TipoCampeonato tipoCampeonato) {
+		this.tipoCampeonato = tipoCampeonato;
 	}
 
 	@OneToMany(mappedBy = "campeonato", cascade = CascadeType.ALL)

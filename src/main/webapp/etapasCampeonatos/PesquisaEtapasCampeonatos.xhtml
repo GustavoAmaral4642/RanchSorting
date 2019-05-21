@@ -108,8 +108,13 @@
 											<f:param name="etapa" value="#{etapa.id}"/>
 										</p:button>
 										<p:spacer />
-										<p:commandButton icon="fa fa-trash" title="Excluir"
-											style="width: 30px">
+										<p:commandButton icon="ui-icon-trash" title="Excluir"
+											id="botaoExcluirEtapa" update="etapasTable"
+											style="width: 30px"
+											actionListener="#{pesquisaEtapasBean.excluir(etapa)}">
+											<p:confirm header="Exclusão de Etapa"
+												message="Tem certeza que deseja excluir etapa #{etapa.nome}?"
+												icon="ui-icon-alert" />
 										</p:commandButton>
 									</p:column>
 
@@ -119,6 +124,13 @@
 					</div>
 				</div>
 			</div>
+			
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
 		</h:form>
 	</ui:define>
 

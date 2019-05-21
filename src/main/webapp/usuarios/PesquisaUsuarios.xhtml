@@ -29,13 +29,15 @@
 									style="border:0px none; background-color:transparent;">
 
 									<p:outputLabel for="nome" value="Nome:" />
-									<p:inputText id="nome" value="#{pesquisaUsuariosBean.filtro.nome}"/>
+									<p:inputText id="nome"
+										value="#{pesquisaUsuariosBean.filtro.nome}" />
 
 									<p:spacer />
 									<p:spacer />
 
 									<p:outputLabel for="email" value="E-mail:" />
-									<p:inputText id="email" value="#{pesquisaUsuariosBean.filtro.email}" />
+									<p:inputText id="email"
+										value="#{pesquisaUsuariosBean.filtro.email}" />
 
 									<p:spacer />
 									<p:spacer />
@@ -44,12 +46,12 @@
 									<p:panelGrid columns="2" layout="grid">
 										<p:button value="Incluir Novo" icon="fa fa-plus"
 											outcome="/usuarios/CadastroUsuario" />
-										<p:commandButton value="Pesquisar" icon="fa fa-search" 
+										<p:commandButton value="Pesquisar" icon="fa fa-search"
 											action="#{pesquisaUsuariosBean.pesquisar}"
-											update="usuariosTable" 
+											update="usuariosTable"
 											process="@this 
 												nome 
-												email"/>
+												email" />
 									</p:panelGrid>
 
 								</p:panelGrid>
@@ -57,9 +59,10 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:dataTable var="usuario" value="#{pesquisaUsuariosBean.usuariosFiltrados}"
-									reflow="true" emptyMessage="Nenhum Usuário Encontrado"
-									paginator="true" rows="10" id="usuariosTable">
+								<p:dataTable var="usuario"
+									value="#{pesquisaUsuariosBean.usuariosFiltrados}" reflow="true"
+									emptyMessage="Nenhum Usuário Encontrado" paginator="true"
+									rows="10" id="usuariosTable">
 									<f:facet name="header">
                                 		Usuários Cadastrados
                             		</f:facet>
@@ -81,8 +84,8 @@
 									</p:column>
 
 									<p:column style="text-align: center; width: 100px">
-										<p:button outcome="/usuarios/CadastroUsuario" icon="fa fa-pencil" title="Editar"
-											style="width: 30px">
+										<p:button outcome="/usuarios/CadastroUsuario"
+											icon="fa fa-pencil" title="Editar" style="width: 30px">
 											<f:param name="usuario" value="#{usuario.id}" />
 										</p:button>
 										<p:spacer />
@@ -90,8 +93,12 @@
 											style="width: 30px" outcome="/usuarios/PermissoesUsuarios">
 										</p:button>
 										<p:spacer />
-										<p:commandButton icon="fa fa-trash" title="Excluir"
-											style="width: 30px">
+										<p:commandButton icon="ui-icon-trash" title="Excluir"
+											id="botaoExcluirUsuario" update="usuariosTable" style="width: 30px"
+											actionListener="#{pesquisaUsuariosBean.excluir(usuario)}">
+											<p:confirm header="Exclusão de Usuário"
+												message="Tem certeza que deseja excluir usuário #{usuario.nome}?"
+												icon="ui-icon-alert" />
 										</p:commandButton>
 									</p:column>
 								</p:dataTable>
@@ -100,6 +107,14 @@
 					</div>
 				</div>
 			</div>
+			
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+			
 		</h:form>
 	</ui:define>
 

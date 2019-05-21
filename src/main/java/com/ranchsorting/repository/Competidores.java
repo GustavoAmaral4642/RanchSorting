@@ -1,11 +1,12 @@
 package com.ranchsorting.repository;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
@@ -16,6 +17,8 @@ import org.hibernate.criterion.Restrictions;
 
 import com.ranchsorting.model.Competidor;
 import com.ranchsorting.repository.filter.CompetidorFilter;
+import com.ranchsorting.service.NegocioException;
+import com.ranchsorting.util.jpa.Transactional;
 
 public class Competidores implements Serializable {
 
@@ -28,6 +31,22 @@ public class Competidores implements Serializable {
 		return manager.merge(competidor);
 	}
 
+	// método para remover registros
+	@Transactional
+	public void remover(Competidor competidor) {
+
+		try {
+			competidor = porId(competidor.getId());
+
+			manager.remove(competidor);
+
+			manager.flush();
+		} catch (PersistenceException e) {
+			// esta exceção é lançada pelo banco de dados
+			throw new NegocioException("Competidor não pode ser excluído.");
+		}
+	}
+	
 	public Competidor porId(Long id) {
 		return manager.find(Competidor.class, id);
 	}

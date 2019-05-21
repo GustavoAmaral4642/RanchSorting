@@ -16,6 +16,7 @@ import com.ranchsorting.model.Divisao;
 import com.ranchsorting.model.Etapa;
 import com.ranchsorting.model.FichaInscricao;
 import com.ranchsorting.model.FormaPagamento;
+import com.ranchsorting.model.StatusFicha;
 import com.ranchsorting.repository.Animais;
 import com.ranchsorting.repository.Anuidades;
 import com.ranchsorting.repository.Campeonatos;
@@ -70,10 +71,13 @@ public class CadastroFichaInscricaoBean implements Serializable {
 		todosAnimais = animais.todosAnimais();
 		todosCampeonatos = campeonatos.todosCampeonatos();
 		todasDivisoes = divisoes.todasDivisoes();
+		
 		if (FacesUtil.isNotPostback()){
 			if (isEditando()) {
 				carregarAnuidadesCompetidor();
 				carregarEtapas();
+			} else if(fichaInscricao.getStatusFicha() == null){
+				fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
 			}
 		}
 	}
@@ -85,6 +89,7 @@ public class CadastroFichaInscricaoBean implements Serializable {
 
 	public void salvar() {
 
+		this.fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
 		this.fichaInscricao = cadastroFichaInscricaoService.salvar(this.fichaInscricao);
 
 		limpar();
@@ -98,7 +103,7 @@ public class CadastroFichaInscricaoBean implements Serializable {
 	}
 
 	public void carregarAnuidadesCompetidor() {
-		anuidadesCompetidor = anuidades.anuidadesCompetidor(this.fichaInscricao.getCompetidor());
+		//anuidadesCompetidor = anuidades.anuidadesCompetidor(this.fichaInscricao.getCompetidor());
 	}
 
 

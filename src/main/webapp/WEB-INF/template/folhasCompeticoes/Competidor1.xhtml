@@ -48,7 +48,9 @@
 			<f:selectItems
 				value="#{cadastroFolhaCompeticaoBean.fichasCompetidores1}"
 				var="fichasCampeonatos1" itemValue="#{fichasCompetidores1}"
-				itemLabel="Código Ficha: #{fichasCampeonatos1.id} - Vlr.Pago #{fichasCampeonatos1.valorPago}" />
+				itemLabel="Código Ficha: #{fichasCampeonatos1.id} - 
+				Vlr.Pago #{fichasCampeonatos1.valorPago} - 
+				Status: #{fichasCampeonatos1.statusFicha.descricao}" />
 		</p:selectOneMenu>
 
 	</p:panelGrid>

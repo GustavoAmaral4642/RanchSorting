@@ -16,7 +16,7 @@
 	<ui:define name="content">
 
 		<f:metadata>
-			<o:viewParam name="ficha" 
+			<o:viewParam name="ficha"
 				value="#{cadastroFichaInscricaoBean.fichaInscricao}" />
 			<f:event listener="#{cadastroFichaInscricaoBean.inicializar}"
 				type="preRenderView" />
@@ -146,6 +146,10 @@
 									<h:outputText value=" - " />
 									<h:outputText value="#{anuidade.campeonato.nome}" />
 								</p:dataList>
+
+								<p:outputLabel for="statusFicha" value="Status da Ficha:" />
+								<p:inputText id="statusFicha" readonly="true" size="20"
+									maxlength="20" value="#{cadastroFichaInscricaoBean.fichaInscricao.statusFicha.descricao}" />
 
 							</p:panelGrid>
 

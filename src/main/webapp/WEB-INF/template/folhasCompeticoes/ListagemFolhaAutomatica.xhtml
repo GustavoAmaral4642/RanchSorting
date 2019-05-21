@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dataTable var="folha" value="#{cadastroFolhaAutomaticaBean.folhas}"
+		reflow="true" emptyMessage="Nenhuma Ficha Encontrada" id="folhasTable"
+		paginator="true" rows="50">
+
+		<f:facet name="header">
+        	Fichas 
+		</f:facet>
+
+		<p:column headerText="Ficha Comp. 1"
+			style="width: 150px; text-align: center ">
+			<h:outputText value="#{folha.fichaInscricao1.id}" />
+		</p:column>
+
+		<p:column headerText="Nome Competidor 1" style="text-align: center ">
+			<h:outputText value="#{folha.fichaInscricao1.competidor.nome}" />
+		</p:column>
+
+		<p:column headerText="Ficha Comp. 2"
+			style="width: 150px; text-align: center ">
+			<h:outputText value="#{folha.fichaInscricao2.id}" />
+		</p:column>
+
+		<p:column headerText="Nome Competidor 2" style="text-align: center ">
+			<h:outputText value="#{folha.fichaInscricao2.competidor.nome}" />
+		</p:column>
+
+		<p:column headerText="Nome Campeonato" style="text-align: center ">
+			<h:outputText value="#{folha.fichaInscricao1.campeonato.nome}" />
+		</p:column>
+
+		<p:column headerText="Nome Etapa" style="text-align: center ">
+			<h:outputText value="#{folha.fichaInscricao1.etapa.nome}" />
+		</p:column>
+
+		<p:column headerText="Nome Divisao" style="text-align: center ">
+			<h:outputText value="#{folha.fichaInscricao1.divisao.nome}" />
+		</p:column>
+
+	</p:dataTable>
+</ui:composition>

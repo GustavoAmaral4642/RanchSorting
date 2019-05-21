@@ -1,6 +1,6 @@
 package com.ranchsorting.controller;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +15,7 @@ import com.ranchsorting.model.Divisao;
 import com.ranchsorting.model.Etapa;
 import com.ranchsorting.model.FichaInscricao;
 import com.ranchsorting.model.FolhaCompeticao;
-import com.ranchsorting.model.TipoFolha;
+import com.ranchsorting.model.StatusFicha;
 import com.ranchsorting.repository.Animais;
 import com.ranchsorting.repository.Campeonatos;
 import com.ranchsorting.repository.Competidores;
@@ -56,7 +56,8 @@ public class CadastroFolhaCompeticaoBean implements Serializable {
 
 	private FolhaCompeticao folhaCompeticao;
 	private FolhaCompeticaoFilter filtro;
-	private FichaInscricaoFilter filtroFichaInscricao;
+	private FichaInscricaoFilter filtroFichaInscricao1;
+	private FichaInscricaoFilter filtroFichaInscricao2;
 
 	private List<Competidor> todosCompetidores1;
 	private List<Competidor> todosCompetidores2;
@@ -86,8 +87,8 @@ public class CadastroFolhaCompeticaoBean implements Serializable {
 				filtro.setObjEtapa(folhaCompeticao.getFichaInscricao1().getEtapa());
 				filtro.setObjDivisao(folhaCompeticao.getFichaInscricao1().getDivisao());
 				carregarDataEtapa();
-				filtro.setObjCompetidor1(folhaCompeticao.getFichaInscricao1().getCompetidor());
-				filtro.setObjCompetidor2(folhaCompeticao.getFichaInscricao2().getCompetidor());
+				//filtro.setObjCompetidor1(folhaCompeticao.getFichaInscricao1().getCompetidor());
+				//filtro.setObjCompetidor2(folhaCompeticao.getFichaInscricao2().getCompetidor());
 				carregarFichasCompetidor1();
 				carregarFichasCompetidor2();
 			}
@@ -99,14 +100,12 @@ public class CadastroFolhaCompeticaoBean implements Serializable {
 		filtro = new FolhaCompeticaoFilter();
 		fichasCompetidores1 = new ArrayList<>();
 		fichasCompetidores2 = new ArrayList<>();
-		filtroFichaInscricao = new FichaInscricaoFilter();
+		filtroFichaInscricao1 = new FichaInscricaoFilter();
+		filtroFichaInscricao2 = new FichaInscricaoFilter();
 	}
 
 	public void salvar() {
 		
-		if (!isEditando()) {
-			this.folhaCompeticao.setTipoFolha(TipoFolha.MANUAL);
-		}
 		this.folhaCompeticao = cadastroFolhaCompeticaoService.salvar(folhaCompeticao);
 
 		limpar();
@@ -125,15 +124,30 @@ public class CadastroFolhaCompeticaoBean implements Serializable {
 	}
 	
 	public void carregarFichasCompetidor1() {
-		fichasCompetidores1 = fichas.carregarFichasCompetidores(filtro.getObjCompetidor1(), filtro.getObjCampeonato(),
-				filtro.getObjEtapa(), filtro.getObjDivisao());
+		filtroFichaInscricao1.setCampeonato(filtro.getObjCampeonato().getNome());
+		filtroFichaInscricao1.setEtapa(filtro.getObjEtapa().getNome());
+		filtroFichaInscricao1.setDivisao(filtro.getObjDivisao().getNome());
+		filtroFichaInscricao1.setCompetidor(filtro.getObjCompetidor1().getNome());
+		filtroFichaInscricao1.setStatusFicha(StatusFicha.CADASTRADA);
+		
+		fichasCompetidores1 = fichas.filtradas(filtroFichaInscricao1);
 	}
 
 	public void carregarFichasCompetidor2() {
-		fichasCompetidores2 = fichas.carregarFichasCompetidores(filtro.getObjCompetidor2(), filtro.getObjCampeonato(),
-				filtro.getObjEtapa(), filtro.getObjDivisao());
+		filtroFichaInscricao2.setCampeonato(filtro.getObjCampeonato().getNome());
+		filtroFichaInscricao2.setEtapa(filtro.getObjEtapa().getNome());
+		filtroFichaInscricao2.setDivisao(filtro.getObjDivisao().getNome());
+		filtroFichaInscricao2.setCompetidor(filtro.getObjCompetidor2().getNome());
+		filtroFichaInscricao2.setStatusFicha(StatusFicha.CADASTRADA);
+		
+		fichasCompetidores2 = fichas.filtradas(filtroFichaInscricao2);
 	}
 
+	public void recarregarFichasInscricao(){
+		fichasCompetidores1 = new ArrayList<>();
+		fichasCompetidores2 = new ArrayList<>();
+	}
+	
 	public FolhaCompeticao getFolhaCompeticao() {
 		return folhaCompeticao;
 	}
@@ -190,14 +204,22 @@ public class CadastroFolhaCompeticaoBean implements Serializable {
 		return fichasCompetidores2;
 	}
 
-	public FichaInscricaoFilter getFiltroFichaInscricao() {
-		return filtroFichaInscricao;
+	public FichaInscricaoFilter getFiltroFichaInscricao1() {
+		return filtroFichaInscricao1;
 	}
 
-	public void setFiltroFichaInscricao(FichaInscricaoFilter filtroFichaInscricao) {
-		this.filtroFichaInscricao = filtroFichaInscricao;
+	public void setFiltroFichaInscricao1(FichaInscricaoFilter filtroFichaInscricao1) {
+		this.filtroFichaInscricao1 = filtroFichaInscricao1;
 	}
 
+	public FichaInscricaoFilter getFiltroFichaInscricao2() {
+		return filtroFichaInscricao2;
+	}
+
+	public void setFiltroFichaInscricao2(FichaInscricaoFilter filtroFichaInscricao2) {
+		this.filtroFichaInscricao2 = filtroFichaInscricao2;
+	}
+	
 	public boolean isEditando() {
 		return this.folhaCompeticao.getId() != null;
 	}

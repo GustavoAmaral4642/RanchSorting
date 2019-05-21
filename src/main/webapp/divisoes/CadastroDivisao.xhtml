@@ -26,7 +26,8 @@
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
-							<h1>#{cadastroDivisaoBean.editando ? 'Edição de Divisão' : 'Nova Divisão'}</h1>
+							<h1>#{cadastroDivisaoBean.editando ? 'Edição de Divisão' :
+								'Nova Divisão'}</h1>
 
 							<p:growl id="growl" autoUpdate="true" />
 
@@ -36,7 +37,8 @@
 								style="border:0px none; background-color:transparent;">
 
 								<p:outputLabel for="codigo" value="Código:" />
-								<p:inputText id="codigo" disabled="true" value="#{cadastroDivisaoBean.divisao.id}" />
+								<p:inputText id="codigo" disabled="true"
+									value="#{cadastroDivisaoBean.divisao.id}" />
 
 								<p:outputLabel for="nome" value="Nome:" />
 								<p:inputText id="nome"
@@ -46,7 +48,7 @@
 								<h:panelGroup>
 									<p:panelGrid columns="2" layout="grid">
 										<p:outputLabel for="idadeInicial" value="Idade Inicial:" />
-										<p:inputText id="idadeInicial" maxlength="2" 
+										<p:inputText id="idadeInicial" maxlength="2"
 											value="#{cadastroDivisaoBean.divisao.idadeInicial}" />
 
 										<p:outputLabel for="idadeFinal" value="Idade Final:" />
@@ -60,18 +62,31 @@
 									value="#{cadastroDivisaoBean.divisao.observacoes}"
 									placeholder="Observação" autoResize="false" />
 
+								<p:outputLabel for="duplaRepetida" value="Repetir Dupla/Vezes:" />
+								<p:inputText id="duplaRepetida" label="Repetir Dupla"
+									placeholder="Repetir Dupla" size="5" maxlength="1"
+									value="#{cadastroDivisaoBean.divisao.qntDuplasRepetidas}" />
+
+								<p:outputLabel for="competidorPorFicha"
+									value="Qnt.Competidores p/Ficha:" />
+								<p:inputText id="competidorPorFicha"
+									label="Qnt.Competidores p/Ficha"
+									placeholder="Qnt.Competidores p/Ficha" size="5" maxlength="1"
+									value="#{cadastroDivisaoBean.divisao.competidorPorFicha}" />
+
 								<p:spacer />
 								<p:spacer />
-								
+
 								<p:spacer />
 
 								<h:panelGroup>
 									<p:panelGrid columns="3" layout="grid">
 										<p:commandButton value="Salvar" icon="fa fa-save"
-											action="#{cadastroDivisaoBean.salvar}" 
-											update="@form"/>
-										<p:button value="Limpar" icon="fa fa-refresh" outcome="/divisoes/CadastroDivisao" />
-										<p:button value="Pesquisa" icon="fa fa-search" outcome="/divisoes/PesquisaDivisoes" />
+											action="#{cadastroDivisaoBean.salvar}" update="@form" />
+										<p:button value="Limpar" icon="fa fa-refresh"
+											outcome="/divisoes/CadastroDivisao" />
+										<p:button value="Pesquisa" icon="fa fa-search"
+											outcome="/divisoes/PesquisaDivisoes" />
 									</p:panelGrid>
 								</h:panelGroup>
 

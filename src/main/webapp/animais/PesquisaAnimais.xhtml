@@ -19,9 +19,9 @@
 					<div class="ui-g-12">
 						<div class="card no-margin">
 							<h1>Pesquisa de Animais</h1>
-							
+
 							<p:growl id="growl" autoUpdate="true" />
-							
+
 							<h:form>
 								<p:panelGrid columns="4"
 									columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
@@ -29,14 +29,16 @@
 									style="border:0px none; background-color:transparent;">
 
 									<p:outputLabel for="nomeAnimal" value="Nome do Animal:" />
-									<p:inputText id="nomeAnimal" value="#{pesquisaAnimaisBean.filtro.nome}"/>
+									<p:inputText id="nomeAnimal"
+										value="#{pesquisaAnimaisBean.filtro.nome}" />
 
 									<p:outputLabel for="nomeProprietario"
 										value="Nome do Proprietário:" />
-									<p:inputText id="nomeProprietario" value="#{pesquisaAnimaisBean.filtro.competidor}" />
+									<p:inputText id="nomeProprietario"
+										value="#{pesquisaAnimaisBean.filtro.competidor}" />
 
 									<p:outputLabel for="cor" value="Cor:" />
-									<p:inputText id="cor" value="#{pesquisaAnimaisBean.filtro.cor}"/>
+									<p:inputText id="cor" value="#{pesquisaAnimaisBean.filtro.cor}" />
 
 									<p:spacer />
 									<p:spacer />
@@ -45,13 +47,13 @@
 									<p:panelGrid columns="2" layout="grid">
 										<p:button value="Incluir Novo" icon="fa fa-plus"
 											outcome="/animais/CadastroAnimal" />
-										<p:commandButton value="Pesquisar" icon="fa fa-search" 
+										<p:commandButton value="Pesquisar" icon="fa fa-search"
 											action="#{pesquisaAnimaisBean.pesquisar}"
-											update="animaisTable" 
+											update="animaisTable"
 											process="@this 
 												nomeAnimal 
 												nomeProprietario
-												cor"/>
+												cor" />
 									</p:panelGrid>
 
 								</p:panelGrid>
@@ -59,8 +61,9 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:dataTable var="animal" value="#{pesquisaAnimaisBean.animaisFiltrados}"
-									reflow="true" emptyMessage="Nenhum Animal Encontrado" id="animaisTable"
+								<p:dataTable var="animal"
+									value="#{pesquisaAnimaisBean.animaisFiltrados}" reflow="true"
+									emptyMessage="Nenhum Animal Encontrado" id="animaisTable"
 									paginator="true" rows="10">
 									<f:facet name="header">
                                 		Animais Cadastrados
@@ -72,7 +75,7 @@
 
 									<p:column headerText="Nome do Animal"
 										style="text-align: center">
-										<h:outputText value="#{animal.nome}"/>
+										<h:outputText value="#{animal.nome}" />
 									</p:column>
 
 									<p:column headerText="Nome do Proprietário"
@@ -81,7 +84,7 @@
 									</p:column>
 
 									<p:column headerText="Idade" style="text-align: center">
-										<h:outputText value="#{animal.idade}"/>
+										<h:outputText value="#{animal.idade}" />
 									</p:column>
 
 									<p:column headerText="Cor" style="text-align: center">
@@ -89,7 +92,7 @@
 									</p:column>
 
 									<p:column headerText="Raça" style="text-align: center">
-										<h:outputText value="#{animal.raca}"/>
+										<h:outputText value="#{animal.raca}" />
 									</p:column>
 
 									<p:column style="text-align: center; width: 80px">
@@ -98,8 +101,13 @@
 											<f:param name="animal" value="#{animal.id}" />
 										</p:button>
 										<p:spacer />
-										<p:commandButton icon="fa fa-trash" title="Excluir"
-											style="width: 30px">
+										<p:commandButton icon="ui-icon-trash" title="Excluir"
+											id="botaoExcluirAnimal" update="animaisTable"
+											style="width: 30px"
+											actionListener="#{pesquisaAnimaisBean.excluir(animal)}">
+											<p:confirm header="Exclusão de Animal"
+												message="Tem certeza que deseja excluir animal #{animal.nome}?"
+												icon="ui-icon-alert" />
 										</p:commandButton>
 									</p:column>
 								</p:dataTable>
@@ -108,6 +116,13 @@
 					</div>
 				</div>
 			</div>
+			
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
 		</h:form>
 	</ui:define>
 

@@ -10,14 +10,14 @@
 		style="border:0px none; background-color:transparent;">
 
 		<p:outputLabel for="numeroCampeonato" value="Número do Campeonato" />
-		<p:inputText id="numeroCampeonato" 
+		<p:inputText id="numeroCampeonato"
 			value="#{cadastroCampeonatoBean.campeonato.id}" disabled="true" />
 
 		<p:outputLabel for="nomeCampeonato" value="Nome do Campeonato" />
 		<p:inputText id="nomeCampeonato"
 			value="#{cadastroCampeonatoBean.campeonato.nome}" />
 
-		<p:outputLabel value="Data de Abertura" for="dataAbertura"/>
+		<p:outputLabel value="Data de Abertura" for="dataAbertura" />
 		<p:calendar id="dataAbertura" label="Data da Abertura"
 			placeholder="__/__/_____" pattern="dd/MM/yyyy" title="Data" size="10"
 			value="#{cadastroCampeonatoBean.campeonato.dataAbertura}"
@@ -37,10 +37,13 @@
 			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 		</p:inputText>
 
-		<p:outputLabel for="duplaRepetida" value="Repetir Dupla/Vezes:" />
-		<p:inputText id="duplaRepetida" label="Repetir Dupla" 	
-			placeholder="Repetir Dupla" size="20" maxlength="20"
-			value="#{cadastroCampeonatoBean.campeonato.qntDuplasRepetidas}"/>
+		<p:outputLabel for="tipoCampeonato" value="Tipo:" />
+		<p:selectOneRadio id="tipoCampeonato" layout="responsive" columns="3"
+			value="#{cadastroCampeonatoBean.campeonato.tipoCampeonato}">
+			<f:selectItem itemLabel="Tambor" itemValue="TAMBOR" />
+			<f:selectItem itemLabel="Ranch Sorting" itemValue="RANCHSORTING" />
+			<f:selectItem itemLabel="Team Penning" itemValue="TEAMPENNING" />
+		</p:selectOneRadio>
 
 		<p:spacer />
 		<p:spacer />

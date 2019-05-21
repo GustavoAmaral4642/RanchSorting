@@ -30,7 +30,6 @@ public class CadastroCompetidorBean implements Serializable {
 	private List<Animal> animaisCompetidor;
 	
 	private Competidor competidor;
-
 	
 	public CadastroCompetidorBean() {
 		limpar();

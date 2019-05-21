@@ -21,12 +21,23 @@ public class CadastroDivisaoService implements Serializable{
 		
 		try{
 			return divisoes.guardar(divisao);	
-		} catch(ConstraintViolationException ex){
-			throw new NegocioException("Ocorreu algum promblema na gravação da divisão." +
-										"Entre em contato com o administrador do Sistema.");
-		} catch(RuntimeException ex){
-			throw new NegocioException("Ocorreu algum promblema na gravação do divisão." +
-					"Entre em contato com o administrador do Sistema.");
+			
+		}  catch (ConstraintViolationException ex) {
+			throw new NegocioException("Ocorreu algum promblema na gravação da divisão."
+					+ "Entre em contato com o administrador do Sistema. (ConstraintViolationException)");
+			
+		} catch (ArithmeticException ex) {
+			throw new NegocioException("Ocorreu algum promblema na gravação da divisão."
+					+ "Entre em contato com o administrador do Sistema. (ArithmeticException)");
+			
+		} catch (RuntimeException ex) {
+			throw new NegocioException("Ocorreu algum promblema na gravação da divisão."
+					+ "Entre em contato com o administrador do Sistema. (RuntimeException)");
+			
+		} catch (Exception ex) {
+			throw new NegocioException("Ocorreu algum promblema na gravação da divisão."
+					+ "Entre em contato com o administrador do Sistema. (Exception)");
+			
 		}
 		
 	}

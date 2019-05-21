@@ -25,6 +25,14 @@ public class FolhasCompeticoes implements Serializable {
 		return manager.merge(folha);
 	}
 
+	public List<FolhaCompeticao> guardarColecao(List<FolhaCompeticao> folhas) {
+		
+		for(FolhaCompeticao fo : folhas){
+			manager.merge(fo);
+		}
+		return folhas;
+	}
+	
 	public FolhaCompeticao porId(Long id) {
 		return manager.find(FolhaCompeticao.class, id);
 	}

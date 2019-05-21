@@ -79,23 +79,7 @@
 								<p:inputTextarea id="contato" rows="3"
 									value="#{cadastroCompetidorBean.competidor.contato}"
 									placeholder="Informe o contato" autoResize="false" />
-
-								<p:outputLabel for="anuidadePaga" value="Anuidade Paga em:" />
-								<h:panelGroup>
-									<p:panelGrid columns="3" layout="grid">
-										<p:calendar id="anuidadePaga" label="Anuidade Paga"
-											disabled="true" placeholder="__/__/____" pattern="dd/MM/yyyy"
-											title="Data" size="10"
-											value="#{cadastroCompetidorBean.competidor.dataPagamentoAnuidade}"
-											mask="99/99/9999" />
-										<p:outputLabel value="Não paga"
-											style="color: red; font-weight:bold;"
-											rendered="#{cadastroCompetidorBean.competidor.tipoAnuidade == NAO}" />
-
-										<p:commandButton value="Pagar" icon="fa fa-dollar" />
-									</p:panelGrid>
-								</h:panelGroup>
-
+								
 								<p:outputLabel for="etnia" value="Etnia:" />
 								<p:selectOneRadio id="etnia" layout="responsive" columns="2"
 									value="#{cadastroCompetidorBean.competidor.etnia}">
@@ -105,8 +89,6 @@
 
 								<p:spacer />
 
-								<p:spacer />
-								<p:spacer />
 								<h:panelGroup>
 									<p:panelGrid columns="3" layout="grid">
 										<p:commandButton value="Salvar" icon="fa fa-save"

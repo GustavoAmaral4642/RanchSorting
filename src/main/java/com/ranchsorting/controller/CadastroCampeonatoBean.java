@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.ranchsorting.model.Campeonato;
+import com.ranchsorting.model.TipoCampeonato;
 import com.ranchsorting.service.CadastroCampeonatoService;
 import com.ranchsorting.util.jsf.FacesUtil;
 
@@ -31,9 +32,11 @@ public class CadastroCampeonatoBean implements Serializable {
 
 	public void limpar() {
 		campeonato = new Campeonato();
+		campeonato.setTipoCampeonato(TipoCampeonato.RANCHSORTING);
 	}
 
 	public void salvar() {
+		this.campeonato.getTipoCampeonato().getDescricao();
 		this.campeonato = cadastroCampeonatoService.salvar(campeonato);
 
 		limpar();

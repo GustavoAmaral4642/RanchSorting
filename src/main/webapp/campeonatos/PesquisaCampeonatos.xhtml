@@ -84,9 +84,10 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:dataTable var="campeonato" value="#{pesquisaCampeonatosBean.campeonatosFiltrados}"
-									reflow="true" emptyMessage="Nenhum Campeonato Cadastrado" id="campeonatosTable"
-									paginator="true" rows="10">
+								<p:dataTable var="campeonato"
+									value="#{pesquisaCampeonatosBean.campeonatosFiltrados}"
+									reflow="true" emptyMessage="Nenhum Campeonato Cadastrado"
+									id="campeonatosTable" paginator="true" rows="10">
 									<f:facet name="header">
                                 		Campeonatos Cadastrados
                             		</f:facet>
@@ -128,11 +129,16 @@
 									<p:column style="text-align: center; width: 80px">
 										<p:button icon="fa fa-pencil" title="Editar"
 											style="width: 30px" outcome="/campeonatos/CadastroCampeonato">
-											<f:param name="campeonato" value="#{campeonato.id}"/>
+											<f:param name="campeonato" value="#{campeonato.id}" />
 										</p:button>
 										<p:spacer />
-										<p:commandButton icon="fa fa-trash" title="Excluir"
-											style="width: 30px">
+										<p:commandButton icon="ui-icon-trash" title="Excluir"
+											id="botaoExcluirCampeonato" update="campeonatosTable"
+											style="width: 30px"
+											actionListener="#{pesquisaCampeonatosBean.excluir(campeonato)}">
+											<p:confirm header="Exclusão de Campeonatos"
+												message="Tem certeza que deseja excluir campeonato #{campeonato.nome}?"
+												icon="ui-icon-alert" />
 										</p:commandButton>
 									</p:column>
 								</p:dataTable>
@@ -141,6 +147,13 @@
 					</div>
 				</div>
 			</div>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
 		</h:form>
 	</ui:define>
 

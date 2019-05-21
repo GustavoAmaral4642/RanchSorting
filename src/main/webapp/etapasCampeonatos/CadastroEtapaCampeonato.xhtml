@@ -40,10 +40,10 @@
 									disabled="true" />
 
 								<p:outputLabel for="nome" value="Nome:" />
-								<p:inputText id="nome" value="#{cadastroEtapaBean.etapa.nome}"/>
+								<p:inputText id="nome" value="#{cadastroEtapaBean.etapa.nome}" />
 
 								<p:outputLabel for="local" value="Local:" />
-								<p:inputText id="local" value="#{cadastroEtapaBean.etapa.local}"/>
+								<p:inputText id="local" value="#{cadastroEtapaBean.etapa.local}" />
 
 								<p:outputLabel for="campeonato" value="Campeonato:" />
 								<p:selectOneMenu id="campeonato" filter="true"
@@ -65,11 +65,6 @@
 								<p:inputText id="contatoOrganizador"
 									value="#{cadastroEtapaBean.etapa.contatoOrganizador}" />
 
-								<p:outputLabel for="dataEvento" value="Data do Evento:" />
-								<p:calendar id="dataEvento" placeholder="__/__/____"
-									pattern="dd/MM/yyyy" title="Data do Evento" size="10"
-									mask="99/99/9999" value="#{cadastroEtapaBean.etapa.dataEvento}" />
-
 								<p:outputLabel for="dataInicioInscricoes"
 									value="Início das Inscrições:" />
 								<p:calendar id="dataInicioInscricoes" placeholder="__/__/____"
@@ -84,8 +79,10 @@
 									mask="99/99/9999"
 									value="#{cadastroEtapaBean.etapa.dataFimInscricoes}" />
 
-								<p:spacer />
-								<p:spacer />
+								<p:outputLabel for="dataEvento" value="Data do Evento:" />
+								<p:calendar id="dataEvento" placeholder="__/__/____"
+									pattern="dd/MM/yyyy" title="Data do Evento" size="10"
+									mask="99/99/9999" value="#{cadastroEtapaBean.etapa.dataEvento}" />
 
 								<p:spacer />
 								<h:panelGroup>

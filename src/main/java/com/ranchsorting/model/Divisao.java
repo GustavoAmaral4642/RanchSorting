@@ -14,6 +14,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -30,6 +33,8 @@ public class Divisao implements Serializable {
 	private String observacoes;
 	private String idadeInicial;
 	private String idadeFinal;
+	private int qntDuplasRepetidas = 0;
+	private int competidorPorFicha = 0;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
@@ -46,7 +51,7 @@ public class Divisao implements Serializable {
 	}
 
 	@NotBlank
-	@Size(max=60)
+	@Size(max = 60)
 	@Column(name = "dv_nome", nullable = false, length = 60)
 	public final String getNome() {
 		return nome;
@@ -55,7 +60,7 @@ public class Divisao implements Serializable {
 	public final void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 	@ManyToOne
 	@JoinColumn(name = "dv_campeonato_id")
 	public Campeonato getCampeonato() {
@@ -66,7 +71,7 @@ public class Divisao implements Serializable {
 		this.campeonato = campeonato;
 	}
 
-	@Column(name="dv_observacao",columnDefinition = "text")
+	@Column(name = "dv_observacao", columnDefinition = "text")
 	public final String getObservacoes() {
 		return observacoes;
 	}
@@ -98,7 +103,27 @@ public class Divisao implements Serializable {
 	public final Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
 	}
+	
+	@NotNull @Min(0) @Max(2)
+	@Column(name = "dv_dupla_repetida", nullable = false)
+	public int getQntDuplasRepetidas() {
+		return qntDuplasRepetidas;
+	}
 
+	public void setQntDuplasRepetidas(int qntDuplasRepetidas) {
+		this.qntDuplasRepetidas = qntDuplasRepetidas;
+	}
+
+	@NotNull @Min(1) @Max(3)
+	@Column(name = "dv_qnt_competidor_p_ficha")
+	public int getCompetidorPorFicha() {
+		return competidorPorFicha;
+	}
+
+	public void setCompetidorPorFicha(int competidorPorFicha) {
+		this.competidorPorFicha = competidorPorFicha;
+	}
+	
 	public final void setUsuarioAlteracao(Usuario usuarioAlteracao) {
 		this.usuarioAlteracao = usuarioAlteracao;
 	}

@@ -1,7 +1,6 @@
 package com.ranchsorting.model;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
+import java.io.Serializable; 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,10 +38,6 @@ public class Competidor implements Serializable {
 	private List<Animal> animais = new ArrayList<>(); // OK
 	private String contato;// OK
 	private Etnia etnia;// OK
-	private BigDecimal valorPagoAnuidade;// OK
-	private Date dataPagamentoAnuidade;// OK
-	private TipoAnuidade tipoAnuidade;// OK
-	private List<Anuidade> anuidades = new ArrayList<>(); // OK
 	private Usuario usuarioAlteracao;// OK
 	private Date dataAlteracao;// OK
 	private Ocorrencia ocorrencia;// Falta implementar
@@ -137,44 +132,6 @@ public class Competidor implements Serializable {
 
 	public final void setEtnia(Etnia etnia) {
 		this.etnia = etnia;
-	}
-
-	@Column(name = "cp_vlr_pgto_anuidade", precision = 10, scale = 2)
-	public final BigDecimal getValorPagoAnuidade() {
-		return valorPagoAnuidade;
-	}
-
-	public final void setValorPagoAnuidade(BigDecimal valorPagoAnuidade) {
-		this.valorPagoAnuidade = valorPagoAnuidade;
-	}
-
-	@Temporal(TemporalType.DATE)
-	@Column(name = "cp_dt_pgto_anuidade")
-	public final Date getDataPagamentoAnuidade() {
-		return dataPagamentoAnuidade;
-	}
-
-	public final void setDataPagamentoAnuidade(Date dataPagamentoAnuidade) {
-		this.dataPagamentoAnuidade = dataPagamentoAnuidade;
-	}
-
-	@Enumerated(EnumType.STRING)
-	@Column(name = "cp_tp_anuidade", length = 15)
-	public TipoAnuidade getTipoAnuidade() {
-		return tipoAnuidade;
-	}
-
-	public void setTipoAnuidade(TipoAnuidade tipoAnuidade) {
-		this.tipoAnuidade = tipoAnuidade;
-	}
-
-	@OneToMany(mappedBy = "competidor", cascade = CascadeType.ALL)
-	public List<Anuidade> getAnuidades() {
-		return anuidades;
-	}
-
-	public void setAnuidades(List<Anuidade> anuidades) {
-		this.anuidades = anuidades;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)

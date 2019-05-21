@@ -75,8 +75,7 @@
 											value="De: #{divisao.idadeInicial} a: #{divisao.idadeFinal}" />
 									</p:column>
 
-									<p:column headerText="Observação"
-										style="text-align: center">
+									<p:column headerText="Observação" style="text-align: center">
 										<h:outputText value="#{divisao.observacoes}" />
 									</p:column>
 
@@ -87,8 +86,14 @@
 											<f:param name="divisao" value="#{divisao.id}" />
 										</p:button>
 										<p:spacer />
-										<p:commandButton icon="fa fa-trash" title="Excluir"
-											style="width: 30px">
+
+										<p:commandButton icon="ui-icon-trash" title="Excluir"
+											id="botaoExcluirDivisao" update="divisoesTable"
+											style="width: 30px"
+											actionListener="#{pesquisaDivisoesBean.excluir(divisao)}">
+											<p:confirm header="Exclusão de Divisão"
+												message="Tem certeza que deseja excluir divisão #{divisao.nome}?"
+												icon="ui-icon-alert" />
 										</p:commandButton>
 									</p:column>
 
@@ -98,6 +103,13 @@
 					</div>
 				</div>
 			</div>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
 		</h:form>
 	</ui:define>
 

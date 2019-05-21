@@ -21,12 +21,19 @@ public class CadastroCampeonatoService implements Serializable{
 		
 		try{
 			return campeonatos.guardar(campeonato);	
-		} catch(ConstraintViolationException ex){
-			throw new NegocioException("Ocorreu algum promblema na gravação do campeonato." +
-										"Entre em contato com o administrador do Sistema.");
-		} catch(RuntimeException ex){
-			throw new NegocioException("Ocorreu algum promblema na gravação do campeonato." +
-					"Entre em contato com o administrador do Sistema.");
+		
+		}catch (ConstraintViolationException ex) {
+			throw new NegocioException("Ocorreu algum promblema na gravação do campeonato."
+					+ "Entre em contato com o administrador do Sistema. (ConstraintViolationException)");
+		} catch (ArithmeticException ex) {
+			throw new NegocioException("Ocorreu algum promblema na gravação do campeonato."
+					+ "Entre em contato com o administrador do Sistema. (ArithmeticException)");
+		} catch (RuntimeException ex) {
+			throw new NegocioException("Ocorreu algum promblema na gravação do campeonato."
+					+ "Entre em contato com o administrador do Sistema. (RuntimeException)");
+		} catch (Exception ex) {
+			throw new NegocioException("Ocorreu algum promblema na gravação do campeonato."
+					+ "Entre em contato com o administrador do Sistema. (Exception)");
 		}
 		
 	}

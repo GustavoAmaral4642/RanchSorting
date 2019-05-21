@@ -1,6 +1,6 @@
 package com.ranchsorting.controller;
 
-import java.io.Serializable; 
+import java.io.Serializable;  
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
@@ -10,6 +10,7 @@ import javax.inject.Named;
 import com.ranchsorting.model.Competidor;
 import com.ranchsorting.repository.Competidores;
 import com.ranchsorting.repository.filter.CompetidorFilter;
+import com.ranchsorting.util.jsf.FacesUtil;
 
 @Named
 @ViewScoped
@@ -30,6 +31,15 @@ public class PesquisaCompetidoresBean implements Serializable {
 	
 	public void pesquisar(){
 		competidoresFiltrados = competidores.filtrados(filtro);		
+	}
+
+	public void excluir(Competidor competidorSelecionado) {
+
+		competidores.remover(competidorSelecionado);
+
+		competidoresFiltrados.remove(competidorSelecionado);
+
+		FacesUtil.addInfoMessage("Competidor " + competidorSelecionado.getNome() + " excluído com sucesso.");
 	}
 
 	public CompetidorFilter getFiltro() {

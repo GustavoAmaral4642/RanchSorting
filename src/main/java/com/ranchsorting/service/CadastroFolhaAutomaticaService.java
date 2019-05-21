@@ -1,7 +1,6 @@
 package com.ranchsorting.service;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
@@ -12,7 +11,7 @@ import com.ranchsorting.model.TipoFolha;
 import com.ranchsorting.repository.FolhasCompeticoes;
 import com.ranchsorting.util.jpa.Transactional;
 
-public class CadastroFolhaCompeticaoService implements Serializable {
+public class CadastroFolhaAutomaticaService implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -38,34 +37,9 @@ public class CadastroFolhaCompeticaoService implements Serializable {
 		
 			folha.getFichaInscricao1().setStatusFicha(StatusFicha.EMORDEM);
 			folha.getFichaInscricao2().setStatusFicha(StatusFicha.EMORDEM);
-			folha.setTipoFolha(TipoFolha.MANUAL);
+			folha.setTipoFolha(TipoFolha.AUTOMATICA);
 			
 			return folhas.guardar(folha);
-			
-		} catch (NullPointerException ex) {
-			throw new NegocioException("Ocorreu algum promblema na gravação da Folha de Competiçao."
-					+ "Entre em contato com o administrador do Sistema. (NullPointerException)");
-		}
-		catch (ConstraintViolationException ex) {
-			throw new NegocioException("Ocorreu algum promblema na gravação da Folha de Competiçao."
-					+ "Entre em contato com o administrador do Sistema. (ConstraintViolationException)");
-		} catch (ArithmeticException ex) {
-			throw new NegocioException("Ocorreu algum promblema na gravação da Folha de Competiçao."
-					+ "Entre em contato com o administrador do Sistema. (ArithmeticException)");
-		} catch (RuntimeException ex) {
-			throw new NegocioException("Ocorreu algum promblema na gravação da Folha de Competiçao."
-					+ "Entre em contato com o administrador do Sistema. (RuntimeException)");
-		} catch (Exception ex) {
-			throw new NegocioException("Ocorreu algum promblema na gravação da Folha de Competiçao."
-					+ "Entre em contato com o administrador do Sistema. (Exception)");
-		}
-	}
-	
-	@Transactional
-	public List<FolhaCompeticao> salvarColecao(List<FolhaCompeticao> folhasCompeticao) {
-		
-		try {			
-			return folhas.guardarColecao(folhasCompeticao);
 			
 		} catch (NullPointerException ex) {
 			throw new NegocioException("Ocorreu algum promblema na gravação da Folha de Competiçao."

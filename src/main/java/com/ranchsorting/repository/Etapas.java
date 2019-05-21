@@ -1,11 +1,12 @@
 package com.ranchsorting.repository;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
@@ -17,6 +18,8 @@ import org.hibernate.criterion.Restrictions;
 import com.ranchsorting.model.Campeonato;
 import com.ranchsorting.model.Etapa;
 import com.ranchsorting.repository.filter.EtapaFilter;
+import com.ranchsorting.service.NegocioException;
+import com.ranchsorting.util.jpa.Transactional;
 
 public class Etapas implements Serializable {
 
@@ -27,6 +30,22 @@ public class Etapas implements Serializable {
 
 	public Etapa guardar(Etapa etapa) {
 		return manager.merge(etapa);
+	}
+
+	// método para remover registros
+	@Transactional
+	public void remover(Etapa etapa) {
+
+		try {
+			etapa = porId(etapa.getId());
+
+			manager.remove(etapa);
+
+			manager.flush();
+		} catch (PersistenceException e) {
+			// esta exceção é lançada pelo banco de dados
+			throw new NegocioException("Etapa não pode ser excluída.");
+		}
 	}
 
 	public Etapa porId(Long id) {
@@ -71,5 +90,5 @@ public class Etapas implements Serializable {
 		return manager.createQuery("from Etapa where campeonato = :campeonato", Etapa.class)
 				.setParameter("campeonato", campeonato).getResultList();
 	}
-	
+
 }

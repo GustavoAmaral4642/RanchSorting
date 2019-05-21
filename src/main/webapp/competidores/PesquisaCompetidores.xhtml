@@ -38,22 +38,23 @@
 
 											<p:calendar id="idadeInicial" size="15" pattern="dd/MM/yyyy"
 												mask="99/99/9999" placeholder="Idade Inicial"
-												value="#{pesquisaCompetidoresBean.filtro.dtNascimentoDe}"  />
+												value="#{pesquisaCompetidoresBean.filtro.dtNascimentoDe}" />
 
 											<p:calendar id="idadeFinal" size="15" pattern="dd/MM/yyyy"
 												mask="99/99/9999" placeholder="Idade Final"
-												value="#{pesquisaCompetidoresBean.filtro.dtNascimentoAte}"/>
+												value="#{pesquisaCompetidoresBean.filtro.dtNascimentoAte}" />
 
 										</p:panelGrid>
 									</h:panelGroup>
 
 									<p:outputLabel for="nomeResponsavel"
 										value="Nome do Responsável:" />
-									<p:inputText id="nomeResponsavel" 
+									<p:inputText id="nomeResponsavel"
 										value="#{pesquisaCompetidoresBean.filtro.responsavel}" />
 
 									<p:outputLabel for="contato" value="Contato do Competidor:" />
-									<p:inputText id="contato" value="#{pesquisaCompetidoresBean.filtro.contato}" />
+									<p:inputText id="contato"
+										value="#{pesquisaCompetidoresBean.filtro.contato}" />
 
 									<p:spacer />
 
@@ -111,12 +112,18 @@
 
 									<p:column style="text-align: center; width: 80px">
 										<p:button icon="fa fa-pencil" title="Editar"
-											style="width: 30px" outcome="/competidores/CadastroCompetidor">
-											<f:param name="competidor" value="#{competidor.id}"/>
+											style="width: 30px"
+											outcome="/competidores/CadastroCompetidor">
+											<f:param name="competidor" value="#{competidor.id}" />
 										</p:button>
 										<p:spacer />
-										<p:commandButton icon="fa fa-trash" title="Excluir"
-											style="width: 30px">
+										<p:commandButton icon="ui-icon-trash" title="Excluir"
+											id="botaoExcluirCompetidor" update="competidoresTable"
+											style="width: 30px"
+											actionListener="#{pesquisaCompetidoresBean.excluir(competidor)}">
+											<p:confirm header="Exclusão de Competidor"
+												message="Tem certeza que deseja excluir competidor #{competidor.nome}?"
+												icon="ui-icon-alert" />
 										</p:commandButton>
 									</p:column>
 								</p:dataTable>
@@ -125,6 +132,13 @@
 					</div>
 				</div>
 			</div>
+			
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
 		</h:form>
 	</ui:define>
 
