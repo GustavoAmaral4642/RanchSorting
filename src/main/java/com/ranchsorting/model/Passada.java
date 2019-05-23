@@ -1,6 +1,6 @@
 package com.ranchsorting.model;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -9,10 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -22,10 +24,13 @@ public class Passada implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	private Competidor competidor;
+	private Long numeroDupla;
 	private String tempo;
 	private Long qntBoi;
 	private Long ranking;
 	private String sat;
+	private FichaInscricao fichaInscricao;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
@@ -39,6 +44,25 @@ public class Passada implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "pa_competidor")
+	public Competidor getCompetidor() {
+		return competidor;
+	}
+
+	public void setCompetidor(Competidor competidor) {
+		this.competidor = competidor;
+	}
+
+	@Column(name = "pa_numero_dupla")
+	public Long getNumeroDupla() {
+		return numeroDupla;
+	}
+
+	public void setNumeroDupla(Long numeroDupla) {
+		this.numeroDupla = numeroDupla;
 	}
 
 	@Size(max=20)
@@ -77,6 +101,16 @@ public class Passada implements Serializable {
 
 	public void setSat(String sat) {
 		this.sat = sat;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "pa_ficha_inscricao_id")
+	public FichaInscricao getFichaInscricao() {
+		return fichaInscricao;
+	}
+
+	public void setFichaInscricao(FichaInscricao fichaInscricao) {
+		this.fichaInscricao = fichaInscricao;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)

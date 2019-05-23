@@ -2,6 +2,7 @@ package com.ranchsorting.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,15 +11,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "tb_ficha_inscricao")
@@ -26,21 +28,17 @@ public class FichaInscricao implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	/* parei verificando esta classe*/
-	/* ajustar o requisito e depois a classe*/
-	
 	private Long id;
-	private Long qntInscricoes;
 	private Date dataInscricao;
-	private List<Passada> passada;
+	private List<Passada> passadas = new ArrayList<>();
 	private Campeonato campeonato;
 	private Etapa etapa;
 	private Divisao divisao;
 	private BigDecimal valorComprado;
 	private BigDecimal valorPago;
-	private String anuidadePaga;
-	private TipoAnuidade tipoAnuidade;
 	private StatusFicha statusFicha;
+	private TipoFicha tipoFicha;
+	private Recebimento recebimento;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
@@ -57,16 +55,6 @@ public class FichaInscricao implements Serializable {
 	}
 
 	@NotNull
-	@Column(name = "fi_qnt_inscricoes")
-	public Long getQntInscricoes() {
-		return qntInscricoes;
-	}
-
-	public void setQntInscricoes(Long qntInscricoes) {
-		this.qntInscricoes = qntInscricoes;
-	}
-
-	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fi_data_inscricao")
 	public Date getDataInscricao() {
@@ -75,6 +63,15 @@ public class FichaInscricao implements Serializable {
 
 	public void setDataInscricao(Date dataInscricao) {
 		this.dataInscricao = dataInscricao;
+	}
+
+	@OneToMany(mappedBy = "fichaInscricao", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	public List<Passada> getPassadas() {
+		return passadas;
+	}
+
+	public void setPassadas(List<Passada> passadas) {
+		this.passadas = passadas;
 	}
 
 	@NotNull
@@ -129,27 +126,6 @@ public class FichaInscricao implements Serializable {
 		this.valorPago = valorPago;
 	}
 
-
-	@Size(max = 2)
-	@Column(name = "fi_anuidade_paga", length = 2)
-	public String getAnuidadePaga() {
-		return anuidadePaga;
-	}
-
-	public void setAnuidadePaga(String anuidadePaga) {
-		this.anuidadePaga = anuidadePaga;
-	}
-
-	@Enumerated(EnumType.STRING)
-	@Column(name = "fi_tp_anuidade", length = 12)
-	public TipoAnuidade getTipoAnuidade() {
-		return tipoAnuidade;
-	}
-
-	public void setTipoAnuidade(TipoAnuidade tipoAnuidade) {
-		this.tipoAnuidade = tipoAnuidade;
-	}
-
 	@Enumerated(EnumType.STRING)
 	@Column(name = "fi_status_ficha", length = 15)
 	public StatusFicha getStatusFicha() {
@@ -158,6 +134,27 @@ public class FichaInscricao implements Serializable {
 
 	public void setStatusFicha(StatusFicha statusFicha) {
 		this.statusFicha = statusFicha;
+	}
+
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	@Column(name = "fi_tipo_ficha", length = 15)
+	public TipoFicha getTipoFicha() {
+		return tipoFicha;
+	}
+
+	public void setTipoFicha(TipoFicha tipoFicha) {
+		this.tipoFicha = tipoFicha;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fi_recebimento")
+	public Recebimento getRecebimento() {
+		return recebimento;
+	}
+
+	public void setRecebimento(Recebimento recebimento) {
+		this.recebimento = recebimento;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)

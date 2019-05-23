@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<p:panelGrid columns="4" id="panelCompetidor3"
+		columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+		layout="grid" styleClass="ui-panelgrid-blank"
+		style="border:0px none; background-color:transparent;">
+
+		<p:outputLabel for="nomeCompetidor31" value="Nome do Competidor 3:"
+			rendered="#{cadastroFichaInscricaoBean.fichaInscricao.tipoFicha eq 'TRIO'}" />
+		<p:selectOneMenu id="nomeCompetidor31" filter="true"
+			label="Competidor"
+			rendered="#{cadastroFichaInscricaoBean.fichaInscricao.tipoFicha eq 'TRIO'}"
+			filterMatchMode="contains" style="margin-bottom:10px;" value="#{cadastroFichaInscricaoBean.competidor3}">
+			<f:selectItem itemLabel="Selecione um Competidor" />
+			<f:selectItems
+				value="#{cadastroFichaInscricaoBean.todosCompetidores}"
+				var="todosCompetidores" itemValue="#{todosCompetidores}"
+				itemLabel="#{todosCompetidores.nome}" />
+		</p:selectOneMenu>
+
+	</p:panelGrid>
+</ui:composition>

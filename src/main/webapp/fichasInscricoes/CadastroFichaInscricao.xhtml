@@ -32,126 +32,8 @@
 
 							<p:growl id="growl" autoUpdate="true" />
 
-							<p:panelGrid columns="4"
-								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
-								layout="grid" styleClass="ui-panelgrid-blank"
-								style="border:0px none; background-color:transparent;">
-
-								<p:outputLabel for="codigoFicha" value="Código da Ficha:" />
-								<p:inputText id="codigoFicha" disabled="true"
-									value="#{cadastroFichaInscricaoBean.fichaInscricao.id}" />
-
-								<p:outputLabel for="dataInscricao" value="Data da Inscricão:" />
-								<p:calendar id="dataInscricao" placeholder="__/__/____"
-									pattern="dd/MM/yyyy" title="Data da Inscrição" size="10"
-									value="#{cadastroFichaInscricaoBean.fichaInscricao.dataInscricao}"
-									mask="99/99/9999" />
-
-								<p:outputLabel for="nomeCompetidor" value="Nome do Competidor:" />
-								<p:selectOneMenu id="nomeCompetidor" filter="true"
-									label="Competidor" filterMatchMode="contains"
-									style="margin-bottom:10px;"
-									value="#{cadastroFichaInscricaoBean.fichaInscricao.competidor}">
-									<f:selectItem itemLabel="Selecione um Competidor" />
-									<f:selectItems
-										value="#{cadastroFichaInscricaoBean.todosCompetidores}"
-										var="todosCompetidores" itemValue="#{todosCompetidores}"
-										itemLabel="#{todosCompetidores.nome}" />
-									<p:ajax
-										listener="#{cadastroFichaInscricaoBean.carregarAnuidadesCompetidor}"
-										update="anuidades" />
-								</p:selectOneMenu>
-
-								<p:outputLabel for="animal" value="Nome do Animal:" />
-								<p:selectOneMenu id="animal" filter="true" label="Animal"
-									filterMatchMode="contains" style="margin-bottom:10px;"
-									value="#{cadastroFichaInscricaoBean.fichaInscricao.animal}">
-									<f:selectItem itemLabel="Selecione um Animal" />
-									<f:selectItems
-										value="#{cadastroFichaInscricaoBean.todosAnimais}"
-										var="todosAnimais" itemValue="#{todosAnimais}"
-										itemLabel="#{todosAnimais.nome}" />
-								</p:selectOneMenu>
-
-								<p:outputLabel for="campeonato" value="Selecione o Campeonato:" />
-								<p:selectOneMenu id="campeonato" filter="true"
-									label="Campeonato" filterMatchMode="contains"
-									style="margin-bottom:10px;"
-									value="#{cadastroFichaInscricaoBean.fichaInscricao.campeonato}">
-									<f:selectItem itemLabel="Selecione um Campeonato" />
-									<f:selectItems
-										value="#{cadastroFichaInscricaoBean.todosCampeonatos}"
-										var="todosCampeonatos" itemValue="#{todosCampeonatos}"
-										itemLabel="#{todosCampeonatos.nome}" />
-									<p:ajax listener="#{cadastroFichaInscricaoBean.carregarEtapas}"
-										update="etapa" />
-								</p:selectOneMenu>
-
-								<p:outputLabel for="etapa" value="Selecione a Etapa:" />
-								<p:selectOneMenu id="etapa" filter="true" label="Etapa"
-									filterMatchMode="contains" style="margin-bottom:10px;"
-									value="#{cadastroFichaInscricaoBean.fichaInscricao.etapa}">
-									<f:selectItem itemLabel="Selecione uma Etapa" />
-									<f:selectItems
-										value="#{cadastroFichaInscricaoBean.etapasCampeonatos}"
-										var="etapasCampeonatos" itemValue="#{etapasCampeonatos}"
-										itemLabel="#{etapasCampeonatos.nome}" />
-								</p:selectOneMenu>
-
-								<p:outputLabel for="valorComprado" value="Valor Comprado:" />
-								<p:inputText id="valorComprado" label="Valor Comprado"
-									placeholder="Valor Comprado" size="20" maxlength="20"
-									value="#{cadastroFichaInscricaoBean.fichaInscricao.valorComprado}"
-									styleClass="moeda">
-									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-								</p:inputText>
-
-								<p:outputLabel for="qntFichas"
-									value="Quantidade de Fichas Compradas:" />
-								<p:inputMask id="qntFichas" label="Quantidade" size="20"
-									maxlength="20" mask="9?999999999999999"
-									placeHolder="Quantidade" title="Quantidade"
-									value="#{cadastroFichaInscricaoBean.fichaInscricao.qntInscricoes}" />
-
-								<p:outputLabel for="divisao" value="Selecione a divisão:" />
-								<p:selectOneMenu id="divisao" filter="true" label="Divisão"
-									filterMatchMode="contains" style="margin-bottom:10px;"
-									value="#{cadastroFichaInscricaoBean.fichaInscricao.divisao}">
-									<f:selectItem itemLabel="Selecione a Divisão" />
-									<f:selectItems
-										value="#{cadastroFichaInscricaoBean.todasDivisoes}"
-										var="todasDivisoes" itemValue="#{todasDivisoes}"
-										itemLabel="#{todasDivisoes.nome}" />
-								</p:selectOneMenu>
-
-								<p:spacer />
-								<p:spacer />
-
-								<p:outputLabel for="anuidades" value="Anuidade Paga:" />
-								<p:dataList id="anuidades"
-									value="#{cadastroFichaInscricaoBean.anuidadesCompetidor}"
-									var="anuidade" type="ordered"
-									emptyMessage="Nenhuma Anuidade Encontrada">
-									<f:facet name="header">
-										Anuidades do Competidor
-				                    </f:facet>
-									<h:outputText value=" - " />
-									<h:outputText value="#{anuidade.dataPagamento}">
-										<f:convertDateTime pattern="dd/MM/yyyy" />
-									</h:outputText>
-									<h:outputText value=" - " />
-									<h:outputText value="#{anuidade.valorPago}">
-										<f:convertNumber type="currency" />
-									</h:outputText>
-									<h:outputText value=" - " />
-									<h:outputText value="#{anuidade.campeonato.nome}" />
-								</p:dataList>
-
-								<p:outputLabel for="statusFicha" value="Status da Ficha:" />
-								<p:inputText id="statusFicha" readonly="true" size="20"
-									maxlength="20" value="#{cadastroFichaInscricaoBean.fichaInscricao.statusFicha.descricao}" />
-
-							</p:panelGrid>
+							<ui:include
+								src="/WEB-INF/template/fichasInscricoes/FichaInscricao1.xhtml" />
 
 							<p:spacer />
 							<p:spacer />
@@ -161,49 +43,34 @@
 							<p:spacer />
 							<p:spacer />
 
-							<p:panelGrid columns="4"
-								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
-								layout="grid" styleClass="ui-panelgrid-blank"
-								style="border:0px none; background-color:transparent;">
+							<ui:include
+								src="/WEB-INF/template/fichasInscricoes/FichaInscricao2.xhtml" />
 
-								<p:outputLabel for="valorPago" value="Valor Pago:" />
-								<p:inputText id="valorPago" label="Valor Pago:"
-									placeholder="Valor Pago" size="20" maxlength="20"
-									value="#{cadastroFichaInscricaoBean.fichaInscricao.valorPago}"
-									styleClass="moeda">
-									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-								</p:inputText>
+							<p:spacer />
+							<p:spacer />
 
-								<p:outputLabel for="dataPagamento" value="Data do Pagamento:" />
-								<p:calendar id="dataPagamento" placeholder="__/__/____"
-									pattern="dd/MM/yyyy" title="Data do Pagamento" size="10"
-									value="#{cadastroFichaInscricaoBean.fichaInscricao.dataPagamento}"
-									mask="99/99/9999" />
+							<ui:include
+								src="/WEB-INF/template/fichasInscricoes/FichaInscricao3.xhtml" />
 
-								<p:outputLabel for="formaPagamento" value="Forma de Pagamento:" />
-								<p:selectOneMenu id="formaPagamento" filter="true"
-									label="Forma de Pagamento" filterMatchMode="contains"
-									style="margin-bottom:10px;"
-									value="#{cadastroFichaInscricaoBean.fichaInscricao.formaPagamento}">
-									<f:selectItem itemLabel="Selecione uma Forma de Pagamento" />
-									<f:selectItems
-										value="#{cadastroFichaInscricaoBean.formasPagamento}"
-										var="formaPagamento" itemValue="#{formaPagamento}"
-										itemLabel="#{formaPagamento.descricao}" />
-								</p:selectOneMenu>
+							<p:spacer />
+							<p:spacer />
 
-								<p:outputLabel for="banco" value="Banco para pagamento:" />
-								<p:inputText id="banco" label="Banco:" placeholder="Banco"
-									size="50" maxlength="50"
-									value="#{cadastroFichaInscricaoBean.fichaInscricao.bancoPagamento}" />
+							<p:spacer />
+							<p:spacer />
 
-
-							</p:panelGrid>
+							<ui:include
+								src="/WEB-INF/template/fichasInscricoes/FichaInscricao4.xhtml" />
 
 							<p:spacer />
 							<p:spacer />
 
 							<p:separator />
+
+							<p:spacer />
+							<p:spacer />
+
+							<ui:include
+								src="/WEB-INF/template/fichasInscricoes/FichaInscricao5.xhtml" />
 
 							<p:spacer />
 							<p:spacer />
