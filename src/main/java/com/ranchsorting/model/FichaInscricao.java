@@ -38,7 +38,6 @@ public class FichaInscricao implements Serializable {
 	private BigDecimal valorPago;
 	private StatusFicha statusFicha;
 	private TipoFicha tipoFicha;
-	private Recebimento recebimento;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
@@ -65,7 +64,7 @@ public class FichaInscricao implements Serializable {
 		this.dataInscricao = dataInscricao;
 	}
 
-	@OneToMany(mappedBy = "fichaInscricao", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "fichaInscricao", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	public List<Passada> getPassadas() {
 		return passadas;
 	}
@@ -145,16 +144,6 @@ public class FichaInscricao implements Serializable {
 
 	public void setTipoFicha(TipoFicha tipoFicha) {
 		this.tipoFicha = tipoFicha;
-	}
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fi_recebimento")
-	public Recebimento getRecebimento() {
-		return recebimento;
-	}
-
-	public void setRecebimento(Recebimento recebimento) {
-		this.recebimento = recebimento;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)

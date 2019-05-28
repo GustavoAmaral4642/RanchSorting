@@ -1,6 +1,6 @@
 package com.ranchsorting.repository;
 
-import java.io.Serializable;  
+import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,7 +42,7 @@ public class FichasInscricoes implements Serializable {
 
 		Session session = manager.unwrap(Session.class);
 		Criteria criteria = session.createCriteria(FichaInscricao.class).createAlias("campeonato", "ca")
-				.createAlias("etapa", "e").createAlias("divisao", "d").createAlias("competidor", "co");
+				.createAlias("etapa", "e").createAlias("divisao", "d");
 
 		if (StringUtils.isNotBlank(filtro.getCampeonato())) {
 			criteria.add(Restrictions.ilike("ca.nome", filtro.getCampeonato(), MatchMode.ANYWHERE));
@@ -55,11 +55,7 @@ public class FichasInscricoes implements Serializable {
 		if (StringUtils.isNotBlank(filtro.getDivisao())) {
 			criteria.add(Restrictions.ilike("d.nome", filtro.getDivisao(), MatchMode.ANYWHERE));
 		}
-
-		if (StringUtils.isNotBlank(filtro.getCompetidor())) {
-			criteria.add(Restrictions.ilike("co.nome", filtro.getCompetidor(), MatchMode.ANYWHERE));
-		}
-
+		
 		if (filtro.getDataInscricaoInicial() != null) {
 			criteria.add(Restrictions.ge("dataInscricao", filtro.getDataInscricaoInicial()));
 		}
@@ -75,31 +71,29 @@ public class FichasInscricoes implements Serializable {
 		if (filtro.getStatusFicha() != null && filtro.getStatusFicha().equals(StatusFicha.EMORDEM)) {
 			criteria.add(Restrictions.eq("statusFicha", StatusFicha.EMORDEM));
 		}
-		
+
 		return criteria.addOrder(Order.asc("ca.nome")).list();
 	}
-/*
-	@SuppressWarnings("unchecked")
-	public List<FichaParaFolhaAutomatica> filtradasParaFolhaAutomatica(FichaInscricaoFilter filtro) {
-
-		Session session = manager.unwrap(Session.class);
-		Criteria criteria = session.createCriteria(FichaInscricao.class)
-					.createAlias("campeonato", "ca")
-					.createAlias("etapa", "e")
-					.createAlias("divisao", "d")
-					.createAlias("competidor", "co");
-
-		ProjectionList pl = Projections.projectionList()
-				.add(Projections.property("id").as("id1"))
-				.add(Projections.property("co.nome").as("nomeCompetidor1"))
-				.add(Projections.property("ca.nome").as("nomeCampeonato"))
-				.add(Projections.property("e.nome").as("nomeEtapa"))
-				.add(Projections.property("d.nome").as("nomeDivisao"));
-		
-		criteria.setProjection(pl)
-			.addOrder(Order.asc("id1"))
-			.setResultTransformer(Transformers.aliasToBean(FichaParaFolhaAutomatica.class));
-
-		return criteria.list();
-	}*/
+	/*
+	 * @SuppressWarnings("unchecked") public List<FichaParaFolhaAutomatica>
+	 * filtradasParaFolhaAutomatica(FichaInscricaoFilter filtro) {
+	 * 
+	 * Session session = manager.unwrap(Session.class); Criteria criteria =
+	 * session.createCriteria(FichaInscricao.class) .createAlias("campeonato",
+	 * "ca") .createAlias("etapa", "e") .createAlias("divisao", "d")
+	 * .createAlias("competidor", "co");
+	 * 
+	 * ProjectionList pl = Projections.projectionList()
+	 * .add(Projections.property("id").as("id1"))
+	 * .add(Projections.property("co.nome").as("nomeCompetidor1"))
+	 * .add(Projections.property("ca.nome").as("nomeCampeonato"))
+	 * .add(Projections.property("e.nome").as("nomeEtapa"))
+	 * .add(Projections.property("d.nome").as("nomeDivisao"));
+	 * 
+	 * criteria.setProjection(pl) .addOrder(Order.asc("id1"))
+	 * .setResultTransformer(Transformers.aliasToBean(FichaParaFolhaAutomatica.
+	 * class));
+	 * 
+	 * return criteria.list(); }
+	 */
 }

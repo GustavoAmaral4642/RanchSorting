@@ -14,7 +14,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -65,7 +64,7 @@ public class Passada implements Serializable {
 		this.numeroDupla = numeroDupla;
 	}
 
-	@Size(max=20)
+	@Size(max = 20)
 	@Column(name = "pa_tempo", length = 20)
 	public String getTempo() {
 		return tempo;
@@ -74,7 +73,7 @@ public class Passada implements Serializable {
 	public void setTempo(String tempo) {
 		this.tempo = tempo;
 	}
-	
+
 	@Column(name = "pa_qnt_boi")
 	public Long getQntBoi() {
 		return qntBoi;
@@ -93,8 +92,8 @@ public class Passada implements Serializable {
 		this.ranking = ranking;
 	}
 
-	@Size(max=10)
-	@Column(name = "pa_sat", length=10)
+	@Size(max = 10)
+	@Column(name = "pa_sat", length = 10)
 	public String getSat() {
 		return sat;
 	}
@@ -104,7 +103,7 @@ public class Passada implements Serializable {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "pa_ficha_inscricao_id")
+	@JoinColumn(name = "pa_ficha_inscricao_id", nullable = false)
 	public FichaInscricao getFichaInscricao() {
 		return fichaInscricao;
 	}

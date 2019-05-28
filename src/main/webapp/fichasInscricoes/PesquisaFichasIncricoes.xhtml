@@ -95,23 +95,10 @@
 										<h:outputText value="#{ficha.divisao.nome}" />
 									</p:column>
 
-									<p:column headerText="Nome do Competidor"
-										style="text-align: center">
-										<h:outputText value="#{ficha.competidor.nome}" />
-									</p:column>
-
-
 									<p:column headerText="Vlr.Comprado"
 										style="width: 150px; text-align: center">
 										<h:outputText value="#{ficha.valorComprado}">
 											<f:convertNumber type="currency" />
-										</h:outputText>
-									</p:column>
-									
-									<p:column headerText="Pagamento"
-										style="width: 150px; text-align: center">
-										<h:outputText value="#{ficha.dataPagamento}">
-											<f:convertDateTime pattern="dd/MM/yyyy" />
 										</h:outputText>
 									</p:column>
 
@@ -120,6 +107,15 @@
 										<h:outputText value="#{ficha.valorPago}">
 											<f:convertNumber type="currency" />
 										</h:outputText>
+									</p:column>
+
+									<p:column headerText="Competidores" style="text-align: center">
+										<p:dataList
+											value="#{ficha.passadas}"
+											var="passada" type="ordered"
+											emptyMessage="Nenhuma Passada Encontrada">
+											#{passada.competidor.nome}
+				                        </p:dataList>
 									</p:column>
 
 									<p:column style="text-align: center; width: 80px">

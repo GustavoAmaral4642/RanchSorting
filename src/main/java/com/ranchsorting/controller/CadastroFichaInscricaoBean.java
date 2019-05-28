@@ -15,7 +15,6 @@ import com.ranchsorting.model.Competidor;
 import com.ranchsorting.model.Divisao;
 import com.ranchsorting.model.Etapa;
 import com.ranchsorting.model.FichaInscricao;
-import com.ranchsorting.model.Passada;
 import com.ranchsorting.model.StatusFicha;
 import com.ranchsorting.model.TipoFicha;
 import com.ranchsorting.repository.Animais;
@@ -23,7 +22,6 @@ import com.ranchsorting.repository.Campeonatos;
 import com.ranchsorting.repository.Competidores;
 import com.ranchsorting.repository.Divisoes;
 import com.ranchsorting.repository.Etapas;
-import com.ranchsorting.repository.filter.CompetidorFilter;
 import com.ranchsorting.service.CadastroFichaInscricaoService;
 import com.ranchsorting.service.NegocioException;
 import com.ranchsorting.util.jsf.FacesUtil;
@@ -71,15 +69,15 @@ public class CadastroFichaInscricaoBean implements Serializable {
 	public void inicializar() {
 		todosCampeonatos = campeonatos.todosCampeonatos();
 		todasDivisoes = divisoes.todasDivisoes();
-		
+
 		if (FacesUtil.isNotPostback()) {
 			if (isEditando()) {
 				// carregarAnuidadesCompetidor();
 				carregarEtapas();
-			} else if (fichaInscricao.getStatusFicha() == null) {
-				fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
 			}
 		}
+
+		System.out.println(competidor1.getClass());
 
 	}
 
@@ -89,47 +87,19 @@ public class CadastroFichaInscricaoBean implements Serializable {
 		competidor1 = new Competidor();// tentar usar destroy
 		competidor2 = new Competidor(); // tentar usar destroy
 		competidor3 = new Competidor();// tentar usar destroy
+		if (!isEditando()) {
+			fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
+		}
 	}
 
 	public void salvar() {
-		
-		if(this.fichaInscricao.getTipoFicha().equals(TipoFicha.INDIVIDUAL)){
-			Passada pas1 = new Passada(); 
-			
-			pas1.setCompetidor(competidor1);
-			
-			this.fichaInscricao.getPassadas().add(pas1);
-			
-		} else if(this.fichaInscricao.getTipoFicha().equals(TipoFicha.DUPLA)){
-			Passada pas1 = new Passada();
-			Passada pas2 = new Passada();
-			
-			pas1.setCompetidor(competidor1);
-			pas2.setCompetidor(competidor2);
-			
-			this.fichaInscricao.getPassadas().add(pas1);
-			this.fichaInscricao.getPassadas().add(pas2);
-			
-		} else if (this.fichaInscricao.getTipoFicha().equals(TipoFicha.TRIO)){
-			Passada pas1 = new Passada();
-			Passada pas2 = new Passada();
-			Passada pas3 = new Passada();
-			
-			pas1.setCompetidor(competidor1);
-			pas2.setCompetidor(competidor2);
-			pas3.setCompetidor(competidor3);
-			
-			this.fichaInscricao.getPassadas().add(pas1);
-			this.fichaInscricao.getPassadas().add(pas2);
-			this.fichaInscricao.getPassadas().add(pas3);
-			
-		} else {
-			throw new NegocioException("Por favor, selecione um tipo de ficha");
-		}
-		
-		this.fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
-		this.fichaInscricao = cadastroFichaInscricaoService.salvar(this.fichaInscricao);
+		System.out.println(competidor1.getClass());
 
+		trataPassadasInclusao();
+
+		this.fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
+
+		this.fichaInscricao = cadastroFichaInscricaoService.salvar(this.fichaInscricao);
 		limpar();
 
 		FacesUtil.addInfoMessage("Ficha de Inscrição registrada com sucesso!");
@@ -141,13 +111,40 @@ public class CadastroFichaInscricaoBean implements Serializable {
 	}
 
 	public void carregarCompetidores() {
-		
+
 		todosCompetidores = competidores.todosCompetidores();
 	}
 
 	public void carregarAnuidadesCompetidor() {
 		// anuidadesCompetidor =
 		// anuidades.anuidadesCompetidor(this.fichaInscricao.getCompetidor());
+	}
+
+	/**
+	 * Método abaixo para adicionar os competidores nas passadas e o recebimento
+	 **/
+	private void trataPassadasInclusao() {
+
+		if (this.fichaInscricao.getTipoFicha().equals(TipoFicha.INDIVIDUAL) && competidor1 != null) {
+
+			this.fichaInscricao = cadastroFichaInscricaoService.preparaPassadas1(this.fichaInscricao, competidor1);
+
+		} else if (this.fichaInscricao.getTipoFicha().equals(TipoFicha.DUPLA) && competidor1 != null
+				&& competidor2 != null) {
+
+			this.fichaInscricao = cadastroFichaInscricaoService.preparaPassadas2(this.fichaInscricao, competidor1,
+					competidor2);
+
+		} else if (this.fichaInscricao.getTipoFicha().equals(TipoFicha.TRIO) && competidor1 != null
+				&& competidor2 != null && competidor3 != null) {
+
+			this.fichaInscricao = cadastroFichaInscricaoService.preparaPassadas3(this.fichaInscricao, competidor1,
+					competidor2, competidor3);
+
+		} else {
+			throw new NegocioException("Por favor, selecione o tipo da ficha e/ou competidores!");
+		}
+
 	}
 
 	// retornar o tipo de ficha em um array

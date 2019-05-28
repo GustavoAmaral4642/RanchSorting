@@ -10,13 +10,13 @@
 		layout="grid" styleClass="ui-panelgrid-blank"
 		style="border:0px none; background-color:transparent;">
 
-		<p:outputLabel for="codigoFicha" value="Código da Ficha:" />
-		<p:inputText id="codigoFicha" disabled="true"
+		<p:outputLabel for="codigoFicha" value="Código da Ficha:"  />
+		<p:inputText id="codigoFicha" disabled="true" 
 			value="#{cadastroFichaInscricaoBean.fichaInscricao.id}" />
 
 		<p:outputLabel for="campeonato" value="Selecione o Campeonato:" />
-		<p:selectOneMenu id="campeonato" filter="true" label="Campeonato"
-			filterMatchMode="contains" style="margin-bottom:10px;"
+		<p:selectOneMenu id="campeonato" filter="true" label="Campeonato" 
+			filterMatchMode="contains" style="margin-bottom:10px;"  disabled="#{cadastroFichaInscricaoBean.editando}"
 			value="#{cadastroFichaInscricaoBean.fichaInscricao.campeonato}">
 			<f:selectItem itemLabel="Selecione um Campeonato" />
 			<f:selectItems value="#{cadastroFichaInscricaoBean.todosCampeonatos}"
@@ -34,7 +34,7 @@
 
 		<p:outputLabel for="etapa" value="Selecione a Etapa:" />
 		<p:selectOneMenu id="etapa" filter="true" label="Etapa"
-			filterMatchMode="contains" style="margin-bottom:10px;"
+			filterMatchMode="contains" style="margin-bottom:10px;" disabled="#{cadastroFichaInscricaoBean.editando}"
 			value="#{cadastroFichaInscricaoBean.fichaInscricao.etapa}">
 			<f:selectItem itemLabel="Selecione uma Etapa" />
 			<f:selectItems
@@ -45,7 +45,7 @@
 
 		<p:outputLabel for="divisao" value="Selecione a divisão:" />
 		<p:selectOneMenu id="divisao" filter="true" label="Divisão"
-			filterMatchMode="contains" style="margin-bottom:10px;"
+			filterMatchMode="contains" style="margin-bottom:10px;" disabled="#{cadastroFichaInscricaoBean.editando}"
 			value="#{cadastroFichaInscricaoBean.fichaInscricao.divisao}">
 			<f:selectItem itemLabel="Selecione a Divisão" />
 			<f:selectItems value="#{cadastroFichaInscricaoBean.todasDivisoes}"
@@ -62,7 +62,7 @@
 
 		<p:outputLabel for="tipoFicha1" value="Tipo:"
 			rendered="#{cadastroFichaInscricaoBean.fichaInscricao.campeonato.tipoCampeonato eq 'TAMBOR'}" />
-		<p:selectOneRadio id="tipoFicha1" layout="responsive" columns="3"
+		<p:selectOneRadio id="tipoFicha1" layout="responsive" columns="3" disabled="#{cadastroFichaInscricaoBean.editando}"
 			rendered="#{cadastroFichaInscricaoBean.fichaInscricao.campeonato.tipoCampeonato eq 'TAMBOR'}"
 			value="#{cadastroFichaInscricaoBean.fichaInscricao.tipoFicha}">
 			<f:selectItem itemLabel="Individual" itemValue="INDIVIDUAL" />
@@ -74,7 +74,7 @@
 
 		<p:outputLabel for="tipoFicha2" value="Tipo:"
 			rendered="#{cadastroFichaInscricaoBean.fichaInscricao.campeonato.tipoCampeonato eq 'RANCHSORTING'}" />
-		<p:selectOneRadio id="tipoFicha2" layout="responsive" columns="3"
+		<p:selectOneRadio id="tipoFicha2" layout="responsive" columns="3" disabled="#{cadastroFichaInscricaoBean.editando}"
 			rendered="#{cadastroFichaInscricaoBean.fichaInscricao.campeonato.tipoCampeonato eq 'RANCHSORTING'}"
 			value="#{cadastroFichaInscricaoBean.fichaInscricao.tipoFicha}">
 			<f:selectItem itemLabel="Individual" itemValue="INDIVIDUAL" />
@@ -87,7 +87,7 @@
 
 		<p:outputLabel for="tipoFicha3" value="Tipo:"
 			rendered="#{cadastroFichaInscricaoBean.fichaInscricao.campeonato.tipoCampeonato eq 'TEAMPENNING'}" />
-		<p:selectOneRadio id="tipoFicha3" layout="responsive" columns="3"
+		<p:selectOneRadio id="tipoFicha3" layout="responsive" columns="3" disabled="#{cadastroFichaInscricaoBean.editando}"
 			rendered="#{cadastroFichaInscricaoBean.fichaInscricao.campeonato.tipoCampeonato eq 'TEAMPENNING'}"
 			value="#{cadastroFichaInscricaoBean.fichaInscricao.tipoFicha}">
 			<f:selectItem itemLabel="Trio" itemValue="TRIO" />
