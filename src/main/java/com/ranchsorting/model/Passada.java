@@ -24,7 +24,6 @@ public class Passada implements Serializable {
 
 	private Long id;
 	private Competidor competidor;
-	private Long numeroDupla;
 	private String tempo;
 	private Long qntBoi;
 	private Long ranking;
@@ -54,16 +53,7 @@ public class Passada implements Serializable {
 	public void setCompetidor(Competidor competidor) {
 		this.competidor = competidor;
 	}
-
-	@Column(name = "pa_numero_dupla")
-	public Long getNumeroDupla() {
-		return numeroDupla;
-	}
-
-	public void setNumeroDupla(Long numeroDupla) {
-		this.numeroDupla = numeroDupla;
-	}
-
+	
 	@Size(max = 20)
 	@Column(name = "pa_tempo", length = 20)
 	public String getTempo() {

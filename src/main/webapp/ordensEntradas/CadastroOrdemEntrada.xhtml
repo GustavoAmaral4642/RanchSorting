@@ -44,7 +44,7 @@
 								<p:selectOneMenu id="campeonato" filter="true"
 									label="Competidor" filterMatchMode="contains"
 									style="margin-bottom:10px;"
-									value="#{cadastroOrdemEntradaBean.filtroFolhaCompeticao.objCampeonato}">
+									value="#{cadastroOrdemEntradaBean.fichaInscricaoFilter.objCampeonato}">
 									<f:selectItem itemLabel="Selecione um Campeonato" />
 									<f:selectItems
 										value="#{cadastroOrdemEntradaBean.todosCampeonatos}"
@@ -57,7 +57,7 @@
 								<p:outputLabel for="etapa" value="Selecione a Etapa:" />
 								<p:selectOneMenu id="etapa" filter="true" label="Etapa"
 									filterMatchMode="contains" style="margin-bottom:10px;"
-									value="#{cadastroOrdemEntradaBean.filtroFolhaCompeticao.objEtapa}">
+									value="#{cadastroOrdemEntradaBean.fichaInscricaoFilter.objEtapa}">
 									<f:selectItem itemLabel="Selecione uma Etapa" />
 									<f:selectItems
 										value="#{cadastroOrdemEntradaBean.etapasCampeonatos}"
@@ -70,7 +70,7 @@
 
 								<p:outputLabel for="divisao" value="Selecione a divisao:" />
 								<p:selectOneMenu id="divisao" showCheckbox="true"
-									value="#{cadastroOrdemEntradaBean.filtroFolhaCompeticao.objDivisao}">
+									value="#{cadastroOrdemEntradaBean.fichaInscricaoFilter.objDivisao}">
 									<f:selectItem itemLabel="Selecione a Divisão" />
 									<f:selectItems
 										value="#{cadastroOrdemEntradaBean.todasDivisoes}"
@@ -90,12 +90,12 @@
 
 								<p:spacer />
 								<p:spacer />
-								
+
 								<p:spacer />
 								<h:panelGroup>
 									<p:panelGrid columns="2" layout="grid">
 										<p:commandButton value="Carregar Competidores"
-											icon="fa fa-users" update="passadasTable"
+											icon="fa fa-users" update="fichasTable"
 											action="#{cadastroOrdemEntradaBean.carregarCompetidores}"
 											process="@this
 										campeonato
@@ -103,7 +103,7 @@
 										divisao" />
 										<p:commandButton value="Gerar Ordem" icon="fa fa-upload"
 											action="#{cadastroOrdemEntradaBean.gerarOrdemEntrada}"
-											process="@this" update="passadasTable" />										
+											process="@this" update="fichasTable" />
 									</p:panelGrid>
 								</h:panelGroup>
 
@@ -117,32 +117,55 @@
 							<p:spacer />
 							<p:spacer />
 
-							<p:dataTable var="passada"
-								value="#{cadastroOrdemEntradaBean.folhas}" reflow="true"
-								emptyMessage="Nenhuma Passada Encontrada" paginator="true"
-								rows="50" id="passadasTable">
+							<p:dataTable var="ficha"
+								value="#{cadastroOrdemEntradaBean.fichasCompetidores}"
+								reflow="true" emptyMessage="Nenhuma Passada Encontrada"
+								paginator="true" rows="50" id="fichasTable">
 								<f:facet name="header">
-                                		Passadas
+                                		Fichas/Passadas
                             		</f:facet>
-								<p:column headerText="Cód.Folha" sortBy="#{passada.id}"
+								<p:column headerText="Código da Ficha" sortBy="#{ficha.id}"
 									style="width: 100px; text-align: center">
-									<h:outputText value="#{passada.id}" />
+									<h:outputText value="#{ficha.id}" />
 								</p:column>
 
-								<p:column headerText="Competidor 1"
-									sortBy="#{passada.fichaInscricao1.competidor.nome}" style="text-align: center">
-									<h:outputText value="#{passada.fichaInscricao1.competidor.nome}" />
+								<p:column headerText="Campeonato" style="text-align: center">
+									<h:outputText value="#{ficha.campeonato.nome}" />
 								</p:column>
 
-								<p:column headerText="Competidor 2"
-									sortBy="#{passada.fichaInscricao2.competidor.nome}" style="text-align: center">
-									<h:outputText value="#{passada.fichaInscricao2.competidor.nome}" />
+								<p:column headerText="Etapa" style="text-align: center">
+									<h:outputText value="#{ficha.etapa.nome}" />
 								</p:column>
 
-								<p:column headerText="Número Dupla"
-									sortBy="#{passada.numeroDupla}" style="text-align: center">
-									<h:outputText value="#{passada.numeroDupla}" />
+								<p:column headerText="Divisão" style="text-align: center">
+									<h:outputText value="#{ficha.divisao.nome}" />
 								</p:column>
+
+								<p:column headerText="Vlr.Comprado"
+									style="width: 150px; text-align: center">
+									<h:outputText value="#{ficha.valorComprado}">
+										<f:convertNumber type="currency" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Vlr.Pago"
+									style="width: 150px; text-align: center">
+									<h:outputText value="#{ficha.valorPago}">
+										<f:convertNumber type="currency" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Competidores" style="text-align: center">
+									<p:dataList value="#{ficha.passadas}" var="passada"
+										type="ordered" emptyMessage="Nenhuma Passada Encontrada">
+											#{passada.competidor.nome}
+				                        </p:dataList>
+								</p:column>
+
+								<p:column headerText="Número Entrada" style="text-align: center">
+									<h:outputText value="#{ficha.numeroDupla}" />
+								</p:column>
+
 							</p:dataTable>
 
 							<p:spacer />

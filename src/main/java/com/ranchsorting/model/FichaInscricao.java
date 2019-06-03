@@ -15,6 +15,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -31,6 +32,7 @@ public class FichaInscricao implements Serializable {
 	private Long id;
 	private Date dataInscricao;
 	private List<Passada> passadas = new ArrayList<>();
+	private Long numeroDupla;
 	private Campeonato campeonato;
 	private Etapa etapa;
 	private Divisao divisao;
@@ -38,6 +40,7 @@ public class FichaInscricao implements Serializable {
 	private BigDecimal valorPago;
 	private StatusFicha statusFicha;
 	private TipoFicha tipoFicha;
+	private OrdemEntrada ordemEntrada;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
@@ -71,6 +74,15 @@ public class FichaInscricao implements Serializable {
 
 	public void setPassadas(List<Passada> passadas) {
 		this.passadas = passadas;
+	}
+
+	@Column(name = "fi_numero_dupla")
+	public Long getNumeroDupla() {
+		return numeroDupla;
+	}
+
+	public void setNumeroDupla(Long numeroDupla) {
+		this.numeroDupla = numeroDupla;
 	}
 
 	@NotNull
@@ -144,6 +156,16 @@ public class FichaInscricao implements Serializable {
 
 	public void setTipoFicha(TipoFicha tipoFicha) {
 		this.tipoFicha = tipoFicha;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "fi_ordem_entrada_id")
+	public OrdemEntrada getOrdemEntrada() {
+		return ordemEntrada;
+	}
+
+	public void setOrdemEntrada(OrdemEntrada ordemEntrada) {
+		this.ordemEntrada = ordemEntrada;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)

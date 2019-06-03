@@ -1,6 +1,6 @@
 package com.ranchsorting.controller;
 
-import java.io.Serializable; 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,12 +12,13 @@ import javax.inject.Named;
 import com.ranchsorting.model.Campeonato;
 import com.ranchsorting.model.Divisao;
 import com.ranchsorting.model.Etapa;
-import com.ranchsorting.model.FolhaCompeticao;
+import com.ranchsorting.model.FichaInscricao;
 import com.ranchsorting.model.OrdemEntrada;
 import com.ranchsorting.repository.Campeonatos;
 import com.ranchsorting.repository.Divisoes;
 import com.ranchsorting.repository.Etapas;
-import com.ranchsorting.repository.FolhasCompeticoes;
+import com.ranchsorting.repository.FichasInscricoes;
+import com.ranchsorting.repository.filter.FichaInscricaoFilter;
 import com.ranchsorting.repository.filter.FolhaCompeticaoFilter;
 import com.ranchsorting.service.CadastroOrdemEntradaService;
 import com.ranchsorting.util.jsf.FacesUtil;
@@ -38,7 +39,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	private Divisoes divisoes;
 
 	@Inject
-	private FolhasCompeticoes folhasCompeticoes;
+	private FichasInscricoes fichas;
 
 	@Inject
 	private CadastroOrdemEntradaService cadastroOrdemEntradaService;
@@ -46,10 +47,10 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	private List<Campeonato> todosCampeonatos;
 	private List<Etapa> etapasCampeonatos;
 	private List<Divisao> todasDivisoes;
-	private List<FolhaCompeticao> folhas;
+	private List<FichaInscricao> fichasCompetidores;
 
 	private OrdemEntrada ordemEntrada;
-	private FolhaCompeticaoFilter filtroFolhaCompeticao;
+	private FichaInscricaoFilter fichaInscricaoFilter;
 
 	public CadastroOrdemEntradaBean() {
 		limpar();
@@ -62,14 +63,12 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	public void limpar() {
 		ordemEntrada = new OrdemEntrada();
-		filtroFolhaCompeticao = new FolhaCompeticaoFilter();
-		folhas = new ArrayList<>();
+		fichasCompetidores = new ArrayList<>();
+		fichaInscricaoFilter = new FichaInscricaoFilter();
 	}
 
 	public void salvar() {
 
-		ordemEntrada.setFolhasCompeticoes(folhas);
-		
 		this.ordemEntrada = cadastroOrdemEntradaService.salvar(ordemEntrada);
 
 		limpar();
@@ -79,29 +78,29 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	}
 
 	public void carregarCompetidores() {
-		folhas = folhasCompeticoes.filtradas(filtroFolhaCompeticao);
+		fichasCompetidores = fichas.filtradas(fichaInscricaoFilter);
 	}
 
 	public void carregarEtapas() {
-		etapasCampeonatos = etapas.etapasDoCampeonato(this.filtroFolhaCompeticao.getObjCampeonato());
+		etapasCampeonatos = etapas.etapasDoCampeonato(this.fichaInscricaoFilter.getObjCampeonato());
 	}
 
 	public void carregarDataEtapa() {
-		this.ordemEntrada.setData(this.filtroFolhaCompeticao.getObjEtapa().getDataEvento());
+		this.ordemEntrada.setData(this.fichaInscricaoFilter.getObjEtapa().getDataEvento());
 	}
 
 	public void gerarOrdemEntrada() {
 
-		List<Integer> embaralhados = new ArrayList<Integer>();
+		List<Integer> embaralhados = new ArrayList<>();
 
-		for (int i = 0; i < folhas.size(); i++) {
-			embaralhados.add(i + 1);
+		for (int i = 0; i < fichasCompetidores.size(); i++) {
+			embaralhados.add(i+1);
 		}
 
 		Collections.shuffle(embaralhados);
 
-		for (int i = 0; i < folhas.size(); i++) {
-			folhas.get(i).setNumeroDupla(Long.valueOf(embaralhados.get(i)));
+		for (int i = 0; i < fichasCompetidores.size(); i++) {
+			fichasCompetidores.get(i).setNumeroDupla(Long.valueOf(embaralhados.get(i)));
 		}
 
 		/*
@@ -133,16 +132,16 @@ public class CadastroOrdemEntradaBean implements Serializable {
 		return todasDivisoes;
 	}
 
-	public List<FolhaCompeticao> getFolhas() {
-		return folhas;
+	public List<FichaInscricao> getFichasCompetidores() {
+		return fichasCompetidores;
 	}
 
-	public FolhaCompeticaoFilter getFiltroFolhaCompeticao() {
-		return filtroFolhaCompeticao;
+	public FichaInscricaoFilter getFichaInscricaoFilter() {
+		return fichaInscricaoFilter;
 	}
 
-	public void setFiltroFolhaCompeticao(FolhaCompeticaoFilter filtroFolhaCompeticao) {
-		this.filtroFolhaCompeticao = filtroFolhaCompeticao;
+	public void setFichaInscricaoFilter(FichaInscricaoFilter fichaInscricaoFilter) {
+		this.fichaInscricaoFilter = fichaInscricaoFilter;
 	}
 
 	public boolean isEditando() {

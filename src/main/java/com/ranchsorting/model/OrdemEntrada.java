@@ -1,12 +1,14 @@
 package com.ranchsorting.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -25,7 +27,7 @@ public class OrdemEntrada implements Serializable {
 	private Long id;
 	private Date data;
 	private Date hora;
-	private List<FolhaCompeticao> folhasCompeticoes;
+	private List<FichaInscricao> fichasInscricoes = new ArrayList<>();
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
@@ -61,13 +63,13 @@ public class OrdemEntrada implements Serializable {
 		this.hora = hora;
 	}
 
-	@OneToMany(mappedBy = "ordemEntrada", cascade = CascadeType.ALL)
-	public List<FolhaCompeticao> getFolhasCompeticoes() {
-		return folhasCompeticoes;
+	@OneToMany(mappedBy = "ordemEntrada", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	public List<FichaInscricao> getFichasInscricoes() {
+		return fichasInscricoes;
 	}
 
-	public void setFolhasCompeticoes(List<FolhaCompeticao> folhasCompeticoes) {
-		this.folhasCompeticoes = folhasCompeticoes;
+	public void setFichasInscricoes(List<FichaInscricao> fichasInscricoes) {
+		this.fichasInscricoes = fichasInscricoes;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)
