@@ -1,7 +1,9 @@
 package com.ranchsorting.model;
 
-import java.io.Serializable; 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -24,11 +28,13 @@ public class Passada implements Serializable {
 
 	private Long id;
 	private Competidor competidor;
+	private List<Competidor> competidores = new ArrayList<>();
 	private String tempo;
 	private Long qntBoi;
 	private Long ranking;
 	private String sat;
 	private FichaInscricao fichaInscricao;
+	private OrdemEntrada ordemEntrada;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
@@ -53,7 +59,19 @@ public class Passada implements Serializable {
 	public void setCompetidor(Competidor competidor) {
 		this.competidor = competidor;
 	}
-	
+
+	@ManyToMany
+	@JoinTable(name="tb_passada_competidor", 
+			joinColumns=@JoinColumn(name="pa_passada"),
+			inverseJoinColumns=@JoinColumn(name="co_competidor"))
+	public List<Competidor> getCompetidores() {
+		return competidores;
+	}
+
+	public void setCompetidores(List<Competidor> competidores) {
+		this.competidores = competidores;
+	}
+
 	@Size(max = 20)
 	@Column(name = "pa_tempo", length = 20)
 	public String getTempo() {
@@ -100,6 +118,16 @@ public class Passada implements Serializable {
 
 	public void setFichaInscricao(FichaInscricao fichaInscricao) {
 		this.fichaInscricao = fichaInscricao;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "pa_ordem_entrada_id")
+	public OrdemEntrada getOrdemEntrada() {
+		return ordemEntrada;
+	}
+
+	public void setOrdemEntrada(OrdemEntrada ordemEntrada) {
+		this.ordemEntrada = ordemEntrada;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)

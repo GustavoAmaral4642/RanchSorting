@@ -1,0 +1,158 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="title">Manutenção de Ordem de Entrada</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Provas</li>
+		<li>/</li>
+		<li><p:link outcome="/ordensEntradas/ManutencaoOrdemEntrada">Manutenção de Ordem de Entrada</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="ordemEntrada"
+				value="#{manutencaoOrdemEntradaBean.ordemEntrada}" />
+			<f:event listener="#{manutencaoOrdemEntradaBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form id="formPai">
+			<div class="ui-fluid">
+				<div class="ui-g">
+					<div class="ui-g-12">
+						<div class="card no-margin">
+							<h1>Manutenção de Ordem de Entrada</h1>
+
+							<p:growl id="growl" autoUpdate="true" />
+
+							<p:panelGrid columns="4"
+								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+								layout="grid" styleClass="ui-panelgrid-blank"
+								style="border:0px none; background-color:transparent;">
+
+								<p:outputLabel for="codigoOrdem" value="Código da Ordem:" />
+								<p:inputText id="codigoOrdem" readonly="true"
+									value="#{cadastroOrdemEntradaBean.ordemEntrada.id}" />
+
+								<p:outputLabel for="campeonato" value="Campeonato:" />
+								<p:inputText id="campeonato"  readonly="true"
+									value="#{manutencaoOrdemEntradaBean.ordemEntrada.campeonatoOrdem.nome}" />
+								
+								<p:outputLabel for="etapa" value="Etapa:" />
+								<p:inputText id="etapa" readonly="true"
+									value="#{manutencaoOrdemEntradaBean.ordemEntrada.etapaOrdem.nome}" />
+
+								<p:outputLabel for="divisao" value="Divisão:" />
+								<p:inputText id="divisao" readonly="true"
+									value="#{manutencaoOrdemEntradaBean.ordemEntrada.divisaoOrdem.nome}" />
+
+								<p:outputLabel for="dataCompeticao" value="Data da Competição:" />
+								<p:calendar id="dataCompeticao" placeholder="__/__/____"
+									pattern="dd/MM/yyyy" title="Data da Competição" size="10"
+									value="#{cadastroOrdemEntradaBean.ordemEntrada.data}"
+									mask="99/99/9999" />
+
+								<p:outputLabel for="hora" value="Hora:" />
+								<p:inputText id="hora"
+									value="#{cadastroOrdemEntradaBean.ordemEntrada.hora}" />
+
+								<p:spacer />
+								<p:spacer />
+
+							</p:panelGrid>
+
+							<p:spacer />
+							<p:spacer />
+
+							<p:separator />
+
+							<p:spacer />
+							<p:spacer />
+
+							<h:form id="formFilho1">
+								<p:dataTable id="passadasTable" var="passada" 
+								value="#{manutencaoOrdemEntradaBean.ordemEntrada.passadas}">
+									<f:facet name="header">
+            							Cell Editing with Click and RightClick
+        							</f:facet>
+
+									<!-- <p:ajax event="cellEdit" listener="#{dtEditView.onCellEdit}"
+										update=":form:msgs" /> -->
+
+									<p:column headerText="Id">
+										<h:outputText value="" />
+									</p:column>
+
+									<p:column headerText="Competidor">
+										<h:outputText value="" />
+									</p:column>
+
+									<p:column headerText="Tempo">
+										<h:outputText value="Tempo" />
+									</p:column>
+
+									<p:column headerText="Qnt Boi">
+										<h:outputText value="25 bois" />
+									</p:column>
+									
+									<p:column headerText="Ranking">
+										<h:outputText value="1º" />
+									</p:column>
+									
+									<p:column headerText="Sat">
+										<h:outputText value="Não" />
+									</p:column>
+									
+									<p:column headerText="Ficha">
+										<h:outputText value="OK" />
+									</p:column>
+									
+								</p:dataTable>
+							</h:form>
+
+							<p:spacer />
+							<p:spacer />
+
+							<p:separator />
+
+							<p:spacer />
+							<p:spacer />
+
+							<p:panelGrid columns="4"
+								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+								layout="grid" styleClass="ui-panelgrid-blank"
+								style="border:0px none; background-color:transparent;">
+
+								<p:spacer />
+								<h:panelGroup>
+									<p:panelGrid columns="2" layout="grid">
+										<p:commandButton value="Salvar" icon="fa fa-save"
+											action="#{cadastroOrdemEntradaBean.salvar}" />
+										<p:commandButton value="Imprimir Folha" icon="fa fa-print" />
+									</p:panelGrid>
+								</h:panelGroup>
+
+								<p:spacer />
+								<h:panelGroup>
+									<p:panelGrid columns="2" layout="grid">
+										<p:commandButton value="Limpar" icon="fa fa-refresh" />
+										<p:button value="Pesquisa" icon="fa fa-search"
+											outcome="/ordensEntradas/PesquisaOrdensEntradas" />
+									</p:panelGrid>
+								</h:panelGroup>
+
+							</p:panelGrid>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

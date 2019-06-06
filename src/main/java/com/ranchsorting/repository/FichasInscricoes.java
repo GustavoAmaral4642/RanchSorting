@@ -50,6 +50,7 @@ public class FichasInscricoes implements Serializable {
 			criteria.add(Restrictions.ilike("ca.nome", filtro.getCampeonato(), MatchMode.ANYWHERE));
 		}
 
+		// busca campeonatos por objeto
 		if (filtro.getObjCampeonato() != null) {
 			criteria.add(Restrictions.ilike("ca.nome", filtro.getObjCampeonato().getNome()));
 		}
@@ -58,6 +59,7 @@ public class FichasInscricoes implements Serializable {
 			criteria.add(Restrictions.ilike("e.nome", filtro.getEtapa(), MatchMode.ANYWHERE));
 		}
 
+		// busca etapas por objeto
 		if (filtro.getObjEtapa() != null) {
 			criteria.add(Restrictions.ilike("e.nome", filtro.getObjEtapa().getNome()));
 		}
@@ -66,8 +68,9 @@ public class FichasInscricoes implements Serializable {
 			criteria.add(Restrictions.ilike("d.nome", filtro.getDivisao(), MatchMode.ANYWHERE));
 		}
 		
+		// busca divisoes por objeto
 		if (filtro.getObjDivisao() != null) {
-			criteria.add(Restrictions.ilike("d.nome", filtro.getObjDivisao()));
+			criteria.add(Restrictions.ilike("d.nome", filtro.getObjDivisao().getNome()));
 		}
 		
 		if (filtro.getDataInscricaoInicial() != null) {

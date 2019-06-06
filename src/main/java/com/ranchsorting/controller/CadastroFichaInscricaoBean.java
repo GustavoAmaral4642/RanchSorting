@@ -124,11 +124,11 @@ public class CadastroFichaInscricaoBean implements Serializable {
 	 * Método abaixo para adicionar os competidores nas passadas e o recebimento
 	 **/
 	private void trataPassadasInclusao() {
-
+		
 		if (this.fichaInscricao.getTipoFicha().equals(TipoFicha.INDIVIDUAL) && competidor1 != null) {
 
 			this.fichaInscricao = cadastroFichaInscricaoService.preparaPassadas1(this.fichaInscricao, competidor1);
-
+			
 		} else if (this.fichaInscricao.getTipoFicha().equals(TipoFicha.DUPLA) && competidor1 != null
 				&& competidor2 != null) {
 

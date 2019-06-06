@@ -7,6 +7,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.ranchsorting.model.Campeonato;
 import com.ranchsorting.model.OrdemEntrada;
 import com.ranchsorting.repository.OrdensEntradas;
 import com.ranchsorting.repository.filter.OrdemEntradaFilter;
@@ -43,5 +44,5 @@ public class PesquisaOrdensEntradasBean implements Serializable {
 	public List<OrdemEntrada> getOrdensFiltradas() {
 		return ordensFiltradas;
 	}
-	
+
 }

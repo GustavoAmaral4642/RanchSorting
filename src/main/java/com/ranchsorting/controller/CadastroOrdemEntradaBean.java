@@ -1,6 +1,6 @@
 package com.ranchsorting.controller;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,6 +14,7 @@ import com.ranchsorting.model.Divisao;
 import com.ranchsorting.model.Etapa;
 import com.ranchsorting.model.FichaInscricao;
 import com.ranchsorting.model.OrdemEntrada;
+import com.ranchsorting.model.Passada;
 import com.ranchsorting.repository.Campeonatos;
 import com.ranchsorting.repository.Divisoes;
 import com.ranchsorting.repository.Etapas;
@@ -69,6 +70,17 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	public void salvar() {
 
+		for(FichaInscricao f : fichasCompetidores){
+			f.setOrdemEntrada(ordemEntrada);
+			
+			for(Passada p : f.getPassadas()){
+				p.setOrdemEntrada(ordemEntrada);
+				ordemEntrada.getPassadas().add(p);
+			}
+		}
+		this.ordemEntrada.getFichasInscricoes().addAll(fichasCompetidores);
+		
+		
 		this.ordemEntrada = cadastroOrdemEntradaService.salvar(ordemEntrada);
 
 		limpar();

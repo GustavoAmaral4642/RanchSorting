@@ -102,6 +102,8 @@ public class CadastroFichaInscricaoService implements Serializable {
 	public FichaInscricao preparaPassadas1(FichaInscricao ficha, Competidor comp1) {
 		Passada pas1 = new Passada();
 		
+		pas1.getCompetidores().add(comp1);
+		
 		pas1.setCompetidor(comp1);
 		pas1.setFichaInscricao(ficha);
 		

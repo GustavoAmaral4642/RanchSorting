@@ -17,6 +17,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "tb_ordem_entrada")
@@ -28,6 +29,7 @@ public class OrdemEntrada implements Serializable {
 	private Date data;
 	private Date hora;
 	private List<FichaInscricao> fichasInscricoes = new ArrayList<>();
+	private List<Passada> passadas = new ArrayList<>();
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
@@ -70,6 +72,15 @@ public class OrdemEntrada implements Serializable {
 
 	public void setFichasInscricoes(List<FichaInscricao> fichasInscricoes) {
 		this.fichasInscricoes = fichasInscricoes;
+	}
+
+	@OneToMany(mappedBy = "ordemEntrada", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	public List<Passada> getPassadas() {
+		return passadas;
+	}
+
+	public void setPassadas(List<Passada> passadas) {
+		this.passadas = passadas;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -125,6 +136,35 @@ public class OrdemEntrada implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Transient
+	public Campeonato getCampeonatoOrdem() {
+
+		if (fichasInscricoes != null && fichasInscricoes.size() != 0) {
+			return fichasInscricoes.get(0).getCampeonato();
+		} else {
+			return null;
+		}
+	}
+
+	@Transient
+	public Etapa getEtapaOrdem() {
+
+		if (fichasInscricoes != null && fichasInscricoes.size() != 0) {
+			return fichasInscricoes.get(0).getEtapa();
+		} else {
+			return null;
+		}
+	}
+
+	@Transient
+	public Divisao getDivisaoOrdem() {
+		if (fichasInscricoes != null && fichasInscricoes.size() != 0) {
+			return fichasInscricoes.get(0).getDivisao();
+		} else {
+			return null;
+		}
 	}
 
 }

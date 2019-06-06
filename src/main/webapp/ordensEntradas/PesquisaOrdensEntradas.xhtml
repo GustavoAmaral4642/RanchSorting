@@ -56,8 +56,7 @@
 											outcome="/ordensEntradas/CadastroOrdemEntrada" />
 										<p:commandButton value="Pesquisar" icon="fa fa-search"
 											action="#{pesquisaOrdensEntradasBean.pesquisar}"
-											update="ordensEntradasTable"
-											process="@this" />
+											update="ordensEntradasTable" process="@this" />
 									</p:panelGrid>
 
 								</p:panelGrid>
@@ -65,7 +64,8 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:dataTable var="ordemEntrada" value="#{pesquisaOrdensEntradasBean.ordensFiltradas}"
+								<p:dataTable var="ordemEntrada"
+									value="#{pesquisaOrdensEntradasBean.ordensFiltradas}"
 									reflow="true" emptyMessage="Nenhuma Ordem Encontrada"
 									paginator="true" rows="10" id="ordensEntradasTable">
 									<f:facet name="header">
@@ -77,25 +77,31 @@
 									</p:column>
 
 									<p:column headerText="Campeonato" style="text-align: center">
-										<h:outputText value="#{ordemEntrada.folhaCompeticao.fichaInscricao1.campeonato.nome}" />
+										<h:outputText value="#{ordemEntrada.campeonatoOrdem.nome}" />
 									</p:column>
 
 									<p:column headerText="Etapa" style="text-align: center">
-										<h:outputText value="#{ordemEntrada.folhaCompeticao.fichaInscricao1.etapa.nome}" />
-									</p:column>
-									
-									<p:column headerText="Divisão" style="text-align: center">
-										<h:outputText value="#{ordemEntrada.folhaCompeticao.fichaInscricao1.divisao.nome}" />
+										<h:outputText value="#{ordemEntrada.etapaOrdem.nome}" />
 									</p:column>
 
+									<p:column headerText="Divisão" style="text-align: center">
+										<h:outputText value="#{ordemEntrada.divisaoOrdem.nome}" />
+									</p:column>
 
 									<p:column headerText="Data" style="text-align: center">
 										<h:outputText value="#{ordemEntrada.data}" />
 									</p:column>
 
-									<p:column style="text-align: center; width: 80px">
+									<p:column style="text-align: center; width: 100px">
 										<p:button icon="fa fa-pencil" title="Editar"
 											style="width: 30px">
+										</p:button>
+										<p:spacer />
+										<p:button icon="fa fa-circle" title="Executar"
+											style="width: 30px"
+											outcome="/ordensEntradas/ManutencaoOrdemEntrada">
+											<f:param name="ordemEntrada" value="#{ordemEntrada.id}" />
+
 										</p:button>
 										<p:spacer />
 										<p:commandButton icon="fa fa-trash" title="Excluir"
@@ -112,4 +118,3 @@
 	</ui:define>
 
 </ui:composition>
-	
