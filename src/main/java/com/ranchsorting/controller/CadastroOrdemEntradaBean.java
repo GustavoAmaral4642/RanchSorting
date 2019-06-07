@@ -1,6 +1,6 @@
 package com.ranchsorting.controller;
 
-import java.io.Serializable; 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,8 +19,10 @@ import com.ranchsorting.repository.Campeonatos;
 import com.ranchsorting.repository.Divisoes;
 import com.ranchsorting.repository.Etapas;
 import com.ranchsorting.repository.FichasInscricoes;
+import com.ranchsorting.repository.Passadas;
 import com.ranchsorting.repository.filter.FichaInscricaoFilter;
 import com.ranchsorting.repository.filter.FolhaCompeticaoFilter;
+import com.ranchsorting.repository.filter.PassadaFilter;
 import com.ranchsorting.service.CadastroOrdemEntradaService;
 import com.ranchsorting.util.jsf.FacesUtil;
 
@@ -40,7 +42,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	private Divisoes divisoes;
 
 	@Inject
-	private FichasInscricoes fichas;
+	private Passadas passadas;
 
 	@Inject
 	private CadastroOrdemEntradaService cadastroOrdemEntradaService;
@@ -48,10 +50,10 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	private List<Campeonato> todosCampeonatos;
 	private List<Etapa> etapasCampeonatos;
 	private List<Divisao> todasDivisoes;
-	private List<FichaInscricao> fichasCompetidores;
+	private List<Passada> passadasCompetidores;
 
 	private OrdemEntrada ordemEntrada;
-	private FichaInscricaoFilter fichaInscricaoFilter;
+	private PassadaFilter passadaFilter;
 
 	public CadastroOrdemEntradaBean() {
 		limpar();
@@ -64,23 +66,18 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	public void limpar() {
 		ordemEntrada = new OrdemEntrada();
-		fichasCompetidores = new ArrayList<>();
-		fichaInscricaoFilter = new FichaInscricaoFilter();
+		passadasCompetidores = new ArrayList<>();
+		passadaFilter = new PassadaFilter();
 	}
 
 	public void salvar() {
 
-		for(FichaInscricao f : fichasCompetidores){
-			f.setOrdemEntrada(ordemEntrada);
-			
-			for(Passada p : f.getPassadas()){
-				p.setOrdemEntrada(ordemEntrada);
-				ordemEntrada.getPassadas().add(p);
-			}
+		for (Passada p : passadasCompetidores) {
+
+			p.setOrdemEntrada(ordemEntrada);
+
 		}
-		this.ordemEntrada.getFichasInscricoes().addAll(fichasCompetidores);
-		
-		
+		this.ordemEntrada.getPassadas().addAll(passadasCompetidores);
 		this.ordemEntrada = cadastroOrdemEntradaService.salvar(ordemEntrada);
 
 		limpar();
@@ -90,29 +87,29 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	}
 
 	public void carregarCompetidores() {
-		fichasCompetidores = fichas.filtradas(fichaInscricaoFilter);
+		passadasCompetidores = passadas.filtradas(passadaFilter);
 	}
 
 	public void carregarEtapas() {
-		etapasCampeonatos = etapas.etapasDoCampeonato(this.fichaInscricaoFilter.getObjCampeonato());
+		etapasCampeonatos = etapas.etapasDoCampeonato(this.passadaFilter.getObjCampeonato());
 	}
 
 	public void carregarDataEtapa() {
-		this.ordemEntrada.setData(this.fichaInscricaoFilter.getObjEtapa().getDataEvento());
+		this.ordemEntrada.setData(this.passadaFilter.getObjEtapa().getDataEvento());
 	}
 
 	public void gerarOrdemEntrada() {
 
 		List<Integer> embaralhados = new ArrayList<>();
 
-		for (int i = 0; i < fichasCompetidores.size(); i++) {
-			embaralhados.add(i+1);
+		for (int i = 0; i < passadasCompetidores.size(); i++) {
+			embaralhados.add(i + 1);
 		}
 
 		Collections.shuffle(embaralhados);
 
-		for (int i = 0; i < fichasCompetidores.size(); i++) {
-			fichasCompetidores.get(i).setNumeroDupla(Long.valueOf(embaralhados.get(i)));
+		for (int i = 0; i < passadasCompetidores.size(); i++) {
+			passadasCompetidores.get(i).setNumeroDupla(Long.valueOf(embaralhados.get(i)));
 		}
 
 		/*
@@ -144,16 +141,16 @@ public class CadastroOrdemEntradaBean implements Serializable {
 		return todasDivisoes;
 	}
 
-	public List<FichaInscricao> getFichasCompetidores() {
-		return fichasCompetidores;
+	public List<Passada> getPassadasCompetidores() {
+		return passadasCompetidores;
 	}
 
-	public FichaInscricaoFilter getFichaInscricaoFilter() {
-		return fichaInscricaoFilter;
+	public PassadaFilter getPassadaFilter() {
+		return passadaFilter;
 	}
 
-	public void setFichaInscricaoFilter(FichaInscricaoFilter fichaInscricaoFilter) {
-		this.fichaInscricaoFilter = fichaInscricaoFilter;
+	public void setPassadaFilter(PassadaFilter passadaFilter) {
+		this.passadaFilter = passadaFilter;
 	}
 
 	public boolean isEditando() {

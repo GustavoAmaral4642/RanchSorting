@@ -18,6 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -27,8 +28,11 @@ public class Passada implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private Competidor competidor;
 	private List<Competidor> competidores = new ArrayList<>();
+	private Long numeroDupla;
+	private Campeonato campeonato;
+	private Etapa etapa;
+	private Divisao divisao;
 	private String tempo;
 	private Long qntBoi;
 	private Long ranking;
@@ -50,26 +54,56 @@ public class Passada implements Serializable {
 		this.id = id;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "pa_competidor")
-	public Competidor getCompetidor() {
-		return competidor;
-	}
-
-	public void setCompetidor(Competidor competidor) {
-		this.competidor = competidor;
-	}
-
 	@ManyToMany
-	@JoinTable(name="tb_passada_competidor", 
-			joinColumns=@JoinColumn(name="pa_passada"),
-			inverseJoinColumns=@JoinColumn(name="co_competidor"))
+	@JoinTable(name = "tb_passada_competidor", joinColumns = @JoinColumn(name = "pa_passada"), inverseJoinColumns = @JoinColumn(name = "co_competidor"))
 	public List<Competidor> getCompetidores() {
 		return competidores;
 	}
 
 	public void setCompetidores(List<Competidor> competidores) {
 		this.competidores = competidores;
+	}
+
+	@Column(name = "fi_numero_dupla")
+	public Long getNumeroDupla() {
+		return numeroDupla;
+	}
+
+	public void setNumeroDupla(Long numeroDupla) {
+		this.numeroDupla = numeroDupla;
+	}
+
+	@NotNull
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fi_campeonato")
+	public Campeonato getCampeonato() {
+		return campeonato;
+	}
+
+	public void setCampeonato(Campeonato campeonato) {
+		this.campeonato = campeonato;
+	}
+
+	@NotNull
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fi_etapa")
+	public Etapa getEtapa() {
+		return etapa;
+	}
+
+	public void setEtapa(Etapa etapa) {
+		this.etapa = etapa;
+	}
+
+	@NotNull
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fi_divisao")
+	public Divisao getDivisao() {
+		return divisao;
+	}
+
+	public void setDivisao(Divisao divisao) {
+		this.divisao = divisao;
 	}
 
 	@Size(max = 20)

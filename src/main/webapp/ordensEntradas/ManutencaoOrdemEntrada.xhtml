@@ -41,9 +41,9 @@
 									value="#{cadastroOrdemEntradaBean.ordemEntrada.id}" />
 
 								<p:outputLabel for="campeonato" value="Campeonato:" />
-								<p:inputText id="campeonato"  readonly="true"
+								<p:inputText id="campeonato" readonly="true"
 									value="#{manutencaoOrdemEntradaBean.ordemEntrada.campeonatoOrdem.nome}" />
-								
+
 								<p:outputLabel for="etapa" value="Etapa:" />
 								<p:inputText id="etapa" readonly="true"
 									value="#{manutencaoOrdemEntradaBean.ordemEntrada.etapaOrdem.nome}" />
@@ -76,8 +76,9 @@
 							<p:spacer />
 
 							<h:form id="formFilho1">
-								<p:dataTable id="passadasTable" var="passada" 
-								value="#{manutencaoOrdemEntradaBean.ordemEntrada.passadas}">
+								<p:dataTable id="passadasTable" var="passada"
+								
+									value="#{manutencaoOrdemEntradaBean.ordemEntrada.passadas}">
 									<f:facet name="header">
             							Cell Editing with Click and RightClick
         							</f:facet>
@@ -86,33 +87,32 @@
 										update=":form:msgs" /> -->
 
 									<p:column headerText="Id">
-										<h:outputText value="" />
+										<h:outputText value="#{passada.id}" />
 									</p:column>
 
-									<p:column headerText="Competidor">
-										<h:outputText value="" />
+									<p:column headerText="Competidores" style="text-align: center">
+										<p:dataList value="#{passada.competidores}" var="competidor"
+											type="ordered" emptyMessage="Nenhum Competidor Encontrado">
+											#{competidor.nome}
+				                        </p:dataList>
 									</p:column>
 
 									<p:column headerText="Tempo">
-										<h:outputText value="Tempo" />
+										<h:outputText value="#{passada.tempo}" />
 									</p:column>
 
 									<p:column headerText="Qnt Boi">
-										<h:outputText value="25 bois" />
+										<h:outputText value="#{passada.qntBoi}" />
 									</p:column>
-									
+
 									<p:column headerText="Ranking">
-										<h:outputText value="1º" />
+										<h:outputText value="#{passada.ranking}" />
 									</p:column>
-									
+
 									<p:column headerText="Sat">
-										<h:outputText value="Não" />
+										<h:outputText value="#{passada.sat}" />
 									</p:column>
-									
-									<p:column headerText="Ficha">
-										<h:outputText value="OK" />
-									</p:column>
-									
+
 								</p:dataTable>
 							</h:form>
 

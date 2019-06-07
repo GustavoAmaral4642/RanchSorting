@@ -28,7 +28,6 @@ public class OrdemEntrada implements Serializable {
 	private Long id;
 	private Date data;
 	private Date hora;
-	private List<FichaInscricao> fichasInscricoes = new ArrayList<>();
 	private List<Passada> passadas = new ArrayList<>();
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
@@ -63,15 +62,6 @@ public class OrdemEntrada implements Serializable {
 
 	public void setHora(Date hora) {
 		this.hora = hora;
-	}
-
-	@OneToMany(mappedBy = "ordemEntrada", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	public List<FichaInscricao> getFichasInscricoes() {
-		return fichasInscricoes;
-	}
-
-	public void setFichasInscricoes(List<FichaInscricao> fichasInscricoes) {
-		this.fichasInscricoes = fichasInscricoes;
 	}
 
 	@OneToMany(mappedBy = "ordemEntrada", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -141,8 +131,8 @@ public class OrdemEntrada implements Serializable {
 	@Transient
 	public Campeonato getCampeonatoOrdem() {
 
-		if (fichasInscricoes != null && fichasInscricoes.size() != 0) {
-			return fichasInscricoes.get(0).getCampeonato();
+		if (passadas != null && passadas.size() != 0) {
+			return passadas.get(0).getCampeonato();
 		} else {
 			return null;
 		}
@@ -151,8 +141,8 @@ public class OrdemEntrada implements Serializable {
 	@Transient
 	public Etapa getEtapaOrdem() {
 
-		if (fichasInscricoes != null && fichasInscricoes.size() != 0) {
-			return fichasInscricoes.get(0).getEtapa();
+		if (passadas != null && passadas.size() != 0) {
+			return passadas.get(0).getEtapa();
 		} else {
 			return null;
 		}
@@ -160,8 +150,8 @@ public class OrdemEntrada implements Serializable {
 
 	@Transient
 	public Divisao getDivisaoOrdem() {
-		if (fichasInscricoes != null && fichasInscricoes.size() != 0) {
-			return fichasInscricoes.get(0).getDivisao();
+		if (passadas != null && passadas.size() != 0) {
+			return passadas.get(0).getDivisao();
 		} else {
 			return null;
 		}

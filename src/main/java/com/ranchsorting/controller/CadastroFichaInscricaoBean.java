@@ -15,6 +15,7 @@ import com.ranchsorting.model.Competidor;
 import com.ranchsorting.model.Divisao;
 import com.ranchsorting.model.Etapa;
 import com.ranchsorting.model.FichaInscricao;
+import com.ranchsorting.model.Passada;
 import com.ranchsorting.model.StatusFicha;
 import com.ranchsorting.model.TipoFicha;
 import com.ranchsorting.repository.Animais;
@@ -93,7 +94,6 @@ public class CadastroFichaInscricaoBean implements Serializable {
 	}
 
 	public void salvar() {
-		System.out.println(competidor1.getClass());
 
 		trataPassadasInclusao();
 

@@ -111,12 +111,12 @@
 
 									<p:column headerText="Competidores" style="text-align: center">
 										<p:dataList
-											value="#{ficha.passadas}"
-											var="passada" type="ordered"
-											emptyMessage="Nenhuma Passada Encontrada">
-											#{passada.competidor.nome}
+											value="#{ficha.competidores}"
+											var="competidor" type="ordered"
+											emptyMessage="Nenhum Competidor Encontrado">
+											#{competidor.nome}
 				                        </p:dataList>
-									</p:column>
+				                    </p:column>
 
 									<p:column style="text-align: center; width: 80px">
 										<p:button icon="fa fa-pencil" title="Editar"

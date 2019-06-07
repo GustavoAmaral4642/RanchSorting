@@ -102,61 +102,56 @@ public class CadastroFichaInscricaoService implements Serializable {
 	public FichaInscricao preparaPassadas1(FichaInscricao ficha, Competidor comp1) {
 		Passada pas1 = new Passada();
 		
-		pas1.getCompetidores().add(comp1);
+		pas1.setCampeonato(ficha.getCampeonato());
+		pas1.setEtapa(ficha.getEtapa());
+		pas1.setDivisao(ficha.getDivisao());
 		
-		pas1.setCompetidor(comp1);
+		pas1.getCompetidores().add(comp1);		
 		pas1.setFichaInscricao(ficha);
 		
 		ficha.getPassadas().add(pas1);
+		ficha.getCompetidores().add(comp1);
 
 		return ficha;
 	}
 
 	public FichaInscricao preparaPassadas2(FichaInscricao ficha, Competidor comp1, Competidor comp2) {
 
-		/* está gravando passada e recebimento mais deuma vez
-		 * 
-		 * verificar
-		 * 
-		 * rtirar os comentários*/
-		
 		Passada pas1 = new Passada();
-		Passada pas2 = new Passada();
-		List<Passada> pass = new ArrayList<>();
 		
-		pas1.setCompetidor(comp1);
+		pas1.setCampeonato(ficha.getCampeonato());
+		pas1.setEtapa(ficha.getEtapa());
+		pas1.setDivisao(ficha.getDivisao());
+		
+		pas1.getCompetidores().add(comp1);
+		pas1.getCompetidores().add(comp2);
 		pas1.setFichaInscricao(ficha);
 		
-		pas2.setCompetidor(comp2);
-		pas2.setFichaInscricao(ficha);
+		ficha.getPassadas().add(pas1);
+		ficha.getCompetidores().add(comp1);
+		ficha.getCompetidores().add(comp2);
 		
-		pass.add(pas1);
-		pass.add(pas2);
-		
-		ficha.getPassadas().addAll(pass);
-
 		return ficha;
 	}
 
 	public FichaInscricao preparaPassadas3(FichaInscricao ficha, Competidor comp1, Competidor comp2, Competidor comp3) {
 
 		Passada pas1 = new Passada();
-		Passada pas2 = new Passada();
-		Passada pas3 = new Passada();
 
-		pas1.setCompetidor(comp1);
+		pas1.setCampeonato(ficha.getCampeonato());
+		pas1.setEtapa(ficha.getEtapa());
+		pas1.setDivisao(ficha.getDivisao());
+		
+		pas1.getCompetidores().add(comp1);
+		pas1.getCompetidores().add(comp2);
+		pas1.getCompetidores().add(comp3);
 		pas1.setFichaInscricao(ficha);
 		
-		pas2.setCompetidor(comp2);
-		pas2.setFichaInscricao(ficha);
-		
-		pas3.setCompetidor(comp3);
-		pas3.setFichaInscricao(ficha);
-		
 		ficha.getPassadas().add(pas1);
-		ficha.getPassadas().add(pas2);
-		ficha.getPassadas().add(pas3);
-
+		ficha.getCompetidores().add(comp1);
+		ficha.getCompetidores().add(comp2);
+		ficha.getCompetidores().add(comp3);
+		
 		return ficha;
 	}
 }
