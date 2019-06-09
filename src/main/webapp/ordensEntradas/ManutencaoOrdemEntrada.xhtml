@@ -76,17 +76,22 @@
 							<p:spacer />
 
 							<h:form id="formFilho1">
-								<p:dataTable id="passadasTable" var="passada"
+								<p:dataTable id="passadasTable" var="passada" editable="true"
 									value="#{manutencaoOrdemEntradaBean.ordemEntrada.passadas}">
+
 									<f:facet name="header">
-            							Cell Editing with Click and RightClick
+            							Passadas
         							</f:facet>
 
-									<!-- <p:ajax event="cellEdit" listener="#{dtEditView.onCellEdit}"
-										update=":form:msgs" /> -->
+									<p:ajax event="rowEdit"
+										listener="#{manutencaoOrdemEntradaBean.onRowEdit}"
+										update=":formPai:growl" />
+									<p:ajax event="rowEditCancel"
+										listener="#{manutencaoOrdemEntradaBean.onRowCancel}"
+										update=":formPai:growl" />
 
-									<p:column headerText="Id">
-										<h:outputText value="#{passada.id}" />
+									<p:column headerText="Sequência Dupla">
+										<h:outputText value="#{passada.numeroDupla}" />
 									</p:column>
 
 									<p:column headerText="Competidores" style="text-align: center">
@@ -96,27 +101,45 @@
 				                        </p:dataList>
 									</p:column>
 
-									<p:column headerText="Tempo">
-										<h:outputText value="#{passada.tempo}" />
-									</p:column>
-
-									<p:column headerText="Qnt Boi">
-										<h:outputText value="#{passada.qntBoi}" />
-									</p:column>
-
 									<p:column headerText="Ranking">
 										<h:outputText value="#{passada.ranking}" />
 									</p:column>
-
-									<p:column headerText="Sat">
-										<h:outputText value="#{passada.sat}" />
+|
+									<p:column headerText="Tempo">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{passada.tempo}" />
+											</f:facet>
+											<f:facet name="input">
+												<p:inputMask value="#{passada.tempo}" mask="99:9999" style="width:100%" />
+											</f:facet>
+										</p:cellEditor>
 									</p:column>
 
-									<p:column>
-										<p:commandButton icon="ui-icon-search" title="Pesquisar"
-											process="@this" update="@none"
-											action="#{digitaPassadaBean.abrirDialogo}"
-											ignoreAutoUpdate="true" />
+									<p:column headerText="Qnt Boi">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{passada.qntBoi}" />
+											</f:facet>
+											<f:facet name="input">
+												<p:inputText value="#{passada.qntBoi}" style="width:100%" />
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column headerText="Sat">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{passada.sat}" />
+											</f:facet>
+											<f:facet name="input">
+												<p:inputText value="#{passada.sat}" style="width:100%" />
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column style="width:35px">
+										<p:rowEditor />
 									</p:column>
 
 								</p:dataTable>
@@ -139,7 +162,7 @@
 								<h:panelGroup>
 									<p:panelGrid columns="2" layout="grid">
 										<p:commandButton value="Salvar" icon="fa fa-save"
-											action="#{cadastroOrdemEntradaBean.salvar}" />
+											action="#{manutencaoOrdemEntradaBean.salvar}" />
 										<p:commandButton value="Imprimir Folha" icon="fa fa-print" />
 									</p:panelGrid>
 								</h:panelGroup>

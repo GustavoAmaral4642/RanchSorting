@@ -26,9 +26,32 @@
 							layout="grid" styleClass="ui-panelgrid-blank"
 							style="border:0px none; background-color:transparent;">
 
-							<p:outputLabel value="Código da Ordem:" />
-							<p:inputText readonly="true" value="Campo 1" />
+							<p:outputLabel value="Sequência da Dupla:" />
+							<p:inputText readonly="true" value="1" />
+
+							<p:outputLabel value="Competidores:" />
+							<p:inputText readonly="true" value="BB1 e AAA" />
+
+							<p:outputLabel value="Tempo:" />
+							<p:inputText value="50:000" />
+
+							<p:outputLabel value="Quantidade de Boi:" />
+							<p:inputText value="5" />
+
+							<p:outputLabel value="Ranking:" />
+							<p:inputText value="0" />
+
+							<p:outputLabel value="SAT:" />
+							<p:inputText value="Não" />
 						</p:panelGrid>
+
+						<p:panelGrid columns="2" 
+							styleClass="ui-panelgrid-blank"
+							style="border:0px none; background-color:transparent;">
+							<p:commandButton value="Salvar" />
+							<p:commandButton value="Cancelar" />
+						</p:panelGrid>
+
 					</div>
 				</div>
 			</div>

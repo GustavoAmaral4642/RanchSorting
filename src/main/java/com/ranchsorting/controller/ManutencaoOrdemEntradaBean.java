@@ -1,26 +1,16 @@
 package com.ranchsorting.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.ranchsorting.model.Campeonato;
-import com.ranchsorting.model.Divisao;
-import com.ranchsorting.model.Etapa;
-import com.ranchsorting.model.FichaInscricao;
+import org.primefaces.event.RowEditEvent;
+
 import com.ranchsorting.model.OrdemEntrada;
-import com.ranchsorting.repository.Campeonatos;
-import com.ranchsorting.repository.Divisoes;
-import com.ranchsorting.repository.Etapas;
-import com.ranchsorting.repository.FichasInscricoes;
-import com.ranchsorting.repository.filter.FichaInscricaoFilter;
-import com.ranchsorting.repository.filter.FolhaCompeticaoFilter;
-import com.ranchsorting.service.CadastroOrdemEntradaService;
+import com.ranchsorting.model.Passada;
 import com.ranchsorting.util.jsf.FacesUtil;
 
 @Named
@@ -29,9 +19,6 @@ public class ManutencaoOrdemEntradaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Inject
-	private CadastroOrdemEntradaService cadastroOrdemEntradaService;
-
 	private OrdemEntrada ordemEntrada;
 
 	public ManutencaoOrdemEntradaBean() {
@@ -39,7 +26,7 @@ public class ManutencaoOrdemEntradaBean implements Serializable {
 	}
 
 	public void inicializar() {
-		
+
 	}
 
 	public void limpar() {
@@ -48,9 +35,27 @@ public class ManutencaoOrdemEntradaBean implements Serializable {
 
 	public void salvar() {
 
-	
+		
+		for(Passada p : ordemEntrada.getPassadas()){
+			System.out.println(p.getId());
+			System.out.println(p.getTempo());
+			System.out.println(p.getQntBoi());
+			System.out.println(p.getSat());
+			
+		}
+		
 		FacesUtil.addInfoMessage("Ordem de entrada registrada com sucesso!");
 
+	}
+
+	public void onRowEdit(RowEditEvent event) {
+		FacesMessage msg = new FacesMessage("Passada editada", ((Passada) event.getObject()).getId().toString());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public void onRowCancel(RowEditEvent event) {
+		FacesMessage msg = new FacesMessage("Edição cancelada", ((Passada) event.getObject()).getId().toString());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public OrdemEntrada getOrdemEntrada() {
