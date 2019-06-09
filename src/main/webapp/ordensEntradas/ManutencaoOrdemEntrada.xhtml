@@ -77,7 +77,6 @@
 
 							<h:form id="formFilho1">
 								<p:dataTable id="passadasTable" var="passada"
-								
 									value="#{manutencaoOrdemEntradaBean.ordemEntrada.passadas}">
 									<f:facet name="header">
             							Cell Editing with Click and RightClick
@@ -111,6 +110,13 @@
 
 									<p:column headerText="Sat">
 										<h:outputText value="#{passada.sat}" />
+									</p:column>
+
+									<p:column>
+										<p:commandButton icon="ui-icon-search" title="Pesquisar"
+											process="@this" update="@none"
+											action="#{digitaPassadaBean.abrirDialogo}"
+											ignoreAutoUpdate="true" />
 									</p:column>
 
 								</p:dataTable>

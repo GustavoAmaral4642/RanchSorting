@@ -77,9 +77,6 @@ public class CadastroFichaInscricaoBean implements Serializable {
 				carregarEtapas();
 			}
 		}
-
-		System.out.println(competidor1.getClass());
-
 	}
 
 	public void limpar() {

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
+<h:head>
+	<title>Digita de Passada</title>
+
+	<h:outputScript name="js/nanoscroller.js" library="apollo-layout" />
+	<h:outputScript name="js/layout.js" library="apollo-layout" />
+	<h:outputScript library="js" name="jquery.maskMoney.js" />
+
+</h:head>
+<h:body>
+	<h:form id="formPai">
+		<div class="ui-fluid">
+			<div class="ui-g">
+				<div class="ui-g-12">
+					<div class="card no-margin">
+
+						<p:panelGrid columns="4"
+							columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+							layout="grid" styleClass="ui-panelgrid-blank"
+							style="border:0px none; background-color:transparent;">
+
+							<p:outputLabel value="Código da Ordem:" />
+							<p:inputText readonly="true" value="Campo 1" />
+						</p:panelGrid>
+					</div>
+				</div>
+			</div>
+		</div>
+	</h:form>
+</h:body>
+</html>
