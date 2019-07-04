@@ -15,8 +15,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -33,15 +31,15 @@ public class FichaInscricao implements Serializable {
 
 	private Long id;
 	private Date dataInscricao;
-	private List<Passada> passadas = new ArrayList<>();
-	private List<Competidor> competidores = new ArrayList<>();
+	private Passada passada;
 	private Campeonato campeonato;
 	private Etapa etapa;
 	private Divisao divisao;
+	private Competidor competidor;
 	private BigDecimal valorComprado;
 	private BigDecimal valorPago;
+	private Long qntFichas;
 	private StatusFicha statusFicha;
-	private TipoFicha tipoFicha;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
@@ -68,25 +66,14 @@ public class FichaInscricao implements Serializable {
 		this.dataInscricao = dataInscricao;
 	}
 
-	@OneToMany(mappedBy = "fichaInscricao", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	public List<Passada> getPassadas() {
-		return passadas;
+	@ManyToOne
+	@JoinColumn(name = "fi_passada_id")
+	public Passada getPassada() {
+		return passada;
 	}
 
-	public void setPassadas(List<Passada> passadas) {
-		this.passadas = passadas;
-	}
-
-	@ManyToMany
-	@JoinTable(name="tb_ficha_competidor", 
-			joinColumns=@JoinColumn(name="fi_ficha_inscricao"),
-			inverseJoinColumns=@JoinColumn(name="co_competidor"))
-	public List<Competidor> getCompetidores() {
-		return competidores;
-	}
-
-	public void setCompetidores(List<Competidor> competidores) {
-		this.competidores = competidores;
+	public void setPassada(Passada passada) {
+		this.passada = passada;
 	}
 
 	@NotNull
@@ -123,6 +110,17 @@ public class FichaInscricao implements Serializable {
 	}
 
 	@NotNull
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fi_competidor")
+	public Competidor getCompetidor() {
+		return competidor;
+	}
+
+	public void setCompetidor(Competidor competidor) {
+		this.competidor = competidor;
+	}
+
+	@NotNull
 	@Column(name = "fi_valor_comprado", precision = 10, scale = 2)
 	public BigDecimal getValorComprado() {
 		return valorComprado;
@@ -141,6 +139,15 @@ public class FichaInscricao implements Serializable {
 		this.valorPago = valorPago;
 	}
 
+	@Column(name = "fi_qnt_fichas")
+	public Long getQntFichas() {
+		return qntFichas;
+	}
+
+	public void setQntFichas(Long qntFichas) {
+		this.qntFichas = qntFichas;
+	}
+
 	@Enumerated(EnumType.STRING)
 	@Column(name = "fi_status_ficha", length = 15)
 	public StatusFicha getStatusFicha() {
@@ -149,17 +156,6 @@ public class FichaInscricao implements Serializable {
 
 	public void setStatusFicha(StatusFicha statusFicha) {
 		this.statusFicha = statusFicha;
-	}
-
-	@NotNull
-	@Enumerated(EnumType.STRING)
-	@Column(name = "fi_tipo_ficha", length = 15)
-	public TipoFicha getTipoFicha() {
-		return tipoFicha;
-	}
-
-	public void setTipoFicha(TipoFicha tipoFicha) {
-		this.tipoFicha = tipoFicha;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)

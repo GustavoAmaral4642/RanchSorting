@@ -2,6 +2,7 @@ package com.ranchsorting.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
@@ -19,6 +20,7 @@ import com.ranchsorting.model.Passada;
 import com.ranchsorting.model.StatusFicha;
 import com.ranchsorting.model.TipoFicha;
 import com.ranchsorting.repository.Animais;
+import com.ranchsorting.repository.Anuidades;
 import com.ranchsorting.repository.Campeonatos;
 import com.ranchsorting.repository.Competidores;
 import com.ranchsorting.repository.Divisoes;
@@ -49,13 +51,14 @@ public class CadastroFichaInscricaoBean implements Serializable {
 	private Divisoes divisoes;
 
 	@Inject
+	private Anuidades anuidades;
+	
+	@Inject
 	private CadastroFichaInscricaoService cadastroFichaInscricaoService;
 
 	private FichaInscricao fichaInscricao;
-	private Competidor competidor1;
-	private Competidor competidor2;
-	private Competidor competidor3;
-
+	private boolean inclusaoSimultanea = false;
+	
 	private List<Competidor> todosCompetidores;
 	private List<Animal> todosAnimais;
 	private List<Campeonato> todosCampeonatos;
@@ -70,33 +73,52 @@ public class CadastroFichaInscricaoBean implements Serializable {
 	public void inicializar() {
 		todosCampeonatos = campeonatos.todosCampeonatos();
 		todasDivisoes = divisoes.todasDivisoes();
-
+		todosCompetidores = competidores.todosCompetidores();
+		
 		if (FacesUtil.isNotPostback()) {
 			if (isEditando()) {
-				// carregarAnuidadesCompetidor();
+				carregarAnuidadesCompetidor();
 				carregarEtapas();
 			}
 		}
 	}
 
 	public void limpar() {
-		fichaInscricao = new FichaInscricao();
-		anuidadesCompetidor = new ArrayList<>();
-		competidor1 = new Competidor();// tentar usar destroy
-		competidor2 = new Competidor(); // tentar usar destroy
-		competidor3 = new Competidor();// tentar usar destroy
+		
+		if(!isInclusaoSimultanea()){
+			fichaInscricao = new FichaInscricao();		
+			anuidadesCompetidor = new ArrayList<>();
+			
+		} else {
+			Campeonato camp = fichaInscricao.getCampeonato();
+			Etapa etp = fichaInscricao.getEtapa();
+			Divisao div = fichaInscricao.getDivisao();
+			Date dtInsc = fichaInscricao.getDataInscricao();
+			
+			fichaInscricao = new FichaInscricao();
+			anuidadesCompetidor = new ArrayList<>();
+			
+			fichaInscricao.setCampeonato(camp);
+			fichaInscricao.setEtapa(etp);
+			fichaInscricao.setDivisao(div);
+			fichaInscricao.setDataInscricao(dtInsc);
+		}
+		
 		if (!isEditando()) {
 			fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
-		}
+		}	
+		
 	}
 
 	public void salvar() {
-
-		trataPassadasInclusao();
-
+		
+		//this.fichaInscricao.setTipoFicha(TipoFicha.DUPLA);
 		this.fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
-
+		
 		this.fichaInscricao = cadastroFichaInscricaoService.salvar(this.fichaInscricao);
+		
+		inclusaoSimultanea = true;
+		
 		limpar();
 
 		FacesUtil.addInfoMessage("Ficha de Inscrição registrada com sucesso!");
@@ -107,43 +129,16 @@ public class CadastroFichaInscricaoBean implements Serializable {
 		etapasCampeonatos = etapas.etapasDoCampeonato(fichaInscricao.getCampeonato());
 	}
 
-	public void carregarCompetidores() {
-
-		todosCompetidores = competidores.todosCompetidores();
-	}
-
 	public void carregarAnuidadesCompetidor() {
-		// anuidadesCompetidor =
-		// anuidades.anuidadesCompetidor(this.fichaInscricao.getCompetidor());
+		anuidadesCompetidor=anuidades.anuidadesCompetidor(this.fichaInscricao.getCompetidor());
 	}
 
-	/**
-	 * Método abaixo para adicionar os competidores nas passadas e o recebimento
-	 **/
-	private void trataPassadasInclusao() {
-		
-		if (this.fichaInscricao.getTipoFicha().equals(TipoFicha.INDIVIDUAL) && competidor1 != null) {
-
-			this.fichaInscricao = cadastroFichaInscricaoService.preparaPassadas1(this.fichaInscricao, competidor1);
-			
-		} else if (this.fichaInscricao.getTipoFicha().equals(TipoFicha.DUPLA) && competidor1 != null
-				&& competidor2 != null) {
-
-			this.fichaInscricao = cadastroFichaInscricaoService.preparaPassadas2(this.fichaInscricao, competidor1,
-					competidor2);
-
-		} else if (this.fichaInscricao.getTipoFicha().equals(TipoFicha.TRIO) && competidor1 != null
-				&& competidor2 != null && competidor3 != null) {
-
-			this.fichaInscricao = cadastroFichaInscricaoService.preparaPassadas3(this.fichaInscricao, competidor1,
-					competidor2, competidor3);
-
-		} else {
-			throw new NegocioException("Por favor, selecione o tipo da ficha e/ou competidores!");
+	public void carregarDataInscricaoEtapa(){
+		if(fichaInscricao.getEtapa().getDataEvento() != null){
+			fichaInscricao.setDataInscricao(fichaInscricao.getEtapa().getDataEvento() );	
 		}
-
 	}
-
+	
 	// retornar o tipo de ficha em um array
 	public TipoFicha[] getTiposFichas() {
 		return TipoFicha.values();
@@ -181,32 +176,12 @@ public class CadastroFichaInscricaoBean implements Serializable {
 	public List<Anuidade> getAnuidadesCompetidor() {
 		return anuidadesCompetidor;
 	}
-
-	public Competidor getCompetidor1() {
-		return competidor1;
-	}
-
-	public void setCompetidor1(Competidor competidor1) {
-		this.competidor1 = competidor1;
-	}
-
-	public Competidor getCompetidor2() {
-		return competidor2;
-	}
-
-	public void setCompetidor2(Competidor competidor2) {
-		this.competidor2 = competidor2;
-	}
-
-	public Competidor getCompetidor3() {
-		return competidor3;
-	}
-
-	public void setCompetidor3(Competidor competidor3) {
-		this.competidor3 = competidor3;
-	}
-
+	
 	public boolean isEditando() {
 		return this.fichaInscricao.getId() != null;
+	}
+	
+	public boolean isInclusaoSimultanea() {
+		return this.inclusaoSimultanea;
 	}
 }

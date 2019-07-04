@@ -42,7 +42,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	private Divisoes divisoes;
 
 	@Inject
-	private Passadas passadas;
+	private FichasInscricoes fichasInscricoes;
 
 	@Inject
 	private CadastroOrdemEntradaService cadastroOrdemEntradaService;
@@ -50,11 +50,14 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	private List<Campeonato> todosCampeonatos;
 	private List<Etapa> etapasCampeonatos;
 	private List<Divisao> todasDivisoes;
+	private List<FichaInscricao> fichasFiltradas;
 	private List<Passada> passadasCompetidores;
 
 	private OrdemEntrada ordemEntrada;
-	private PassadaFilter passadaFilter;
+	private FichaInscricaoFilter fichaInscricaoFilter;
 
+	private Long qntCompetidores;
+	
 	public CadastroOrdemEntradaBean() {
 		limpar();
 	}
@@ -67,7 +70,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	public void limpar() {
 		ordemEntrada = new OrdemEntrada();
 		passadasCompetidores = new ArrayList<>();
-		passadaFilter = new PassadaFilter();
+		fichaInscricaoFilter = new FichaInscricaoFilter();
 	}
 
 	public void salvar() {
@@ -87,15 +90,16 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	}
 
 	public void carregarCompetidores() {
-		passadasCompetidores = passadas.filtradas(passadaFilter);
+		fichasFiltradas = fichasInscricoes.filtradas(fichaInscricaoFilter);
+		qntCompetidores = Long.valueOf(fichasFiltradas.size());
 	}
 
 	public void carregarEtapas() {
-		etapasCampeonatos = etapas.etapasDoCampeonato(this.passadaFilter.getObjCampeonato());
+		etapasCampeonatos = etapas.etapasDoCampeonato(this.fichaInscricaoFilter.getObjCampeonato());
 	}
 
 	public void carregarDataEtapa() {
-		this.ordemEntrada.setData(this.passadaFilter.getObjEtapa().getDataEvento());
+		//this.ordemEntrada.setData(this.passadaFilter.getObjEtapa().getDataEvento());
 	}
 
 	public void gerarOrdemEntrada() {
@@ -145,12 +149,24 @@ public class CadastroOrdemEntradaBean implements Serializable {
 		return passadasCompetidores;
 	}
 
-	public PassadaFilter getPassadaFilter() {
-		return passadaFilter;
+	public FichaInscricaoFilter getFichaInscricaoFilter() {
+		return fichaInscricaoFilter;
 	}
 
-	public void setPassadaFilter(PassadaFilter passadaFilter) {
-		this.passadaFilter = passadaFilter;
+	public void setFichaInscricaoFilter(FichaInscricaoFilter fichaInscricaoFilter) {
+		this.fichaInscricaoFilter = fichaInscricaoFilter;
+	}
+
+	public List<FichaInscricao> getFichasFiltradas() {
+		return fichasFiltradas;
+	}
+
+	public Long getQntCompetidores() {
+		return qntCompetidores;
+	}
+
+	public void setQntCompetidores(Long qntCompetidores) {
+		this.qntCompetidores = qntCompetidores;
 	}
 
 	public boolean isEditando() {

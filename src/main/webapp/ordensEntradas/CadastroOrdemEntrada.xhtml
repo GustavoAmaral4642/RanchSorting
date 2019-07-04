@@ -44,7 +44,7 @@
 								<p:selectOneMenu id="campeonato" filter="true"
 									label="Competidor" filterMatchMode="contains"
 									style="margin-bottom:10px;"
-									value="#{cadastroOrdemEntradaBean.passadaFilter.objCampeonato}">
+									value="#{cadastroOrdemEntradaBean.fichaInscricaoFilter.objCampeonato}">
 									<f:selectItem itemLabel="Selecione um Campeonato" />
 									<f:selectItems
 										value="#{cadastroOrdemEntradaBean.todosCampeonatos}"
@@ -57,7 +57,7 @@
 								<p:outputLabel for="etapa" value="Selecione a Etapa:" />
 								<p:selectOneMenu id="etapa" filter="true" label="Etapa"
 									filterMatchMode="contains" style="margin-bottom:10px;"
-									value="#{cadastroOrdemEntradaBean.passadaFilter.objEtapa}">
+									value="#{cadastroOrdemEntradaBean.fichaInscricaoFilter.objEtapa}">
 									<f:selectItem itemLabel="Selecione uma Etapa" />
 									<f:selectItems
 										value="#{cadastroOrdemEntradaBean.etapasCampeonatos}"
@@ -70,7 +70,7 @@
 
 								<p:outputLabel for="divisao" value="Selecione a divisao:" />
 								<p:selectOneMenu id="divisao" showCheckbox="true"
-									value="#{cadastroOrdemEntradaBean.passadaFilter.objDivisao}">
+									value="#{cadastroOrdemEntradaBean.fichaInscricaoFilter.objDivisao}">
 									<f:selectItem itemLabel="Selecione a Divisão" />
 									<f:selectItems
 										value="#{cadastroOrdemEntradaBean.todasDivisoes}"
@@ -88,19 +88,20 @@
 								<p:inputText id="hora"
 									value="#{cadastroOrdemEntradaBean.ordemEntrada.hora}" />
 
-								<p:spacer />
-								<p:spacer />
+								<p:outputLabel value="Quantidade de Competidores:" />
+								<p:outputLabel id="qntCompetidores"
+									value="#{cadastroOrdemEntradaBean.qntCompetidores}" />
 
 								<p:spacer />
 								<h:panelGroup>
 									<p:panelGrid columns="2" layout="grid">
 										<p:commandButton value="Carregar Competidores"
-											icon="fa fa-users" update="passadasTable"
+											icon="fa fa-users" update="passadasTable qntCompetidores"
 											action="#{cadastroOrdemEntradaBean.carregarCompetidores}"
 											process="@this
-										campeonato
-										etapa
-										divisao" />
+											campeonato
+											etapa
+											divisao" />
 										<p:commandButton value="Gerar Ordem" icon="fa fa-upload"
 											action="#{cadastroOrdemEntradaBean.gerarOrdemEntrada}"
 											process="@this" update="passadasTable" />
@@ -141,15 +142,8 @@
 									<h:outputText value="#{passada.divisao.nome}" />
 								</p:column>
 
-								<p:column headerText="Competidores" style="text-align: center">
-									<p:dataList value="#{passada.competidores}" var="competidor"
-										type="ordered" emptyMessage="Nenhum Competidor Encontrado">
-											#{competidor.nome}
-				                        </p:dataList>
-								</p:column>
-
-								<p:column headerText="Número Entrada" style="text-align: center">
-									<h:outputText value="#{passada.numeroDupla}" />
+								<p:column headerText="Competidor" style="text-align: center">
+									<h:outputText value="Guti" />
 								</p:column>
 
 							</p:dataTable>

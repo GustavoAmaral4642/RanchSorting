@@ -1,6 +1,6 @@
 package com.ranchsorting.repository;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.util.List;
 
 import javax.inject.Inject;
@@ -41,10 +41,8 @@ public class FichasInscricoes implements Serializable {
 	public List<FichaInscricao> filtradas(FichaInscricaoFilter filtro) {
 
 		Session session = manager.unwrap(Session.class);
-		Criteria criteria = session.createCriteria(FichaInscricao.class)
-				.createAlias("campeonato", "ca")
-				.createAlias("etapa", "e")
-				.createAlias("divisao", "d");
+		Criteria criteria = session.createCriteria(FichaInscricao.class).createAlias("campeonato", "ca")
+				.createAlias("etapa", "e").createAlias("divisao", "d");
 
 		if (StringUtils.isNotBlank(filtro.getCampeonato())) {
 			criteria.add(Restrictions.ilike("ca.nome", filtro.getCampeonato(), MatchMode.ANYWHERE));
@@ -54,7 +52,7 @@ public class FichasInscricoes implements Serializable {
 		if (filtro.getObjCampeonato() != null) {
 			criteria.add(Restrictions.ilike("ca.nome", filtro.getObjCampeonato().getNome()));
 		}
-		
+
 		if (StringUtils.isNotBlank(filtro.getEtapa())) {
 			criteria.add(Restrictions.ilike("e.nome", filtro.getEtapa(), MatchMode.ANYWHERE));
 		}
@@ -63,16 +61,16 @@ public class FichasInscricoes implements Serializable {
 		if (filtro.getObjEtapa() != null) {
 			criteria.add(Restrictions.ilike("e.nome", filtro.getObjEtapa().getNome()));
 		}
-		
+
 		if (StringUtils.isNotBlank(filtro.getDivisao())) {
 			criteria.add(Restrictions.ilike("d.nome", filtro.getDivisao(), MatchMode.ANYWHERE));
 		}
-		
+
 		// busca divisoes por objeto
 		if (filtro.getObjDivisao() != null) {
 			criteria.add(Restrictions.ilike("d.nome", filtro.getObjDivisao().getNome()));
 		}
-		
+
 		if (filtro.getDataInscricaoInicial() != null) {
 			criteria.add(Restrictions.ge("dataInscricao", filtro.getDataInscricaoInicial()));
 		}
@@ -91,5 +89,5 @@ public class FichasInscricoes implements Serializable {
 
 		return criteria.addOrder(Order.asc("ca.nome")).list();
 	}
-	
+
 }

@@ -1,11 +1,13 @@
 package com.ranchsorting.model;
 
-import java.io.Serializable; 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -14,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -30,6 +33,7 @@ public class Divisao implements Serializable {
 	private String observacoes;
 	private String idadeInicial;
 	private String idadeFinal;
+	private TipoFicha tipoFicha;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
@@ -93,12 +97,23 @@ public class Divisao implements Serializable {
 		this.idadeFinal = idadeFinal;
 	}
 
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	@Column(name = "dv_tipo_ficha", length = 15)
+	public TipoFicha getTipoFicha() {
+		return tipoFicha;
+	}
+
+	public void setTipoFicha(TipoFicha tipoFicha) {
+		this.tipoFicha = tipoFicha;
+	}
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "dv_us_alteracao")
 	public final Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
 	}
-	
+
 	public final void setUsuarioAlteracao(Usuario usuarioAlteracao) {
 		this.usuarioAlteracao = usuarioAlteracao;
 	}

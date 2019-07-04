@@ -110,12 +110,7 @@
 									</p:column>
 
 									<p:column headerText="Competidores" style="text-align: center">
-										<p:dataList
-											value="#{ficha.competidores}"
-											var="competidor" type="ordered"
-											emptyMessage="Nenhum Competidor Encontrado">
-											#{competidor.nome}
-				                        </p:dataList>
+										<h:outputText value="#{ficha.competidor.nome}" />
 				                    </p:column>
 
 									<p:column style="text-align: center; width: 80px">

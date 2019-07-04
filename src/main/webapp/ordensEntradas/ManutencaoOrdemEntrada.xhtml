@@ -90,7 +90,7 @@
 										listener="#{manutencaoOrdemEntradaBean.onRowCancel}"
 										update=":formPai:growl" />
 
-									<p:column headerText="Sequência Dupla">
+									<p:column headerText="Sequência Dupla" sortBy="#{passada.numeroDupla}">
 										<h:outputText value="#{passada.numeroDupla}" />
 									</p:column>
 
@@ -104,14 +104,27 @@
 									<p:column headerText="Ranking">
 										<h:outputText value="#{passada.ranking}" />
 									</p:column>
+
+									<p:column headerText="Numero Boi">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{passada.numeroBoi}" />
+											</f:facet>
+											<f:facet name="input">
+												<p:inputText value="#{passada.numeroBoi}" 
+													style="width:100%" />
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
 |
-									<p:column headerText="Tempo">
+									<p:column headerText="Tempo(Min/Seg/Dec)">
 										<p:cellEditor>
 											<f:facet name="output">
 												<h:outputText value="#{passada.tempo}" />
 											</f:facet>
 											<f:facet name="input">
-												<p:inputMask value="#{passada.tempo}" mask="99:9999" style="width:100%" />
+												<p:inputMask value="#{passada.tempo}" mask="99:99:999"
+													style="width:100%" />
 											</f:facet>
 										</p:cellEditor>
 									</p:column>

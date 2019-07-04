@@ -23,7 +23,10 @@ public class CadastroFichaInscricaoService implements Serializable {
 	
 	@Transactional
 	public FichaInscricao salvar(FichaInscricao ficha) {
-
+		
+		return fichas.guardar(ficha);
+		
+		/*
 		if (ficha.getPassadas().size() > 0) {
 
 			// divide o valor comprado e pago
@@ -36,7 +39,7 @@ public class CadastroFichaInscricaoService implements Serializable {
 			return ficha;
 		}
 
-/*		try {
+		try {
 			// teste para fazer a gravação de mais de uma ficha.
 		} catch (ConstraintViolationException ex) {
 			throw new NegocioException("Ocorreu algum promblema na gravação da ficha de inscrição."
@@ -57,7 +60,7 @@ public class CadastroFichaInscricaoService implements Serializable {
 		}
 */
 	}
-
+/*
 	private FichaInscricao dividindoValorComprado(FichaInscricao ficha) {
 
 		// se não for edição, retorna a ficha sem calculo
@@ -153,5 +156,5 @@ public class CadastroFichaInscricaoService implements Serializable {
 		ficha.getCompetidores().add(comp3);
 		
 		return ficha;
-	}
+	}*/
 }

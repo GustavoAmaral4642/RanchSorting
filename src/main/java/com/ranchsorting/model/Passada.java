@@ -8,12 +8,14 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -28,17 +30,17 @@ public class Passada implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private List<Competidor> competidores = new ArrayList<>();
+	private List<FichaInscricao> fichasInscricoes = new ArrayList<>();
+	private OrdemEntrada ordemEntrada;
 	private Long numeroDupla;
 	private Campeonato campeonato;
 	private Etapa etapa;
 	private Divisao divisao;
+	private Long numeroBoi;
 	private String tempo;
 	private Long qntBoi;
 	private Long ranking;
 	private String sat;
-	private FichaInscricao fichaInscricao;
-	private OrdemEntrada ordemEntrada;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
@@ -53,15 +55,24 @@ public class Passada implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	@ManyToMany
-	@JoinTable(name = "tb_passada_competidor", joinColumns = @JoinColumn(name = "pa_passada"), inverseJoinColumns = @JoinColumn(name = "co_competidor"))
-	public List<Competidor> getCompetidores() {
-		return competidores;
+	
+	@OneToMany(mappedBy = "passada", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	public List<FichaInscricao> getFichasInscricoes() {
+		return fichasInscricoes;
 	}
 
-	public void setCompetidores(List<Competidor> competidores) {
-		this.competidores = competidores;
+	public void setFichasInscricoes(List<FichaInscricao> fichasInscricoes) {
+		this.fichasInscricoes = fichasInscricoes;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "pa_ordem_entrada_id")
+	public OrdemEntrada getOrdemEntrada() {
+		return ordemEntrada;
+	}
+
+	public void setOrdemEntrada(OrdemEntrada ordemEntrada) {
+		this.ordemEntrada = ordemEntrada;
 	}
 
 	@Column(name = "fi_numero_dupla")
@@ -106,6 +117,15 @@ public class Passada implements Serializable {
 		this.divisao = divisao;
 	}
 
+	@Column(name = "pa_numero_boi")
+	public Long getNumeroBoi() {
+		return numeroBoi;
+	}
+
+	public void setNumeroBoi(Long numeroBoi) {
+		this.numeroBoi = numeroBoi;
+	}
+
 	@Size(max = 20)
 	@Column(name = "pa_tempo", length = 20)
 	public String getTempo() {
@@ -142,26 +162,6 @@ public class Passada implements Serializable {
 
 	public void setSat(String sat) {
 		this.sat = sat;
-	}
-
-	@ManyToOne
-	@JoinColumn(name = "pa_ficha_inscricao_id", nullable = false)
-	public FichaInscricao getFichaInscricao() {
-		return fichaInscricao;
-	}
-
-	public void setFichaInscricao(FichaInscricao fichaInscricao) {
-		this.fichaInscricao = fichaInscricao;
-	}
-
-	@ManyToOne
-	@JoinColumn(name = "pa_ordem_entrada_id")
-	public OrdemEntrada getOrdemEntrada() {
-		return ordemEntrada;
-	}
-
-	public void setOrdemEntrada(OrdemEntrada ordemEntrada) {
-		this.ordemEntrada = ordemEntrada;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)

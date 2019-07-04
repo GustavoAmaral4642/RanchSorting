@@ -1,0 +1,123 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<p:panelGrid columns="4" id="panelFichaInscricao"
+		columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+		layout="grid" styleClass="ui-panelgrid-blank"
+		style="border:0px none; background-color:transparent;">
+
+		<p:outputLabel for="codigoFicha" value="Código da Ficha:" />
+		<p:inputText id="codigoFicha" disabled="true"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.id}" />
+
+		<p:outputLabel for="campeonato" value="Selecione o Campeonato:" />
+		<p:selectOneMenu id="campeonato" filter="true" label="Campeonato"
+			filterMatchMode="contains" style="margin-bottom:10px;"
+			disabled="#{cadastroFichaInscricaoBean.editando}"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.campeonato}">
+			<f:selectItem itemLabel="Selecione um Campeonato" />
+			<f:selectItems value="#{cadastroFichaInscricaoBean.todosCampeonatos}"
+				var="todosCampeonatos" itemValue="#{todosCampeonatos}"
+				itemLabel="#{todosCampeonatos.nome} - #{todosCampeonatos.tipoCampeonato.descricao}" />
+			<p:ajax listener="#{cadastroFichaInscricaoBean.carregarEtapas}"
+				update="etapa" />
+		</p:selectOneMenu>
+
+		<p:outputLabel for="etapa" value="Selecione a Etapa:" />
+		<p:selectOneMenu id="etapa" filter="true" label="Etapa"
+			filterMatchMode="contains" style="margin-bottom:10px;"
+			disabled="#{cadastroFichaInscricaoBean.editando}"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.etapa}">
+			<f:selectItem itemLabel="Selecione uma Etapa" />
+			<f:selectItems
+				value="#{cadastroFichaInscricaoBean.etapasCampeonatos}"
+				var="etapasCampeonatos" itemValue="#{etapasCampeonatos}"
+				itemLabel="#{etapasCampeonatos.nome}" />
+			<p:ajax
+				listener="#{cadastroFichaInscricaoBean.carregarDataInscricaoEtapa}"
+				update="dataInscricao" />
+		</p:selectOneMenu>
+
+		<p:outputLabel for="divisao" value="Selecione a divisão:" />
+		<p:selectOneMenu id="divisao" filter="true" label="Divisão"
+			filterMatchMode="contains" style="margin-bottom:10px;"
+			disabled="#{cadastroFichaInscricaoBean.editando}"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.divisao}">
+			<f:selectItem itemLabel="Selecione a Divisão" />
+			<f:selectItems value="#{cadastroFichaInscricaoBean.todasDivisoes}"
+				var="todasDivisoes" itemValue="#{todasDivisoes}"
+				itemLabel="#{todasDivisoes.nome} - #{todasDivisoes.tipoFicha.descricao}" />
+		</p:selectOneMenu>
+
+		<p:outputLabel for="dataInscricao" value="Data:" />
+		<p:calendar id="dataInscricao" placeholder="__/__/____"
+			pattern="dd/MM/yyyy" title="Data da Inscrição" size="10"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.dataInscricao}"
+			mask="99/99/9999" />
+
+		<p:spacer />
+		<p:spacer />
+
+		<p:outputLabel for="nomeCompetidor" value="Nome do Competidor:" />
+		<p:selectOneMenu id="nomeCompetidor" filter="true" label="Competidor"
+			filterMatchMode="contains" style="margin-bottom:10px;"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.competidor}">
+			<f:selectItem itemLabel="Selecione um Competidor" />
+			<f:selectItems
+				value="#{cadastroFichaInscricaoBean.todosCompetidores}"
+				var="todosCompetidores" itemValue="#{todosCompetidores}"
+				itemLabel="#{todosCompetidores.nome}" />
+			<p:ajax
+				listener="#{cadastroFichaInscricaoBean.carregarAnuidadesCompetidor}"
+				update="anuidadeCompetidor" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Anuidades:" />
+		<p:dataList id="anuidadeCompetidor"
+			value="#{cadastroFichaInscricaoBean.anuidadesCompetidor}"
+			var="anuidade" type="ordered"
+			emptyMessage="Nenhuma Anuidade Encontrada">
+			<f:facet name="header">
+				Anuidades do Competidor
+		        </f:facet>
+		        	Campeonato: #{anuidade.campeonato.nome},
+		            Valor Pago: <h:outputText value="#{anuidade.valorPago}">
+				<f:convertNumber type="currency" maxFractionDigits="2"
+					minFractionDigits="2" />
+			</h:outputText>         
+		            Data: <h:outputText value="#{anuidade.dataPagamento}">
+				<f:convertDateTime pattern="dd/MM/yyyy" />
+			</h:outputText>, 
+ 		</p:dataList>
+
+		<p:outputLabel for="qntFichas" value="Quantidade de Fichas:" />
+		<p:inputText id="qntFichas" label="Quantidade"
+			placeholder="Quantidade" size="10" maxlength="10"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.qntFichas}"/>
+
+		<p:outputLabel for="valorComprado" value="Valor Comprado:" />
+		<p:inputText id="valorComprado" label="Valor Comprado"
+			placeholder="Valor Comprado" size="20" maxlength="20"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.valorComprado}"
+			styleClass="moeda">
+			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+		</p:inputText>
+
+		<p:outputLabel for="valorPago" value="Valor Pago:" />
+		<p:inputText id="valorPago" label="Valor Pago:"
+			placeholder="Valor Pago" size="20" maxlength="20"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.valorPago}"
+			styleClass="moeda">
+			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+		</p:inputText>
+
+		<p:outputLabel for="statusFicha" value="Status da Ficha:" />
+		<p:inputText id="statusFicha" readonly="true" size="20" maxlength="20"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.statusFicha.descricao}" />
+
+	</p:panelGrid>
+</ui:composition>

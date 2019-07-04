@@ -62,6 +62,15 @@
 									value="#{cadastroDivisaoBean.divisao.observacoes}"
 									placeholder="Observação" autoResize="false" />
 
+								<p:outputLabel for="tipoFicha" value="Tipo de Ficha:" />
+								<p:selectOneRadio id="tipoFicha" layout="responsive"
+									columns="3"
+									value="#{cadastroDivisaoBean.divisao.tipoFicha}">
+									<f:selectItem itemLabel="Individual" itemValue="INDIVIDUAL" />
+									<f:selectItem itemLabel="Dupla" itemValue="DUPLA" />
+									<f:selectItem itemLabel="Trio" itemValue="TRIO" />
+								</p:selectOneRadio>
+
 								<p:spacer />
 								<p:spacer />
 
