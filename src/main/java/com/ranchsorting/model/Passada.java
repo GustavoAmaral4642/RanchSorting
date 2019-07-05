@@ -12,14 +12,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -32,10 +31,7 @@ public class Passada implements Serializable {
 	private Long id;
 	private List<FichaInscricao> fichasInscricoes = new ArrayList<>();
 	private OrdemEntrada ordemEntrada;
-	private Long numeroDupla;
-	private Campeonato campeonato;
-	private Etapa etapa;
-	private Divisao divisao;
+	private Long numeroDupla;	
 	private Long numeroBoi;
 	private String tempo;
 	private Long qntBoi;
@@ -55,7 +51,7 @@ public class Passada implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	@OneToMany(mappedBy = "passada", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	public List<FichaInscricao> getFichasInscricoes() {
 		return fichasInscricoes;
@@ -82,39 +78,6 @@ public class Passada implements Serializable {
 
 	public void setNumeroDupla(Long numeroDupla) {
 		this.numeroDupla = numeroDupla;
-	}
-
-	@NotNull
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fi_campeonato")
-	public Campeonato getCampeonato() {
-		return campeonato;
-	}
-
-	public void setCampeonato(Campeonato campeonato) {
-		this.campeonato = campeonato;
-	}
-
-	@NotNull
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fi_etapa")
-	public Etapa getEtapa() {
-		return etapa;
-	}
-
-	public void setEtapa(Etapa etapa) {
-		this.etapa = etapa;
-	}
-
-	@NotNull
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fi_divisao")
-	public Divisao getDivisao() {
-		return divisao;
-	}
-
-	public void setDivisao(Divisao divisao) {
-		this.divisao = divisao;
 	}
 
 	@Column(name = "pa_numero_boi")
@@ -218,5 +181,4 @@ public class Passada implements Serializable {
 			return false;
 		return true;
 	}
-
 }

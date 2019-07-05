@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tb_ordem_entrada")
@@ -26,6 +27,9 @@ public class OrdemEntrada implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	private Campeonato campeonato;
+	private Etapa etapa;
+	private Divisao divisao;
 	private Date data;
 	private Date hora;
 	private List<Passada> passadas = new ArrayList<>();
@@ -42,6 +46,39 @@ public class OrdemEntrada implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	@NotNull
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "od_campeonato")
+	public Campeonato getCampeonato() {
+		return campeonato;
+	}
+
+	public void setCampeonato(Campeonato campeonato) {
+		this.campeonato = campeonato;
+	}
+
+	@NotNull
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "od_etapa")
+	public Etapa getEtapa() {
+		return etapa;
+	}
+
+	public void setEtapa(Etapa etapa) {
+		this.etapa = etapa;
+	}
+
+	@NotNull
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "od_divisao")
+	public Divisao getDivisao() {
+		return divisao;
+	}
+
+	public void setDivisao(Divisao divisao) {
+		this.divisao = divisao;
 	}
 
 	@Temporal(TemporalType.DATE)
@@ -126,35 +163,6 @@ public class OrdemEntrada implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	@Transient
-	public Campeonato getCampeonatoOrdem() {
-
-		if (passadas != null && passadas.size() != 0) {
-			return passadas.get(0).getCampeonato();
-		} else {
-			return null;
-		}
-	}
-
-	@Transient
-	public Etapa getEtapaOrdem() {
-
-		if (passadas != null && passadas.size() != 0) {
-			return passadas.get(0).getEtapa();
-		} else {
-			return null;
-		}
-	}
-
-	@Transient
-	public Divisao getDivisaoOrdem() {
-		if (passadas != null && passadas.size() != 0) {
-			return passadas.get(0).getDivisao();
-		} else {
-			return null;
-		}
 	}
 
 }

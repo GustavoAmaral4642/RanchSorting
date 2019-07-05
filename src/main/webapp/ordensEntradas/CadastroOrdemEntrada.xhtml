@@ -88,15 +88,23 @@
 								<p:inputText id="hora"
 									value="#{cadastroOrdemEntradaBean.ordemEntrada.hora}" />
 
-								<p:outputLabel value="Quantidade de Competidores:" />
-								<p:outputLabel id="qntCompetidores"
-									value="#{cadastroOrdemEntradaBean.qntCompetidores}" />
+								<p:outputLabel value="Selecione as Fichas:" />
+								<p:autoComplete
+									value="#{cadastroOrdemEntradaBean.fichaInscricaoLinhaEditavel}"
+									completeMethod="#{cadastroOrdemEntradaBean.completarCompetidores}"
+									var="fichaInscricao"
+									itemLabel="#{fichaInscricao.id} - #{fichaInscricao.competidor.nome}"
+									itemValue="#{fichaInscricao}" forceSelection="true">
+									<p:ajax event="itemSelect"
+										update="passadasTable @this fichaSelecionada"
+										listener="#{cadastroOrdemEntradaBean.incluirFichasCompetidores}" />
+								</p:autoComplete>
 
 								<p:spacer />
 								<h:panelGroup>
 									<p:panelGrid columns="2" layout="grid">
 										<p:commandButton value="Carregar Competidores"
-											icon="fa fa-users" update="passadasTable qntCompetidores"
+											icon="fa fa-users" update="passadasTable"
 											action="#{cadastroOrdemEntradaBean.carregarCompetidores}"
 											process="@this
 											campeonato
@@ -104,6 +112,31 @@
 											divisao" />
 										<p:commandButton value="Gerar Ordem" icon="fa fa-upload"
 											action="#{cadastroOrdemEntradaBean.gerarOrdemEntrada}"
+											process="@this" update="passadasTable" />
+									</p:panelGrid>
+								</h:panelGroup>
+
+								<p:outputLabel for="fichaSelecionada"
+									value="Fichas Selecionadas:" />
+								<p:dataList
+									value="#{cadastroOrdemEntradaBean.fichasSelecionadas}"
+									var="ficha" type="ordered" id="fichaSelecionada"
+									emptyMessage="Nenhuma Ficha Selecionada">
+									<f:facet name="header">
+									Fichas Selecionadas
+		                            </f:facet>
+		                            #{ficha.id}, #{ficha.competidor.nome}
+		                        </p:dataList>
+
+								<p:spacer />
+								<h:panelGroup>
+									<p:panelGrid columns="2" layout="grid">
+										<p:commandButton value="Limpar"
+											icon="fa fa-refresh" update="fichaSelecionada"
+											action="#{cadastroOrdemEntradaBean.limparListaFichasInscricoes}"
+											process="@this" />
+										<p:commandButton value="Incluir Passada" icon="fa fa-upload"
+											action="#{cadastroOrdemEntradaBean.incluirPassada}"
 											process="@this" update="passadasTable" />
 									</p:panelGrid>
 								</h:panelGroup>
@@ -119,31 +152,38 @@
 							<p:spacer />
 
 							<p:dataTable var="passada"
-								value="#{cadastroOrdemEntradaBean.passadasCompetidores}"
+								value="#{cadastroOrdemEntradaBean.passadasCompetidores }"
 								reflow="true" emptyMessage="Nenhuma Passada Encontrada"
 								paginator="true" rows="50" id="passadasTable">
 								<f:facet name="header">
                                 		Fichas/Passadas
                             		</f:facet>
-								<p:column headerText="Código da Ficha" sortBy="#{ficha.id}"
+								<p:column headerText="Código da Passada" sortBy="#{ficha.id}"
 									style="width: 100px; text-align: center">
 									<h:outputText value="#{passada.id}" />
 								</p:column>
 
-								<p:column headerText="Campeonato" style="text-align: center">
-									<h:outputText value="#{passada.campeonato.nome}" />
+								<p:column headerText="Fichas de Competidores"
+									style="text-align: center">
+									<p:dataList value="#{passada.fichasInscricoes}" var="ficha"
+										type="ordered" emptyMessage="Nenhuma Ficha Encontrada">
+										<f:facet name="header">
+										Competidor/Fichas 
+		                            	</f:facet>
+		                            	#{ficha.competidor.nome}, #{ficha.id} 
+		                        	</p:dataList>
 								</p:column>
 
-								<p:column headerText="Etapa" style="text-align: center">
-									<h:outputText value="#{passada.etapa.nome}" />
+								<p:column headerText="Numero Dupla" style="text-align: center">
+									<h:outputText value="#{passada.numeroDupla}" />
 								</p:column>
 
-								<p:column headerText="Divisão" style="text-align: center">
-									<h:outputText value="#{passada.divisao.nome}" />
+								<p:column headerText="Tempo" style="text-align: center">
+									<h:outputText value="#{passada.tempo}" />
 								</p:column>
 
-								<p:column headerText="Competidor" style="text-align: center">
-									<h:outputText value="Guti" />
+								<p:column headerText="Ranking" style="text-align: center">
+									<h:outputText value="#{passada.ranking}" />
 								</p:column>
 
 							</p:dataTable>

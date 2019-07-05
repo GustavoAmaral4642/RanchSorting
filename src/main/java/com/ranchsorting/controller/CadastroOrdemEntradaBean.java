@@ -15,6 +15,7 @@ import com.ranchsorting.model.Etapa;
 import com.ranchsorting.model.FichaInscricao;
 import com.ranchsorting.model.OrdemEntrada;
 import com.ranchsorting.model.Passada;
+import com.ranchsorting.model.TipoFicha;
 import com.ranchsorting.repository.Campeonatos;
 import com.ranchsorting.repository.Divisoes;
 import com.ranchsorting.repository.Etapas;
@@ -51,13 +52,16 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	private List<Etapa> etapasCampeonatos;
 	private List<Divisao> todasDivisoes;
 	private List<FichaInscricao> fichasFiltradas;
+	private List<FichaInscricao> fichasSelecionadas;
 	private List<Passada> passadasCompetidores;
 
 	private OrdemEntrada ordemEntrada;
 	private FichaInscricaoFilter fichaInscricaoFilter;
 
+	private FichaInscricao fichaInscricaoLinhaEditavel;
+
 	private Long qntCompetidores;
-	
+
 	public CadastroOrdemEntradaBean() {
 		limpar();
 	}
@@ -71,6 +75,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 		ordemEntrada = new OrdemEntrada();
 		passadasCompetidores = new ArrayList<>();
 		fichaInscricaoFilter = new FichaInscricaoFilter();
+		fichasSelecionadas = new ArrayList<>();
 	}
 
 	public void salvar() {
@@ -92,6 +97,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	public void carregarCompetidores() {
 		fichasFiltradas = fichasInscricoes.filtradas(fichaInscricaoFilter);
 		qntCompetidores = Long.valueOf(fichasFiltradas.size());
+
 	}
 
 	public void carregarEtapas() {
@@ -99,7 +105,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	}
 
 	public void carregarDataEtapa() {
-		//this.ordemEntrada.setData(this.passadaFilter.getObjEtapa().getDataEvento());
+		// this.ordemEntrada.setData(this.passadaFilter.getObjEtapa().getDataEvento());
 	}
 
 	public void gerarOrdemEntrada() {
@@ -123,6 +129,56 @@ public class CadastroOrdemEntradaBean implements Serializable {
 		 * (int i = 0; i < 15; i++) { System.out.print(numeros.get(i));
 		 * System.out.print(" "); } System.out.println();
 		 */
+	}
+
+	public List<FichaInscricao> completarCompetidores(String nomeCompetidor) {
+
+		// busca informções para o autoComplete
+		fichaInscricaoFilter.setCompetidor(nomeCompetidor);
+		fichasFiltradas = fichasInscricoes.filtradas(fichaInscricaoFilter);
+
+		return fichasFiltradas;
+	}
+
+	public void incluirFichasCompetidores() {
+
+		// se a fichaInscricao linha editável não for nula
+		if (this.fichaInscricaoLinhaEditavel != null) {
+
+			if(fichaInscricaoLinhaEditavel.getDivisao().getTipoFicha().equals(TipoFicha.INDIVIDUAL) 
+					&& fichasSelecionadas.size() < 1){
+				fichasSelecionadas.add(fichaInscricaoLinhaEditavel);	
+				
+			} else if(fichaInscricaoLinhaEditavel.getDivisao().getTipoFicha().equals(TipoFicha.DUPLA) 
+					&& fichasSelecionadas.size() < 2){
+				fichasSelecionadas.add(fichaInscricaoLinhaEditavel);
+				
+			}  else if(fichaInscricaoLinhaEditavel.getDivisao().getTipoFicha().equals(TipoFicha.TRIO) 
+					&& fichasSelecionadas.size() < 3){
+				fichasSelecionadas.add(fichaInscricaoLinhaEditavel);
+				
+			} else {
+				FacesUtil.addInfoMessage("Quantidade de fichas selecionadas já atingiu o limite da Divisão " + 
+						fichaInscricaoLinhaEditavel.getDivisao().getNome());
+			}						
+
+			this.fichaInscricaoLinhaEditavel = null;
+		}
+	}
+	
+	public void limparListaFichasInscricoes(){
+		if(fichasSelecionadas != null && fichasSelecionadas.size() != 0){
+			fichasSelecionadas = new ArrayList<>();
+		}
+	}
+	
+	public void incluirPassada(){
+		Passada passada = new Passada();
+		
+		// adiciona a ficha como item de passada.
+		passada.getFichasInscricoes().addAll(fichasSelecionadas);
+		
+		passadasCompetidores.add(passada);	
 	}
 
 	public OrdemEntrada getOrdemEntrada() {
@@ -161,12 +217,28 @@ public class CadastroOrdemEntradaBean implements Serializable {
 		return fichasFiltradas;
 	}
 
+	public List<FichaInscricao> getFichasSelecionadas() {
+		return fichasSelecionadas;
+	}
+
+	public void setFichasSelecionadas(List<FichaInscricao> fichasSelecionadas) {
+		this.fichasSelecionadas = fichasSelecionadas;
+	}
+
 	public Long getQntCompetidores() {
 		return qntCompetidores;
 	}
 
 	public void setQntCompetidores(Long qntCompetidores) {
 		this.qntCompetidores = qntCompetidores;
+	}
+
+	public FichaInscricao getFichaInscricaoLinhaEditavel() {
+		return fichaInscricaoLinhaEditavel;
+	}
+
+	public void setFichaInscricaoLinhaEditavel(FichaInscricao fichaInscricaoLinhaEditavel) {
+		this.fichaInscricaoLinhaEditavel = fichaInscricaoLinhaEditavel;
 	}
 
 	public boolean isEditando() {
