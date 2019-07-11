@@ -1,6 +1,6 @@
 package com.ranchsorting.model;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,8 +18,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -71,7 +69,7 @@ public class Passada implements Serializable {
 		this.ordemEntrada = ordemEntrada;
 	}
 
-	@Column(name = "fi_numero_dupla")
+	@Column(name = "pa_numero_dupla")
 	public Long getNumeroDupla() {
 		return numeroDupla;
 	}

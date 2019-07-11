@@ -1,6 +1,6 @@
 package com.ranchsorting.service;
 
-import java.io.Serializable;  
+import java.io.Serializable;   
 
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
@@ -18,6 +18,7 @@ public class CadastroOrdemEntradaService implements Serializable {
 
 	@Transactional
 	public OrdemEntrada salvar(OrdemEntrada ordem) {
+		
 		return ordens.guardar(ordem);
 		
 /*

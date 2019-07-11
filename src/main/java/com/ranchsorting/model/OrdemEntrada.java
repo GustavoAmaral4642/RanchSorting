@@ -165,4 +165,14 @@ public class OrdemEntrada implements Serializable {
 		return true;
 	}
 
+	@Transient
+	public boolean isNaoAlteravel(){
+		if(getCampeonato() == null 
+				&& getEtapa() == null 
+				&& getDivisao() == null){
+			return false;	
+		} else {
+			return true;
+		}
+	}
 }

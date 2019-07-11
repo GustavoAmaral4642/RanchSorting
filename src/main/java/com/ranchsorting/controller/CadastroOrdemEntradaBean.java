@@ -1,6 +1,6 @@
 package com.ranchsorting.controller;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,16 +15,15 @@ import com.ranchsorting.model.Etapa;
 import com.ranchsorting.model.FichaInscricao;
 import com.ranchsorting.model.OrdemEntrada;
 import com.ranchsorting.model.Passada;
+import com.ranchsorting.model.StatusFicha;
 import com.ranchsorting.model.TipoFicha;
 import com.ranchsorting.repository.Campeonatos;
 import com.ranchsorting.repository.Divisoes;
 import com.ranchsorting.repository.Etapas;
 import com.ranchsorting.repository.FichasInscricoes;
-import com.ranchsorting.repository.Passadas;
 import com.ranchsorting.repository.filter.FichaInscricaoFilter;
-import com.ranchsorting.repository.filter.FolhaCompeticaoFilter;
-import com.ranchsorting.repository.filter.PassadaFilter;
 import com.ranchsorting.service.CadastroOrdemEntradaService;
+import com.ranchsorting.service.CadastroPassadaService;
 import com.ranchsorting.util.jsf.FacesUtil;
 
 @Named
@@ -47,6 +46,9 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	@Inject
 	private CadastroOrdemEntradaService cadastroOrdemEntradaService;
+	
+	@Inject
+	private CadastroPassadaService cadastroPassadaService;
 
 	private List<Campeonato> todosCampeonatos;
 	private List<Etapa> etapasCampeonatos;
@@ -59,8 +61,6 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	private FichaInscricaoFilter fichaInscricaoFilter;
 
 	private FichaInscricao fichaInscricaoLinhaEditavel;
-
-	private Long qntCompetidores;
 
 	public CadastroOrdemEntradaBean() {
 		limpar();
@@ -95,8 +95,31 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	}
 
 	public void carregarCompetidores() {
-		fichasFiltradas = fichasInscricoes.filtradas(fichaInscricaoFilter);
-		qntCompetidores = Long.valueOf(fichasFiltradas.size());
+
+		fichasFiltradas = new ArrayList<>();
+
+		if (fichaInscricaoFilter.getObjCampeonato() != null
+				&& !fichaInscricaoFilter.getObjCampeonato().getNome().equals("")) {
+			if (fichaInscricaoFilter.getObjEtapa() != null
+					&& !fichaInscricaoFilter.getObjEtapa().getNome().equals("")) {
+				if (fichaInscricaoFilter.getObjDivisao() != null
+						&& !fichaInscricaoFilter.getObjDivisao().getNome().equals("")) {
+
+					//só busca fichas que estão com status CADASTRADA
+					fichaInscricaoFilter.setStatusFicha(StatusFicha.CADASTRADA);
+					
+					fichasFiltradas = fichasInscricoes.filtradas(fichaInscricaoFilter);
+
+					ordemEntrada.setCampeonato(fichaInscricaoFilter.getObjCampeonato());
+					ordemEntrada.setEtapa(fichaInscricaoFilter.getObjEtapa());
+					ordemEntrada.setDivisao(fichaInscricaoFilter.getObjDivisao());
+					
+					this.ordemEntrada = cadastroOrdemEntradaService.salvar(ordemEntrada);
+					
+					FacesUtil.addInfoMessage("Ordem de Entrada registrada com sucesso!");
+				}
+			}
+		}
 
 	}
 
@@ -132,12 +155,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	}
 
 	public List<FichaInscricao> completarCompetidores(String nomeCompetidor) {
-
-		// busca informções para o autoComplete
-		fichaInscricaoFilter.setCompetidor(nomeCompetidor);
-		fichasFiltradas = fichasInscricoes.filtradas(fichaInscricaoFilter);
-
-		return fichasFiltradas;
+		return this.fichasFiltradas;
 	}
 
 	public void incluirFichasCompetidores() {
@@ -145,40 +163,76 @@ public class CadastroOrdemEntradaBean implements Serializable {
 		// se a fichaInscricao linha editável não for nula
 		if (this.fichaInscricaoLinhaEditavel != null) {
 
-			if(fichaInscricaoLinhaEditavel.getDivisao().getTipoFicha().equals(TipoFicha.INDIVIDUAL) 
-					&& fichasSelecionadas.size() < 1){
-				fichasSelecionadas.add(fichaInscricaoLinhaEditavel);	
+			if (fichaInscricaoLinhaEditavel.getDivisao().getTipoFicha().equals(TipoFicha.INDIVIDUAL)
+					&& fichasSelecionadas.size() < 1) {
 				
-			} else if(fichaInscricaoLinhaEditavel.getDivisao().getTipoFicha().equals(TipoFicha.DUPLA) 
-					&& fichasSelecionadas.size() < 2){
+				//adiciona no dataList
 				fichasSelecionadas.add(fichaInscricaoLinhaEditavel);
 				
-			}  else if(fichaInscricaoLinhaEditavel.getDivisao().getTipoFicha().equals(TipoFicha.TRIO) 
-					&& fichasSelecionadas.size() < 3){
-				fichasSelecionadas.add(fichaInscricaoLinhaEditavel);
-				
-			} else {
-				FacesUtil.addInfoMessage("Quantidade de fichas selecionadas já atingiu o limite da Divisão " + 
-						fichaInscricaoLinhaEditavel.getDivisao().getNome());
-			}						
+				//remove do combobox
+				fichasFiltradas.remove(fichaInscricaoLinhaEditavel);
 
+			} else if (fichaInscricaoLinhaEditavel.getDivisao().getTipoFicha().equals(TipoFicha.DUPLA)
+					&& fichasSelecionadas.size() < 2) {
+
+				//adiciona no dataList
+				fichasSelecionadas.add(fichaInscricaoLinhaEditavel);
+				
+				//remove do combobox
+				fichasFiltradas.remove(fichaInscricaoLinhaEditavel);
+
+			} else if (fichaInscricaoLinhaEditavel.getDivisao().getTipoFicha().equals(TipoFicha.TRIO)
+					&& fichasSelecionadas.size() < 3) {
+				
+				//adiciona no dataList
+				fichasSelecionadas.add(fichaInscricaoLinhaEditavel);
+				
+				//remove do combobox
+				fichasFiltradas.remove(fichaInscricaoLinhaEditavel);
+
+			} else {
+				FacesUtil.addInfoMessage("Quantidade de fichas selecionadas já atingiu o limite da Divisão "
+						+ fichaInscricaoLinhaEditavel.getDivisao().getNome());
+			}
 			this.fichaInscricaoLinhaEditavel = null;
 		}
 	}
-	
-	public void limparListaFichasInscricoes(){
-		if(fichasSelecionadas != null && fichasSelecionadas.size() != 0){
+
+	public void limparListaFichasInscricoes() {
+		if (fichasSelecionadas != null && fichasSelecionadas.size() != 0) {
 			fichasSelecionadas = new ArrayList<>();
 		}
 	}
-	
-	public void incluirPassada(){
-		Passada passada = new Passada();
+
+	public void incluirPassada() {
 		
-		// adiciona a ficha como item de passada.
-		passada.getFichasInscricoes().addAll(fichasSelecionadas);
+		if (fichasSelecionadas != null && fichasSelecionadas.size() != 0) {
+
+			Passada passada = new Passada();
+			
+			// adiciona a ficha como item de passada.
+			for (FichaInscricao f : fichasSelecionadas) {
+				f.setPassada(passada);
+				f.setCampeonato(ordemEntrada.getCampeonato());
+				f.setEtapa(ordemEntrada.getEtapa());
+				f.setDivisao(ordemEntrada.getDivisao());
+				f.setStatusFicha(StatusFicha.EMORDEM);
+				passada.getFichasInscricoes().add(f);
+			}
 		
-		passadasCompetidores.add(passada);	
+			//incluindo passada no DataTable
+			passadasCompetidores.add(passada);
+			
+			//salvando passada
+			passada.setOrdemEntrada(this.ordemEntrada);
+			passada = cadastroPassadaService.salvar(passada);
+			
+			FacesUtil.addInfoMessage("Passadas Registradas com Sucesso!");
+		
+			//resetando dataList
+			fichasSelecionadas = new ArrayList<>();
+			
+		}
 	}
 
 	public OrdemEntrada getOrdemEntrada() {
@@ -223,14 +277,6 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	public void setFichasSelecionadas(List<FichaInscricao> fichasSelecionadas) {
 		this.fichasSelecionadas = fichasSelecionadas;
-	}
-
-	public Long getQntCompetidores() {
-		return qntCompetidores;
-	}
-
-	public void setQntCompetidores(Long qntCompetidores) {
-		this.qntCompetidores = qntCompetidores;
 	}
 
 	public FichaInscricao getFichaInscricaoLinhaEditavel() {

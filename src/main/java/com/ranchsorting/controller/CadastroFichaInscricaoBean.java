@@ -112,7 +112,6 @@ public class CadastroFichaInscricaoBean implements Serializable {
 
 	public void salvar() {
 		
-		//this.fichaInscricao.setTipoFicha(TipoFicha.DUPLA);
 		this.fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
 		
 		this.fichaInscricao = cadastroFichaInscricaoService.salvar(this.fichaInscricao);

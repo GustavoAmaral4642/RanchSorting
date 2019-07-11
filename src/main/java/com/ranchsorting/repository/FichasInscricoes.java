@@ -86,8 +86,45 @@ public class FichasInscricoes implements Serializable {
 		if (filtro.getStatusFicha() != null && filtro.getStatusFicha().equals(StatusFicha.EMORDEM)) {
 			criteria.add(Restrictions.eq("statusFicha", StatusFicha.EMORDEM));
 		}
-
+		
 		return criteria.addOrder(Order.asc("ca.nome")).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<FichaInscricao> qntFichas(FichaInscricao ficha) {
+
+		FichaInscricaoFilter filtro = new FichaInscricaoFilter();
+
+		filtro.setObjCampeonato(ficha.getCampeonato());
+		filtro.setObjEtapa(ficha.getEtapa());
+		filtro.setObjDivisao(ficha.getDivisao());
+		filtro.setCompetidor(ficha.getCompetidor().getNome());
+
+		Session session = manager.unwrap(Session.class);
+		Criteria criteria = session.createCriteria(FichaInscricao.class).createAlias("campeonato", "ca")
+				.createAlias("etapa", "e").createAlias("divisao", "d").createAlias("competidor", "c");
+
+		// busca campeonatos por objeto
+		if (filtro.getObjCampeonato() != null) {
+			criteria.add(Restrictions.ilike("ca.nome", filtro.getObjCampeonato().getNome()));
+		}
+
+		// busca etapas por objeto
+		if (filtro.getObjEtapa() != null) {
+			criteria.add(Restrictions.ilike("e.nome", filtro.getObjEtapa().getNome()));
+		}
+
+		// busca divisoes por objeto
+		if (filtro.getObjDivisao() != null) {
+			criteria.add(Restrictions.ilike("d.nome", filtro.getObjDivisao().getNome()));
+		}
+		
+		// busca divisoes por objeto
+		if (filtro.getObjCompetidor() != null) {
+			criteria.add(Restrictions.ilike("c.nome", filtro.getObjCompetidor().getNome()));
+		}
+
+		return criteria.addOrder(Order.asc("c.nome")).list();
 	}
 
 }

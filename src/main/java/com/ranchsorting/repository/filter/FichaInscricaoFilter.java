@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import com.ranchsorting.model.Campeonato;
+import com.ranchsorting.model.Competidor;
 import com.ranchsorting.model.Divisao;
 import com.ranchsorting.model.Etapa;
 import com.ranchsorting.model.StatusFicha;
@@ -16,6 +17,7 @@ public class FichaInscricaoFilter implements Serializable {
 	private String etapa;
 	private String divisao;
 	private String competidor;
+	private Competidor objCompetidor;
 	private Campeonato objCampeonato;
 	private Etapa objEtapa;
 	private Divisao objDivisao;
@@ -53,6 +55,14 @@ public class FichaInscricaoFilter implements Serializable {
 
 	public void setCompetidor(String competidor) {
 		this.competidor = competidor;
+	}
+
+	public Competidor getObjCompetidor() {
+		return objCompetidor;
+	}
+
+	public void setObjCompetidor(Competidor objCompetidor) {
+		this.objCompetidor = objCompetidor;
 	}
 
 	public Campeonato getObjCampeonato() {

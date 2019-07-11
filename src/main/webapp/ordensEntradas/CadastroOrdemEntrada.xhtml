@@ -43,7 +43,7 @@
 								<p:outputLabel for="campeonato" value="Selecione o Campeonato:" />
 								<p:selectOneMenu id="campeonato" filter="true"
 									label="Competidor" filterMatchMode="contains"
-									style="margin-bottom:10px;"
+									style="margin-bottom:10px;" disabled="#{cadastroOrdemEntradaBean.ordemEntrada.naoAlteravel}"
 									value="#{cadastroOrdemEntradaBean.fichaInscricaoFilter.objCampeonato}">
 									<f:selectItem itemLabel="Selecione um Campeonato" />
 									<f:selectItems
@@ -55,8 +55,8 @@
 								</p:selectOneMenu>
 
 								<p:outputLabel for="etapa" value="Selecione a Etapa:" />
-								<p:selectOneMenu id="etapa" filter="true" label="Etapa"
-									filterMatchMode="contains" style="margin-bottom:10px;"
+								<p:selectOneMenu id="etapa" filter="true" label="Etapa" disabled="#{cadastroOrdemEntradaBean.ordemEntrada.naoAlteravel}"
+									filterMatchMode="contains" style="margin-bottom:10px;" 
 									value="#{cadastroOrdemEntradaBean.fichaInscricaoFilter.objEtapa}">
 									<f:selectItem itemLabel="Selecione uma Etapa" />
 									<f:selectItems
@@ -69,7 +69,7 @@
 								</p:selectOneMenu>
 
 								<p:outputLabel for="divisao" value="Selecione a divisao:" />
-								<p:selectOneMenu id="divisao" showCheckbox="true"
+								<p:selectOneMenu id="divisao" showCheckbox="true" disabled="#{cadastroOrdemEntradaBean.ordemEntrada.naoAlteravel}"
 									value="#{cadastroOrdemEntradaBean.fichaInscricaoFilter.objDivisao}">
 									<f:selectItem itemLabel="Selecione a Divisão" />
 									<f:selectItems
@@ -89,12 +89,12 @@
 									value="#{cadastroOrdemEntradaBean.ordemEntrada.hora}" />
 
 								<p:outputLabel value="Selecione as Fichas:" />
-								<p:autoComplete
+								<p:autoComplete 
 									value="#{cadastroOrdemEntradaBean.fichaInscricaoLinhaEditavel}"
 									completeMethod="#{cadastroOrdemEntradaBean.completarCompetidores}"
-									var="fichaInscricao"
+									var="fichaInscricao" 
 									itemLabel="#{fichaInscricao.id} - #{fichaInscricao.competidor.nome}"
-									itemValue="#{fichaInscricao}" forceSelection="true">
+									itemValue="#{fichaInscricao}" forceSelection="true"	>
 									<p:ajax event="itemSelect"
 										update="passadasTable @this fichaSelecionada"
 										listener="#{cadastroOrdemEntradaBean.incluirFichasCompetidores}" />
@@ -104,7 +104,8 @@
 								<h:panelGroup>
 									<p:panelGrid columns="2" layout="grid">
 										<p:commandButton value="Carregar Competidores"
-											icon="fa fa-users" update="passadasTable"
+											icon="fa fa-users" update="passadasTable 
+																	   fichaSelecionada"
 											action="#{cadastroOrdemEntradaBean.carregarCompetidores}"
 											process="@this
 											campeonato
@@ -137,7 +138,11 @@
 											process="@this" />
 										<p:commandButton value="Incluir Passada" icon="fa fa-upload"
 											action="#{cadastroOrdemEntradaBean.incluirPassada}"
-											process="@this" update="passadasTable" />
+											process="@this" update="passadasTable 
+																	fichaSelecionada
+																	campeonato
+																	etapa
+																	divisao" />
 									</p:panelGrid>
 								</h:panelGroup>
 
@@ -158,7 +163,7 @@
 								<f:facet name="header">
                                 		Fichas/Passadas
                             		</f:facet>
-								<p:column headerText="Código da Passada" sortBy="#{ficha.id}"
+								<p:column headerText="Código da Passada" sortBy="#{passada.id}"
 									style="width: 100px; text-align: center">
 									<h:outputText value="#{passada.id}" />
 								</p:column>
