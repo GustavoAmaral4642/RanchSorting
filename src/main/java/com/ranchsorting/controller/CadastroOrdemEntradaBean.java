@@ -1,8 +1,9 @@
 package com.ranchsorting.controller;
 
-import java.io.Serializable; 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
@@ -10,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.ranchsorting.model.Campeonato;
+import com.ranchsorting.model.Competidor;
 import com.ranchsorting.model.Divisao;
 import com.ranchsorting.model.Etapa;
 import com.ranchsorting.model.FichaInscricao;
@@ -46,7 +48,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	@Inject
 	private CadastroOrdemEntradaService cadastroOrdemEntradaService;
-	
+
 	@Inject
 	private CadastroPassadaService cadastroPassadaService;
 
@@ -69,6 +71,19 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	public void inicializar() {
 		todosCampeonatos = campeonatos.todosCampeonatos();
 		todasDivisoes = divisoes.todasDivisoes();
+
+		if (FacesUtil.isNotPostback()) {
+			if (isEditando()) {
+				fichaInscricaoFilter.setObjCampeonato(ordemEntrada.getCampeonato());
+
+				etapasCampeonatos = etapas.etapasDoCampeonato(this.fichaInscricaoFilter.getObjCampeonato());
+				fichaInscricaoFilter.setObjEtapa(ordemEntrada.getEtapa());
+
+				fichaInscricaoFilter.setObjDivisao(ordemEntrada.getDivisao());
+
+				passadasCompetidores.addAll(ordemEntrada.getPassadas());
+			}
+		}
 	}
 
 	public void limpar() {
@@ -105,17 +120,17 @@ public class CadastroOrdemEntradaBean implements Serializable {
 				if (fichaInscricaoFilter.getObjDivisao() != null
 						&& !fichaInscricaoFilter.getObjDivisao().getNome().equals("")) {
 
-					//só busca fichas que estão com status CADASTRADA
+					// só busca fichas que estão com status CADASTRADA
 					fichaInscricaoFilter.setStatusFicha(StatusFicha.CADASTRADA);
-					
+
 					fichasFiltradas = fichasInscricoes.filtradas(fichaInscricaoFilter);
 
 					ordemEntrada.setCampeonato(fichaInscricaoFilter.getObjCampeonato());
 					ordemEntrada.setEtapa(fichaInscricaoFilter.getObjEtapa());
 					ordemEntrada.setDivisao(fichaInscricaoFilter.getObjDivisao());
-					
+
 					this.ordemEntrada = cadastroOrdemEntradaService.salvar(ordemEntrada);
-					
+
 					FacesUtil.addInfoMessage("Ordem de Entrada registrada com sucesso!");
 				}
 			}
@@ -133,18 +148,199 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	public void gerarOrdemEntrada() {
 
-		List<Integer> embaralhados = new ArrayList<>();
+		List<Integer> numerosOrdem = new ArrayList<>();
 
 		for (int i = 0; i < passadasCompetidores.size(); i++) {
-			embaralhados.add(i + 1);
+			numerosOrdem.add(i + 1);
 		}
 
-		Collections.shuffle(embaralhados);
+		// embaralha
+		Collections.shuffle(passadasCompetidores);
 
+		List<Passada> listaAuxiliar = new ArrayList<>();
+		List<Passada> listaAuxiliar2 = passadasCompetidores;
+		
+		Passada pas = new Passada();
+		
+		boolean ver1 = false, ver2 = false;
+
+		
+		int posicao1 = 0;
+		int comparador = 1;
+		
+		do {
+			
+			Competidor comp1 = new Competidor();
+			Competidor comp2 = new Competidor();
+			Competidor comp3 = new Competidor();
+			Competidor comp4 = new Competidor();
+
+			pas = passadasCompetidores.get(posicao1);
+			
+			if(posicao1 == 0){
+				
+				System.out.println("if 1 posicao==0 ");
+				comp1 = pas.getFichasInscricoes().get(0).getCompetidor();
+				comp2 = pas.getFichasInscricoes().get(1).getCompetidor();
+				listaAuxiliar.add(pas);
+			
+				// este loop vi
+				do{	
+					System.out.println("entrada do");
+					System.out.println(pas.getFichasInscricoes().get(0).getCompetidor().getNome());
+					System.out.println(pas.getFichasInscricoes().get(1).getCompetidor().getNome());
+					System.out.println(passadasCompetidores.get(comparador).getFichasInscricoes().get(0).getCompetidor().getNome());
+					System.out.println(passadasCompetidores.get(comparador).getFichasInscricoes().get(1).getCompetidor().getNome());
+					
+					comp3 = passadasCompetidores.get(comparador).getFichasInscricoes().get(0).getCompetidor();
+					comp4 = passadasCompetidores.get(comparador).getFichasInscricoes().get(1).getCompetidor();
+					
+					if(comp1.getNome().equals(comp3.getNome())){
+						comparador++;
+						System.out.println("Entrou competidor 1 e 3");
+					}
+					else if(comp1.getNome().equals(comp4.getNome())){
+						comparador++;
+						System.out.println("Entrou competidor 1 e 4");
+					}
+					else if(comp2.getNome().equals(comp3.getNome())){
+						comparador++;
+						System.out.println("Entrou competidor 2 e 3");
+					}
+					else if(comp2.getNome().equals(comp4.getNome())){
+						comparador++;
+						System.out.println("Entrou competidor 2 e 4");
+					} else {
+						System.out.println("saiu do loop");
+						
+						System.out.println("removendo ");
+						System.out.println(pas.getId());
+						System.out.println(passadasCompetidores.get(comparador).getId());
+						
+						listaAuxiliar.add(passadasCompetidores.get(comparador));
+						passadasCompetidores.remove(passadasCompetidores.get(comparador));
+						passadasCompetidores.remove(pas);
+						
+						comparador=1;
+						ver2=true;
+					}
+					
+					posicao1++;
+					System.out.println("saída do");
+				} while (!ver2);
+
+				// ajusta tamanho da posicao 1.
+				posicao1 = passadasCompetidores.size();
+			}
+			
+			//sai do loop quando posicao1 for mesmo tamanho que o array
+			if((posicao1 + 1) <= passadasCompetidores.size()){
+				ver1=true;
+			
+			}
+			
+		} while (!ver1);
+		
+		System.out.println("passadas competidores");
+		for(Passada p: passadasCompetidores){
+			System.out.println(p.getId());
+		}
+		System.out.println();
+		System.out.println();
+		System.out.println("lista auxiliar");
+		for(Passada p : listaAuxiliar){
+			System.out.println(p.getId());
+		}
+		System.out.println();
+		System.out.println();
+		System.out.println("lista auxiliar 2");
+		for(Passada p : listaAuxiliar2){
+			System.out.println(p.getId());
+		}
+		
 		for (int i = 0; i < passadasCompetidores.size(); i++) {
-			passadasCompetidores.get(i).setNumeroDupla(Long.valueOf(embaralhados.get(i)));
+			passadasCompetidores.get(i).setNumeroDupla(Long.valueOf(numerosOrdem.get(i)));
 		}
+		
 
+		/*
+		 * boolean teste = false; int contador = 0;
+		 * 
+		 * do { if (contador < passadasCompetidores.size()) {
+		 * System.out.println(" primeiro loop "); System.out.println();
+		 * 
+		 * if ((contador + 1) == passadasCompetidores.size()) {
+		 * System.out.println(); teste = true; System.out.println(
+		 * " ultimo loop ");
+		 * System.out.print(passadasCompetidores.get(contador).
+		 * getFichasInscricoes().get(0).getId()); System.out.println(" - " +
+		 * passadasCompetidores.get(contador).getFichasInscricoes().get(0).
+		 * getCompetidor().getNome());
+		 * System.out.print(passadasCompetidores.get(contador).
+		 * getFichasInscricoes().get(1).getId()); System.out.println(" - " +
+		 * passadasCompetidores.get(contador).getFichasInscricoes().get(1).
+		 * getCompetidor().getNome());
+		 * 
+		 * } else {
+		 * 
+		 * // testa a ficha da passada atual com a próxima
+		 * passadasCompetidores.get(contador).getFichasInscricoes();
+		 * 
+		 * for(int i=0; i <
+		 * passadasCompetidores.get(contador).getFichasInscricoes().size();
+		 * i++){ for(int k=0; k <
+		 * passadasCompetidores.get(contador).getFichasInscricoes().size();
+		 * k++){
+		 * if(passadasCompetidores.get(contador).getFichasInscricoes().get(i).
+		 * getCompetidor().getNome(). equals(passadasCompetidores.get(contador +
+		 * 1).getFichasInscricoes().get(k).getCompetidor().getNome())){
+		 * System.out.println("Entrou"); } } }
+		 * 
+		 * System.out.print(passadasCompetidores.get(contador).
+		 * getFichasInscricoes().get(0).getId()); System.out.println(" - " +
+		 * passadasCompetidores.get(contador).getFichasInscricoes().get(0).
+		 * getCompetidor().getNome());
+		 * System.out.print(passadasCompetidores.get(contador).
+		 * getFichasInscricoes().get(1).getId()); System.out.println(" - " +
+		 * passadasCompetidores.get(contador).getFichasInscricoes().get(1).
+		 * getCompetidor().getNome());
+		 * 
+		 * System.out.println(" --------- ");
+		 * 
+		 * System.out.print(passadasCompetidores.get(contador +
+		 * 1).getFichasInscricoes().get(0).getId()); System.out.println(" - " +
+		 * passadasCompetidores.get(contador +
+		 * 1).getFichasInscricoes().get(0).getCompetidor().getNome());
+		 * System.out.print(passadasCompetidores.get(contador +
+		 * 1).getFichasInscricoes().get(1).getId()); System.out.println(" - " +
+		 * passadasCompetidores.get(contador +
+		 * 1).getFichasInscricoes().get(1).getCompetidor().getNome());
+		 * System.out.println(" --------- "); System.out.println(" --------- ");
+		 * }
+		 * 
+		 * contador++; } } while (!teste);
+		 */
+
+		/*
+		 * for (int i = 0; i < passadasCompetidores.size(); i++) {
+		 * passadasCompetidores.get(i).setNumeroDupla(Long.valueOf(embaralhados.
+		 * get(i))); }
+		 * 
+		 * for (Passada p : passadasCompetidores) {
+		 * System.out.print(p.getNumeroDupla() + " - ");
+		 * System.out.println(p.getId()); }
+		 * 
+		 * Collections.sort(passadasCompetidores, new Comparator<Passada>() {
+		 * 
+		 * @Override public int compare(Passada p1, Passada p2) { return
+		 * p1.getNumeroDupla().compareTo(p2.getNumeroDupla()); }
+		 * 
+		 * });
+		 * 
+		 * for (Passada p : passadasCompetidores) {
+		 * System.out.print(p.getNumeroDupla() + " - ");
+		 * System.out.println(p.getId()); }
+		 */
 		/*
 		 * embaralhar numero da dupla List<Integer> numeros = new
 		 * ArrayList<Integer>(); for (int i = 0; i < 26; i++) { numeros.add(i);
@@ -165,29 +361,29 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 			if (fichaInscricaoLinhaEditavel.getDivisao().getTipoFicha().equals(TipoFicha.INDIVIDUAL)
 					&& fichasSelecionadas.size() < 1) {
-				
-				//adiciona no dataList
+
+				// adiciona no dataList
 				fichasSelecionadas.add(fichaInscricaoLinhaEditavel);
-				
-				//remove do combobox
+
+				// remove do combobox
 				fichasFiltradas.remove(fichaInscricaoLinhaEditavel);
 
 			} else if (fichaInscricaoLinhaEditavel.getDivisao().getTipoFicha().equals(TipoFicha.DUPLA)
 					&& fichasSelecionadas.size() < 2) {
 
-				//adiciona no dataList
+				// adiciona no dataList
 				fichasSelecionadas.add(fichaInscricaoLinhaEditavel);
-				
-				//remove do combobox
+
+				// remove do combobox
 				fichasFiltradas.remove(fichaInscricaoLinhaEditavel);
 
 			} else if (fichaInscricaoLinhaEditavel.getDivisao().getTipoFicha().equals(TipoFicha.TRIO)
 					&& fichasSelecionadas.size() < 3) {
-				
-				//adiciona no dataList
+
+				// adiciona no dataList
 				fichasSelecionadas.add(fichaInscricaoLinhaEditavel);
-				
-				//remove do combobox
+
+				// remove do combobox
 				fichasFiltradas.remove(fichaInscricaoLinhaEditavel);
 
 			} else {
@@ -205,11 +401,11 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	}
 
 	public void incluirPassada() {
-		
+
 		if (fichasSelecionadas != null && fichasSelecionadas.size() != 0) {
 
 			Passada passada = new Passada();
-			
+
 			// adiciona a ficha como item de passada.
 			for (FichaInscricao f : fichasSelecionadas) {
 				f.setPassada(passada);
@@ -219,19 +415,19 @@ public class CadastroOrdemEntradaBean implements Serializable {
 				f.setStatusFicha(StatusFicha.EMORDEM);
 				passada.getFichasInscricoes().add(f);
 			}
-		
-			//incluindo passada no DataTable
+
+			// incluindo passada no DataTable
 			passadasCompetidores.add(passada);
-			
-			//salvando passada
+
+			// salvando passada
 			passada.setOrdemEntrada(this.ordemEntrada);
 			passada = cadastroPassadaService.salvar(passada);
-			
+
 			FacesUtil.addInfoMessage("Passadas Registradas com Sucesso!");
-		
-			//resetando dataList
+
+			// resetando dataList
 			fichasSelecionadas = new ArrayList<>();
-			
+
 		}
 	}
 

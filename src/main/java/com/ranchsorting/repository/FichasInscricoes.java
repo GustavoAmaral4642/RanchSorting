@@ -98,7 +98,7 @@ public class FichasInscricoes implements Serializable {
 		filtro.setObjCampeonato(ficha.getCampeonato());
 		filtro.setObjEtapa(ficha.getEtapa());
 		filtro.setObjDivisao(ficha.getDivisao());
-		filtro.setCompetidor(ficha.getCompetidor().getNome());
+		filtro.setObjCompetidor(ficha.getCompetidor());
 
 		Session session = manager.unwrap(Session.class);
 		Criteria criteria = session.createCriteria(FichaInscricao.class).createAlias("campeonato", "ca")

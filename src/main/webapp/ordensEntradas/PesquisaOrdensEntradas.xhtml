@@ -67,7 +67,7 @@
 								<p:dataTable var="ordemEntrada"
 									value="#{pesquisaOrdensEntradasBean.ordensFiltradas}"
 									reflow="true" emptyMessage="Nenhuma Ordem Encontrada"
-									paginator="true" rows="10" id="ordensEntradasTable">
+									paginator="true" rows="50" id="ordensEntradasTable">
 									<f:facet name="header">
                                 		Ordens de Entradas Cadastradas
                             		</f:facet>
@@ -77,15 +77,15 @@
 									</p:column>
 
 									<p:column headerText="Campeonato" style="text-align: center">
-										<h:outputText value="#{ordemEntrada.campeonatoOrdem.nome}" />
+										<h:outputText value="#{ordemEntrada.campeonato.nome}" />
 									</p:column>
 
 									<p:column headerText="Etapa" style="text-align: center">
-										<h:outputText value="#{ordemEntrada.etapaOrdem.nome}" />
+										<h:outputText value="#{ordemEntrada.etapa.nome}" />
 									</p:column>
 
 									<p:column headerText="Divisão" style="text-align: center">
-										<h:outputText value="#{ordemEntrada.divisaoOrdem.nome}" />
+										<h:outputText value="#{ordemEntrada.divisao.nome}" />
 									</p:column>
 
 									<p:column headerText="Data" style="text-align: center">
@@ -94,15 +94,16 @@
 
 									<p:column style="text-align: center; width: 100px">
 										<p:button icon="fa fa-pencil" title="Editar"
-											style="width: 30px">
+											style="width: 30px"
+											outcome="/ordensEntradas/CadastroOrdemEntrada">
+											<f:param name="ordemEntrada" value="#{ordemEntrada.id}" />
 										</p:button>
 										<p:spacer />
-										<p:button icon="fa fa-circle" title="Executar"
+										<p:button icon="fa fa-cogs" title="Executar"
 											style="width: 30px"
-											outcome="/ordensEntradas/ManutencaoOrdemEntrada">
+											outcome="/ordensEntradas/CadastroOrdemEntrada">
 											<f:param name="ordemEntrada" value="#{ordemEntrada.id}" />
-
-										</p:button>
+										</p:button> 
 										<p:spacer />
 										<p:commandButton icon="fa fa-trash" title="Excluir"
 											style="width: 30px">

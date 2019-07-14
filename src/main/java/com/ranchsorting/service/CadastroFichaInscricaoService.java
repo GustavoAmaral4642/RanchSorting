@@ -32,9 +32,14 @@ public class CadastroFichaInscricaoService implements Serializable {
 		}
 		
 		try {
-			// teste para fazer a gravação de mais de uma ficha.
-			if(ficha.getQntFichas()!= 0){
+			
+			if(ficha.getId() != null ){
 				
+				//se não for edicao
+				return fichas.guardar(ficha);
+				
+			} else if(ficha.getQntFichas()!= 0){
+				// teste para fazer a gravação de mais de uma ficha.
 				dividindoValorComprado(ficha);
 				dividindoValorPago(ficha);
 				
