@@ -5,20 +5,20 @@
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
 	xmlns:o="http://omnifaces.org/ui">
 
-	<ui:define name="title">Manutenção de Ordem de Entrada</ui:define>
+	<ui:define name="title">Executar Ordem de Entrada</ui:define>
 
 	<ui:define name="breadcrumb">
 		<li>Provas</li>
 		<li>/</li>
-		<li><p:link outcome="/ordensEntradas/ManutencaoOrdemEntrada">Manutenção de Ordem de Entrada</p:link></li>
+		<li><p:link outcome="/ordensEntradas/ExecutarOrdemEntrada">Executar Ordem de Entrada</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
 
 		<f:metadata>
 			<o:viewParam name="ordemEntrada"
-				value="#{manutencaoOrdemEntradaBean.ordemEntrada}" />
-			<f:event listener="#{manutencaoOrdemEntradaBean.inicializar}"
+				value="#{executarOrdemEntradaBean.ordemEntrada}" />
+			<f:event listener="#{executarOrdemEntradaBean.inicializar}"
 				type="preRenderView" />
 		</f:metadata>
 
@@ -42,15 +42,15 @@
 
 								<p:outputLabel for="campeonato" value="Campeonato:" />
 								<p:inputText id="campeonato" readonly="true"
-									value="#{manutencaoOrdemEntradaBean.ordemEntrada.campeonatoOrdem.nome}" />
+									value="#{executarOrdemEntradaBean.ordemEntrada.campeonato.nome}" />
 
 								<p:outputLabel for="etapa" value="Etapa:" />
 								<p:inputText id="etapa" readonly="true"
-									value="#{manutencaoOrdemEntradaBean.ordemEntrada.etapaOrdem.nome}" />
+									value="#{executarOrdemEntradaBean.ordemEntrada.etapa.nome}" />
 
 								<p:outputLabel for="divisao" value="Divisão:" />
 								<p:inputText id="divisao" readonly="true"
-									value="#{manutencaoOrdemEntradaBean.ordemEntrada.divisaoOrdem.nome}" />
+									value="#{executarOrdemEntradaBean.ordemEntrada.divisao.nome}" />
 
 								<p:outputLabel for="dataCompeticao" value="Data da Competição:" />
 								<p:calendar id="dataCompeticao" placeholder="__/__/____"
@@ -77,28 +77,39 @@
 
 							<h:form id="formFilho1">
 								<p:dataTable id="passadasTable" var="passada" editable="true"
-									value="#{manutencaoOrdemEntradaBean.ordemEntrada.passadas}">
+									value="#{executarOrdemEntradaBean.passadasCompetidores}">
 
 									<f:facet name="header">
             							Passadas
         							</f:facet>
 
 									<p:ajax event="rowEdit"
-										listener="#{manutencaoOrdemEntradaBean.onRowEdit}"
-										update=":formPai:growl" />
+										listener="#{executarOrdemEntradaBean.onRowEdit}"
+										update=":formPai:growl :formPai:formFilho1:passadasTable" />
 									<p:ajax event="rowEditCancel"
-										listener="#{manutencaoOrdemEntradaBean.onRowCancel}"
+										listener="#{executarOrdemEntradaBean.onRowCancel}"
 										update=":formPai:growl" />
 
-									<p:column headerText="Sequência Dupla" sortBy="#{passada.numeroDupla}">
+									<p:column headerText="Cód.Passada"
+										style="width: 100px;text-align: center">
 										<h:outputText value="#{passada.numeroDupla}" />
 									</p:column>
 
-									<p:column headerText="Competidores" style="text-align: center">
-										<p:dataList value="#{passada.competidores}" var="competidor"
-											type="ordered" emptyMessage="Nenhum Competidor Encontrado">
-											#{competidor.nome}
-				                        </p:dataList>
+									<p:column headerText="Fichas de Competidores"
+										style="width: 300px; text-align: center">
+										<p:dataList value="#{passada.fichasInscricoes}" var="ficha"
+											type="ordered" emptyMessage="Nenhuma Ficha Encontrada">
+											<f:facet name="header">
+										Competidor/Fichas 
+		                            	</f:facet>
+		                            	#{ficha.competidor.nome}, #{ficha.id} 
+		                        	</p:dataList>
+									</p:column>
+
+									<p:column headerText="Núm.Dupla"
+										style="width: 100px;text-align: center"
+										sortBy="#{passada.numeroDupla}">
+										<h:outputText value="#{passada.numeroDupla}" />
 									</p:column>
 
 									<p:column headerText="Ranking">
@@ -111,12 +122,11 @@
 												<h:outputText value="#{passada.numeroBoi}" />
 											</f:facet>
 											<f:facet name="input">
-												<p:inputText value="#{passada.numeroBoi}" 
-													style="width:100%" />
+												<p:inputText value="#{passada.numeroBoi}" style="width:100%" />
 											</f:facet>
 										</p:cellEditor>
 									</p:column>
-|
+
 									<p:column headerText="Tempo(Min/Seg/Dec)">
 										<p:cellEditor>
 											<f:facet name="output">
@@ -143,10 +153,18 @@
 									<p:column headerText="Sat">
 										<p:cellEditor>
 											<f:facet name="output">
-												<h:outputText value="#{passada.sat}" />
+												<p:selectOneRadio value="#{passada.sat}" layout="responsive"
+													columns="2" disabled="true">
+													<f:selectItem itemLabel="Sim" itemValue="S" />
+													<f:selectItem itemLabel="Não" itemValue="N" />
+												</p:selectOneRadio>
 											</f:facet>
 											<f:facet name="input">
-												<p:inputText value="#{passada.sat}" style="width:100%" />
+												<p:selectOneRadio value="#{passada.sat}" layout="responsive"
+													columns="2">
+													<f:selectItem itemLabel="Sim" itemValue="S" />
+													<f:selectItem itemLabel="Não" itemValue="N" />
+												</p:selectOneRadio>
 											</f:facet>
 										</p:cellEditor>
 									</p:column>
@@ -175,7 +193,7 @@
 								<h:panelGroup>
 									<p:panelGrid columns="2" layout="grid">
 										<p:commandButton value="Salvar" icon="fa fa-save"
-											action="#{manutencaoOrdemEntradaBean.salvar}" />
+											action="#{executarOrdemEntradaBean.salvar}" />
 										<p:commandButton value="Imprimir Folha" icon="fa fa-print" />
 									</p:panelGrid>
 								</h:panelGroup>

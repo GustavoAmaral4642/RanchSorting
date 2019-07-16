@@ -95,11 +95,6 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	public void salvar() {
 
-		for (Passada p : passadasCompetidores) {
-
-			p.setOrdemEntrada(ordemEntrada);
-
-		}
 		this.ordemEntrada.getPassadas().addAll(passadasCompetidores);
 		this.ordemEntrada = cadastroOrdemEntradaService.salvar(ordemEntrada);
 
@@ -158,12 +153,12 @@ public class CadastroOrdemEntradaBean implements Serializable {
 		Collections.shuffle(passadasCompetidores);
 
 		List<Passada> listaAuxiliar = new ArrayList<>();
-		List<Passada> listaAuxiliar2 = passadasCompetidores;
 
 		boolean ver1 = false, ver2 = false, ver3 = false;
 
 		int posicao1 = 0;
 		int comparador = 1;
+		int tamanhoArrayPrincipal = passadasCompetidores.size();
 
 		do {
 
@@ -173,97 +168,93 @@ public class CadastroOrdemEntradaBean implements Serializable {
 			Competidor comp4 = new Competidor();
 
 			Passada pas = new Passada();
-			
+
 			if (listaAuxiliar.size() == 0) {
-				// se a lista auxiliar estiver vazia, alimenta com o primeiro registro da passadasCompetidores
+				// se a lista auxiliar estiver vazia, alimenta com o primeiro
+				// registro da passadasCompetidores
 				pas = passadasCompetidores.get(posicao1);
 				listaAuxiliar.add(pas);
 				passadasCompetidores.remove(pas);
 			} else {
 				// se nao, pega o ultimo registro da listaAuxiliar
-				pas = listaAuxiliar.get((listaAuxiliar.size()-1));
-				ver2=false;
-				System.out.println();
-				System.out.println("pas no else " + listaAuxiliar.get((listaAuxiliar.size()-1)).getId());
-				System.out.println();
+				pas = listaAuxiliar.get((listaAuxiliar.size() - 1));
+				ver2 = false;				
 			}
 
-			
 			if (posicao1 == 0 && ver2 == false) {
 
-				System.out.println("if 1 posicao==0 ");
+				// pega os dois competidores de uma das fichas que serão
+				// comparadas
 				comp1 = pas.getFichasInscricoes().get(0).getCompetidor();
 				comp2 = pas.getFichasInscricoes().get(1).getCompetidor();
 
-				// este loop verifica se o primeiro e os próximos registros se
-				// repetem
+				// este loop verifica se os registros se repetem
 				do {
-					
-					System.out.println("entrada do");
-					System.out.println(pas.getFichasInscricoes().get(0).getCompetidor().getNome());
-					System.out.println(pas.getFichasInscricoes().get(1).getCompetidor().getNome());
-					System.out.println(passadasCompetidores.size() + " tamanho do array com erro" );
-					System.out.println(comparador + " variavel comparador");
-					System.out.println(passadasCompetidores.get(comparador).getFichasInscricoes().get(0).getCompetidor()
-							.getNome());
-					System.out.println(passadasCompetidores.get(comparador).getFichasInscricoes().get(1).getCompetidor()
-							.getNome());
-
+					// pega os dois competidores da ficha a ser comparada
 					comp3 = passadasCompetidores.get(comparador).getFichasInscricoes().get(0).getCompetidor();
 					comp4 = passadasCompetidores.get(comparador).getFichasInscricoes().get(1).getCompetidor();
 
+					// 4 IFs comparam os competidores se são iguais
 					if (comp1.getNome().equals(comp3.getNome())) {
 						comparador++;
 						posicao1++;
-						System.out.println("Entrou competidor 1 e 3");
+
 					} else if (comp1.getNome().equals(comp4.getNome())) {
 						comparador++;
 						posicao1++;
-						System.out.println("Entrou competidor 1 e 4");
+
 					} else if (comp2.getNome().equals(comp3.getNome())) {
 						comparador++;
 						posicao1++;
-						System.out.println("Entrou competidor 2 e 3");
+
 					} else if (comp2.getNome().equals(comp4.getNome())) {
 						comparador++;
 						posicao1++;
-						System.out.println("Entrou competidor 2 e 4");
+
 					} else {
-						System.out.println("saiu do loop");
-
-						System.out.println("removendo ");
-						System.out.println(pas.getId());
-						System.out.println(passadasCompetidores.get(comparador).getId());
-
+						// se os competidores não forem iguais
+						// adiciona a passada não inseria a uma lista auxiliar e
+						// remove da lista que está sendo lida
 						listaAuxiliar.add(passadasCompetidores.get(comparador));
 						passadasCompetidores.remove(passadasCompetidores.get(comparador));
 
+						// reseta as variáveis de comparaçao.
 						posicao1 = 0;
 						comparador = 0;
 
+						// muda variável para sair do loop secundário
 						ver2 = true;
-						
-						if(listaAuxiliar.size()>=7){
+
+						// se o tamanho da lista auxiliar for do mesmo tamanho
+						// que a lista pricipal, torna a ver3 true para sair do
+						// loop principal
+						if (listaAuxiliar.size() >= tamanhoArrayPrincipal) {
 							ver3 = true;
 						}
 					}
 
-					// se o tamanho de passadas competidores for 0 e comparador tiver ser o mesmo que o tamanho do array 
-					if(passadasCompetidores.size() != 0 && comparador == passadasCompetidores.size()){
+					// se o tamanho de passadas competidores for 0 e comparador
+					// tiver ser o mesmo que o tamanho do array
+					if (passadasCompetidores.size() != 0 && comparador == passadasCompetidores.size()) {
 						posicao1 = 0;
 						comparador = 0;
 
+						// se os competidores não forem iguais
+						// adiciona a passada não inseria a uma lista auxiliar e
+						// remove da lista que está sendo lida
 						listaAuxiliar.add(passadasCompetidores.get(comparador));
 						passadasCompetidores.remove(passadasCompetidores.get(comparador));
 
+						// muda variável para sair do loop secundário
 						ver2 = true;
-						
-						if(listaAuxiliar.size()>=7){
+
+						// se o tamanho da lista auxiliar for do mesmo tamanho
+						// que a lista pricipal, torna a ver3 true para sair do
+						// loop principal
+						if (listaAuxiliar.size() >= tamanhoArrayPrincipal) {
 							ver3 = true;
-						}						
+						}
 					}
-					
-					System.out.println("saída do");
 
 				} while (!ver2);
 
@@ -271,38 +262,18 @@ public class CadastroOrdemEntradaBean implements Serializable {
 				posicao1 = 0;
 			}
 
-			System.out.println((posicao1 + 1) + " - posicao 1");
-			System.out.println(passadasCompetidores.size() + " - tamanho passadasCompetidores");
-
 			// sai do loop quando posicao1 for mesmo tamanho que o array
-			if (ver2 == true && ver3==true ) {
+			if (ver2 == true && ver3 == true) {
 				ver1 = true;
 			}
 
 		} while (!ver1);
 
-		System.out.println("passadas competidores");
-		for (Passada p : passadasCompetidores) {
-			System.out.println(p.getId());
-		}
-		System.out.println();
-		System.out.println();
-		System.out.println("lista auxiliar");
-		for (Passada p : listaAuxiliar) {
-			System.out.println(p.getId());
-		}
-		System.out.println();
-		System.out.println();
-		System.out.println("lista auxiliar 2");
-		for (Passada p : listaAuxiliar2) {
-			System.out.println(p.getId());
-		}
-
+		passadasCompetidores = listaAuxiliar;
+		
 		for (int i = 0; i < passadasCompetidores.size(); i++) {
 			passadasCompetidores.get(i).setNumeroDupla(Long.valueOf(numerosOrdem.get(i)));
 		}
-		
-		passadasCompetidores = listaAuxiliar;
 
 		/*
 		 * embaralhar numero da dupla List<Integer> numeros = new
