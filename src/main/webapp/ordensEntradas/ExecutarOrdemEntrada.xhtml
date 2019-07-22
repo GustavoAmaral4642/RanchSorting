@@ -55,12 +55,12 @@
 								<p:outputLabel for="dataCompeticao" value="Data da Competição:" />
 								<p:calendar id="dataCompeticao" placeholder="__/__/____"
 									pattern="dd/MM/yyyy" title="Data da Competição" size="10"
-									value="#{cadastroOrdemEntradaBean.ordemEntrada.data}"
+									value="#{executarOrdemEntradaBean.ordemEntrada.data}"
 									mask="99/99/9999" />
 
 								<p:outputLabel for="hora" value="Hora:" />
-								<p:inputText id="hora"
-									value="#{cadastroOrdemEntradaBean.ordemEntrada.hora}" />
+								<p:calendar id="hora" pattern="HH:mm a" timeOnly="true"
+									value="#{executarOrdemEntradaBean.ordemEntrada.hora}" />
 
 								<p:spacer />
 								<p:spacer />
@@ -77,8 +77,9 @@
 
 							<h:form id="formFilho1">
 								<p:dataTable id="passadasTable" var="passada" editable="true"
-									value="#{executarOrdemEntradaBean.passadasCompetidores}">
-
+									value="#{executarOrdemEntradaBean.passadasCompetidores}"
+									emptyMessage="Nenhuma Passada Encontrada">
+									
 									<f:facet name="header">
             							Passadas
         							</f:facet>
@@ -92,7 +93,7 @@
 
 									<p:column headerText="Cód.Passada"
 										style="width: 100px;text-align: center">
-										<h:outputText value="#{passada.numeroDupla}" />
+										<h:outputText value="#{passada.id}" />
 									</p:column>
 
 									<p:column headerText="Fichas de Competidores"
@@ -112,40 +113,17 @@
 										<h:outputText value="#{passada.numeroDupla}" />
 									</p:column>
 
-									<p:column headerText="Ranking">
+									<p:column headerText="Ranking" style="width: 100px;text-align: center">
 										<h:outputText value="#{passada.ranking}" />
 									</p:column>
 
-									<p:column headerText="Numero Boi">
+									<p:column headerText="Numero Boi" style="width: 100px;text-align: center">
 										<p:cellEditor>
 											<f:facet name="output">
 												<h:outputText value="#{passada.numeroBoi}" />
 											</f:facet>
 											<f:facet name="input">
 												<p:inputText value="#{passada.numeroBoi}" style="width:100%" />
-											</f:facet>
-										</p:cellEditor>
-									</p:column>
-
-									<p:column headerText="Tempo(Min/Seg/Dec)">
-										<p:cellEditor>
-											<f:facet name="output">
-												<h:outputText value="#{passada.tempo}" />
-											</f:facet>
-											<f:facet name="input">
-												<p:inputMask value="#{passada.tempo}" mask="99:99:999"
-													style="width:100%" />
-											</f:facet>
-										</p:cellEditor>
-									</p:column>
-
-									<p:column headerText="Qnt Boi">
-										<p:cellEditor>
-											<f:facet name="output">
-												<h:outputText value="#{passada.qntBoi}" />
-											</f:facet>
-											<f:facet name="input">
-												<p:inputText value="#{passada.qntBoi}" style="width:100%" />
 											</f:facet>
 										</p:cellEditor>
 									</p:column>
@@ -165,6 +143,31 @@
 													<f:selectItem itemLabel="Sim" itemValue="S" />
 													<f:selectItem itemLabel="Não" itemValue="N" />
 												</p:selectOneRadio>
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column headerText="Tempo(Min/Seg/Dec)" sortBy="#{passada.tempo}"
+										style="text-align: center">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{passada.tempo}" />
+											</f:facet>
+											<f:facet name="input">
+												<p:inputMask value="#{passada.tempo}" mask="99:99:999"
+													style="width:100%" />
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column headerText="Qnt Boi" sortBy="#{passada.qntBoi}" 
+										style="width: 100px;text-align: center">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{passada.qntBoi}" />
+											</f:facet>
+											<f:facet name="input">
+												<p:inputText value="#{passada.qntBoi}" style="width:100%" />
 											</f:facet>
 										</p:cellEditor>
 									</p:column>
@@ -193,7 +196,7 @@
 								<h:panelGroup>
 									<p:panelGrid columns="2" layout="grid">
 										<p:commandButton value="Salvar" icon="fa fa-save"
-											action="#{executarOrdemEntradaBean.salvar}" />
+											action="#{executarOrdemEntradaBean.salvar}" update="@form"/>
 										<p:commandButton value="Imprimir Folha" icon="fa fa-print" />
 									</p:panelGrid>
 								</h:panelGroup>

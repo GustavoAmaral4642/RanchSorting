@@ -18,6 +18,7 @@ import com.ranchsorting.model.FichaInscricao;
 import com.ranchsorting.model.OrdemEntrada;
 import com.ranchsorting.model.Passada;
 import com.ranchsorting.model.StatusFicha;
+import com.ranchsorting.model.TipoCampeonato;
 import com.ranchsorting.model.TipoFicha;
 import com.ranchsorting.repository.Campeonatos;
 import com.ranchsorting.repository.Divisoes;
@@ -26,6 +27,8 @@ import com.ranchsorting.repository.FichasInscricoes;
 import com.ranchsorting.repository.filter.FichaInscricaoFilter;
 import com.ranchsorting.service.CadastroOrdemEntradaService;
 import com.ranchsorting.service.CadastroPassadaService;
+import com.ranchsorting.service.ManutencaoOrdemEntradaService;
+import com.ranchsorting.service.NegocioException;
 import com.ranchsorting.util.jsf.FacesUtil;
 
 @Named
@@ -48,6 +51,9 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	@Inject
 	private CadastroOrdemEntradaService cadastroOrdemEntradaService;
+
+	@Inject
+	private ManutencaoOrdemEntradaService manutencaoOrdemEntradaService;
 
 	@Inject
 	private CadastroPassadaService cadastroPassadaService;
@@ -143,6 +149,27 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	public void gerarOrdemEntrada() {
 
+		// Este teste é necessario pois em carregarCompetidores ele alimenta esses obj.
+		if(this.ordemEntrada.getCampeonato() == null &&
+				this.ordemEntrada.getEtapa() == null && 
+				this.ordemEntrada.getDivisao() == null ){
+			throw new NegocioException("Por favor, carregue os competidores!");
+		}
+		
+		// sorteio para prova de ranch sorting amador
+		if (this.ordemEntrada.getCampeonato().getTipoCampeonato().equals(TipoCampeonato.RANCHSORTING)
+				&& this.ordemEntrada.getDivisao().getTipoFicha().equals(TipoFicha.INDIVIDUAL)) {
+			
+			for(FichaInscricao f : fichasFiltradas){
+				
+			}
+			
+			if (passadasCompetidores == null || passadasCompetidores.size() == 0) {
+				throw new NegocioException("Os competidores não foram carregados. Ordem não será gerada!");
+			}
+
+		}
+
 		List<Integer> numerosOrdem = new ArrayList<>();
 
 		for (int i = 0; i < passadasCompetidores.size(); i++) {
@@ -178,7 +205,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 			} else {
 				// se nao, pega o ultimo registro da listaAuxiliar
 				pas = listaAuxiliar.get((listaAuxiliar.size() - 1));
-				ver2 = false;				
+				ver2 = false;
 			}
 
 			if (posicao1 == 0 && ver2 == false) {
@@ -270,7 +297,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 		} while (!ver1);
 
 		passadasCompetidores = listaAuxiliar;
-		
+
 		for (int i = 0; i < passadasCompetidores.size(); i++) {
 			passadasCompetidores.get(i).setNumeroDupla(Long.valueOf(numerosOrdem.get(i)));
 		}
@@ -284,11 +311,28 @@ public class CadastroOrdemEntradaBean implements Serializable {
 		 */
 	}
 
+	public void sortearCompetidores() {
+
+		if (fichasFiltradas == null || fichasFiltradas.size() == 0) {
+			throw new NegocioException("Por favor, carregue os competidores antes deste procedimento!");
+		}
+
+		carregarCompetidores();
+	}
+
 	public List<FichaInscricao> completarCompetidores(String nomeCompetidor) {
 		return this.fichasFiltradas;
 	}
 
 	public void incluirFichasCompetidores() {
+
+		// sorteio para prova de ranch sorting amador
+		if (ordemEntrada.getCampeonato().getTipoCampeonato().equals(TipoCampeonato.RANCHSORTING)
+				&& ordemEntrada.getDivisao().getTipoFicha().equals(TipoFicha.INDIVIDUAL)) {
+
+			throw new NegocioException(
+					"Para este campeonato, só é permitido gerar ordem automaticamente. Clique no botão 'Gerar Ordem'!");
+		}
 
 		// se a fichaInscricao linha editável não for nula
 		if (this.fichaInscricaoLinhaEditavel != null) {

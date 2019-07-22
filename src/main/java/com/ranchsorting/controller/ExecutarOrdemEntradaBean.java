@@ -56,14 +56,14 @@ public class ExecutarOrdemEntradaBean implements Serializable {
 
 		FacesUtil.addInfoMessage("Ordem de entrada registrada com sucesso!");
 		
-		//testar save que está zicando a listagem
-		passadasCompetidores = ordemEntrada.getPassadas();
+		limpar();
 	}
 
 	public void onRowEdit(RowEditEvent event) {
 		FacesMessage msg = new FacesMessage("Passada editada", ((Passada) event.getObject()).getId().toString());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-		salvar();
+		this.ordemEntrada.getPassadas().addAll(passadasCompetidores);
+		cadastroOrdemEntradaService.salvar(ordemEntrada);
 	}
 
 	public void onRowCancel(RowEditEvent event) {
