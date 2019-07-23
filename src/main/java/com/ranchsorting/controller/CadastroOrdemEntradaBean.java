@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -149,25 +150,104 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	public void gerarOrdemEntrada() {
 
-		// Este teste é necessario pois em carregarCompetidores ele alimenta esses obj.
-		if(this.ordemEntrada.getCampeonato() == null &&
-				this.ordemEntrada.getEtapa() == null && 
-				this.ordemEntrada.getDivisao() == null ){
+		// Este teste é necessario pois em carregarCompetidores ele alimenta
+		// esses obj.
+		if (this.ordemEntrada.getCampeonato() == null && this.ordemEntrada.getEtapa() == null
+				&& this.ordemEntrada.getDivisao() == null) {
 			throw new NegocioException("Por favor, carregue os competidores!");
 		}
+
 		
 		// sorteio para prova de ranch sorting amador
 		if (this.ordemEntrada.getCampeonato().getTipoCampeonato().equals(TipoCampeonato.RANCHSORTING)
 				&& this.ordemEntrada.getDivisao().getTipoFicha().equals(TipoFicha.INDIVIDUAL)) {
 			
-			for(FichaInscricao f : fichasFiltradas){
+			FichaInscricao fic1;
+			FichaInscricao fic2;
+			Passada pas1;
+			List<FichaInscricao> listaFichasAuxiliar ;
+			Random gerador = new Random();
+			boolean validador = false;
+			boolean validador2 = true;
+			int contador = 0;
+
+			do {
+				fic1 = new FichaInscricao();
+				fic2 = new FichaInscricao();
+				pas1 = new Passada();
+				listaFichasAuxiliar = new ArrayList<>();
 				
-			}
-			
+				Collections.shuffle(fichasFiltradas);
+
+				fic1 = fichasFiltradas.get(0);
+				fic2 = fichasFiltradas.get(gerador.nextInt(fichasFiltradas.size()));
+
+				if(fic1.getCompetidor().getNome() == fic2.getCompetidor().getNome()){
+					continue;
+				}
+				
+				if (contador == 15) {
+					validador = true;
+				}
+
+				
+				if(passadasCompetidores == null || passadasCompetidores.size() == 0){
+					listaFichasAuxiliar.add(fic1);
+					listaFichasAuxiliar.add(fic2);
+					pas1.getFichasInscricoes().addAll(listaFichasAuxiliar);
+					passadasCompetidores.add(pas1);
+					fichasFiltradas.remove(fic1);
+					fichasFiltradas.remove(fic2);
+					System.out.println("entrou no if 1");
+					System.out.println("add " + fic1.getCompetidor().getNome() );
+					System.out.println("add " + fic2.getCompetidor().getNome() );
+
+				} else {
+					for(Passada p : passadasCompetidores){
+						if(p.getFichasInscricoes().get(0).getCompetidor().getNome().equals(fic1.getCompetidor().getNome()) 
+								&& p.getFichasInscricoes().get(1).getCompetidor().getNome().equals(fic2.getCompetidor().getNome())){
+							System.out.println("brecou 1");
+							System.out.println(fic1.getCompetidor().getNome() );
+							System.out.println(fic2.getCompetidor().getNome() );
+							validador2=false;
+							break;
+						} else if (p.getFichasInscricoes().get(1).getCompetidor().getNome().equals(fic1.getCompetidor().getNome()) 
+								&& p.getFichasInscricoes().get(0).getCompetidor().getNome().equals(fic2.getCompetidor().getNome())){
+							System.out.println("brecou 2");
+							System.out.println(fic1.getCompetidor().getNome() );
+							System.out.println(fic2.getCompetidor().getNome() );
+							validador2=false;
+							break;
+						}
+						System.out.println("não brecou");
+						System.out.println(fic1.getCompetidor().getNome() );
+						System.out.println(fic2.getCompetidor().getNome() );						
+					}
+					if(validador2){
+						listaFichasAuxiliar.add(fic1);
+						listaFichasAuxiliar.add(fic2);
+						pas1.getFichasInscricoes().addAll(listaFichasAuxiliar);
+						passadasCompetidores.add(pas1);
+						fichasFiltradas.remove(fic1);
+						fichasFiltradas.remove(fic2);
+						System.out.println("entrou no else ");
+						System.out.println("add " + fic1.getCompetidor().getNome() );
+						System.out.println("add " + fic2.getCompetidor().getNome() );
+					}
+				}
+				System.out.println();
+				System.out.println("Lista das passdas");
+				for(Passada p : passadasCompetidores){
+					System.out.println(p.getFichasInscricoes().get(0).getCompetidor().getNome());
+					System.out.println(p.getFichasInscricoes().get(1).getCompetidor().getNome());
+				}
+				System.out.println("fim da Lista das passdas");
+				contador ++;
+			} while (!validador);
+
 			if (passadasCompetidores == null || passadasCompetidores.size() == 0) {
 				throw new NegocioException("Os competidores não foram carregados. Ordem não será gerada!");
 			}
-
 		}
 
 		List<Integer> numerosOrdem = new ArrayList<>();
