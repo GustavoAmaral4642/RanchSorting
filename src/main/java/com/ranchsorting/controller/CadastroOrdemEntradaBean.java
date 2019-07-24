@@ -157,97 +157,128 @@ public class CadastroOrdemEntradaBean implements Serializable {
 			throw new NegocioException("Por favor, carregue os competidores!");
 		}
 
-		
 		// sorteio para prova de ranch sorting amador
 		if (this.ordemEntrada.getCampeonato().getTipoCampeonato().equals(TipoCampeonato.RANCHSORTING)
 				&& this.ordemEntrada.getDivisao().getTipoFicha().equals(TipoFicha.INDIVIDUAL)) {
-			
+
+			// se tentar rodar 2 vezes este procedimento
+			if (fichasFiltradas == null || fichasFiltradas.size() == 0) {
+				throw new NegocioException(
+						"Atenção, certifique-se se esse procedimento já foi feito ou se os competidores foram carregados!");
+			}
+
 			FichaInscricao fic1;
 			FichaInscricao fic2;
 			Passada pas1;
-			List<FichaInscricao> listaFichasAuxiliar ;
+			List<FichaInscricao> auxFichasFiltradas = fichasFiltradas; // armazena
+																		// o
+																		// select
 			Random gerador = new Random();
 			boolean validador = false;
 			boolean validador2 = true;
 			int contador = 0;
+			int numeroGerado = 1;
+
+			Collections.shuffle(fichasFiltradas);
+
+			System.out.println(fichasFiltradas.size());
+			// System.out.println(fichasFiltradas.get(0).getId());
+			// System.out.println(gerador.nextInt(fichasFiltradas.size()));
 
 			do {
 				fic1 = new FichaInscricao();
 				fic2 = new FichaInscricao();
 				pas1 = new Passada();
-				listaFichasAuxiliar = new ArrayList<>();
-				
-				Collections.shuffle(fichasFiltradas);
 
 				fic1 = fichasFiltradas.get(0);
-				fic2 = fichasFiltradas.get(gerador.nextInt(fichasFiltradas.size()));
-
-				if(fic1.getCompetidor().getNome() == fic2.getCompetidor().getNome()){
-					continue;
-				}
+				fic2 = fichasFiltradas.get(numeroGerado);
 				
-				if (contador == 15) {
+				if(fic1.getCompetidor().getNome().equals(fic2.getCompetidor().getNome())){
+					numeroGerado++;
+				}
+
+				if (passadasCompetidores == null || passadasCompetidores.size() == 0) {
+					fic1.setPassada(pas1);
+					fic2.setPassada(pas1);
+
+					pas1.getFichasInscricoes().add(fic1);
+					pas1.getFichasInscricoes().add(fic2);
+
+					passadasCompetidores.add(pas1);
+
+					// salvando passada
+					pas1.setOrdemEntrada(this.ordemEntrada);
+
+					fichasFiltradas.remove(fic1);
+					fichasFiltradas.remove(fic2);
+					
+					System.out.println("entrou no if 1");
+					System.out.println("add " + fic1.getCompetidor().getNome());
+					System.out.println("add " + fic2.getCompetidor().getNome());
+
+				} else {
+
+					for(Passada p : passadasCompetidores){
+						if(p.getFichasInscricoes().contains(fic1.getCompetidor().getNome()) || 
+								(p.getFichasInscricoes().contains(fic2.getCompetidor().getNome()))){
+							System.out.println();
+							System.out.println();
+							System.out.println();
+							System.out.println(fic1.getId() + " id 1" );
+							System.out.println(fic2.getId() + " id 2" );
+							System.out.println();
+							System.out.println();
+							System.out.println();
+						}
+					}
+					
+					fic1.setPassada(pas1);
+					fic1.setStatusFicha(StatusFicha.EMORDEM);
+					fic2.setPassada(pas1);
+					fic2.setStatusFicha(StatusFicha.EMORDEM);
+					pas1.getFichasInscricoes().add(fic1);
+					pas1.getFichasInscricoes().add(fic2);
+
+					passadasCompetidores.add(pas1);
+
+					pas1.setOrdemEntrada(this.ordemEntrada);
+
+					fichasFiltradas.remove(fic1);
+					fichasFiltradas.remove(fic2);
+					
+					System.out.println("entrou no else ");
+					System.out.println("add " + fic1.getCompetidor().getNome());
+					System.out.println("add " + fic2.getCompetidor().getNome());
+				}
+//				System.out.println();
+//				System.out.println("Lista das passdas");
+//				for (Passada p : passadasCompetidores) {
+//					System.out.println(p.getFichasInscricoes().get(0).getCompetidor().getNome());
+//					System.out.println(p.getFichasInscricoes().get(1).getCompetidor().getNome());
+//				}
+//				System.out.println("fim da Lista das passdas");
+
+				System.out.println();
+				System.out.println("contador: " + contador);
+				System.out.println("numeroGerado: " + numeroGerado);
+				System.out.println("tamanho ARRAY: " + fichasFiltradas.size());
+				System.out.println();
+				//
+				numeroGerado=1;
+				if (fichasFiltradas.size() == 0) {
 					validador = true;
 				}
 
-				
-				if(passadasCompetidores == null || passadasCompetidores.size() == 0){
-					listaFichasAuxiliar.add(fic1);
-					listaFichasAuxiliar.add(fic2);
-					pas1.getFichasInscricoes().addAll(listaFichasAuxiliar);
-					passadasCompetidores.add(pas1);
-					fichasFiltradas.remove(fic1);
-					fichasFiltradas.remove(fic2);
-					System.out.println("entrou no if 1");
-					System.out.println("add " + fic1.getCompetidor().getNome() );
-					System.out.println("add " + fic2.getCompetidor().getNome() );
-
-				} else {
-					for(Passada p : passadasCompetidores){
-						if(p.getFichasInscricoes().get(0).getCompetidor().getNome().equals(fic1.getCompetidor().getNome()) 
-								&& p.getFichasInscricoes().get(1).getCompetidor().getNome().equals(fic2.getCompetidor().getNome())){
-							System.out.println("brecou 1");
-							System.out.println(fic1.getCompetidor().getNome() );
-							System.out.println(fic2.getCompetidor().getNome() );
-							validador2=false;
-							break;
-						} else if (p.getFichasInscricoes().get(1).getCompetidor().getNome().equals(fic1.getCompetidor().getNome()) 
-								&& p.getFichasInscricoes().get(0).getCompetidor().getNome().equals(fic2.getCompetidor().getNome())){
-							System.out.println("brecou 2");
-							System.out.println(fic1.getCompetidor().getNome() );
-							System.out.println(fic2.getCompetidor().getNome() );
-							validador2=false;
-							break;
-						}
-						System.out.println("não brecou");
-						System.out.println(fic1.getCompetidor().getNome() );
-						System.out.println(fic2.getCompetidor().getNome() );						
-					}
-					if(validador2){
-						listaFichasAuxiliar.add(fic1);
-						listaFichasAuxiliar.add(fic2);
-						pas1.getFichasInscricoes().addAll(listaFichasAuxiliar);
-						passadasCompetidores.add(pas1);
-						fichasFiltradas.remove(fic1);
-						fichasFiltradas.remove(fic2);
-						System.out.println("entrou no else ");
-						System.out.println("add " + fic1.getCompetidor().getNome() );
-						System.out.println("add " + fic2.getCompetidor().getNome() );
-					}
-				}
-				System.out.println();
-				System.out.println("Lista das passdas");
-				for(Passada p : passadasCompetidores){
-					System.out.println(p.getFichasInscricoes().get(0).getCompetidor().getNome());
-					System.out.println(p.getFichasInscricoes().get(1).getCompetidor().getNome());
-				}
-				System.out.println("fim da Lista das passdas");
-				contador ++;
 			} while (!validador);
 
 			if (passadasCompetidores == null || passadasCompetidores.size() == 0) {
 				throw new NegocioException("Os competidores não foram carregados. Ordem não será gerada!");
 			}
+
+			this.ordemEntrada.setCampeonato(fichaInscricaoFilter.getObjCampeonato());
+			this.ordemEntrada.setEtapa(fichaInscricaoFilter.getObjEtapa());
+			this.ordemEntrada.setDivisao(fichaInscricaoFilter.getObjDivisao());
+
 		}
 
 		List<Integer> numerosOrdem = new ArrayList<>();

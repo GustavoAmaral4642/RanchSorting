@@ -78,38 +78,42 @@
 									<f:facet name="header">
                                 		Fichas de Inscrições Cadastradas
                             		</f:facet>
-									<p:column headerText="Código"
+									<p:column headerText="Código" sortBy="{ficha.id}" 
 										style="width: 100px; text-align: center">
 										<h:outputText value="#{ficha.id}" />
 									</p:column>
 
-									<p:column headerText="Campeonato" style="text-align: center">
+									<p:column headerText="Campeonato" sortBy="#{ficha.campeonato.nome}" 
+										 style="text-align: center">
 										<h:outputText value="#{ficha.campeonato.nome}" />
 									</p:column>
 
-									<p:column headerText="Etapa" style="text-align: center">
+									<p:column headerText="Etapa" sortBy="#{ficha.etapa.nome}" 
+										style="text-align: center">
 										<h:outputText value="#{ficha.etapa.nome}" />
 									</p:column>
 
-									<p:column headerText="Divisão" style="text-align: center">
+									<p:column headerText="Divisão" sortBy="#{ficha.divisao.nome}"  
+										style="text-align: center">
 										<h:outputText value="#{ficha.divisao.nome}" />
 									</p:column>
 
-									<p:column headerText="Vlr.Comprado"
+									<p:column headerText="Vlr.Comprado" sortBy="#{ficha.valorComprado}" 
 										style="width: 150px; text-align: center">
 										<h:outputText value="#{ficha.valorComprado}">
 											<f:convertNumber type="currency" />
 										</h:outputText>
 									</p:column>
 
-									<p:column headerText="Vlr.Pago"
+									<p:column headerText="Vlr.Pago" sortBy="#{ficha.valorPago}" 
 										style="width: 150px; text-align: center">
 										<h:outputText value="#{ficha.valorPago}">
 											<f:convertNumber type="currency" />
 										</h:outputText>
 									</p:column>
 
-									<p:column headerText="Competidores" style="text-align: center">
+									<p:column headerText="Competidores" sortBy="#{ficha.competidor.nome}" 
+										style="text-align: center">
 										<h:outputText value="#{ficha.competidor.nome}" />
 				                    </p:column>
 

@@ -1,6 +1,6 @@
 package com.ranchsorting.repository;
 
-import java.io.Serializable; 
+import java.io.Serializable;  
 import java.util.List;
 
 import javax.inject.Inject;
@@ -51,6 +51,15 @@ public class Competidores implements Serializable {
 		return manager.find(Competidor.class, id);
 	}
 
+	public Competidor porNome(String nome) {
+		try {
+			return manager.createQuery("from Competidor where upper(nome) = :nome", Competidor.class)
+					.setParameter("nome", nome.toUpperCase()).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}		
+	}
+	
 	public List<Competidor> todosCompetidores() {
 		try {
 			return manager.createQuery("from Competidor", Competidor.class).getResultList();
