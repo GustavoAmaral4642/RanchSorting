@@ -16,17 +16,14 @@ import com.ranchsorting.model.Competidor;
 import com.ranchsorting.model.Divisao;
 import com.ranchsorting.model.Etapa;
 import com.ranchsorting.model.FichaInscricao;
-import com.ranchsorting.model.Passada;
 import com.ranchsorting.model.StatusFicha;
 import com.ranchsorting.model.TipoFicha;
-import com.ranchsorting.repository.Animais;
 import com.ranchsorting.repository.Anuidades;
 import com.ranchsorting.repository.Campeonatos;
 import com.ranchsorting.repository.Competidores;
 import com.ranchsorting.repository.Divisoes;
 import com.ranchsorting.repository.Etapas;
 import com.ranchsorting.service.CadastroFichaInscricaoService;
-import com.ranchsorting.service.NegocioException;
 import com.ranchsorting.util.jsf.FacesUtil;
 
 @Named
@@ -39,9 +36,6 @@ public class CadastroFichaInscricaoBean implements Serializable {
 	private Competidores competidores;
 
 	@Inject
-	private Animais animais;
-
-	@Inject
 	private Campeonatos campeonatos;
 
 	@Inject
@@ -52,7 +46,7 @@ public class CadastroFichaInscricaoBean implements Serializable {
 
 	@Inject
 	private Anuidades anuidades;
-	
+
 	@Inject
 	private CadastroFichaInscricaoService cadastroFichaInscricaoService;
 
@@ -112,8 +106,7 @@ public class CadastroFichaInscricaoBean implements Serializable {
 
 	public void salvar() {
 		
-		this.fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
-		
+		this.fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);		
 		this.fichaInscricao = cadastroFichaInscricaoService.salvar(this.fichaInscricao);
 		
 		inclusaoSimultanea = true;

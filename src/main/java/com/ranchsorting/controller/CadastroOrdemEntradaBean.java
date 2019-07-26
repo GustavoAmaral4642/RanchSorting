@@ -3,7 +3,7 @@ package com.ranchsorting.controller;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
+
 import java.util.List;
 import java.util.Random;
 
@@ -28,7 +28,7 @@ import com.ranchsorting.repository.FichasInscricoes;
 import com.ranchsorting.repository.filter.FichaInscricaoFilter;
 import com.ranchsorting.service.CadastroOrdemEntradaService;
 import com.ranchsorting.service.CadastroPassadaService;
-import com.ranchsorting.service.ManutencaoOrdemEntradaService;
+
 import com.ranchsorting.service.NegocioException;
 import com.ranchsorting.util.jsf.FacesUtil;
 
@@ -52,9 +52,6 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	@Inject
 	private CadastroOrdemEntradaService cadastroOrdemEntradaService;
-
-	@Inject
-	private ManutencaoOrdemEntradaService manutencaoOrdemEntradaService;
 
 	@Inject
 	private CadastroPassadaService cadastroPassadaService;
@@ -167,110 +164,151 @@ public class CadastroOrdemEntradaBean implements Serializable {
 						"Atenção, certifique-se se esse procedimento já foi feito ou se os competidores foram carregados!");
 			}
 
+			boolean verifica1 = false;
+			boolean verifica2 = false;
+			boolean verifica3 = false;
+
+			int num1;
+			int num2;
+
+			Random gerador = new Random();
+
+			List<FichaInscricao> listaInscricaoAuxiliar1;
+			List<FichaInscricao> listaInscricaoAuxiliar2 = new ArrayList<>();
+
 			FichaInscricao fic1;
 			FichaInscricao fic2;
 			Passada pas1;
-			List<FichaInscricao> auxFichasFiltradas = fichasFiltradas; // armazena
-																		// o
-																		// select
-			Random gerador = new Random();
-			boolean validador = false;
-			boolean validador2 = true;
-			int contador = 0;
-			int numeroGerado = 1;
 
-			Collections.shuffle(fichasFiltradas);
-
-			System.out.println(fichasFiltradas.size());
-			// System.out.println(fichasFiltradas.get(0).getId());
-			// System.out.println(gerador.nextInt(fichasFiltradas.size()));
+			listaInscricaoAuxiliar2.addAll(fichasFiltradas);
 
 			do {
+				num1 = 0;
+				num2 = 0;
+
 				fic1 = new FichaInscricao();
 				fic2 = new FichaInscricao();
 				pas1 = new Passada();
+				listaInscricaoAuxiliar1 = new ArrayList<>();
 
-				fic1 = fichasFiltradas.get(0);
-				fic2 = fichasFiltradas.get(numeroGerado);
-				
-				if(fic1.getCompetidor().getNome().equals(fic2.getCompetidor().getNome())){
-					numeroGerado++;
+				num1 = gerador.nextInt(fichasFiltradas.size() - 1);
+				num2 = gerador.nextInt(fichasFiltradas.size() - 1);
+
+				if (num1 == num2) {
+					continue;
 				}
 
-				if (passadasCompetidores == null || passadasCompetidores.size() == 0) {
-					fic1.setPassada(pas1);
-					fic2.setPassada(pas1);
+				fic1 = fichasFiltradas.get(num1);
+				fic2 = fichasFiltradas.get(num2);
 
-					pas1.getFichasInscricoes().add(fic1);
-					pas1.getFichasInscricoes().add(fic2);
+				if (fic1.getCompetidor().getNome().equals(fic2.getCompetidor().getNome())) {
+					continue;
+				}
 
-					passadasCompetidores.add(pas1);
+				// verifica se tem dupla repetida
+				if (passadasCompetidores != null || passadasCompetidores.size() != 0) {
+					verifica3 = true;
 
-					// salvando passada
-					pas1.setOrdemEntrada(this.ordemEntrada);
+					for (Passada p : passadasCompetidores) {
 
-					fichasFiltradas.remove(fic1);
-					fichasFiltradas.remove(fic2);
-					
-					System.out.println("entrou no if 1");
-					System.out.println("add " + fic1.getCompetidor().getNome());
-					System.out.println("add " + fic2.getCompetidor().getNome());
+						// se achar competidor igual, verifica3 fica false
+						if (p.getFichasInscricoes().get(0).getCompetidor().getNome()
+								.equals(fic1.getCompetidor().getNome())
+								&& p.getFichasInscricoes().get(1).getCompetidor().getNome()
+										.equals(fic2.getCompetidor().getNome())) {
+							verifica3 = false;
 
-				} else {
-
-					for(Passada p : passadasCompetidores){
-						if(p.getFichasInscricoes().contains(fic1.getCompetidor().getNome()) || 
-								(p.getFichasInscricoes().contains(fic2.getCompetidor().getNome()))){
-							System.out.println();
-							System.out.println();
-							System.out.println();
-							System.out.println(fic1.getId() + " id 1" );
-							System.out.println(fic2.getId() + " id 2" );
-							System.out.println();
-							System.out.println();
-							System.out.println();
 						}
+
+						// teste invertido se achar competidor igual, verifica3
+						// fica false
+						if (p.getFichasInscricoes().get(1).getCompetidor().getNome()
+								.equals(fic1.getCompetidor().getNome())
+								&& p.getFichasInscricoes().get(0).getCompetidor().getNome()
+										.equals(fic2.getCompetidor().getNome())) {
+							verifica3 = false;
+
+						}
+
 					}
-					
-					fic1.setPassada(pas1);
-					fic1.setStatusFicha(StatusFicha.EMORDEM);
-					fic2.setPassada(pas1);
-					fic2.setStatusFicha(StatusFicha.EMORDEM);
-					pas1.getFichasInscricoes().add(fic1);
-					pas1.getFichasInscricoes().add(fic2);
 
-					passadasCompetidores.add(pas1);
-
-					pas1.setOrdemEntrada(this.ordemEntrada);
-
-					fichasFiltradas.remove(fic1);
-					fichasFiltradas.remove(fic2);
-					
-					System.out.println("entrou no else ");
-					System.out.println("add " + fic1.getCompetidor().getNome());
-					System.out.println("add " + fic2.getCompetidor().getNome());
+					// se encontrou repetido
+					if (verifica3 == false) {
+						continue;
+					}
 				}
-//				System.out.println();
-//				System.out.println("Lista das passdas");
-//				for (Passada p : passadasCompetidores) {
-//					System.out.println(p.getFichasInscricoes().get(0).getCompetidor().getNome());
-//					System.out.println(p.getFichasInscricoes().get(1).getCompetidor().getNome());
-//				}
-//				System.out.println("fim da Lista das passdas");
 
-				System.out.println();
-				System.out.println("contador: " + contador);
-				System.out.println("numeroGerado: " + numeroGerado);
-				System.out.println("tamanho ARRAY: " + fichasFiltradas.size());
-				System.out.println();
-				//
-				numeroGerado=1;
+				listaInscricaoAuxiliar1.add(fic1);
+				listaInscricaoAuxiliar1.add(fic2);
+
+				pas1.getFichasInscricoes().addAll(listaInscricaoAuxiliar1);
+				passadasCompetidores.add(pas1);
+
+				fichasFiltradas.remove(fic1);
+				fichasFiltradas.remove(fic2);
+
+				// se sobrar 1 ficha, entra aqui. caso de fichas impares
+				if (fichasFiltradas.size() == 1) {
+					do {
+						num1 = 0;
+						num2 = 0;
+
+						fic1 = new FichaInscricao();
+						fic2 = new FichaInscricao();
+						pas1 = new Passada();
+						listaInscricaoAuxiliar1 = new ArrayList<>();
+
+						fic1 = fichasFiltradas.get(0);
+						fic2 = listaInscricaoAuxiliar2.get(num1);
+
+						if (fic1.getCompetidor().getNome().equals(fic2.getCompetidor().getNome())) {
+							continue;
+						}
+
+						verifica3 = true;
+
+						for (Passada p : passadasCompetidores) {
+
+							if (p.getFichasInscricoes().get(0).getCompetidor().getNome()
+									.equals(fic1.getCompetidor().getNome())
+									&& p.getFichasInscricoes().get(1).getCompetidor().getNome()
+											.equals(fic2.getCompetidor().getNome())) {
+								verifica3 = false;
+
+							}
+							if (p.getFichasInscricoes().get(1).getCompetidor().getNome()
+									.equals(fic1.getCompetidor().getNome())
+									&& p.getFichasInscricoes().get(0).getCompetidor().getNome()
+											.equals(fic2.getCompetidor().getNome())) {
+								verifica3 = false;
+
+							}
+
+						}
+
+						if (verifica3 == false) {
+							continue;
+						}
+
+						verifica2 = true;
+
+						listaInscricaoAuxiliar1.add(fic1);
+						listaInscricaoAuxiliar1.add(fic2);
+
+						pas1.getFichasInscricoes().addAll(listaInscricaoAuxiliar1);
+						passadasCompetidores.add(pas1);
+
+						fichasFiltradas.remove(fic1);
+
+					} while (!verifica2);
+				}
+
 				if (fichasFiltradas.size() == 0) {
-					validador = true;
+					verifica1 = true;
 				}
-
-			} while (!validador);
-
+			} while (!verifica1);
+			
+			
 			if (passadasCompetidores == null || passadasCompetidores.size() == 0) {
 				throw new NegocioException("Os competidores não foram carregados. Ordem não será gerada!");
 			}
@@ -279,140 +317,148 @@ public class CadastroOrdemEntradaBean implements Serializable {
 			this.ordemEntrada.setEtapa(fichaInscricaoFilter.getObjEtapa());
 			this.ordemEntrada.setDivisao(fichaInscricaoFilter.getObjDivisao());
 
-		}
+		} else {
 
-		List<Integer> numerosOrdem = new ArrayList<>();
+			List<Integer> numerosOrdem = new ArrayList<>();
 
-		for (int i = 0; i < passadasCompetidores.size(); i++) {
-			numerosOrdem.add(i + 1);
-		}
-
-		// embaralha
-		Collections.shuffle(passadasCompetidores);
-
-		List<Passada> listaAuxiliar = new ArrayList<>();
-
-		boolean ver1 = false, ver2 = false, ver3 = false;
-
-		int posicao1 = 0;
-		int comparador = 1;
-		int tamanhoArrayPrincipal = passadasCompetidores.size();
-
-		do {
-
-			Competidor comp1 = new Competidor();
-			Competidor comp2 = new Competidor();
-			Competidor comp3 = new Competidor();
-			Competidor comp4 = new Competidor();
-
-			Passada pas = new Passada();
-
-			if (listaAuxiliar.size() == 0) {
-				// se a lista auxiliar estiver vazia, alimenta com o primeiro
-				// registro da passadasCompetidores
-				pas = passadasCompetidores.get(posicao1);
-				listaAuxiliar.add(pas);
-				passadasCompetidores.remove(pas);
-			} else {
-				// se nao, pega o ultimo registro da listaAuxiliar
-				pas = listaAuxiliar.get((listaAuxiliar.size() - 1));
-				ver2 = false;
+			for (int i = 0; i < passadasCompetidores.size(); i++) {
+				numerosOrdem.add(i + 1);
 			}
 
-			if (posicao1 == 0 && ver2 == false) {
+			// embaralha
+			Collections.shuffle(passadasCompetidores);
 
-				// pega os dois competidores de uma das fichas que serão
-				// comparadas
-				comp1 = pas.getFichasInscricoes().get(0).getCompetidor();
-				comp2 = pas.getFichasInscricoes().get(1).getCompetidor();
+			List<Passada> listaAuxiliar = new ArrayList<>();
 
-				// este loop verifica se os registros se repetem
-				do {
-					// pega os dois competidores da ficha a ser comparada
-					comp3 = passadasCompetidores.get(comparador).getFichasInscricoes().get(0).getCompetidor();
-					comp4 = passadasCompetidores.get(comparador).getFichasInscricoes().get(1).getCompetidor();
+			boolean ver1 = false, ver2 = false, ver3 = false;
 
-					// 4 IFs comparam os competidores se são iguais
-					if (comp1.getNome().equals(comp3.getNome())) {
-						comparador++;
-						posicao1++;
+			int posicao1 = 0;
+			int comparador = 1;
+			int tamanhoArrayPrincipal = passadasCompetidores.size();
 
-					} else if (comp1.getNome().equals(comp4.getNome())) {
-						comparador++;
-						posicao1++;
+			do {
 
-					} else if (comp2.getNome().equals(comp3.getNome())) {
-						comparador++;
-						posicao1++;
+				Competidor comp1 = new Competidor();
+				Competidor comp2 = new Competidor();
+				Competidor comp3 = new Competidor();
+				Competidor comp4 = new Competidor();
 
-					} else if (comp2.getNome().equals(comp4.getNome())) {
-						comparador++;
-						posicao1++;
+				Passada pas = new Passada();
 
-					} else {
-						// se os competidores não forem iguais
-						// adiciona a passada não inseria a uma lista auxiliar e
-						// remove da lista que está sendo lida
-						listaAuxiliar.add(passadasCompetidores.get(comparador));
-						passadasCompetidores.remove(passadasCompetidores.get(comparador));
+				if (listaAuxiliar.size() == 0) {
+					// se a lista auxiliar estiver vazia, alimenta com o
+					// primeiro
+					// registro da passadasCompetidores
+					pas = passadasCompetidores.get(posicao1);
+					listaAuxiliar.add(pas);
+					passadasCompetidores.remove(pas);
+				} else {
+					// se nao, pega o ultimo registro da listaAuxiliar
+					pas = listaAuxiliar.get((listaAuxiliar.size() - 1));
+					ver2 = false;
+				}
 
-						// reseta as variáveis de comparaçao.
-						posicao1 = 0;
-						comparador = 0;
+				if (posicao1 == 0 && ver2 == false) {
 
-						// muda variável para sair do loop secundário
-						ver2 = true;
+					// pega os dois competidores de uma das fichas que serão
+					// comparadas
+					comp1 = pas.getFichasInscricoes().get(0).getCompetidor();
+					comp2 = pas.getFichasInscricoes().get(1).getCompetidor();
 
-						// se o tamanho da lista auxiliar for do mesmo tamanho
-						// que a lista pricipal, torna a ver3 true para sair do
-						// loop principal
-						if (listaAuxiliar.size() >= tamanhoArrayPrincipal) {
-							ver3 = true;
+					// este loop verifica se os registros se repetem
+					do {
+						// pega os dois competidores da ficha a ser comparada
+						comp3 = passadasCompetidores.get(comparador).getFichasInscricoes().get(0).getCompetidor();
+						comp4 = passadasCompetidores.get(comparador).getFichasInscricoes().get(1).getCompetidor();
+
+						// 4 IFs comparam os competidores se são iguais
+						if (comp1.getNome().equals(comp3.getNome())) {
+							comparador++;
+							posicao1++;
+
+						} else if (comp1.getNome().equals(comp4.getNome())) {
+							comparador++;
+							posicao1++;
+
+						} else if (comp2.getNome().equals(comp3.getNome())) {
+							comparador++;
+							posicao1++;
+
+						} else if (comp2.getNome().equals(comp4.getNome())) {
+							comparador++;
+							posicao1++;
+
+						} else {
+							// se os competidores não forem iguais
+							// adiciona a passada não inseria a uma lista
+							// auxiliar e
+							// remove da lista que está sendo lida
+							listaAuxiliar.add(passadasCompetidores.get(comparador));
+							passadasCompetidores.remove(passadasCompetidores.get(comparador));
+
+							// reseta as variáveis de comparaçao.
+							posicao1 = 0;
+							comparador = 0;
+
+							// muda variável para sair do loop secundário
+							ver2 = true;
+
+							// se o tamanho da lista auxiliar for do mesmo
+							// tamanho
+							// que a lista pricipal, torna a ver3 true para sair
+							// do
+							// loop principal
+							if (listaAuxiliar.size() >= tamanhoArrayPrincipal) {
+								ver3 = true;
+							}
 						}
-					}
 
-					// se o tamanho de passadas competidores for 0 e comparador
-					// tiver ser o mesmo que o tamanho do array
-					if (passadasCompetidores.size() != 0 && comparador == passadasCompetidores.size()) {
-						posicao1 = 0;
-						comparador = 0;
+						// se o tamanho de passadas competidores for 0 e
+						// comparador
+						// tiver ser o mesmo que o tamanho do array
+						if (passadasCompetidores.size() != 0 && comparador == passadasCompetidores.size()) {
+							posicao1 = 0;
+							comparador = 0;
 
-						// se os competidores não forem iguais
-						// adiciona a passada não inseria a uma lista auxiliar e
-						// remove da lista que está sendo lida
-						listaAuxiliar.add(passadasCompetidores.get(comparador));
-						passadasCompetidores.remove(passadasCompetidores.get(comparador));
+							// se os competidores não forem iguais
+							// adiciona a passada não inseria a uma lista
+							// auxiliar e
+							// remove da lista que está sendo lida
+							listaAuxiliar.add(passadasCompetidores.get(comparador));
+							passadasCompetidores.remove(passadasCompetidores.get(comparador));
 
-						// muda variável para sair do loop secundário
-						ver2 = true;
+							// muda variável para sair do loop secundário
+							ver2 = true;
 
-						// se o tamanho da lista auxiliar for do mesmo tamanho
-						// que a lista pricipal, torna a ver3 true para sair do
-						// loop principal
-						if (listaAuxiliar.size() >= tamanhoArrayPrincipal) {
-							ver3 = true;
+							// se o tamanho da lista auxiliar for do mesmo
+							// tamanho
+							// que a lista pricipal, torna a ver3 true para sair
+							// do
+							// loop principal
+							if (listaAuxiliar.size() >= tamanhoArrayPrincipal) {
+								ver3 = true;
+							}
 						}
-					}
 
-				} while (!ver2);
+					} while (!ver2);
 
-				// ajusta tamanho da posicao 1.
-				posicao1 = 0;
+					// ajusta tamanho da posicao 1.
+					posicao1 = 0;
+				}
+
+				// sai do loop quando posicao1 for mesmo tamanho que o array
+				if (ver2 == true && ver3 == true) {
+					ver1 = true;
+				}
+
+			} while (!ver1);
+
+			passadasCompetidores = listaAuxiliar;
+
+			for (int i = 0; i < passadasCompetidores.size(); i++) {
+				passadasCompetidores.get(i).setNumeroDupla(Long.valueOf(numerosOrdem.get(i)));
 			}
-
-			// sai do loop quando posicao1 for mesmo tamanho que o array
-			if (ver2 == true && ver3 == true) {
-				ver1 = true;
-			}
-
-		} while (!ver1);
-
-		passadasCompetidores = listaAuxiliar;
-
-		for (int i = 0; i < passadasCompetidores.size(); i++) {
-			passadasCompetidores.get(i).setNumeroDupla(Long.valueOf(numerosOrdem.get(i)));
 		}
-
 		/*
 		 * embaralhar numero da dupla List<Integer> numeros = new
 		 * ArrayList<Integer>(); for (int i = 0; i < 26; i++) { numeros.add(i);

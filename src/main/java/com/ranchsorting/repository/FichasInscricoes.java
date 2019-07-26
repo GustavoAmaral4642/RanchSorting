@@ -1,6 +1,6 @@
 package com.ranchsorting.repository;
 
-import java.io.Serializable; 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -86,7 +86,7 @@ public class FichasInscricoes implements Serializable {
 		if (filtro.getStatusFicha() != null && filtro.getStatusFicha().equals(StatusFicha.EMORDEM)) {
 			criteria.add(Restrictions.eq("statusFicha", StatusFicha.EMORDEM));
 		}
-		
+
 		return criteria.addOrder(Order.asc("ca.nome")).list();
 	}
 
@@ -118,7 +118,7 @@ public class FichasInscricoes implements Serializable {
 		if (filtro.getObjDivisao() != null) {
 			criteria.add(Restrictions.ilike("d.nome", filtro.getObjDivisao().getNome()));
 		}
-		
+
 		// busca divisoes por objeto
 		if (filtro.getObjCompetidor() != null) {
 			criteria.add(Restrictions.ilike("c.nome", filtro.getObjCompetidor().getNome()));
