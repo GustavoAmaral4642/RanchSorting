@@ -70,6 +70,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	public CadastroOrdemEntradaBean() {
 		limpar();
+		
 	}
 
 	public void inicializar() {
@@ -86,6 +87,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 				fichaInscricaoFilter.setObjDivisao(ordemEntrada.getDivisao());
 
 				passadasCompetidores.addAll(ordemEntrada.getPassadas());
+
 			}
 		}
 	}
@@ -164,150 +166,10 @@ public class CadastroOrdemEntradaBean implements Serializable {
 						"Atenção, certifique-se se esse procedimento já foi feito ou se os competidores foram carregados!");
 			}
 
-			boolean verifica1 = false;
-			boolean verifica2 = false;
-			boolean verifica3 = false;
+			// chama método para embaralhar as passadas do amador
+			passadasCompetidores = cadastroOrdemEntradaService.geraPassadaAmador(this.ordemEntrada, fichasFiltradas);
 
-			int num1;
-			int num2;
-
-			Random gerador = new Random();
-
-			List<FichaInscricao> listaInscricaoAuxiliar1;
-			List<FichaInscricao> listaInscricaoAuxiliar2 = new ArrayList<>();
-
-			FichaInscricao fic1;
-			FichaInscricao fic2;
-			Passada pas1;
-
-			listaInscricaoAuxiliar2.addAll(fichasFiltradas);
-
-			do {
-				num1 = 0;
-				num2 = 0;
-
-				fic1 = new FichaInscricao();
-				fic2 = new FichaInscricao();
-				pas1 = new Passada();
-				listaInscricaoAuxiliar1 = new ArrayList<>();
-
-				num1 = gerador.nextInt(fichasFiltradas.size() - 1);
-				num2 = gerador.nextInt(fichasFiltradas.size() - 1);
-
-				if (num1 == num2) {
-					continue;
-				}
-
-				fic1 = fichasFiltradas.get(num1);
-				fic2 = fichasFiltradas.get(num2);
-
-				if (fic1.getCompetidor().getNome().equals(fic2.getCompetidor().getNome())) {
-					continue;
-				}
-
-				// verifica se tem dupla repetida
-				if (passadasCompetidores != null || passadasCompetidores.size() != 0) {
-					verifica3 = true;
-
-					for (Passada p : passadasCompetidores) {
-
-						// se achar competidor igual, verifica3 fica false
-						if (p.getFichasInscricoes().get(0).getCompetidor().getNome()
-								.equals(fic1.getCompetidor().getNome())
-								&& p.getFichasInscricoes().get(1).getCompetidor().getNome()
-										.equals(fic2.getCompetidor().getNome())) {
-							verifica3 = false;
-
-						}
-
-						// teste invertido se achar competidor igual, verifica3
-						// fica false
-						if (p.getFichasInscricoes().get(1).getCompetidor().getNome()
-								.equals(fic1.getCompetidor().getNome())
-								&& p.getFichasInscricoes().get(0).getCompetidor().getNome()
-										.equals(fic2.getCompetidor().getNome())) {
-							verifica3 = false;
-
-						}
-
-					}
-
-					// se encontrou repetido
-					if (verifica3 == false) {
-						continue;
-					}
-				}
-
-				listaInscricaoAuxiliar1.add(fic1);
-				listaInscricaoAuxiliar1.add(fic2);
-
-				pas1.getFichasInscricoes().addAll(listaInscricaoAuxiliar1);
-				passadasCompetidores.add(pas1);
-
-				fichasFiltradas.remove(fic1);
-				fichasFiltradas.remove(fic2);
-
-				// se sobrar 1 ficha, entra aqui. caso de fichas impares
-				if (fichasFiltradas.size() == 1) {
-					do {
-						num1 = 0;
-						num2 = 0;
-
-						fic1 = new FichaInscricao();
-						fic2 = new FichaInscricao();
-						pas1 = new Passada();
-						listaInscricaoAuxiliar1 = new ArrayList<>();
-
-						fic1 = fichasFiltradas.get(0);
-						fic2 = listaInscricaoAuxiliar2.get(num1);
-
-						if (fic1.getCompetidor().getNome().equals(fic2.getCompetidor().getNome())) {
-							continue;
-						}
-
-						verifica3 = true;
-
-						for (Passada p : passadasCompetidores) {
-
-							if (p.getFichasInscricoes().get(0).getCompetidor().getNome()
-									.equals(fic1.getCompetidor().getNome())
-									&& p.getFichasInscricoes().get(1).getCompetidor().getNome()
-											.equals(fic2.getCompetidor().getNome())) {
-								verifica3 = false;
-
-							}
-							if (p.getFichasInscricoes().get(1).getCompetidor().getNome()
-									.equals(fic1.getCompetidor().getNome())
-									&& p.getFichasInscricoes().get(0).getCompetidor().getNome()
-											.equals(fic2.getCompetidor().getNome())) {
-								verifica3 = false;
-
-							}
-
-						}
-
-						if (verifica3 == false) {
-							continue;
-						}
-
-						verifica2 = true;
-
-						listaInscricaoAuxiliar1.add(fic1);
-						listaInscricaoAuxiliar1.add(fic2);
-
-						pas1.getFichasInscricoes().addAll(listaInscricaoAuxiliar1);
-						passadasCompetidores.add(pas1);
-
-						fichasFiltradas.remove(fic1);
-
-					} while (!verifica2);
-				}
-
-				if (fichasFiltradas.size() == 0) {
-					verifica1 = true;
-				}
-			} while (!verifica1);
-			
+			passadasCompetidores = cadastroOrdemEntradaService.embaralhaPassadas(passadasCompetidores);
 			
 			if (passadasCompetidores == null || passadasCompetidores.size() == 0) {
 				throw new NegocioException("Os competidores não foram carregados. Ordem não será gerada!");
