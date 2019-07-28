@@ -54,12 +54,13 @@ public class CadastroOrdemEntradaService implements Serializable {
 		boolean verifica1 = false;
 		boolean verifica2 = false;
 		boolean verifica3 = false;
+		boolean verifica4 = false;
 
 		int num1;
 		int num2;
+		int num3=0;
 
 		Random gerador = new Random();
-		Random gerador2 = new Random();
 
 		List<FichaInscricao> listaInscricaoAuxiliar1;
 		List<FichaInscricao> listaInscricaoAuxiliar2 = new ArrayList<>();
@@ -71,6 +72,7 @@ public class CadastroOrdemEntradaService implements Serializable {
 		listaInscricaoAuxiliar2.addAll(fichasFiltradas);
 
 		do {
+
 			num1 = 0;
 			num2 = 0;
 
@@ -98,6 +100,40 @@ public class CadastroOrdemEntradaService implements Serializable {
 			fic1 = fichasFiltradas.get(num1);
 			fic2 = fichasFiltradas.get(num2);
 
+			// teste para tratar ordem dos competidores para não repetir sequência
+			if(passadasCompetidores.size()>1){
+				System.out.println("tá dentro 1");
+				
+				System.out.println(fic1.getCompetidor().getNome());
+				System.out.println(fic2.getCompetidor().getNome());
+				
+				if(passadasCompetidores.get(passadasCompetidores.size()-1).getFichasInscricoes().get(0).getCompetidor().getNome()
+						.equals(fic1.getCompetidor().getNome()) && num3<2){
+					num3++;
+					System.out.println("tá dentro 2");
+					continue;
+				}
+				if(passadasCompetidores.get(passadasCompetidores.size()-1).getFichasInscricoes().get(0).getCompetidor().getNome()
+						.equals(fic2.getCompetidor().getNome())){
+					num3++;
+					System.out.println("tá dentro 3");
+					continue;
+				}
+				if(passadasCompetidores.get(passadasCompetidores.size()-1).getFichasInscricoes().get(1).getCompetidor().getNome()
+						.equals(fic1.getCompetidor().getNome())){
+					num3++;
+					System.out.println("tá dentro 4");
+					continue;
+				}
+				if(passadasCompetidores.get(passadasCompetidores.size()-1).getFichasInscricoes().get(1).getCompetidor().getNome()
+						.equals(fic2.getCompetidor().getNome())){
+					num3++;
+					System.out.println("tá dentro 5");
+					continue;
+				}
+				
+			}
+			
 			// se os nomes forem iguais, loop
 			if (fic1.getCompetidor().getNome().equals(fic2.getCompetidor().getNome())) {
 				continue;
@@ -115,7 +151,6 @@ public class CadastroOrdemEntradaService implements Serializable {
 							&& p.getFichasInscricoes().get(1).getCompetidor().getNome()
 									.equals(fic2.getCompetidor().getNome())) {
 						verifica3 = false;
-
 					}
 
 					// teste invertido se achar competidor igual, verifica3
@@ -124,9 +159,7 @@ public class CadastroOrdemEntradaService implements Serializable {
 							&& p.getFichasInscricoes().get(0).getCompetidor().getNome()
 									.equals(fic2.getCompetidor().getNome())) {
 						verifica3 = false;
-
 					}
-
 				}
 
 				// se encontrou repetido
@@ -148,6 +181,8 @@ public class CadastroOrdemEntradaService implements Serializable {
 
 			// adiciona a passada na lista principal
 			passadasCompetidores.add(pas1);
+			
+			num3=0;
 
 			// remove as fichas da lista de fichas primária
 			fichasFiltradas.remove(fic1);
@@ -185,14 +220,12 @@ public class CadastroOrdemEntradaService implements Serializable {
 								&& p.getFichasInscricoes().get(1).getCompetidor().getNome()
 										.equals(fic2.getCompetidor().getNome())) {
 							verifica3 = false;
-
 						}
 						if (p.getFichasInscricoes().get(1).getCompetidor().getNome()
 								.equals(fic1.getCompetidor().getNome())
 								&& p.getFichasInscricoes().get(0).getCompetidor().getNome()
 										.equals(fic2.getCompetidor().getNome())) {
 							verifica3 = false;
-
 						}
 
 					}
@@ -231,7 +264,6 @@ public class CadastroOrdemEntradaService implements Serializable {
 
 		List<Integer> numerosOrdem = new ArrayList<>();
 		List<Passada> listaAuxiliar = new ArrayList<>();
-		List<Passada> listaAuxiliar2 = new ArrayList<>();
 
 		for (int i = 0; i < passadasCompetidores.size(); i++) {
 			numerosOrdem.add(i + 1);
@@ -247,7 +279,7 @@ public class CadastroOrdemEntradaService implements Serializable {
 		int posicao1 = 0;
 		int comparador = 1;
 		int tamanhoArrayPrincipal = passadasCompetidores.size();
-		
+
 		do {
 
 			Competidor comp1 = new Competidor();
@@ -257,7 +289,7 @@ public class CadastroOrdemEntradaService implements Serializable {
 
 			Passada pas = new Passada();
 			Passada pas2 = new Passada();
-			
+
 			if (listaAuxiliar.size() == 0) {
 				// se a lista auxiliar estiver vazia, alimenta com o
 				// primeiro
@@ -280,33 +312,32 @@ public class CadastroOrdemEntradaService implements Serializable {
 
 				// este loop verifica se os registros se repetem
 				do {
-					
+
 					comp3 = new Competidor();
 					comp4 = new Competidor();
 					pas2 = passadasCompetidores.get(comparador);
-					
+
 					// pega os dois competidores da ficha a ser comparada
 					comp3 = pas2.getFichasInscricoes().get(0).getCompetidor();
 					comp4 = pas2.getFichasInscricoes().get(1).getCompetidor();
 
 					// 4 IFs comparam os competidores se são iguais
 					if (comp1.getNome().equals(comp3.getNome())) {
-						
 						comparador++;
-						posicao1++;						
-					
+						posicao1++;
+
 					} else if (comp1.getNome().equals(comp4.getNome())) {
 						comparador++;
-						posicao1++;						
-					
+						posicao1++;
+
 					} else if (comp2.getNome().equals(comp3.getNome())) {
 						comparador++;
-						posicao1++;						
-					
+						posicao1++;
+
 					} else if (comp2.getNome().equals(comp4.getNome())) {
 						comparador++;
-						posicao1++;						
-					
+						posicao1++;
+
 					} else {
 						System.out.println("if 1");
 						System.out.println("nome competidor1: " + comp1.getNome());
@@ -326,8 +357,7 @@ public class CadastroOrdemEntradaService implements Serializable {
 						// reseta as variáveis de comparaçao.
 						posicao1 = 0;
 						comparador = 0;
-						
-						
+
 						// muda variável para sair do loop secundário
 						ver2 = true;
 
@@ -354,7 +384,6 @@ public class CadastroOrdemEntradaService implements Serializable {
 						System.out.println("nome competidor1: " + comp3.getNome());
 						System.out.println("nome competidor1: " + comp4.getNome());
 
-						
 						// se os competidores não forem iguais
 						// adiciona a passada não inseria a uma lista
 						// auxiliar e
@@ -387,13 +416,51 @@ public class CadastroOrdemEntradaService implements Serializable {
 			}
 
 		} while (!ver1);
-		
+
 		passadasCompetidores = new ArrayList<>();
 		passadasCompetidores.addAll(listaAuxiliar);
-		
+
 		System.out.println(passadasCompetidores.size());
-		
+
 		return passadasCompetidores;
 	}
 
+	public List<Passada> embaralhaPassadas2(List<Passada> passadasCompetidores) {
+
+		List<Passada> listaAuxiliar1 = new ArrayList<>();
+		List<Passada> listaAuxiliar2 = new ArrayList<>();
+
+		Passada pas1 = new Passada();
+
+		// adiciono o primeiro item da lista principal
+		if (listaAuxiliar1 == null || listaAuxiliar1.size() == 0) {
+
+			pas1 = passadasCompetidores.get(0);
+			listaAuxiliar1.add(pas1);
+			System.out.println("Tamanho do lista principal1");
+			System.out.println(passadasCompetidores.size());
+			System.out.println(pas1.getFichasInscricoes().get(0).getCompetidor().getNome());
+			System.out.println(pas1.getFichasInscricoes().get(1).getCompetidor().getNome());
+
+			// removo o objeto já inserido
+			passadasCompetidores.remove(pas1);
+		}
+
+		if (listaAuxiliar1 != null || listaAuxiliar1.size() != 0) {
+			System.out.println("Tamanho do lista principal2");
+			System.out.println(passadasCompetidores.size());
+
+			pas1 = new Passada();
+			pas1 = passadasCompetidores.get(0);
+			listaAuxiliar1.add(pas1);
+			System.out.println(pas1.getFichasInscricoes().get(0).getCompetidor().getNome());
+			System.out.println(pas1.getFichasInscricoes().get(1).getCompetidor().getNome());
+			passadasCompetidores.remove(pas1);
+		}
+
+		passadasCompetidores = new ArrayList<>();
+		passadasCompetidores.addAll(listaAuxiliar1);
+
+		return passadasCompetidores;
+	}
 }

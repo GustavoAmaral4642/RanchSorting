@@ -169,7 +169,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 			// chama método para embaralhar as passadas do amador
 			passadasCompetidores = cadastroOrdemEntradaService.geraPassadaAmador(this.ordemEntrada, fichasFiltradas);
 
-			passadasCompetidores = cadastroOrdemEntradaService.embaralhaPassadas(passadasCompetidores);
+			//passadasCompetidores = cadastroOrdemEntradaService.embaralhaPassadas2(passadasCompetidores);
 			
 			if (passadasCompetidores == null || passadasCompetidores.size() == 0) {
 				throw new NegocioException("Os competidores não foram carregados. Ordem não será gerada!");
