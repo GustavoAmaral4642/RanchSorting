@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">Relatório de Ordem de Entrada</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Relatórios</li>
+		<li>/</li>
+		<li><p:link outcome="/relatorios/RelatorioOrdemEntrada">Relatório de Ordem de Entrada</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<f:event listener="#{relatorioOrdemEntradaBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form>
+			<div class="ui-fluid">
+				<div class="ui-g">
+					<div class="ui-g-12">
+						<div class="card no-margin">
+							<h1>Relatório de Ordem de Entrada</h1>
+
+							<p:growl id="growl" autoUpdate="true" />
+
+							<h:form>
+								<p:panelGrid columns="4"
+									columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+									layout="grid" styleClass="ui-panelgrid-blank"
+									style="border:0px none; background-color:transparent;">
+
+									<p:outputLabel for="campeonato" value="Selecione o Campeonato:" />
+									<p:selectOneMenu id="campeonato" filter="true"
+										label="Campeonato" filterMatchMode="contains"
+										style="margin-bottom:10px;"
+										value="#{relatorioOrdemEntradaBean.campeonato}">
+										<f:selectItem itemLabel="Selecione um Campeonato" />
+										<f:selectItems
+											value="#{relatorioOrdemEntradaBean.todosCampeonatos}"
+											var="todosCampeonatos" itemValue="#{todosCampeonatos}"
+											itemLabel="#{todosCampeonatos.nome} - #{todosCampeonatos.tipoCampeonato.descricao}" />
+										<p:ajax
+											listener="#{relatorioOrdemEntradaBean.carregarEtapas}"
+											update="etapa" />
+									</p:selectOneMenu>
+
+									<p:outputLabel for="etapa" value="Selecione a Etapa:" />
+									<p:selectOneMenu id="etapa" filter="true" label="Etapa"
+										filterMatchMode="contains" style="margin-bottom:10px;"
+										value="#{relatorioOrdemEntradaBean.etapa}">
+										<f:selectItem itemLabel="Selecione uma Etapa" />
+										<f:selectItems
+											value="#{relatorioOrdemEntradaBean.etapasCampeonatos}"
+											var="etapasCampeonatos" itemValue="#{etapasCampeonatos}"
+											itemLabel="#{etapasCampeonatos.nome}" />
+										
+									</p:selectOneMenu>
+
+									<p:outputLabel for="divisao" value="Selecione a divisão:" />
+									<p:selectOneMenu id="divisao" filter="true" label="Divisão"
+										filterMatchMode="contains" style="margin-bottom:10px;"
+										value="#{relatorioOrdemEntradaBean.divisao}">
+										<f:selectItem itemLabel="Selecione a Divisão" />
+										<f:selectItems
+											value="#{relatorioOrdemEntradaBean.todasDivisoes}"
+											var="todasDivisoes" itemValue="#{todasDivisoes}"
+											itemLabel="#{todasDivisoes.nome} - #{todasDivisoes.tipoFicha.descricao}" />
+									</p:selectOneMenu>
+
+									<p:commandButton value="Emitir" icon="fa fa-printer"
+										action="#{relatorioOrdemEntradaBean.emitir}" ajax="false" />
+
+									<p:spacer />
+
+								</p:panelGrid>
+
+							</h:form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

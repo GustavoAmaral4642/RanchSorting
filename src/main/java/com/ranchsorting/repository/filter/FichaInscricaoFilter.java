@@ -13,6 +13,7 @@ public class FichaInscricaoFilter implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private Long id;
 	private String campeonato;
 	private String etapa;
 	private String divisao;
@@ -24,6 +25,14 @@ public class FichaInscricaoFilter implements Serializable {
 	private Date dataInscricaoInicial;
 	private Date dataInscricaoFinal;
 	private StatusFicha statusFicha;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getCampeonato() {
 		return campeonato;

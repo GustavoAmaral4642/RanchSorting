@@ -2,17 +2,15 @@ package com.ranchsorting.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import java.util.List;
-import java.util.Random;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.ConstraintViolationException;
 
 import com.ranchsorting.model.Campeonato;
-import com.ranchsorting.model.Competidor;
 import com.ranchsorting.model.Divisao;
 import com.ranchsorting.model.Etapa;
 import com.ranchsorting.model.FichaInscricao;
@@ -78,16 +76,17 @@ public class CadastroOrdemEntradaBean implements Serializable {
 		todasDivisoes = divisoes.todasDivisoes();
 
 		if (FacesUtil.isNotPostback()) {
+			
 			if (isEditando()) {
-				fichaInscricaoFilter.setObjCampeonato(ordemEntrada.getCampeonato());
-
+				
+				fichaInscricaoFilter.setObjCampeonato(this.ordemEntrada.getCampeonato());
 				etapasCampeonatos = etapas.etapasDoCampeonato(this.fichaInscricaoFilter.getObjCampeonato());
-				fichaInscricaoFilter.setObjEtapa(ordemEntrada.getEtapa());
+				fichaInscricaoFilter.setObjEtapa(this.ordemEntrada.getEtapa());
+				fichaInscricaoFilter.setObjDivisao(this.ordemEntrada.getDivisao());
 
-				fichaInscricaoFilter.setObjDivisao(ordemEntrada.getDivisao());
-
+				
+				
 				passadasCompetidores.addAll(ordemEntrada.getPassadas());
-
 			}
 		}
 	}
@@ -100,9 +99,9 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	}
 
 	public void salvar() {
-
+		
 		this.ordemEntrada.getPassadas().addAll(passadasCompetidores);
-		this.ordemEntrada = cadastroOrdemEntradaService.salvar(ordemEntrada);
+		this.ordemEntrada = cadastroOrdemEntradaService.salvar(this.ordemEntrada);
 
 		limpar();
 
@@ -136,7 +135,6 @@ public class CadastroOrdemEntradaBean implements Serializable {
 				}
 			}
 		}
-
 	}
 
 	public void carregarEtapas() {
@@ -166,8 +164,30 @@ public class CadastroOrdemEntradaBean implements Serializable {
 						"Atenção, certifique-se se esse procedimento já foi feito ou se os competidores foram carregados!");
 			}
 
-			// chama método para embaralhar as passadas do amador
-			passadasCompetidores = cadastroOrdemEntradaService.geraPassadaAmador(this.ordemEntrada, fichasFiltradas);
+			try{
+				// chama método para embaralhar as passadas do amador
+				passadasCompetidores = cadastroOrdemEntradaService.geraPassadaAmador(this.ordemEntrada, fichasFiltradas,fichaInscricaoFilter);
+				
+			} catch (NullPointerException ex) {
+				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
+						+ "Entre em contato com o administrador do Sistema. (NullPointerException)");
+			} catch (ConstraintViolationException ex) {
+				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
+						+ "Entre em contato com o administrador do Sistema. (ConstraintViolationException)");
+			} catch (ArithmeticException ex) {
+				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
+						+ "Entre em contato com o administrador do Sistema. (ArithmeticException)");
+			} catch (IndexOutOfBoundsException e){
+				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
+						+ "Entre em contato com o administrador do Sistema. (IndexOutOfBoundsException)");
+			} catch (RuntimeException ex) {
+				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
+						+ "Entre em contato com o administrador do Sistema. (RuntimeException)");
+			} catch (Exception ex) {
+				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
+						+ "Entre em contato com o administrador do Sistema. (Exception)");
+			} 
+			
 
 			//passadasCompetidores = cadastroOrdemEntradaService.embaralhaPassadas2(passadasCompetidores);
 			
@@ -175,152 +195,36 @@ public class CadastroOrdemEntradaBean implements Serializable {
 				throw new NegocioException("Os competidores não foram carregados. Ordem não será gerada!");
 			}
 
-			this.ordemEntrada.setCampeonato(fichaInscricaoFilter.getObjCampeonato());
-			this.ordemEntrada.setEtapa(fichaInscricaoFilter.getObjEtapa());
-			this.ordemEntrada.setDivisao(fichaInscricaoFilter.getObjDivisao());
-
 		} else {
-
-			List<Integer> numerosOrdem = new ArrayList<>();
-
-			for (int i = 0; i < passadasCompetidores.size(); i++) {
-				numerosOrdem.add(i + 1);
-			}
-
-			// embaralha
-			Collections.shuffle(passadasCompetidores);
-
-			List<Passada> listaAuxiliar = new ArrayList<>();
-
-			boolean ver1 = false, ver2 = false, ver3 = false;
-
-			int posicao1 = 0;
-			int comparador = 1;
-			int tamanhoArrayPrincipal = passadasCompetidores.size();
-
-			do {
-
-				Competidor comp1 = new Competidor();
-				Competidor comp2 = new Competidor();
-				Competidor comp3 = new Competidor();
-				Competidor comp4 = new Competidor();
-
-				Passada pas = new Passada();
-
-				if (listaAuxiliar.size() == 0) {
-					// se a lista auxiliar estiver vazia, alimenta com o
-					// primeiro
-					// registro da passadasCompetidores
-					pas = passadasCompetidores.get(posicao1);
-					listaAuxiliar.add(pas);
-					passadasCompetidores.remove(pas);
-				} else {
-					// se nao, pega o ultimo registro da listaAuxiliar
-					pas = listaAuxiliar.get((listaAuxiliar.size() - 1));
-					ver2 = false;
-				}
-
-				if (posicao1 == 0 && ver2 == false) {
-
-					// pega os dois competidores de uma das fichas que serão
-					// comparadas
-					comp1 = pas.getFichasInscricoes().get(0).getCompetidor();
-					comp2 = pas.getFichasInscricoes().get(1).getCompetidor();
-
-					// este loop verifica se os registros se repetem
-					do {
-						// pega os dois competidores da ficha a ser comparada
-						comp3 = passadasCompetidores.get(comparador).getFichasInscricoes().get(0).getCompetidor();
-						comp4 = passadasCompetidores.get(comparador).getFichasInscricoes().get(1).getCompetidor();
-
-						// 4 IFs comparam os competidores se são iguais
-						if (comp1.getNome().equals(comp3.getNome())) {
-							comparador++;
-							posicao1++;
-
-						} else if (comp1.getNome().equals(comp4.getNome())) {
-							comparador++;
-							posicao1++;
-
-						} else if (comp2.getNome().equals(comp3.getNome())) {
-							comparador++;
-							posicao1++;
-
-						} else if (comp2.getNome().equals(comp4.getNome())) {
-							comparador++;
-							posicao1++;
-
-						} else {
-							// se os competidores não forem iguais
-							// adiciona a passada não inseria a uma lista
-							// auxiliar e
-							// remove da lista que está sendo lida
-							listaAuxiliar.add(passadasCompetidores.get(comparador));
-							passadasCompetidores.remove(passadasCompetidores.get(comparador));
-
-							// reseta as variáveis de comparaçao.
-							posicao1 = 0;
-							comparador = 0;
-
-							// muda variável para sair do loop secundário
-							ver2 = true;
-
-							// se o tamanho da lista auxiliar for do mesmo
-							// tamanho
-							// que a lista pricipal, torna a ver3 true para sair
-							// do
-							// loop principal
-							if (listaAuxiliar.size() >= tamanhoArrayPrincipal) {
-								ver3 = true;
-							}
-						}
-
-						// se o tamanho de passadas competidores for 0 e
-						// comparador
-						// tiver ser o mesmo que o tamanho do array
-						if (passadasCompetidores.size() != 0 && comparador == passadasCompetidores.size()) {
-							posicao1 = 0;
-							comparador = 0;
-
-							// se os competidores não forem iguais
-							// adiciona a passada não inseria a uma lista
-							// auxiliar e
-							// remove da lista que está sendo lida
-							listaAuxiliar.add(passadasCompetidores.get(comparador));
-							passadasCompetidores.remove(passadasCompetidores.get(comparador));
-
-							// muda variável para sair do loop secundário
-							ver2 = true;
-
-							// se o tamanho da lista auxiliar for do mesmo
-							// tamanho
-							// que a lista pricipal, torna a ver3 true para sair
-							// do
-							// loop principal
-							if (listaAuxiliar.size() >= tamanhoArrayPrincipal) {
-								ver3 = true;
-							}
-						}
-
-					} while (!ver2);
-
-					// ajusta tamanho da posicao 1.
-					posicao1 = 0;
-				}
-
-				// sai do loop quando posicao1 for mesmo tamanho que o array
-				if (ver2 == true && ver3 == true) {
-					ver1 = true;
-				}
-
-			} while (!ver1);
-
-			passadasCompetidores = listaAuxiliar;
-
-			for (int i = 0; i < passadasCompetidores.size(); i++) {
-				passadasCompetidores.get(i).setNumeroDupla(Long.valueOf(numerosOrdem.get(i)));
-			}
+			passadasCompetidores = cadastroOrdemEntradaService.trataOutrasPassadas(passadasCompetidores, fichaInscricaoFilter);
+			try{
+				
+			}catch (NullPointerException ex) {
+				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
+						+ "Entre em contato com o administrador do Sistema. (NullPointerException)");
+			} catch (ConstraintViolationException ex) {
+				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
+						+ "Entre em contato com o administrador do Sistema. (ConstraintViolationException)");
+			} catch (ArithmeticException ex) {
+				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
+						+ "Entre em contato com o administrador do Sistema. (ArithmeticException)");
+			} catch (IndexOutOfBoundsException e){
+				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
+						+ "Entre em contato com o administrador do Sistema. (IndexOutOfBoundsException)");
+			} catch (RuntimeException ex) {
+				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
+						+ "Entre em contato com o administrador do Sistema. (RuntimeException)");
+			} catch (Exception ex) {
+				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
+						+ "Entre em contato com o administrador do Sistema. (Exception)");
+			} 
+			
 		}
+		
+		this.ordemEntrada.setCampeonato(fichaInscricaoFilter.getObjCampeonato());
+		this.ordemEntrada.setEtapa(fichaInscricaoFilter.getObjEtapa());
+		this.ordemEntrada.setDivisao(fichaInscricaoFilter.getObjDivisao());
+
 		/*
 		 * embaralhar numero da dupla List<Integer> numeros = new
 		 * ArrayList<Integer>(); for (int i = 0; i < 26; i++) { numeros.add(i);
@@ -337,10 +241,6 @@ public class CadastroOrdemEntradaBean implements Serializable {
 		}
 
 		carregarCompetidores();
-	}
-
-	public List<FichaInscricao> completarCompetidores(String nomeCompetidor) {
-		return this.fichasFiltradas;
 	}
 
 	public void incluirFichasCompetidores() {

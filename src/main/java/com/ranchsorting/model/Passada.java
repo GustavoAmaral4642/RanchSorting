@@ -50,12 +50,12 @@ public class Passada implements Serializable {
 		this.id = id;
 	}
 
-	@OneToMany(mappedBy = "passada", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "passada", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	public List<FichaInscricao> getFichasInscricoes() {
 		return fichasInscricoes;
 	}
 
-	public void setFichasInscricoes(List<FichaInscricao> fichasInscricoes) {
+	public void setFichasInscricoes(List<FichaInscricao> fichasInscricoes) {		
 		this.fichasInscricoes = fichasInscricoes;
 	}
 

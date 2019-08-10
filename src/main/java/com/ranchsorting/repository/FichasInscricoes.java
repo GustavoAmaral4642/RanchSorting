@@ -42,8 +42,22 @@ public class FichasInscricoes implements Serializable {
 
 		Session session = manager.unwrap(Session.class);
 		Criteria criteria = session.createCriteria(FichaInscricao.class).createAlias("campeonato", "ca")
-				.createAlias("etapa", "e").createAlias("divisao", "d");
+				.createAlias("etapa", "e").createAlias("divisao", "d").createAlias("competidor", "co");
 
+		if(filtro.getId() != null ){
+			
+			criteria.add(Restrictions.eq("id", filtro.getId()));
+		}
+
+		if (StringUtils.isNotBlank(filtro.getCompetidor())) {
+			criteria.add(Restrictions.ilike("co.nome", filtro.getCompetidor(), MatchMode.ANYWHERE));
+		}
+
+		// busca Competidores por objeto
+		if (filtro.getObjCompetidor() != null) {
+			criteria.add(Restrictions.ilike("co.nome", filtro.getObjCompetidor().getNome()));
+		}
+		
 		if (StringUtils.isNotBlank(filtro.getCampeonato())) {
 			criteria.add(Restrictions.ilike("ca.nome", filtro.getCampeonato(), MatchMode.ANYWHERE));
 		}

@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -36,7 +37,7 @@ public class OrdensEntradas implements Serializable {
 
 		Session session = manager.unwrap(Session.class);
 		Criteria criteria = session.createCriteria(OrdemEntrada.class);
-
+		
 		/*if (filtro.getCampeonato() != null) {
 			criteria.add(Restrictions.eq("ca.nome", filtro.getCampeonato().getNome()));
 		}

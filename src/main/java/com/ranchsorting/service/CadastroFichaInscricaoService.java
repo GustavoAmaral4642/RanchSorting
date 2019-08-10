@@ -11,6 +11,7 @@ import javax.validation.ConstraintViolationException;
 import com.ranchsorting.model.FichaInscricao;
 import com.ranchsorting.repository.FichasInscricoes;
 import com.ranchsorting.util.jpa.Transactional;
+import com.ranchsorting.util.jsf.FacesUtil;
 
 public class CadastroFichaInscricaoService implements Serializable {
 
@@ -39,16 +40,16 @@ public class CadastroFichaInscricaoService implements Serializable {
 		
 		// se a quantidade de fichas incluídas somado com o que será incluído for maior que quinze, exception
 		if((pesquisaFichas.size()+ficha.getQntFichas()) >15){
-			throw new NegocioException("Competidor '" + ficha.getCompetidor().getNome()+ "' já possui " 
+			FacesUtil.addInfoMessage("Competidor '" + ficha.getCompetidor().getNome()+ "' já possui " 
 					+ pesquisaFichas.size() 
-					+ " fichas compradas."
-					+ " Ficha não será registrada.");
+					+ " fichas compradas.");
+					//+ " Ficha não será registrada.");
 		}
 		
 		// se a quantidade de fichas já incluídas for maior que quinze, exception
 		if(pesquisaFichas.size()>15){
-			throw new NegocioException("Competidor '" + ficha.getCompetidor().getNome()+ "' já possui 15 fichas compradas."
-					+ " Ficha não será registrada.");	
+			FacesUtil.addInfoMessage("Competidor '" + ficha.getCompetidor().getNome()+ "' já possui 15 fichas compradas.");
+					//+ " Ficha não será registrada.");	
 		}
 		
 		

@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.Random;
 
 import javax.inject.Inject;
+import javax.validation.ConstraintViolationException;
 
-import com.ranchsorting.model.Competidor;
 import com.ranchsorting.model.FichaInscricao;
 import com.ranchsorting.model.OrdemEntrada;
 import com.ranchsorting.model.Passada;
+import com.ranchsorting.model.StatusFicha;
 import com.ranchsorting.repository.OrdensEntradas;
+import com.ranchsorting.repository.filter.FichaInscricaoFilter;
 import com.ranchsorting.util.jpa.Transactional;
 
 public class CadastroOrdemEntradaService implements Serializable {
@@ -24,41 +26,42 @@ public class CadastroOrdemEntradaService implements Serializable {
 
 	@Transactional
 	public OrdemEntrada salvar(OrdemEntrada ordem) {
+		// return ordens.guardar(ordem);
 
-		return ordens.guardar(ordem);
+		try {
+			return ordens.guardar(ordem);
 
-		/*
-		 * try {
-		 * 
-		 * } catch (NullPointerException ex) { throw new NegocioException(
-		 * "Ocorreu algum promblema na gravação da Ordem de Entrada." +
-		 * "Entre em contato com o administrador do Sistema. (NullPointerException)"
-		 * ); } catch (ConstraintViolationException ex) { throw new
-		 * NegocioException(
-		 * "Ocorreu algum promblema na gravação da Ordem de Entrada." +
-		 * "Entre em contato com o administrador do Sistema. (ConstraintViolationException)"
-		 * ); } catch (ArithmeticException ex) { throw new NegocioException(
-		 * "Ocorreu algum promblema na gravação da Ordem de Entrada." +
-		 * "Entre em contato com o administrador do Sistema. (ArithmeticException)"
-		 * ); } catch (RuntimeException ex) { throw new NegocioException(
-		 * "Ocorreu algum promblema na gravação da Ordem de Entrada." +
-		 * "Entre em contato com o administrador do Sistema. (RuntimeException)"
-		 * ); } catch (Exception ex) { throw new NegocioException(
-		 * "Ocorreu algum promblema na gravação da Ordem de Entrada." +
-		 * "Entre em contato com o administrador do Sistema. (Exception)"); }
-		 */}
+		} catch (NullPointerException ex) {
+			throw new NegocioException("Ocorreu algum promblema na gravação da Ordem de Entrada."
+					+ "Entre em contato com o administrador do Sistema. (NullPointerException)");
+		} catch (ConstraintViolationException ex) {
+			throw new NegocioException("Ocorreu algum promblema na gravação da Ordem de Entrada."
+					+ "Entre em contato com o administrador do Sistema. (ConstraintViolationException)");
+		} catch (ArithmeticException ex) {
+			throw new NegocioException("Ocorreu algum promblema na gravação da Ordem de Entrada."
+					+ "Entre em contato com o administrador do Sistema. (ArithmeticException)");
+		} catch (RuntimeException ex) {
+			throw new NegocioException("Ocorreu algum promblema na gravação da Ordem de Entrada."
+					+ "Entre em contato com o administrador do Sistema. (RuntimeException)");
+		} catch (Exception ex) {
+			throw new NegocioException("Ocorreu algum promblema na gravação da Ordem de Entrada."
+					+ "Entre em contato com o administrador do Sistema. (Exception)");
+		}
+	}
 
-	public List<Passada> geraPassadaAmador(OrdemEntrada ordem, List<FichaInscricao> fichasFiltradas) {
+	public List<Passada> geraPassadaAmador(OrdemEntrada ordem, List<FichaInscricao> fichasFiltradas,
+			FichaInscricaoFilter filtro) {
+
 		List<Passada> passadasCompetidores = new ArrayList<>();
 
 		boolean verifica1 = false;
 		boolean verifica2 = false;
 		boolean verifica3 = false;
-		boolean verifica4 = false;
 
 		int num1;
 		int num2;
-		int num3=0;
+		int num3 = 0;
+		int num4 = 0;
 
 		Random gerador = new Random();
 
@@ -72,6 +75,10 @@ public class CadastroOrdemEntradaService implements Serializable {
 		listaInscricaoAuxiliar2.addAll(fichasFiltradas);
 
 		do {
+
+			if (num4 == 1000000) {
+				throw new NegocioException("Expirou o tempo de geração da ordem.");
+			}
 
 			num1 = 0;
 			num2 = 0;
@@ -100,40 +107,33 @@ public class CadastroOrdemEntradaService implements Serializable {
 			fic1 = fichasFiltradas.get(num1);
 			fic2 = fichasFiltradas.get(num2);
 
-			// teste para tratar ordem dos competidores para não repetir sequência
-			if(passadasCompetidores.size()>1){
-				System.out.println("tá dentro 1");
-				
-				System.out.println(fic1.getCompetidor().getNome());
-				System.out.println(fic2.getCompetidor().getNome());
-				
-				if(passadasCompetidores.get(passadasCompetidores.size()-1).getFichasInscricoes().get(0).getCompetidor().getNome()
-						.equals(fic1.getCompetidor().getNome()) && num3<2){
+			// teste para tratar ordem dos competidores para não repetir
+			// sequência
+			if (passadasCompetidores.size() > 1) {
+
+				if (passadasCompetidores.get(passadasCompetidores.size() - 1).getFichasInscricoes().get(0)
+						.getCompetidor().getNome().equals(fic1.getCompetidor().getNome()) && num3 < 2) {
 					num3++;
-					System.out.println("tá dentro 2");
 					continue;
 				}
-				if(passadasCompetidores.get(passadasCompetidores.size()-1).getFichasInscricoes().get(0).getCompetidor().getNome()
-						.equals(fic2.getCompetidor().getNome())){
+				if (passadasCompetidores.get(passadasCompetidores.size() - 1).getFichasInscricoes().get(0)
+						.getCompetidor().getNome().equals(fic2.getCompetidor().getNome())) {
 					num3++;
-					System.out.println("tá dentro 3");
 					continue;
 				}
-				if(passadasCompetidores.get(passadasCompetidores.size()-1).getFichasInscricoes().get(1).getCompetidor().getNome()
-						.equals(fic1.getCompetidor().getNome())){
+				if (passadasCompetidores.get(passadasCompetidores.size() - 1).getFichasInscricoes().get(1)
+						.getCompetidor().getNome().equals(fic1.getCompetidor().getNome())) {
 					num3++;
-					System.out.println("tá dentro 4");
 					continue;
 				}
-				if(passadasCompetidores.get(passadasCompetidores.size()-1).getFichasInscricoes().get(1).getCompetidor().getNome()
-						.equals(fic2.getCompetidor().getNome())){
+				if (passadasCompetidores.get(passadasCompetidores.size() - 1).getFichasInscricoes().get(1)
+						.getCompetidor().getNome().equals(fic2.getCompetidor().getNome())) {
 					num3++;
-					System.out.println("tá dentro 5");
 					continue;
 				}
-				
+
 			}
-			
+
 			// se os nomes forem iguais, loop
 			if (fic1.getCompetidor().getNome().equals(fic2.getCompetidor().getNome())) {
 				continue;
@@ -145,6 +145,10 @@ public class CadastroOrdemEntradaService implements Serializable {
 
 				// percorre todo o array principal
 				for (Passada p : passadasCompetidores) {
+
+					if (num4 == 1000000) {
+						throw new NegocioException("Expirou o tempo de geração da ordem.");
+					}
 
 					// se achar competidor igual, verifica3 fica false
 					if (p.getFichasInscricoes().get(0).getCompetidor().getNome().equals(fic1.getCompetidor().getNome())
@@ -160,6 +164,9 @@ public class CadastroOrdemEntradaService implements Serializable {
 									.equals(fic2.getCompetidor().getNome())) {
 						verifica3 = false;
 					}
+					// para expirar o tempo de geracao da ordem. se não fica em
+					// loop infinito
+					num4++;
 				}
 
 				// se encontrou repetido
@@ -168,8 +175,17 @@ public class CadastroOrdemEntradaService implements Serializable {
 				}
 			}
 
+			fic1.setCampeonato(filtro.getObjCampeonato());
+			fic1.setEtapa(filtro.getObjEtapa());
+			fic1.setDivisao(filtro.getObjDivisao());
 			fic1.setPassada(pas1);
+
+			fic2.setCampeonato(filtro.getObjCampeonato());
+			fic2.setEtapa(filtro.getObjEtapa());
+			fic2.setDivisao(filtro.getObjDivisao());
 			fic2.setPassada(pas1);
+			fic1.setStatusFicha(StatusFicha.EMORDEM);
+			fic2.setStatusFicha(StatusFicha.EMORDEM);
 
 			// adiciona as fichas em uma lista secundária
 			listaInscricaoAuxiliar1.add(fic1);
@@ -181,8 +197,8 @@ public class CadastroOrdemEntradaService implements Serializable {
 
 			// adiciona a passada na lista principal
 			passadasCompetidores.add(pas1);
-			
-			num3=0;
+
+			num3 = 0;
 
 			// remove as fichas da lista de fichas primária
 			fichasFiltradas.remove(fic1);
@@ -215,6 +231,10 @@ public class CadastroOrdemEntradaService implements Serializable {
 
 					for (Passada p : passadasCompetidores) {
 
+						if (num4 == 1000000) {
+							throw new NegocioException("Expirou o tempo de geração da ordem.");
+						}
+
 						if (p.getFichasInscricoes().get(0).getCompetidor().getNome()
 								.equals(fic1.getCompetidor().getNome())
 								&& p.getFichasInscricoes().get(1).getCompetidor().getNome()
@@ -227,6 +247,9 @@ public class CadastroOrdemEntradaService implements Serializable {
 										.equals(fic2.getCompetidor().getNome())) {
 							verifica3 = false;
 						}
+						// para expirar o tempo de geracao da ordem. se não fica
+						// em loop infinito
+						num4++;
 
 					}
 
@@ -236,14 +259,25 @@ public class CadastroOrdemEntradaService implements Serializable {
 
 					verifica2 = true;
 
+					fic1.setCampeonato(filtro.getObjCampeonato());
+					fic1.setEtapa(filtro.getObjEtapa());
+					fic1.setDivisao(filtro.getObjDivisao());
 					fic1.setPassada(pas1);
+
+					fic2.setCampeonato(filtro.getObjCampeonato());
+					fic2.setEtapa(filtro.getObjEtapa());
+					fic2.setDivisao(filtro.getObjDivisao());
 					fic2.setPassada(pas1);
+
+					fic1.setStatusFicha(StatusFicha.EMORDEM);
+					fic2.setStatusFicha(StatusFicha.EMORDEM);
+
 					listaInscricaoAuxiliar1.add(fic1);
 					listaInscricaoAuxiliar1.add(fic2);
 
 					pas1.getFichasInscricoes().addAll(listaInscricaoAuxiliar1);
-					passadasCompetidores.add(pas1);
 					pas1.setOrdemEntrada(ordem);
+					passadasCompetidores.add(pas1);
 
 					fichasFiltradas.remove(fic1);
 
@@ -255,212 +289,111 @@ public class CadastroOrdemEntradaService implements Serializable {
 			}
 		} while (!verifica1);
 
-		return passadasCompetidores;
-	}
+		int numero = 1;
 
-	public List<Passada> embaralhaPassadas(List<Passada> passadasCompetidores) {
-
-		System.out.println("entra aqui");
-
-		List<Integer> numerosOrdem = new ArrayList<>();
-		List<Passada> listaAuxiliar = new ArrayList<>();
-
-		for (int i = 0; i < passadasCompetidores.size(); i++) {
-			numerosOrdem.add(i + 1);
+		for (Passada p : passadasCompetidores) {
+			p.setNumeroDupla(new Long(numero));
+			numero++;
 		}
 
-		// embaralha
-		Collections.shuffle(passadasCompetidores);
-
-		boolean ver1 = false;
-		boolean ver2 = false;
-		boolean ver3 = false;
-
-		int posicao1 = 0;
-		int comparador = 1;
-		int tamanhoArrayPrincipal = passadasCompetidores.size();
-
-		do {
-
-			Competidor comp1 = new Competidor();
-			Competidor comp2 = new Competidor();
-			Competidor comp3 = new Competidor();
-			Competidor comp4 = new Competidor();
-
-			Passada pas = new Passada();
-			Passada pas2 = new Passada();
-
-			if (listaAuxiliar.size() == 0) {
-				// se a lista auxiliar estiver vazia, alimenta com o
-				// primeiro
-				// registro da passadasCompetidores
-				pas = passadasCompetidores.get(posicao1);
-				listaAuxiliar.add(pas);
-				passadasCompetidores.remove(pas);
-			} else {
-				// se nao, pega o ultimo registro da listaAuxiliar
-				pas = listaAuxiliar.get((listaAuxiliar.size() - 1));
-				ver2 = false;
-			}
-
-			if (posicao1 == 0 && ver2 == false) {
-
-				// pega os dois competidores de uma das fichas que serão
-				// comparadas
-				comp1 = pas.getFichasInscricoes().get(0).getCompetidor();
-				comp2 = pas.getFichasInscricoes().get(1).getCompetidor();
-
-				// este loop verifica se os registros se repetem
-				do {
-
-					comp3 = new Competidor();
-					comp4 = new Competidor();
-					pas2 = passadasCompetidores.get(comparador);
-
-					// pega os dois competidores da ficha a ser comparada
-					comp3 = pas2.getFichasInscricoes().get(0).getCompetidor();
-					comp4 = pas2.getFichasInscricoes().get(1).getCompetidor();
-
-					// 4 IFs comparam os competidores se são iguais
-					if (comp1.getNome().equals(comp3.getNome())) {
-						comparador++;
-						posicao1++;
-
-					} else if (comp1.getNome().equals(comp4.getNome())) {
-						comparador++;
-						posicao1++;
-
-					} else if (comp2.getNome().equals(comp3.getNome())) {
-						comparador++;
-						posicao1++;
-
-					} else if (comp2.getNome().equals(comp4.getNome())) {
-						comparador++;
-						posicao1++;
-
-					} else {
-						System.out.println("if 1");
-						System.out.println("nome competidor1: " + comp1.getNome());
-						System.out.println("nome competidor2: " + comp2.getNome());
-						System.out.println("nome competidor3: " + comp3.getNome());
-						System.out.println("nome competidor4: " + comp4.getNome());
-						System.out.println("comparador: " + comparador);
-						System.out.println("Posicao1: " + posicao1);
-						System.out.println("tamanho: " + passadasCompetidores.size());
-						// se os competidores não forem iguais
-						// adiciona a passada não inseria a uma lista
-						// auxiliar e
-						// remove da lista que está sendo lida
-						listaAuxiliar.add(passadasCompetidores.get(comparador));
-						passadasCompetidores.remove(pas2);
-
-						// reseta as variáveis de comparaçao.
-						posicao1 = 0;
-						comparador = 0;
-
-						// muda variável para sair do loop secundário
-						ver2 = true;
-
-						// se o tamanho da lista auxiliar for do mesmo
-						// tamanho
-						// que a lista pricipal, torna a ver3 true para sair
-						// do
-						// loop principal
-						if (listaAuxiliar.size() >= tamanhoArrayPrincipal) {
-							ver3 = true;
-						}
-					}
-
-					// se o tamanho de passadas competidores for 0 e
-					// comparador
-					// tiver ser o mesmo que o tamanho do array
-					if (passadasCompetidores.size() != 0 && comparador == passadasCompetidores.size()) {
-						posicao1 = 0;
-						comparador = 0;
-
-						System.out.println("if 2");
-						System.out.println("nome competidor1: " + comp1.getNome());
-						System.out.println("nome competidor1: " + comp2.getNome());
-						System.out.println("nome competidor1: " + comp3.getNome());
-						System.out.println("nome competidor1: " + comp4.getNome());
-
-						// se os competidores não forem iguais
-						// adiciona a passada não inseria a uma lista
-						// auxiliar e
-						// remove da lista que está sendo lida
-						listaAuxiliar.add(passadasCompetidores.get(comparador));
-						passadasCompetidores.remove(passadasCompetidores.get(comparador));
-
-						// muda variável para sair do loop secundário
-						ver2 = true;
-
-						// se o tamanho da lista auxiliar for do mesmo
-						// tamanho
-						// que a lista pricipal, torna a ver3 true para sair
-						// do
-						// loop principal
-						if (listaAuxiliar.size() >= tamanhoArrayPrincipal) {
-							ver3 = true;
-						}
-					}
-
-				} while (!ver2);
-				System.out.println("saiu do loop2");
-				// ajusta tamanho da posicao 1.
-				posicao1 = 0;
-			}
-
-			// sai do loop quando posicao1 for mesmo tamanho que o array
-			if (ver2 == true && ver3 == true) {
-				ver1 = true;
-			}
-
-		} while (!ver1);
-
-		passadasCompetidores = new ArrayList<>();
-		passadasCompetidores.addAll(listaAuxiliar);
-
-		System.out.println(passadasCompetidores.size());
-
 		return passadasCompetidores;
 	}
 
-	public List<Passada> embaralhaPassadas2(List<Passada> passadasCompetidores) {
+	public List<Passada> trataOutrasPassadas(List<Passada> passadasCompetidores, FichaInscricaoFilter filtro) {
 
 		List<Passada> listaAuxiliar1 = new ArrayList<>();
 		List<Passada> listaAuxiliar2 = new ArrayList<>();
 
-		Passada pas1 = new Passada();
+		boolean teste = true;
+		int pos1 = 0;
+		int pos2 = 0;
 
-		// adiciono o primeiro item da lista principal
-		if (listaAuxiliar1 == null || listaAuxiliar1.size() == 0) {
+		// embaralha
+		Collections.shuffle(passadasCompetidores);
 
-			pas1 = passadasCompetidores.get(0);
-			listaAuxiliar1.add(pas1);
-			System.out.println("Tamanho do lista principal1");
-			System.out.println(passadasCompetidores.size());
-			System.out.println(pas1.getFichasInscricoes().get(0).getCompetidor().getNome());
-			System.out.println(pas1.getFichasInscricoes().get(1).getCompetidor().getNome());
-
-			// removo o objeto já inserido
-			passadasCompetidores.remove(pas1);
+		// aqui eu tenho duas listas que recebem a informação principal
+		for (Passada p : passadasCompetidores) {
+			if (teste) {
+				listaAuxiliar1.add(p);
+				teste = false;
+			} else {
+				listaAuxiliar2.add(p);
+				teste = true;
+			}
 		}
 
-		if (listaAuxiliar1 != null || listaAuxiliar1.size() != 0) {
-			System.out.println("Tamanho do lista principal2");
-			System.out.println(passadasCompetidores.size());
-
-			pas1 = new Passada();
-			pas1 = passadasCompetidores.get(0);
-			listaAuxiliar1.add(pas1);
-			System.out.println(pas1.getFichasInscricoes().get(0).getCompetidor().getNome());
-			System.out.println(pas1.getFichasInscricoes().get(1).getCompetidor().getNome());
-			passadasCompetidores.remove(pas1);
-		}
-
+		// reinicio a lista principal
 		passadasCompetidores = new ArrayList<>();
-		passadasCompetidores.addAll(listaAuxiliar1);
+		
+		FichaInscricao f1;
+		FichaInscricao f2;
+		FichaInscricao f3;
+		FichaInscricao f4;
+
+		do {
+			f1 = new FichaInscricao();
+			f2 = new FichaInscricao();
+			f3 = new FichaInscricao();
+			f4 = new FichaInscricao();
+
+			System.out.println("Array principal: " + passadasCompetidores.size());
+			System.out.println("Array 1: " + listaAuxiliar1.size());
+			System.out.println("Array 2: " + listaAuxiliar2.size());
+
+			if (listaAuxiliar1.size() == 0) {
+				break;
+			}
+
+			f1 = listaAuxiliar1.get(pos1).getFichasInscricoes().get(0);
+			f2 = listaAuxiliar1.get(pos1).getFichasInscricoes().get(1);
+
+			f3 = listaAuxiliar2.get(pos2).getFichasInscricoes().get(0);
+			f4 = listaAuxiliar2.get(pos2).getFichasInscricoes().get(1);
+
+			if (f1.getCompetidor().getNome().equals(f3.getCompetidor().getNome())
+					&& f2.getCompetidor().getNome().equals(f4.getCompetidor().getNome())) {
+
+				if (teste) {
+					pos1++;
+					teste = false;
+				} else {
+					pos2++;
+					teste = true;
+				}
+				continue;
+			}
+
+			if (f1.getCompetidor().getNome().equals(f4.getCompetidor().getNome())
+					&& f2.getCompetidor().getNome().equals(f3.getCompetidor().getNome())) {
+				if (teste) {
+					pos1++;
+					teste = false;
+				} else {
+					pos2++;
+					teste = true;
+				}
+				continue;
+			}
+
+			passadasCompetidores.add(listaAuxiliar1.get(pos1));
+			passadasCompetidores.add(listaAuxiliar2.get(pos2));
+
+			System.out.println("pos1 -" + pos1);
+			System.out.println("pos2 -" + pos2);
+
+			listaAuxiliar1.remove(listaAuxiliar1.get(pos1));
+			listaAuxiliar2.remove(listaAuxiliar2.get(pos2));
+
+		} while (listaAuxiliar1.size() > 0 && listaAuxiliar2.size() > 0);
+
+		int contador = 1;
+
+		for (Passada p : passadasCompetidores) {
+			p.setNumeroDupla(new Long(contador));
+			contador++;
+		}
 
 		return passadasCompetidores;
 	}
+
 }

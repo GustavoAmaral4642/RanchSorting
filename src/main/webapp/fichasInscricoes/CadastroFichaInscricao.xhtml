@@ -54,14 +54,17 @@
 										<p:commandButton value="Salvar" icon="fa fa-save"
 											onclick="/fichasIncricoes/CadastroFichaInscricao.xhtml"
 											action="#{cadastroFichaInscricaoBean.salvar}" />
-										<p:commandButton value="Imprimir Ficha" icon="fa fa-print" />
+										<p:commandButton value="Imprimir Ficha" icon="fa fa-print"
+											action="#{cadastroFichaInscricaoBean.impressaoFichasInscricao}"
+											ajax="false" />
 									</p:panelGrid>
 								</h:panelGroup>
 
 								<p:spacer />
 								<h:panelGroup>
 									<p:panelGrid columns="2" layout="grid">
-										<p:commandButton value="Limpar" icon="fa fa-refresh" />
+										<p:button value="Limpar" icon="fa fa-refresh"
+											outcome="/fichasInscricoes/CadastroFichaInscricao" />
 										<p:button value="Pesquisa" icon="fa fa-search"
 											outcome="/fichasInscricoes/PesquisaFichasIncricoes" />
 									</p:panelGrid>

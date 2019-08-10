@@ -28,6 +28,10 @@
 									layout="grid" styleClass="ui-panelgrid-blank"
 									style="border:0px none; background-color:transparent;">
 
+									<p:outputLabel for="id" value="Codigo da Ficha:" />
+									<p:inputText id="id"
+										value="#{pesquisaFichasInscricoesBean.filtro.id}" />
+
 									<p:outputLabel for="nomeCompetidor" value="Nome do Competidor:" />
 									<p:inputText id="nomeCompetidor"
 										value="#{pesquisaFichasInscricoesBean.filtro.competidor}" />
@@ -51,6 +55,13 @@
 									<p:inputText id="etapa"
 										value="#{pesquisaFichasInscricoesBean.filtro.etapa}" />
 
+									<p:outputLabel for="divisao" value="Divisão:" />
+									<p:inputText id="divisao"
+										value="#{pesquisaFichasInscricoesBean.filtro.divisao}" />
+
+									<p:spacer />
+									<p:spacer />
+
 									<p:spacer />
 
 									<p:panelGrid columns="2" layout="grid">
@@ -60,10 +71,12 @@
 											action="#{pesquisaFichasInscricoesBean.pesquisar}"
 											update="fichasTable"
 											process="@this
+												id
 												nomeCompetidor
 												dataInscricaoInicial dataInscricaoFinal
 												campeonato
-												etapa" />
+												etapa
+												divisao" />
 									</p:panelGrid>
 
 								</p:panelGrid>
