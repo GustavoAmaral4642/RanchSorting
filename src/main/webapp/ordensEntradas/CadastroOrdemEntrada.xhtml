@@ -163,13 +163,21 @@
 							<p:spacer />
 							<p:spacer />
 
-							<p:dataTable var="passada"
+							<p:dataTable var="passada" editable="true"
 								value="#{cadastroOrdemEntradaBean.passadasCompetidores}"
 								reflow="true" emptyMessage="Nenhuma Passada Encontrada"
-								paginator="true" rows="100" id="passadasTable">
+								paginator="true" rows="250" id="passadasTable">
 								<f:facet name="header">
                                 		Fichas/Passadas
                             		</f:facet>
+
+								<p:ajax event="rowEdit"
+									listener="#{cadastroOrdemEntradaBean.onRowEdit}"
+									update=":formPai:growl :formPai:passadasTable" />
+								<p:ajax event="rowEditCancel"
+									listener="#{cadastroOrdemEntradaBean.onRowCancel}"
+									update=":formPai:growl" />
+
 								<p:column headerText="Código da Passada" sortBy="#{passada.id}"
 									style="width: 100px; text-align: center">
 									<h:outputText value="#{passada.id}" />
@@ -182,15 +190,26 @@
 										<f:facet name="header">
 										Competidor/Fichas 
 		                            	</f:facet>
-		                            	#{ficha.competidor.nome}, #{ficha.id} 
+		                            	#{ficha.competidor.nome}, #{ficha.id} #{ficha.obs}
 		                        	</p:dataList>
 								</p:column>
 
-								<p:column headerText="Numero Dupla" style="text-align: center"
-									sortBy="#{passada.numeroDupla}">
-									<h:outputText value="#{passada.numeroDupla}" />
+								<p:column headerText="Numero Dupla" sortBy="#{passada.numeroDupla}"
+									style="text-align: center">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{passada.numeroDupla}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{passada.numeroDupla}"
+												style="width:100%" />
+										</f:facet>
+									</p:cellEditor>
 								</p:column>
 
+								<p:column style="width:35px">
+									<p:rowEditor />
+								</p:column>
 
 							</p:dataTable>
 

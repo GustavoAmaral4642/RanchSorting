@@ -18,9 +18,6 @@ public class ManutencaoOrdemEntradaService implements Serializable{
 		// sorteio para prova de ranch sorting amador
 		if (ordem.getCampeonato().getTipoCampeonato().equals(TipoCampeonato.RANCHSORTING)
 				&& ordem.getDivisao().getTipoFicha().equals(TipoFicha.INDIVIDUAL)) {
-
-			
-			
 			
 			if (passadasCompetidores == null || passadasCompetidores.size() == 0) {
 				throw new NegocioException("Os competidores não foram carregados. Ordem não será gerada!");

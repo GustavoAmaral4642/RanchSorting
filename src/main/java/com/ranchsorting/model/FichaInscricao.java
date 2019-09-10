@@ -34,6 +34,7 @@ public class FichaInscricao implements Serializable {
 	private Competidor competidor;
 	private BigDecimal valorComprado;
 	private BigDecimal valorPago;
+	private String obs;
 	private Long qntFichas;
 	private Long codigoFicha;
 	private StatusFicha statusFicha;
@@ -134,6 +135,15 @@ public class FichaInscricao implements Serializable {
 
 	public void setValorPago(BigDecimal valorPago) {
 		this.valorPago = valorPago;
+	}
+
+	@Column(name="fi_observacao", length=100)
+	public String getObs() {
+		return obs;
+	}
+
+	public void setObs(String obs) {
+		this.obs = obs;
 	}
 
 	@Column(name = "fi_qnt_fichas")

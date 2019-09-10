@@ -1,6 +1,7 @@
 package com.ranchsorting.service;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -64,6 +65,7 @@ public class CadastroOrdemEntradaService implements Serializable {
 		int num4 = 0;
 
 		Random gerador = new Random();
+		Collections.shuffle(fichasFiltradas);
 
 		List<FichaInscricao> listaInscricaoAuxiliar1;
 		List<FichaInscricao> listaInscricaoAuxiliar2 = new ArrayList<>();
@@ -114,21 +116,25 @@ public class CadastroOrdemEntradaService implements Serializable {
 				if (passadasCompetidores.get(passadasCompetidores.size() - 1).getFichasInscricoes().get(0)
 						.getCompetidor().getNome().equals(fic1.getCompetidor().getNome()) && num3 < 2) {
 					num3++;
+					num4++;
 					continue;
 				}
 				if (passadasCompetidores.get(passadasCompetidores.size() - 1).getFichasInscricoes().get(0)
 						.getCompetidor().getNome().equals(fic2.getCompetidor().getNome())) {
 					num3++;
+					num4++;
 					continue;
 				}
 				if (passadasCompetidores.get(passadasCompetidores.size() - 1).getFichasInscricoes().get(1)
 						.getCompetidor().getNome().equals(fic1.getCompetidor().getNome())) {
 					num3++;
+					num4++;
 					continue;
 				}
 				if (passadasCompetidores.get(passadasCompetidores.size() - 1).getFichasInscricoes().get(1)
 						.getCompetidor().getNome().equals(fic2.getCompetidor().getNome())) {
 					num3++;
+					num4++;
 					continue;
 				}
 
@@ -136,6 +142,7 @@ public class CadastroOrdemEntradaService implements Serializable {
 
 			// se os nomes forem iguais, loop
 			if (fic1.getCompetidor().getNome().equals(fic2.getCompetidor().getNome())) {
+				num4++;
 				continue;
 			}
 
@@ -171,6 +178,7 @@ public class CadastroOrdemEntradaService implements Serializable {
 
 				// se encontrou repetido
 				if (verifica3 == false) {
+					num4++;
 					continue;
 				}
 			}
@@ -219,8 +227,10 @@ public class CadastroOrdemEntradaService implements Serializable {
 					// pega a ultima ficha da lista.
 					fic1 = fichasFiltradas.get(0);
 					// pega uma ficha qualquer da lista terciária
-					fic2 = listaInscricaoAuxiliar2.get(num1);
 
+					num1 = gerador.nextInt(listaInscricaoAuxiliar2.size() - 1);
+					fic2 = listaInscricaoAuxiliar2.get(num1);
+					System.out.println(fic1.getCompetidor().getNome());
 					// se competidores iguais, loop
 					if (fic1.getCompetidor().getNome().equals(fic2.getCompetidor().getNome())) {
 						continue;
@@ -264,10 +274,21 @@ public class CadastroOrdemEntradaService implements Serializable {
 					fic1.setDivisao(filtro.getObjDivisao());
 					fic1.setPassada(pas1);
 
+					FichaInscricao ficAux = new FichaInscricao();
+					ficAux = fic2;
+					fic2 = new FichaInscricao();
+
 					fic2.setCampeonato(filtro.getObjCampeonato());
 					fic2.setEtapa(filtro.getObjEtapa());
 					fic2.setDivisao(filtro.getObjDivisao());
 					fic2.setPassada(pas1);
+					fic2.setObs(" (Sorteada)");
+					fic2.setCompetidor(ficAux.getCompetidor());
+					fic2.setDataInscricao(ficAux.getDataInscricao());
+					fic2.setDataAlteracao(ficAux.getDataAlteracao());
+					fic2.setQntFichas(new Long(1));
+					fic2.setValorComprado(BigDecimal.ONE);
+					fic2.setValorPago(BigDecimal.ONE);
 
 					fic1.setStatusFicha(StatusFicha.EMORDEM);
 					fic2.setStatusFicha(StatusFicha.EMORDEM);
@@ -280,7 +301,7 @@ public class CadastroOrdemEntradaService implements Serializable {
 					passadasCompetidores.add(pas1);
 
 					fichasFiltradas.remove(fic1);
-
+					System.out.println("passou");
 				} while (!verifica2);
 			}
 
@@ -324,7 +345,7 @@ public class CadastroOrdemEntradaService implements Serializable {
 
 		// reinicio a lista principal
 		passadasCompetidores = new ArrayList<>();
-		
+
 		FichaInscricao f1;
 		FichaInscricao f2;
 		FichaInscricao f3;
@@ -335,10 +356,6 @@ public class CadastroOrdemEntradaService implements Serializable {
 			f2 = new FichaInscricao();
 			f3 = new FichaInscricao();
 			f4 = new FichaInscricao();
-
-			System.out.println("Array principal: " + passadasCompetidores.size());
-			System.out.println("Array 1: " + listaAuxiliar1.size());
-			System.out.println("Array 2: " + listaAuxiliar2.size());
 
 			if (listaAuxiliar1.size() == 0) {
 				break;
@@ -378,14 +395,26 @@ public class CadastroOrdemEntradaService implements Serializable {
 			passadasCompetidores.add(listaAuxiliar1.get(pos1));
 			passadasCompetidores.add(listaAuxiliar2.get(pos2));
 
-			System.out.println("pos1 -" + pos1);
-			System.out.println("pos2 -" + pos2);
-
 			listaAuxiliar1.remove(listaAuxiliar1.get(pos1));
 			listaAuxiliar2.remove(listaAuxiliar2.get(pos2));
 
 		} while (listaAuxiliar1.size() > 0 && listaAuxiliar2.size() > 0);
 
+		int contador = 1;
+
+		for (Passada p : passadasCompetidores) {
+			p.setNumeroDupla(new Long(contador));
+			contador++;
+		}
+
+		return passadasCompetidores;
+	}
+
+	public List<Passada> trataOutrasPassadas2(List<Passada> passadasCompetidores, FichaInscricaoFilter filtro) {
+
+		// embaralha
+		Collections.shuffle(passadasCompetidores);
+		
 		int contador = 1;
 
 		for (Passada p : passadasCompetidores) {

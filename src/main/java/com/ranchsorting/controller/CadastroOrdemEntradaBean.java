@@ -5,10 +5,14 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.ConstraintViolationException;
+
+import org.primefaces.event.RowEditEvent;
 
 import com.ranchsorting.model.Campeonato;
 import com.ranchsorting.model.Divisao;
@@ -196,7 +200,8 @@ public class CadastroOrdemEntradaBean implements Serializable {
 			}
 
 		} else {
-			passadasCompetidores = cadastroOrdemEntradaService.trataOutrasPassadas(passadasCompetidores, fichaInscricaoFilter);
+			
+			passadasCompetidores = cadastroOrdemEntradaService.trataOutrasPassadas2(passadasCompetidores, fichaInscricaoFilter);
 			try{
 				
 			}catch (NullPointerException ex) {
@@ -326,6 +331,18 @@ public class CadastroOrdemEntradaBean implements Serializable {
 			fichasSelecionadas = new ArrayList<>();
 
 		}
+	}
+	
+	public void onRowEdit(RowEditEvent event) {
+		FacesMessage msg = new FacesMessage("Passada editada", ((Passada) event.getObject()).getId().toString());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		this.ordemEntrada.getPassadas().addAll(passadasCompetidores);
+		cadastroOrdemEntradaService.salvar(ordemEntrada);
+	}
+
+	public void onRowCancel(RowEditEvent event) {
+		FacesMessage msg = new FacesMessage("Edição cancelada", ((Passada) event.getObject()).getId().toString());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public OrdemEntrada getOrdemEntrada() {
