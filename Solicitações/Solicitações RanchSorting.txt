@@ -1,0 +1,19 @@
+
+
+Pesquisa de Fichas de Inscrições
+ - inserir um totalizador para mostrar o total de fichas por competidor.
+
+
+Cadastro de Ficha de Inscricões
+ - Inserir controle/parâmetro não precisar informar a quantitade fichas na hora da inscrição
+ - inserir controle para na prova aberto permitir informar competidor e parceiro
+
+Ordem de Entrada
+ - Possibilidade de excluir uma passada gerada. 
+ - Criar campo no bd sobre agrupamento.
+    .Para tratar o problema de mesmo competidor na mesma boiada várias vzes
+ - Demarcar boiadas
+ - Inserir uma coluna de código na lista de ordens
+
+Relatório de Ranking por Competidor
+ - Paulinho pediu
