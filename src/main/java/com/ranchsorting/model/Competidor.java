@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -25,6 +26,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_competidor")
+// @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public class Competidor implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -104,7 +106,7 @@ public class Competidor implements Serializable {
 		this.docResponsavel = docResponsavel;
 	}
 
-	@OneToMany(mappedBy = "competidor", cascade = CascadeType.ALL)
+	@OneToMany(fetch=FetchType.LAZY, mappedBy = "competidor", cascade = CascadeType.ALL)
 	public List<Animal> getAnimais() {
 		return animais;
 	}
@@ -134,7 +136,7 @@ public class Competidor implements Serializable {
 		this.etnia = etnia;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "cp_us_alteracao")
 	public final Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
@@ -154,7 +156,7 @@ public class Competidor implements Serializable {
 		this.dataAlteracao = dataAlteracao;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "cp_ocorrencia")
 	public final Ocorrencia getOcorrencia() {
 		return ocorrencia;

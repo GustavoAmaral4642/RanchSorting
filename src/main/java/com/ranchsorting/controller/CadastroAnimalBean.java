@@ -1,6 +1,7 @@
 package com.ranchsorting.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
@@ -35,7 +36,11 @@ public class CadastroAnimalBean implements Serializable {
 	}
 
 	public void inicializar() {
-		todosCompetidores = competidores.todosCompetidores();
+		if (FacesUtil.isNotPostback() ) {
+			if(todosCompetidores==null){
+				todosCompetidores = competidores.consultaCompetidoresParaCombobox();
+			}
+		}
 	}
 
 	public void limpar() {
@@ -44,11 +49,10 @@ public class CadastroAnimalBean implements Serializable {
 	}
 
 	public void salvar() {
-		
 		this.animal = cadastroAnimalService.salvar(animal);
 		
 		limpar();
-		
+
 		FacesUtil.addInfoMessage("Animal salvo com sucesso!");
 	}
 
@@ -64,7 +68,7 @@ public class CadastroAnimalBean implements Serializable {
 		return todosCompetidores;
 	}
 
-	public boolean isEditando(){
+	public boolean isEditando() {
 		return this.getAnimal().getId() != null;
 	}
 	

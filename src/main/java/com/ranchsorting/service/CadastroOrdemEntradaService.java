@@ -10,6 +10,7 @@ import java.util.Random;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
 
+import com.ranchsorting.model.Boiada;
 import com.ranchsorting.model.FichaInscricao;
 import com.ranchsorting.model.OrdemEntrada;
 import com.ranchsorting.model.Passada;
@@ -422,6 +423,58 @@ public class CadastroOrdemEntradaService implements Serializable {
 			contador++;
 		}
 
+		return passadasCompetidores;
+	}
+	
+	// método para embaralhar as passadas
+	public List<Passada> embaralharPassadas(List<Passada> passadasCompetidores, FichaInscricaoFilter filtro){
+		
+		Boiada boiada = new Boiada();
+		Random gerador = new Random();
+		int aleatorio1 = 0;
+				
+		//backup da lista
+		List<Passada> listaAuxiliar1 = passadasCompetidores;
+		
+		// se o parametro do campeonato estiver zerado, monta boiada com 10 passadas
+		if(filtro.getObjCampeonato().getQntBoiada() == 0){
+			filtro.getObjCampeonato().setQntBoiada(new Long(10));
+		}
+		
+		//cria um numero de controle para quantidade de boiada
+		int numControle = 0;//filtro.getObjCampeonato().getQntBoiada());
+		
+		do{
+		
+			// se o tamanho da lista de boiadas for igual ao numero de controle, reseta boiada
+			if(boiada.getPassadas() != null 
+					&& boiada.getPassadas().size()==numControle){
+				boiada = new Boiada();
+			}
+			
+			// gera um numero para pegar no a passada do array
+			aleatorio1 = gerador.nextInt(passadasCompetidores.size() - 1);
+			
+			// se a lista de passada na boiada estiver vazia adiciona e remove
+			if(boiada.getPassadas()==null || boiada.getPassadas().size()==0){
+				boiada.getPassadas().add(passadasCompetidores.get(aleatorio1));
+				passadasCompetidores.remove(aleatorio1);
+				
+			} else {
+				// se não
+				// adiciona a próxima passada seguindo os testes
+				
+				
+				
+				boiada.getPassadas().add(passadasCompetidores.get(aleatorio1));
+				passadasCompetidores.remove(aleatorio1);
+			}
+			
+			
+		} while(passadasCompetidores.size()!=0);
+		
+		
+		
 		return passadasCompetidores;
 	}
 

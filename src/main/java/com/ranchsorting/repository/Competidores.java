@@ -67,6 +67,18 @@ public class Competidores implements Serializable {
 			return null;
 		}
 	}
+	
+	//usar somente em combobox
+	public List<Competidor> consultaCompetidoresParaCombobox(){
+		try {
+			String jpql = "from Competidor";
+			List<Competidor> resultados = manager.createQuery(jpql, Competidor.class).getResultList(); 
+			
+			return resultados;
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
 		
 	@SuppressWarnings("unchecked")
 	public List<Competidor> filtrados(CompetidorFilter filtro) {

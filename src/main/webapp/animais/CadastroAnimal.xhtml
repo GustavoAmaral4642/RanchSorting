@@ -44,7 +44,9 @@
 								<p:inputText id="nome" value="#{cadastroAnimalBean.animal.nome}" />
 
 								<p:outputLabel for="idade" value="Idade:" />
-								<p:inputText id="idade"
+								<p:inputMask id="idade" label="Idade" size="20"
+									maxlength="20" mask="9?999999999999999"
+									placeHolder="Idade" title="Idade"
 									value="#{cadastroAnimalBean.animal.idade}" />
 
 								<p:outputLabel for="cor" value="Cor:" />
@@ -76,7 +78,14 @@
 								<h:panelGroup>
 									<p:panelGrid columns="3" layout="grid">
 										<p:commandButton value="Salvar" icon="fa fa-save"
-											action="#{cadastroAnimalBean.salvar}" update="@form" />
+											action="#{cadastroAnimalBean.salvar}"
+											update="codigo
+													nome
+													idade
+													cor
+													raca
+													proprietario
+													etnia" />
 										<p:commandButton value="Limpar" icon="fa fa-refresh"
 											action="#{cadastroAnimalBean.limpar}" update="@form" />
 										<p:button value="Pesquisa" icon="fa fa-search"

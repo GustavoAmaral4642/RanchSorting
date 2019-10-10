@@ -1,6 +1,6 @@
 package com.ranchsorting.model;
 
-import java.io.Serializable; 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,12 +29,13 @@ public class Passada implements Serializable {
 	private Long id;
 	private List<FichaInscricao> fichasInscricoes = new ArrayList<>();
 	private OrdemEntrada ordemEntrada;
-	private Long numeroDupla;	
+	private Long numeroDupla;
 	private Long numeroBoi;
 	private String tempo;
 	private Long qntBoi;
 	private Long ranking;
 	private String sat;
+	private Boiada boiada;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
@@ -55,7 +56,7 @@ public class Passada implements Serializable {
 		return fichasInscricoes;
 	}
 
-	public void setFichasInscricoes(List<FichaInscricao> fichasInscricoes) {		
+	public void setFichasInscricoes(List<FichaInscricao> fichasInscricoes) {
 		this.fichasInscricoes = fichasInscricoes;
 	}
 
@@ -123,6 +124,16 @@ public class Passada implements Serializable {
 
 	public void setSat(String sat) {
 		this.sat = sat;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "pa_boiada_id")
+	public Boiada getBoiada() {
+		return boiada;
+	}
+
+	public void setBoiada(Boiada boiada) {
+		this.boiada = boiada;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)

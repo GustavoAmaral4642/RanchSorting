@@ -15,10 +15,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name="tb_usuario")
+//@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;

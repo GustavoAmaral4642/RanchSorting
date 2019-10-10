@@ -25,7 +25,6 @@ public class CompetidorConverter implements Converter {
 
 		if (value != null) {
 			Long id = new Long(value);
-			
 			retorno = competidores.porId(id);
 		}
 

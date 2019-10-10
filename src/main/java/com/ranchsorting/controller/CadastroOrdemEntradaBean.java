@@ -170,7 +170,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 			try{
 				// chama método para embaralhar as passadas do amador
-				passadasCompetidores = cadastroOrdemEntradaService.geraPassadaAmador(this.ordemEntrada, fichasFiltradas,fichaInscricaoFilter);
+				passadasCompetidores = cadastroOrdemEntradaService.geraPassadaAmador(this.ordemEntrada, fichasFiltradas, fichaInscricaoFilter);
 				
 			} catch (NullPointerException ex) {
 				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."

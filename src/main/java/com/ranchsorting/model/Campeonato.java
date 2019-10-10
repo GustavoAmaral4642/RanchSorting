@@ -1,6 +1,6 @@
 package com.ranchsorting.model;
 
-import java.io.Serializable; 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -21,10 +21,13 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_campeonato")
+// @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public class Campeonato implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -37,6 +40,7 @@ public class Campeonato implements Serializable {
 	private BigDecimal valorAnuidade;
 	private TipoCampeonato tipoCampeonato;
 	private List<Etapa> etapas;
+	private Long qntBoiada;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
@@ -119,6 +123,15 @@ public class Campeonato implements Serializable {
 
 	public void setEtapas(List<Etapa> etapas) {
 		this.etapas = etapas;
+	}
+
+	@Column(name = "cp_qnt_boiada")
+	public Long getQntBoiada() {
+		return qntBoiada;
+	}
+
+	public void setQntBoiada(Long qntBoiada) {
+		this.qntBoiada = qntBoiada;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)

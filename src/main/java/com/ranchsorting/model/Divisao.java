@@ -19,10 +19,13 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_divisao")
+//@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public class Divisao implements Serializable {
 
 	private static final long serialVersionUID = 1L;

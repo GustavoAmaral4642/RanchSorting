@@ -17,8 +17,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
 @Table(name = "tb_anuidade")
+//@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public class Anuidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;

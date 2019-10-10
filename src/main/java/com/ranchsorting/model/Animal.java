@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -20,8 +21,12 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
 @Table(name = "tb_animal")
+//@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public class Animal implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -78,7 +83,7 @@ public class Animal implements Serializable {
 		this.cor = cor;
 	}
 
-	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.STRING)// armazena String no banco de dados ao invés de indice
 	@Column(name = "an_etnia", length = 15)
 	public final Etnia getEtnia() {
 		return etnia;
@@ -98,7 +103,7 @@ public class Animal implements Serializable {
 		this.raca = raca;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY) // tratar com Lazy
 	@JoinColumn(name = "an_competidor_id")
 	public final Competidor getCompetidor() {
 		return competidor;
