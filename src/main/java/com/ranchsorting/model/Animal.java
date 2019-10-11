@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -27,6 +29,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "tb_animal")
 //@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
+@NamedQueries({
+	@NamedQuery(name="Animal.buscarAnimaisPaginacao", query="select a from Animal a"),
+})
 public class Animal implements Serializable {
 
 	private static final long serialVersionUID = 1L;

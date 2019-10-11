@@ -62,9 +62,10 @@
 								<p:spacer />
 
 								<p:dataTable var="animal"
-									value="#{pesquisaAnimaisBean.animaisFiltrados}" reflow="true"
+									value="#{pesquisaAnimaisBean.lazyAnimais}" reflow="true"
 									emptyMessage="Nenhum Animal Encontrado" id="animaisTable"
-									paginator="true" rows="10">
+									paginator="true" rows="25" paginatorAlwaysVisible="true" 
+									paginatorPosition="bottom" lazy="true" rowsPerPageTemplate="25, 50, 100">
 									<f:facet name="header">
                                 		Animais Cadastrados
                             		</f:facet>

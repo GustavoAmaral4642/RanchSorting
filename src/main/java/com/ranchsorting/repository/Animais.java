@@ -13,6 +13,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.primefaces.model.LazyDataModel;
 
 import com.ranchsorting.model.Animal;
 import com.ranchsorting.model.Competidor;
@@ -26,6 +27,7 @@ public class Animais implements Serializable {
 
 	@Inject
 	private EntityManager manager;
+
 
 	public Animal guardar(Animal animal) {
 		return manager.merge(animal);
@@ -82,4 +84,16 @@ public class Animais implements Serializable {
 		return criteria.addOrder(Order.asc("nome")).list();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Animal> buscarAnimaisComPaginacao(int first, int pageSize) {		
+		return manager.createNamedQuery("Animal.buscarAnimaisPaginacao")
+				.setFirstResult(first)
+				.setMaxResults(pageSize)
+				.getResultList();
+	}
+
+	public Long encontrarQuantidadeTotalDeAnimais(){
+		return manager.createQuery("select count(a) from Animal a", Long.class).getSingleResult();
+	}
+	
 }

@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.ranchsorting.model.Animal;
+import com.ranchsorting.modellazy.LazyAnimalDataModel;
 import com.ranchsorting.repository.Animais;
 import com.ranchsorting.repository.filter.AnimalFilter;
 import com.ranchsorting.util.jsf.FacesUtil;
@@ -24,13 +25,15 @@ public class PesquisaAnimaisBean implements Serializable {
 	private AnimalFilter filtro;
 
 	private List<Animal> animaisFiltrados;
-
+	private LazyAnimalDataModel lazyAnimais;
+	
 	public PesquisaAnimaisBean() {
 		filtro = new AnimalFilter();
 	}
 
 	public void pesquisar() {
-		animaisFiltrados = animais.filtrados(filtro);
+		//animaisFiltrados = animais.filtrados(filtro);
+		lazyAnimais = new LazyAnimalDataModel(animais);
 	}
 
 	public void excluir(Animal animalSelecionado) {
@@ -52,6 +55,10 @@ public class PesquisaAnimaisBean implements Serializable {
 
 	public List<Animal> getAnimaisFiltrados() {
 		return animaisFiltrados;
+	}
+
+	public LazyAnimalDataModel getLazyAnimais() {
+		return lazyAnimais;
 	}
 
 }
