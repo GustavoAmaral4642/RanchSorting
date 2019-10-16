@@ -30,7 +30,11 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "tb_animal")
 //@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @NamedQueries({
-	@NamedQuery(name="Animal.buscarAnimaisPaginacao", query="select a from Animal a"),
+	@NamedQuery(name="Animal.buscarAnimaisPaginacao", query="select a "
+																+ "from Animal a "),
+	@NamedQuery(name="Animal.buscarAnimaisPorId", query="select a, a.competidor "
+														+ "from Animal a "
+																+ "where a.id=:id")
 })
 public class Animal implements Serializable {
 

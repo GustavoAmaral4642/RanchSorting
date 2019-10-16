@@ -38,6 +38,7 @@ public class CadastroAnimalBean implements Serializable {
 	public void inicializar() {
 		if (FacesUtil.isNotPostback() ) {
 			if(todosCompetidores==null){
+				
 				todosCompetidores = competidores.consultaCompetidoresParaCombobox();
 			}
 		}

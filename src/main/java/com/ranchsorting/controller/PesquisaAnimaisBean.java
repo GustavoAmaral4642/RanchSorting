@@ -33,7 +33,7 @@ public class PesquisaAnimaisBean implements Serializable {
 
 	public void pesquisar() {
 		//animaisFiltrados = animais.filtrados(filtro);
-		lazyAnimais = new LazyAnimalDataModel(animais);
+		lazyAnimais = new LazyAnimalDataModel(animais, filtro);		
 	}
 
 	public void excluir(Animal animalSelecionado) {

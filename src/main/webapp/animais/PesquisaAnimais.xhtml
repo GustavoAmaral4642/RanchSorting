@@ -32,11 +32,6 @@
 									<p:inputText id="nomeAnimal"
 										value="#{pesquisaAnimaisBean.filtro.nome}" />
 
-									<p:outputLabel for="nomeProprietario"
-										value="Nome do Proprietário:" />
-									<p:inputText id="nomeProprietario"
-										value="#{pesquisaAnimaisBean.filtro.competidor}" />
-
 									<p:outputLabel for="cor" value="Cor:" />
 									<p:inputText id="cor" value="#{pesquisaAnimaisBean.filtro.cor}" />
 
@@ -51,8 +46,7 @@
 											action="#{pesquisaAnimaisBean.pesquisar}"
 											update="animaisTable"
 											process="@this 
-												nomeAnimal 
-												nomeProprietario
+												nomeAnimal
 												cor" />
 									</p:panelGrid>
 
@@ -61,7 +55,7 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:dataTable var="animal"
+								<p:dataTable var="animal" 
 									value="#{pesquisaAnimaisBean.lazyAnimais}" reflow="true"
 									emptyMessage="Nenhum Animal Encontrado" id="animaisTable"
 									paginator="true" rows="25" paginatorAlwaysVisible="true" 
@@ -69,7 +63,7 @@
 									<f:facet name="header">
                                 		Animais Cadastrados
                             		</f:facet>
-									<p:column headerText="Código"
+									<p:column headerText="Código" 
 										style="width: 100px; text-align: center">
 										<h:outputText value="#{animal.id}" />
 									</p:column>
@@ -77,11 +71,6 @@
 									<p:column headerText="Nome do Animal"
 										style="text-align: center">
 										<h:outputText value="#{animal.nome}" />
-									</p:column>
-
-									<p:column headerText="Nome do Proprietário"
-										style="text-align: center">
-										<h:outputText value="#{animal.competidor.nome}" />
 									</p:column>
 
 									<p:column headerText="Idade" style="text-align: center">

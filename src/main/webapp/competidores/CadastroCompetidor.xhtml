@@ -52,7 +52,8 @@
 									mask="99/99/9999" />
 
 								<p:outputLabel for="idade" value="Idade:" />
-								<p:inputText id="idade"
+								<p:inputMask id="idade" label="Idade" size="20" maxlength="20"
+									mask="9?999999999999999" placeHolder="Idade" title="Idade"	
 									value="#{cadastroCompetidorBean.competidor.idade}" />
 
 								<p:outputLabel for="nomeResponsavel"
@@ -79,7 +80,7 @@
 								<p:inputTextarea id="contato" rows="3"
 									value="#{cadastroCompetidorBean.competidor.contato}"
 									placeholder="Informe o contato" autoResize="false" />
-								
+
 								<p:outputLabel for="etnia" value="Etnia:" />
 								<p:selectOneRadio id="etnia" layout="responsive" columns="2"
 									value="#{cadastroCompetidorBean.competidor.etnia}">
