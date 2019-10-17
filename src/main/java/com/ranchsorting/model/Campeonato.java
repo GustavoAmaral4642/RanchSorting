@@ -1,6 +1,6 @@
 package com.ranchsorting.model;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -10,9 +10,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -28,6 +31,11 @@ import org.hibernate.validator.constraints.NotBlank;
 @Entity
 @Table(name = "tb_campeonato")
 // @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
+@NamedQueries({
+	@NamedQuery(name="Campeonato.buscarCampeonatoPorId", query="select c "
+														+ "from Campeonato c "
+															+ "where c.id=:id")
+})
 public class Campeonato implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -116,7 +124,9 @@ public class Campeonato implements Serializable {
 		this.tipoCampeonato = tipoCampeonato;
 	}
 
-	@OneToMany(mappedBy = "campeonato", cascade = CascadeType.ALL)
+	@OneToMany(fetch=FetchType.LAZY,
+			mappedBy = "campeonato", 
+			cascade = CascadeType.ALL)
 	public List<Etapa> getEtapas() {
 		return etapas;
 	}
@@ -134,7 +144,7 @@ public class Campeonato implements Serializable {
 		this.qntBoiada = qntBoiada;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "cp_us_alteracao")
 	public Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
@@ -154,7 +164,7 @@ public class Campeonato implements Serializable {
 		this.dataAlteracao = dataAlteracao;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "cp_ocorrencia")
 	public Ocorrencia getOcorrencia() {
 		return ocorrencia;

@@ -1,6 +1,6 @@
 package com.ranchsorting.repository;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.util.List;
 
 import javax.inject.Inject;
@@ -16,7 +16,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.ranchsorting.model.Competidor;
-import com.ranchsorting.repository.filter.AnimalFilter;
 import com.ranchsorting.repository.filter.CompetidorFilter;
 import com.ranchsorting.service.NegocioException;
 import com.ranchsorting.util.jpa.Transactional;

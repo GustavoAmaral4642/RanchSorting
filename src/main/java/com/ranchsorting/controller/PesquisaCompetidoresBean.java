@@ -33,7 +33,8 @@ public class PesquisaCompetidoresBean implements Serializable {
 	}
 	
 	public void pesquisar(){
-		lazyCompetidores = new LazyCompetidorDataModel(competidores, filtro);		
+		lazyCompetidores = new LazyCompetidorDataModel(competidores, filtro);
+		
 	}
 
 	public void excluir(Competidor competidorSelecionado) {

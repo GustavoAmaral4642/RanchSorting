@@ -1,6 +1,6 @@
 package com.ranchsorting.repository;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.util.List;
 
 import javax.inject.Inject;
@@ -48,7 +48,12 @@ public class Campeonatos implements Serializable {
 	}
 
 	public Campeonato porId(Long id) {
-		return manager.find(Campeonato.class, id);
+		//return manager.find(Campeonato.class, id);
+
+		Campeonato campeonato = manager.createNamedQuery("Campeonato.buscarCampeonatoPorId", Campeonato.class)
+				.setParameter("id", id).getSingleResult();
+
+		return campeonato;
 	}
 
 	public List<Campeonato> todosCampeonatos() {
