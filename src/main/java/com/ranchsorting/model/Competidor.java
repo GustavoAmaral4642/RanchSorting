@@ -14,6 +14,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -27,6 +29,11 @@ import org.hibernate.validator.constraints.NotBlank;
 @Entity
 @Table(name = "tb_competidor")
 // @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
+@NamedQueries({
+	@NamedQuery(name="Competidor.buscarCompetidorPorId", query="select c "
+														+ "from Competidor c "
+															+ "where c.id=:id")
+})
 public class Competidor implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -106,7 +113,9 @@ public class Competidor implements Serializable {
 		this.docResponsavel = docResponsavel;
 	}
 
-	@OneToMany(fetch=FetchType.LAZY, mappedBy = "competidor", cascade = CascadeType.ALL)
+	@OneToMany(fetch=FetchType.LAZY, 
+			mappedBy = "competidor", 
+			cascade = CascadeType.ALL)
 	public List<Animal> getAnimais() {
 		return animais;
 	}

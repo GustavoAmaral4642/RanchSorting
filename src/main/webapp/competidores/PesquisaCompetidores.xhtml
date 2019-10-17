@@ -77,10 +77,11 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:dataTable var="competidor"
-									value="#{pesquisaCompetidoresBean.competidoresFiltrados}"
+								<p:dataTable var="competidor" paginatorAlwaysVisible="false"
+									lazy="true" rowsPerPageTemplate="25,50,100"
+									value="#{pesquisaCompetidoresBean.lazyCompetidores}"
 									reflow="true" emptyMessage="Nenhum Competidor Cadastrado"
-									paginator="true" rows="25" id="competidoresTable">
+									paginator="true" rows="25" id="competidoresTable" >
 									<f:facet name="header">
                                 		Competidores Cadastrados
                             		</f:facet>

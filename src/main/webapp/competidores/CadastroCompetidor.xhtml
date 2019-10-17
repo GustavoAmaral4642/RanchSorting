@@ -66,16 +66,6 @@
 								<p:inputText id="docResponsavel"
 									value="#{cadastroCompetidorBean.competidor.docResponsavel}" />
 
-								<p:outputLabel value="Animais:" />
-								<p:dataList value="#{cadastroCompetidorBean.competidor.animais}"
-									var="animal" type="ordered"
-									emptyMessage="Nenhum Animal Encontrado">
-									<f:facet name="header">
-									Animais do Competidor
-		                            </f:facet>
-		                            #{animal.nome}, #{animal.cor} ,#{animal.raca}
-		                        </p:dataList>
-
 								<p:outputLabel for="contato" value="Contato:" />
 								<p:inputTextarea id="contato" rows="3"
 									value="#{cadastroCompetidorBean.competidor.contato}"

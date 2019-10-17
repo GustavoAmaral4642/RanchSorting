@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.ranchsorting.model.Competidor;
+import com.ranchsorting.modellazy.LazyCompetidorDataModel;
 import com.ranchsorting.repository.Competidores;
 import com.ranchsorting.repository.filter.CompetidorFilter;
 import com.ranchsorting.util.jsf.FacesUtil;
@@ -21,6 +22,8 @@ public class PesquisaCompetidoresBean implements Serializable {
 	@Inject
 	private Competidores competidores;
 	
+	LazyCompetidorDataModel lazyCompetidores;
+	
 	private CompetidorFilter filtro;
 	
 	private List<Competidor> competidoresFiltrados;
@@ -30,7 +33,7 @@ public class PesquisaCompetidoresBean implements Serializable {
 	}
 	
 	public void pesquisar(){
-		competidoresFiltrados = competidores.filtrados(filtro);		
+		lazyCompetidores = new LazyCompetidorDataModel(competidores, filtro);		
 	}
 
 	public void excluir(Competidor competidorSelecionado) {
@@ -52,6 +55,10 @@ public class PesquisaCompetidoresBean implements Serializable {
 
 	public List<Competidor> getCompetidoresFiltrados() {
 		return competidoresFiltrados;
+	}
+
+	public LazyCompetidorDataModel getLazyCompetidores() {
+		return lazyCompetidores;
 	}
 	
 }

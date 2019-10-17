@@ -1,6 +1,6 @@
 package com.ranchsorting.model;
 
-import java.io.Serializable; 
+import java.io.Serializable;  
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -23,15 +23,12 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 @Entity
 @Table(name = "tb_animal")
 //@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @NamedQueries({
-	@NamedQuery(name="Animal.buscarAnimaisPaginacao", query="select a "
-																+ "from Animal a "),
+	/*@NamedQuery(name="Animal.buscarAnimaisPaginacao", query="select a "
+																+ "from Animal a "),*/
 	@NamedQuery(name="Animal.buscarAnimaisPorId", query="select a, a.competidor "
 														+ "from Animal a "
 																+ "where a.id=:id")
