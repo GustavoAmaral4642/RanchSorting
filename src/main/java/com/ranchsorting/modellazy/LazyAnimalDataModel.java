@@ -18,6 +18,8 @@ public class LazyAnimalDataModel extends LazyDataModel<Animal> implements Serial
 	private Animais animais;
 	
 	private AnimalFilter filtro;
+	private String ordenar;
+	private String tipoOrdenacao;
 	
 	public LazyAnimalDataModel(Animais animais){
 		this.animais = animais;
@@ -28,11 +30,18 @@ public class LazyAnimalDataModel extends LazyDataModel<Animal> implements Serial
 		this.filtro = filtro;
 	}
 	
+	public LazyAnimalDataModel(Animais animais, AnimalFilter filtro, String ordenar, String tipoOrdenacao){
+		this.animais = animais;
+		this.filtro = filtro;
+		this.ordenar = ordenar;
+		this.tipoOrdenacao= tipoOrdenacao;
+	}
+	
 	@Override
 	public List<Animal> load(int first, int pageSize, String sortField, SortOrder sortOrder,
 			Map<String, Object> filters) {
 		
-		List<Animal> listaAnimais = this.animais.buscarAnimaisComPaginacao(first, pageSize, filtro);
+		List<Animal> listaAnimais = this.animais.buscarAnimaisComPaginacao(first, pageSize, filtro, ordenar, tipoOrdenacao);
 		
 		this.setRowCount(this.animais.encontrarQuantidadeTotalDeAnimais().intValue());
 		

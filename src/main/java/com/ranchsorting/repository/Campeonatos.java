@@ -1,6 +1,6 @@
 package com.ranchsorting.repository;
 
-import java.io.Serializable; 
+import java.io.Serializable;  
 import java.util.List;
 
 import javax.inject.Inject;
@@ -63,7 +63,7 @@ public class Campeonatos implements Serializable {
 			return null;
 		}
 	}
-
+/*
 	@SuppressWarnings("unchecked")
 	public List<Campeonato> filtrados(CampeonatoFilter filtro) {
 
@@ -92,5 +92,45 @@ public class Campeonatos implements Serializable {
 
 		return criteria.addOrder(Order.asc("nome")).list();
 	}
+	*/
+	@SuppressWarnings("unchecked")
+	public List<Campeonato> buscarCampeonatosComPaginacao(int first, int pageSize, CampeonatoFilter filtro,
+			String ordenar, String tipoOrdenacao) {
 
+		Session session = manager.unwrap(Session.class);
+		Criteria criteria = session.createCriteria(Campeonato.class);
+
+		if (StringUtils.isNotBlank(filtro.getNome())) {
+			criteria.add(Restrictions.ilike("nome", filtro.getNome(), MatchMode.ANYWHERE));
+		}
+
+		if (filtro.getDataAberturaInicial() != null) {
+			criteria.add(Restrictions.ge("dataAbertura", filtro.getDataAberturaInicial()));
+		}
+
+		if (filtro.getDataAberturaFinal() != null) {
+			criteria.add(Restrictions.le("dataAbertura", filtro.getDataAberturaFinal()));
+		}
+
+		if (filtro.getDataTerminoInicial() != null) {
+			criteria.add(Restrictions.ge("dataTermino", filtro.getDataTerminoInicial()));
+		}
+
+		if (filtro.getDataTerminoFinal() != null) {
+			criteria.add(Restrictions.le("dataTermino", filtro.getDataTerminoFinal()));
+		}
+
+		criteria.setFirstResult(first);
+		criteria.setMaxResults(pageSize);
+
+		if (tipoOrdenacao.equals("decrescente")) {
+			return criteria.addOrder(Order.desc(ordenar)).list();
+		} else {
+			return criteria.addOrder(Order.asc(ordenar)).list();
+		}
+	}
+
+	public Long encontrarQuantidadeTotalDeCampeonatos() {
+		return manager.createQuery("select count(c) from Campeonato c", Long.class).getSingleResult();
+	}
 }

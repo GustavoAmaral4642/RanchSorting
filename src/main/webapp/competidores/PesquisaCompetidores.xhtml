@@ -56,6 +56,30 @@
 									<p:inputText id="contato"
 										value="#{pesquisaCompetidoresBean.filtro.contato}" />
 
+									<p:outputLabel for="ordenarLista" value="Ordenar Lista por:" />
+									<h:panelGroup>
+										<p:panelGrid columns="2" layout="grid">
+									
+										<p:selectOneMenu id="ordenarLista" filter="true"
+											label="Ordenar" filterMatchMode="contains"
+											style="margin-bottom:10px;"
+											value="#{pesquisaCompetidoresBean.ordenar}">
+											<f:selectItem itemLabel="Código" itemValue="id" />
+											<f:selectItem itemLabel="Nome do Competidor" itemValue="nome" />
+											<f:selectItem itemLabel="Data de Nascimento"
+												itemValue="dataNascimento" />
+											<f:selectItem itemLabel="Responsável" itemValue="responsavel" />
+											<f:selectItem itemLabel="Contato" itemValue="contato" />
+										</p:selectOneMenu>
+										<p:selectOneMenu id="tipoOrdenacao" label="Ordenar" 
+											style="margin-bottom:10px;"
+											value="#{pesquisaCompetidoresBean.tipoOrdenacao}">
+											<f:selectItem itemLabel="Crescente" itemValue="crescente" />
+											<f:selectItem itemLabel="Decrescente" itemValue="decrescente" />
+										</p:selectOneMenu>
+										</p:panelGrid>
+									</h:panelGroup>
+									
 									<p:spacer />
 
 									<p:panelGrid columns="2" layout="grid">
@@ -69,7 +93,9 @@
 												idadeInicial
 												idadeFinal
 												nomeResponsavel
-												contato" />
+												contato
+												ordenarLista
+												tipoOrdenacao" />
 									</p:panelGrid>
 
 								</p:panelGrid>
@@ -81,16 +107,16 @@
 									lazy="true" rowsPerPageTemplate="25,50,100"
 									value="#{pesquisaCompetidoresBean.lazyCompetidores}"
 									reflow="true" emptyMessage="Nenhum Competidor Cadastrado"
-									paginator="true" rows="25" id="competidoresTable" >
+									paginator="true" rows="25" id="competidoresTable">
 									<f:facet name="header">
                                 		Competidores Cadastrados
                             		</f:facet>
-									<p:column headerText="Código" 
+									<p:column headerText="Código"
 										style="width: 100px; text-align: center">
 										<h:outputText value="#{competidor.id}" />
 									</p:column>
 
-									<p:column headerText="Nome do Competidor" 
+									<p:column headerText="Nome do Competidor"
 										style="text-align: center">
 										<h:outputText value="#{competidor.nome}" />
 									</p:column>
@@ -133,7 +159,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 				<p:commandButton value="Sim" type="button"
 					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />

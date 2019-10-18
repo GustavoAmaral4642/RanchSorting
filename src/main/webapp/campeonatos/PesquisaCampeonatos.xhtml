@@ -63,6 +63,28 @@
 										</p:panelGrid>
 									</h:panelGroup>
 
+									<p:outputLabel for="ordenarLista" value="Ordenar Lista por:" />
+									<h:panelGroup>
+										<p:panelGrid columns="2" layout="grid">
+											<p:selectOneMenu id="ordenarLista" filter="true"
+												label="Ordenar" filterMatchMode="contains"
+												style="margin-bottom:10px;"
+												value="#{pesquisaCampeonatosBean.ordenar}">
+												<f:selectItem itemLabel="Código" itemValue="id" />
+												<f:selectItem itemLabel="Nome do Campeonato" itemValue="nome" />
+												<f:selectItem itemLabel="Data de Abertura" itemValue="dataAbertura" />
+												<f:selectItem itemLabel="Data de Término" itemValue="dataTermino" />
+											</p:selectOneMenu>
+											<p:selectOneMenu id="tipoOrdenacao" label="Ordenar"
+												style="margin-bottom:10px;"
+												value="#{pesquisaCampeonatosBean.tipoOrdenacao}">
+												<f:selectItem itemLabel="Crescente" itemValue="crescente" />
+												<f:selectItem itemLabel="Decrescente"
+													itemValue="decrescente" />
+											</p:selectOneMenu>
+										</p:panelGrid>
+									</h:panelGroup>
+
 									<p:spacer />
 
 									<p:panelGrid columns="2" layout="grid">
@@ -76,7 +98,9 @@
 												aberturaInicial
 												aberturaFinal
 												terminoInicial
-												terminoFinal" />
+												terminoFinal
+												ordenarLista
+												tipoOrdenacao" />
 									</p:panelGrid>
 
 								</p:panelGrid>
@@ -84,10 +108,12 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:dataTable var="campeonato"
-									value="#{pesquisaCampeonatosBean.campeonatosFiltrados}"
-									reflow="true" emptyMessage="Nenhum Campeonato Cadastrado"
-									id="campeonatosTable" paginator="true" rows="10">
+								<p:dataTable var="campeonato" lazy="true"
+									paginatorAlwaysVisible="true"
+									value="#{pesquisaCampeonatosBean.lazyCampeonatos}"
+									rowsPerPageTemplate="25, 50, 100" reflow="true"
+									emptyMessage="Nenhum Campeonato Cadastrado"
+									id="campeonatosTable" paginator="true" rows="25">
 									<f:facet name="header">
                                 		Campeonatos Cadastrados
                             		</f:facet>

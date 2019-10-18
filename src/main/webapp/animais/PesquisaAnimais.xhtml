@@ -35,8 +35,31 @@
 									<p:outputLabel for="cor" value="Cor:" />
 									<p:inputText id="cor" value="#{pesquisaAnimaisBean.filtro.cor}" />
 
-									<p:spacer />
-									<p:spacer />
+									<p:outputLabel for="ordenarLista" value="Ordenar Lista por:" />
+									<h:panelGroup>
+										<p:panelGrid columns="2" layout="grid">
+											<p:selectOneMenu id="ordenarLista" filter="true"
+												label="Ordenar" filterMatchMode="contains"
+												style="margin-bottom:10px;"
+												value="#{pesquisaAnimaisBean.ordenar}">
+												<f:selectItem itemLabel="Código" itemValue="id" />
+												<f:selectItem itemLabel="Nome do Animal"
+													itemValue="nome" />
+												<f:selectItem itemLabel="Idade"
+													itemValue="idade" />
+												<f:selectItem itemLabel="Cor"
+													itemValue="cor" />
+												<f:selectItem itemLabel="Raça" itemValue="raca" />
+											</p:selectOneMenu>
+											<p:selectOneMenu id="tipoOrdenacao" label="Ordenar"
+												style="margin-bottom:10px;"
+												value="#{pesquisaAnimaisBean.tipoOrdenacao}">
+												<f:selectItem itemLabel="Crescente" itemValue="crescente" />
+												<f:selectItem itemLabel="Decrescente"
+													itemValue="decrescente" />
+											</p:selectOneMenu>
+										</p:panelGrid>
+									</h:panelGroup>
 
 									<p:spacer />
 									<p:panelGrid columns="2" layout="grid">
@@ -47,7 +70,9 @@
 											update="animaisTable"
 											process="@this 
 												nomeAnimal
-												cor" />
+												cor
+												ordenarLista
+												tipoOrdenacao" />
 									</p:panelGrid>
 
 								</p:panelGrid>
@@ -55,15 +80,16 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:dataTable var="animal" 
+								<p:dataTable var="animal"
 									value="#{pesquisaAnimaisBean.lazyAnimais}" reflow="true"
 									emptyMessage="Nenhum Animal Encontrado" id="animaisTable"
-									paginator="true" rows="25" paginatorAlwaysVisible="true" 
-									paginatorPosition="bottom" lazy="true" rowsPerPageTemplate="25, 50, 100">
+									paginator="true" rows="25" paginatorAlwaysVisible="true"
+									paginatorPosition="bottom" lazy="true"
+									rowsPerPageTemplate="25, 50, 100">
 									<f:facet name="header">
                                 		Animais Cadastrados
                             		</f:facet>
-									<p:column headerText="Código" 
+									<p:column headerText="Código"
 										style="width: 100px; text-align: center">
 										<h:outputText value="#{animal.id}" />
 									</p:column>
@@ -106,7 +132,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 				<p:commandButton value="Sim" type="button"
 					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />

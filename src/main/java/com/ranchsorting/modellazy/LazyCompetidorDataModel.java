@@ -1,6 +1,6 @@
 package com.ranchsorting.modellazy;
 
-import java.io.Serializable; 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +18,8 @@ public class LazyCompetidorDataModel extends LazyDataModel<Competidor> implement
 	private Competidores competidores;
 	
 	private CompetidorFilter filtro;
+	private String ordenar;
+	private String tipoOrdenacao;
 	
 	public LazyCompetidorDataModel(Competidores competidores){
 		this.competidores = competidores;
@@ -28,15 +30,23 @@ public class LazyCompetidorDataModel extends LazyDataModel<Competidor> implement
 		this.filtro = filtro;
 	}
 	
+	public LazyCompetidorDataModel(Competidores competidores, CompetidorFilter filtro, String ordenar, String tipoOrdenacao){
+		this.competidores = competidores;
+		this.filtro = filtro;
+		this.ordenar = ordenar;
+		this.tipoOrdenacao = tipoOrdenacao;
+	}
+	
 	@Override
 	public List<Competidor> load(int first, int pageSize, String sortField, SortOrder sortOrder,
 			Map<String, Object> filters) {
 		
-		List<Competidor> listaCompetidores = this.competidores.buscarCompetidoresComPaginacao(first, pageSize, filtro);
+		List<Competidor> listaCompetidores = this.competidores.buscarCompetidoresComPaginacao(first, pageSize, filtro, ordenar, tipoOrdenacao);
 		
 		this.setRowCount(this.competidores.encontrarQuantidadeTotalDeCompetidores().intValue());
 		
 		return listaCompetidores;
 	}
+	
 	
 }

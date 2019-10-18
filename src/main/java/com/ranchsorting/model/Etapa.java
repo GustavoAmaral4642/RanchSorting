@@ -6,10 +6,13 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -24,6 +27,13 @@ import org.hibernate.validator.constraints.NotBlank;
 @Entity
 @Table(name = "tb_etapa")
 //@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
+@NamedQueries({
+	/*@NamedQuery(name="Animal.buscarAnimaisPaginacao", query="select a "
+																+ "from Animal a "),*/
+	@NamedQuery(name="Etapa.buscarEtapasPorId", query="select e, e.campeonato "
+														+ "from Etapa e "
+																+ "where e.id=:id")
+})
 public class Etapa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -64,7 +74,7 @@ public class Etapa implements Serializable {
 	}
 
 	@NotNull
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "ep_campeonato_id")
 	public final Campeonato getCampeonato() {
 		return campeonato;
@@ -135,7 +145,7 @@ public class Etapa implements Serializable {
 		Local = local;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "ep_us_alteracao")
 	public final Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
@@ -155,7 +165,7 @@ public class Etapa implements Serializable {
 		this.dataAlteracao = dataAlteracao;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "ep_ocorrencia")
 	public final Ocorrencia getOcorrencia() {
 		return ocorrencia;

@@ -23,17 +23,21 @@ public class PesquisaAnimaisBean implements Serializable {
 	private Animais animais;
 
 	private AnimalFilter filtro;
+	private String ordenar;
+	private String tipoOrdenacao;
 
 	private List<Animal> animaisFiltrados;
 	private LazyAnimalDataModel lazyAnimais;
 	
 	public PesquisaAnimaisBean() {
 		filtro = new AnimalFilter();
+		ordenar = "nome";
+		tipoOrdenacao = "crescente";
 	}
 
 	public void pesquisar() {
 		//animaisFiltrados = animais.filtrados(filtro);
-		lazyAnimais = new LazyAnimalDataModel(animais, filtro);		
+		lazyAnimais = new LazyAnimalDataModel(animais, filtro, ordenar, tipoOrdenacao);		
 	}
 
 	public void excluir(Animal animalSelecionado) {
@@ -59,6 +63,22 @@ public class PesquisaAnimaisBean implements Serializable {
 
 	public LazyAnimalDataModel getLazyAnimais() {
 		return lazyAnimais;
+	}
+
+	public String getOrdenar() {
+		return ordenar;
+	}
+
+	public void setOrdenar(String ordenar) {
+		this.ordenar = ordenar;
+	}
+
+	public String getTipoOrdenacao() {
+		return tipoOrdenacao;
+	}
+
+	public void setTipoOrdenacao(String tipoOrdenacao) {
+		this.tipoOrdenacao = tipoOrdenacao;
 	}
 
 }

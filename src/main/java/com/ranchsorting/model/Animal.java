@@ -119,7 +119,7 @@ public class Animal implements Serializable {
 		this.competidor = competidor;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "an_us_alteracao")
 	public final Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
@@ -139,7 +139,7 @@ public class Animal implements Serializable {
 		this.dataAlteracao = dataAlteracao;
 	}
 
-  	@OneToOne(cascade = CascadeType.ALL)
+  	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "an_ocorrencia")
 	public final Ocorrencia getOcorrencia() {
 		return ocorrencia;

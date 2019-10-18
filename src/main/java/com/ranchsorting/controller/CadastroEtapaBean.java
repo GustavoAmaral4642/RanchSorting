@@ -34,7 +34,11 @@ public class CadastroEtapaBean implements Serializable {
 	}
 
 	public void inicializar() {
-		todosCampeonatos = campeonatos.todosCampeonatos();
+		if (FacesUtil.isNotPostback() ) {
+			if(todosCampeonatos == null){
+				todosCampeonatos = campeonatos.todosCampeonatos();		
+			}
+		}
 	}
 
 	public void limpar() {

@@ -25,16 +25,19 @@ public class PesquisaCompetidoresBean implements Serializable {
 	LazyCompetidorDataModel lazyCompetidores;
 	
 	private CompetidorFilter filtro;
+	private String ordenar;
+	private String tipoOrdenacao;
 	
 	private List<Competidor> competidoresFiltrados;
 	
 	public PesquisaCompetidoresBean(){
 		filtro = new CompetidorFilter();
+		ordenar = "nome";
+		tipoOrdenacao = "crescente";
 	}
 	
 	public void pesquisar(){
-		lazyCompetidores = new LazyCompetidorDataModel(competidores, filtro);
-		
+		lazyCompetidores = new LazyCompetidorDataModel(competidores, filtro, ordenar, tipoOrdenacao);		
 	}
 
 	public void excluir(Competidor competidorSelecionado) {
@@ -60,6 +63,22 @@ public class PesquisaCompetidoresBean implements Serializable {
 
 	public LazyCompetidorDataModel getLazyCompetidores() {
 		return lazyCompetidores;
+	}
+
+	public String getOrdenar() {
+		return ordenar;
+	}
+
+	public void setOrdenar(String ordenar) {
+		this.ordenar = ordenar;
+	}
+
+	public String getTipoOrdenacao() {
+		return tipoOrdenacao;
+	}
+
+	public void setTipoOrdenacao(String tipoOrdenacao) {
+		this.tipoOrdenacao = tipoOrdenacao;
 	}
 	
 }

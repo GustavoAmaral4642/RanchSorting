@@ -83,7 +83,8 @@ public class Animais implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Animal> buscarAnimaisComPaginacao(int first, int pageSize, AnimalFilter filtro) {
+	public List<Animal> buscarAnimaisComPaginacao(int first, int pageSize, AnimalFilter filtro,
+			String ordenar, String tipoOrdenacao){
 		
 		Session session = manager.unwrap(Session.class);
 		Criteria criteria = session.createCriteria(Animal.class);
@@ -99,8 +100,11 @@ public class Animais implements Serializable {
 		criteria.setFirstResult(first);
 		criteria.setMaxResults(pageSize);
 		
-		return criteria.addOrder(Order.asc("nome")).list();
-		
+		if (tipoOrdenacao.equals("decrescente")) {
+			return criteria.addOrder(Order.desc(ordenar)).list();
+		} else {
+			return criteria.addOrder(Order.asc(ordenar)).list();
+		}
 		// consulta em JPQL.
 		// com criteria dá para usar filtro melhor
 		/*return manager.createNamedQuery("Animal.buscarAnimaisPaginacao")

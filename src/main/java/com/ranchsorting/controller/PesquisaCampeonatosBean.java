@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.ranchsorting.model.Campeonato;
+import com.ranchsorting.modellazy.LazyCampeonatoDataModel;
 import com.ranchsorting.repository.Campeonatos;
 import com.ranchsorting.repository.filter.CampeonatoFilter;
 import com.ranchsorting.util.jsf.FacesUtil;
@@ -21,16 +22,22 @@ public class PesquisaCampeonatosBean implements Serializable {
 	@Inject
 	private Campeonatos campeonatos;
 
+	LazyCampeonatoDataModel lazyCampeonatos;
+
 	private CampeonatoFilter filtro;
+	private String ordenar;
+	private String tipoOrdenacao;
 
 	private List<Campeonato> campeonatosFiltrados;
 
 	public PesquisaCampeonatosBean() {
 		filtro = new CampeonatoFilter();
+		ordenar = "nome";
+		tipoOrdenacao = "crescente";
 	}
 
 	public void pesquisar() {
-		campeonatosFiltrados = campeonatos.filtrados(filtro);
+		lazyCampeonatos = new LazyCampeonatoDataModel(campeonatos, filtro, ordenar, tipoOrdenacao);
 	}
 
 	public void excluir(Campeonato campeonatoSelecionado) {
@@ -52,6 +59,26 @@ public class PesquisaCampeonatosBean implements Serializable {
 
 	public List<Campeonato> getCampeonatosFiltrados() {
 		return campeonatosFiltrados;
+	}
+
+	public LazyCampeonatoDataModel getLazyCampeonatos() {
+		return lazyCampeonatos;
+	}
+
+	public String getOrdenar() {
+		return ordenar;
+	}
+
+	public void setOrdenar(String ordenar) {
+		this.ordenar = ordenar;
+	}
+
+	public String getTipoOrdenacao() {
+		return tipoOrdenacao;
+	}
+
+	public void setTipoOrdenacao(String tipoOrdenacao) {
+		this.tipoOrdenacao = tipoOrdenacao;
 	}
 
 }

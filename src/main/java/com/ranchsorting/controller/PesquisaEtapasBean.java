@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.ranchsorting.model.Etapa;
+import com.ranchsorting.modellazy.LazyEtapaDataModel;
 import com.ranchsorting.repository.Etapas;
 import com.ranchsorting.repository.filter.EtapaFilter;
 import com.ranchsorting.util.jsf.FacesUtil;
@@ -22,15 +23,21 @@ public class PesquisaEtapasBean implements Serializable {
 	private Etapas etapas;
 
 	private EtapaFilter filtro;
-
+	private String ordenar;
+	private String tipoOrdenacao;
+	
 	private List<Etapa> etapasFiltradas;
-
+	private LazyEtapaDataModel lazyEtapas;
+	
 	public PesquisaEtapasBean() {
 		filtro = new EtapaFilter();
+		ordenar = "nome";
+		tipoOrdenacao = "crescente";
 	}
 
 	public void pesquisar() {
-		etapasFiltradas = etapas.filtradas(filtro);
+		//etapasFiltradas = etapas.filtradas(filtro);
+		lazyEtapas = new LazyEtapaDataModel(etapas, filtro, ordenar, tipoOrdenacao);
 	}
 
 	public void excluir(Etapa etapaSelecionada) {
@@ -52,6 +59,26 @@ public class PesquisaEtapasBean implements Serializable {
 
 	public List<Etapa> getEtapasFiltradas() {
 		return etapasFiltradas;
+	}
+
+	public String getOrdenar() {
+		return ordenar;
+	}
+
+	public void setOrdenar(String ordenar) {
+		this.ordenar = ordenar;
+	}
+
+	public String getTipoOrdenacao() {
+		return tipoOrdenacao;
+	}
+
+	public void setTipoOrdenacao(String tipoOrdenacao) {
+		this.tipoOrdenacao = tipoOrdenacao;
+	}
+
+	public LazyEtapaDataModel getLazyEtapas() {
+		return lazyEtapas;
 	}
 
 }

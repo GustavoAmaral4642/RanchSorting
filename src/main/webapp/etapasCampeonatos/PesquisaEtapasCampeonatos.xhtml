@@ -49,19 +49,45 @@
 										</p:panelGrid>
 									</h:panelGroup>
 
+									<p:outputLabel for="ordenarLista" value="Ordenar Lista por:" />
+									<h:panelGroup>
+										<p:panelGrid columns="2" layout="grid">
+											<p:selectOneMenu id="ordenarLista" filter="true"
+												label="Ordenar" filterMatchMode="contains"
+												style="margin-bottom:10px;"
+												value="#{pesquisaEtapasBean.ordenar}">
+												<f:selectItem itemLabel="Código" itemValue="id" />
+												<f:selectItem itemLabel="Nome da Etapa" itemValue="nome" />
+												<f:selectItem itemLabel="Campeonato" itemValue="campeonato" />
+												<f:selectItem itemLabel="Organizador"
+													itemValue="organizador" />
+												<f:selectItem itemLabel="Data do Evento"
+													itemValue="dataEvento" />
+											</p:selectOneMenu>
+											<p:selectOneMenu id="tipoOrdenacao" label="Ordenar"
+												style="margin-bottom:10px;"
+												value="#{pesquisaEtapasBean.tipoOrdenacao}">
+												<f:selectItem itemLabel="Crescente" itemValue="crescente" />
+												<f:selectItem itemLabel="Decrescente"
+													itemValue="decrescente" />
+											</p:selectOneMenu>
+										</p:panelGrid>
+									</h:panelGroup>
+
 									<p:spacer />
 
 									<p:panelGrid columns="2" layout="grid">
 										<p:button value="Incluir Novo" icon="fa fa-plus"
 											outcome="/etapasCampeonatos/CadastroEtapaCampeonato" />
 										<p:commandButton value="Pesquisar" icon="fa fa-search"
-											action="#{pesquisaEtapasBean.pesquisar}"
-											update="etapasTable"
+											action="#{pesquisaEtapasBean.pesquisar}" update="etapasTable"
 											process="@this 
 												nomeEtapa
 												campeonato
 												dataInicial
-												dataFinal" />
+												dataFinal
+												ordenarLista
+												tipoOrdenacao" />
 									</p:panelGrid>
 
 								</p:panelGrid>
@@ -72,9 +98,10 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:dataTable var="etapa" value="#{pesquisaEtapasBean.etapasFiltradas}"
-									reflow="true" emptyMessage="Nenhuma Etapa Cadastrada" id="etapasTable"
-									paginator="true" rows="10">
+								<p:dataTable var="etapa" lazy="true" rowsPerPageTemplate="25, 50, 100" 
+									value="#{pesquisaEtapasBean.lazyEtapas}" reflow="true"
+									emptyMessage="Nenhuma Etapa Cadastrada" id="etapasTable"
+									paginator="true" rows="25">
 									<f:facet name="header">
                                 		Etapas Cadastradas
                             		</f:facet>
@@ -104,8 +131,9 @@
 
 									<p:column style="text-align: center; width: 80px">
 										<p:button icon="fa fa-pencil" title="Editar"
-											style="width: 30px" outcome="/etapasCampeonatos/CadastroEtapaCampeonato">
-											<f:param name="etapa" value="#{etapa.id}"/>
+											style="width: 30px"
+											outcome="/etapasCampeonatos/CadastroEtapaCampeonato">
+											<f:param name="etapa" value="#{etapa.id}" />
 										</p:button>
 										<p:spacer />
 										<p:commandButton icon="ui-icon-trash" title="Excluir"
@@ -124,7 +152,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 				<p:commandButton value="Sim" type="button"
 					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
