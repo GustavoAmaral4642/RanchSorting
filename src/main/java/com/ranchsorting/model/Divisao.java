@@ -37,6 +37,7 @@ public class Divisao implements Serializable {
 	private String idadeInicial;
 	private String idadeFinal;
 	private TipoFicha tipoFicha;
+	private Long qntFichasPadrao;
 	private Usuario usuarioAlteracao;
 	private Date dataAlteracao;
 	private Ocorrencia ocorrencia;
@@ -109,6 +110,15 @@ public class Divisao implements Serializable {
 
 	public void setTipoFicha(TipoFicha tipoFicha) {
 		this.tipoFicha = tipoFicha;
+	}
+
+	@Column(name = "dv_qt_fichas_padrao")
+	public Long getQntFichasPadrao() {
+		return qntFichasPadrao;
+	}
+
+	public void setQntFichasPadrao(Long qntFichasPadrao) {
+		this.qntFichasPadrao = qntFichasPadrao;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)

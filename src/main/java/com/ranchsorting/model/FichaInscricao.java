@@ -35,7 +35,7 @@ public class FichaInscricao implements Serializable {
 	private BigDecimal valorComprado;
 	private BigDecimal valorPago;
 	private String obs;
-	private Long qntFichas;
+	private Long qntFichas = new Long(0);
 	private Long codigoFicha;
 	private StatusFicha statusFicha;
 	private Usuario usuarioAlteracao;

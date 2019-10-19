@@ -63,16 +63,18 @@
 									placeholder="Observação" autoResize="false" />
 
 								<p:outputLabel for="tipoFicha" value="Tipo de Ficha:" />
-								<p:selectOneRadio id="tipoFicha" layout="responsive"
-									columns="3"
+								<p:selectOneRadio id="tipoFicha" layout="responsive" columns="3"
 									value="#{cadastroDivisaoBean.divisao.tipoFicha}">
 									<f:selectItem itemLabel="Individual" itemValue="INDIVIDUAL" />
 									<f:selectItem itemLabel="Dupla" itemValue="DUPLA" />
 									<f:selectItem itemLabel="Trio" itemValue="TRIO" />
 								</p:selectOneRadio>
 
-								<p:spacer />
-								<p:spacer />
+								<p:outputLabel for="qtFichasPadrao" value="Qnt.Fichas Padrão:" />
+								<p:inputMask id="qtFichasPadrao" label="Quantidade" size="20"
+									maxlength="20" mask="9?999999999999999"
+									placeHolder="Quantidade" title="Quantidade"
+									value="#{cadastroDivisaoBean.divisao.qntFichasPadrao}" />
 
 								<p:spacer />
 

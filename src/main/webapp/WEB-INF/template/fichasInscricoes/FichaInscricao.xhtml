@@ -51,6 +51,9 @@
 			<f:selectItems value="#{cadastroFichaInscricaoBean.todasDivisoes}"
 				var="todasDivisoes" itemValue="#{todasDivisoes}"
 				itemLabel="#{todasDivisoes.nome} - #{todasDivisoes.tipoFicha.descricao}" />
+			<p:ajax
+				listener="#{cadastroFichaInscricaoBean.carregarQuantidadeFichasPadrao}"
+				update="qntFichas" />
 		</p:selectOneMenu>
 
 		<p:outputLabel for="dataInscricao" value="Data:" />

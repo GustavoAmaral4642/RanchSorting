@@ -149,6 +149,13 @@ public class CadastroFichaInscricaoBean implements Serializable {
 		}
 	}
 
+	public void carregarQuantidadeFichasPadrao(){
+		if(!fichaInscricao.getDivisao().getQntFichasPadrao().equals(new Long(0))){
+			fichaInscricao.setQntFichas(fichaInscricao.getDivisao().getQntFichasPadrao());
+		} else {
+			fichaInscricao.setQntFichas(new Long(0));
+		}
+	}
 	// imprime as fichas de inscricao
 	public void impressaoFichasInscricao() {
 
