@@ -52,9 +52,9 @@ public class CadastroRecebimentoBean implements Serializable {
 	}
 
 	public void inicializar() {
-		System.out.println("passou");
+		
 		carregarEtapas();
-		todosCompetidores = competidores.todosCompetidores();
+		todosCompetidores = competidores.consultaCompetidoresParaCombobox();
 		todosCampeonatos = campeonatos.todosCampeonatos();
 		todasDivisoes = divisoes.todasDivisoes();
 

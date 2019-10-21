@@ -10,7 +10,7 @@
 	<ui:define name="breadcrumb">
 		<li>Provas</li>
 		<li>/</li>
-		<li><p:link outcome="/fichasInscricoes/CadastroFichaInscricao">#{cadastroFichaInscricao.editando ? 'Edição de Ficha' : 'Nova Ficha'}</p:link></li>
+		<li><p:link outcome="/fichasInscricoes/CadastroFichaInscricao">#{cadastroFichaInscricao.editando ? 'Edição de Ficha(Ranch Sorting)' : 'Nova Ficha(Ranch Sorting)'}</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
@@ -22,18 +22,29 @@
 				type="preRenderView" />
 		</f:metadata>
 
-		<h:form>
+		<h:form id="formFichaInscricao">
 			<div class="ui-fluid">
 				<div class="ui-g">
 					<div class="ui-g-12">
 						<div class="card no-margin">
 							<h1>#{cadastroFichaInscricaoBean.editando ? 'Edição de
-								Ficha' : 'Nova Ficha'}</h1>
+								Ficha(Ranch Sorting)' : 'Nova Ficha(Ranch Sorting)'}</h1>
 
 							<p:growl id="growl" autoUpdate="true" />
 
 							<ui:include
-								src="/WEB-INF/template/fichasInscricoes/FichaInscricao.xhtml" />
+								src="/WEB-INF/template/fichasInscricoes/Cabecalho.xhtml" />
+
+							<p:tabView style="margin-top: 20px" id="tabTiposCampeonatos">
+								<p:tab title="Individual" rendered="#{cadastroFichaInscricaoBean.fichaInscricao.divisao.tipoFicha eq 'INDIVIDUAL'}">
+									<ui:include
+										src="/WEB-INF/template/fichasInscricoes/rs/Individual.xhtml" />
+								</p:tab>
+								<p:tab title="Dupla" rendered="#{cadastroFichaInscricaoBean.fichaInscricao.divisao.tipoFicha eq 'DUPLA'}">
+									<ui:include
+										src="/WEB-INF/template/fichasInscricoes/rs/Dupla.xhtml" />
+								</p:tab>
+							</p:tabView>
 
 							<p:spacer />
 							<p:spacer />

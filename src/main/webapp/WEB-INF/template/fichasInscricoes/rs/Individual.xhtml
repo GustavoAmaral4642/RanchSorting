@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<p:spacer />
+	<p:spacer />
+
+	<p:spacer />
+	<p:spacer />
+
+	<p:panelGrid columns="4" id="panelRSIndividual"
+		columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+		layout="grid" styleClass="ui-panelgrid-blank"
+		style="border:0px none; background-color:transparent;">
+
+		<p:outputLabel for="nomeCompetidorIndividual"
+			value="Nome do Competidor:" />
+		<p:selectOneMenu id="nomeCompetidorIndividual" filter="true"
+			label="Competidor" filterMatchMode="contains"
+			style="margin-bottom:10px;"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.competidor}">
+			<f:selectItem itemLabel="Selecione um Competidor" />
+			<f:selectItems
+				value="#{cadastroFichaInscricaoBean.todosCompetidoresIndividual}"
+				var="todosCompetidores" itemValue="#{todosCompetidores}"
+				itemLabel="#{todosCompetidores.id} - #{todosCompetidores.nome}" />
+		</p:selectOneMenu>
+
+		<p:outputLabel for="qntFichasIndividual" value="Quantidade de Fichas:" />
+		<p:inputText id="qntFichasIndividual" label="Quantidade"
+			disabled="#{cadastroFichaInscricaoBean.editando}"
+			placeholder="Quantidade" size="10" maxlength="10"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.qntFichas}" />
+
+		<p:outputLabel for="valorCompradoIndividual" value="Valor Comprado:" />
+		<p:inputText id="valorCompradoIndividual" label="Valor Comprado"
+			placeholder="Valor Comprado" size="20" maxlength="20"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.valorComprado}"
+			styleClass="moeda">
+			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+		</p:inputText>
+
+		<p:outputLabel for="valorPagoIndividual" value="Valor Pago:" />
+		<p:inputText id="valorPagoIndividual" label="Valor Pago:"
+			placeholder="Valor Pago" size="20" maxlength="20"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.valorPago}"
+			styleClass="moeda">
+			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+		</p:inputText>
+
+		<p:outputLabel for="statusFichaIndividual" value="Status da Ficha:" />
+		<p:inputText id="statusFichaIndividual" readonly="true" size="20"
+			maxlength="20"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.statusFicha.descricao}" />
+
+	</p:panelGrid>
+</ui:composition>

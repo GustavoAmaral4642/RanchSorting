@@ -37,11 +37,6 @@ public class Anuidades implements Serializable {
 		return manager.createQuery("from Anuidade", Anuidade.class).getResultList();
 	}
 
-	public List<Anuidade> anuidadesCompetidor(Competidor competidor) {
-		return manager.createQuery("from Anuidade where competidor = :competidor", Anuidade.class)
-				.setParameter("competidor", competidor).getResultList();
-	}
-
 	@SuppressWarnings("unchecked")
 	public List<Anuidade> filtrados(AnuidadeFilter filtro) {
 

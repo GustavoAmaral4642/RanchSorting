@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -22,7 +23,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @Table(name = "tb_anuidade")
-//@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
+// @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public class Anuidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -49,7 +50,7 @@ public class Anuidade implements Serializable {
 	}
 
 	@NotNull
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "anu_competidor_id")
 	public Competidor getCompetidor() {
 		return competidor;
@@ -60,7 +61,7 @@ public class Anuidade implements Serializable {
 	}
 
 	@NotNull
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "anu_campeonato")
 	public Campeonato getCampeonato() {
 		return campeonato;
@@ -100,7 +101,7 @@ public class Anuidade implements Serializable {
 		this.observacao = observacao;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "anu_us_alteracao")
 	public Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
@@ -120,7 +121,7 @@ public class Anuidade implements Serializable {
 		this.dataAlteracao = dataAlteracao;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "anu_ocorrencia")
 	public Ocorrencia getOcorrencia() {
 		return ocorrencia;

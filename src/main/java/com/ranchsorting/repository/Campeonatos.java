@@ -1,11 +1,10 @@
 package com.ranchsorting.repository;
 
-import java.io.Serializable;  
+import java.io.Serializable;   
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -57,11 +56,11 @@ public class Campeonatos implements Serializable {
 	}
 
 	public List<Campeonato> todosCampeonatos() {
-		try {
-			return manager.createQuery("from Campeonato", Campeonato.class).getResultList();
-		} catch (NoResultException e) {
-			return null;
-		}
+		
+		List<Campeonato> campeonatos = manager.createNamedQuery("Campeonato.buscarTodosCampeonatos", Campeonato.class)
+				.getResultList();
+
+		return campeonatos;
 	}
 /*
 	@SuppressWarnings("unchecked")

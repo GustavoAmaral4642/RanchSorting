@@ -56,18 +56,11 @@ public class Competidores implements Serializable {
 		return competidor;
 	}
 
+	
 	public Competidor porNome(String nome) {
 		try {
 			return manager.createQuery("from Competidor where upper(nome) = :nome", Competidor.class)
 					.setParameter("nome", nome.toUpperCase()).getSingleResult();
-		} catch (NoResultException e) {
-			return null;
-		}
-	}
-
-	public List<Competidor> todosCompetidores() {
-		try {
-			return manager.createQuery("from Competidor", Competidor.class).getResultList();
 		} catch (NoResultException e) {
 			return null;
 		}

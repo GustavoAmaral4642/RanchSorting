@@ -28,8 +28,6 @@ import org.hibernate.validator.constraints.NotBlank;
 @Table(name = "tb_etapa")
 //@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @NamedQueries({
-	/*@NamedQuery(name="Animal.buscarAnimaisPaginacao", query="select a "
-																+ "from Animal a "),*/
 	@NamedQuery(name="Etapa.buscarEtapasPorId", query="select e, e.campeonato "
 														+ "from Etapa e "
 																+ "where e.id=:id")

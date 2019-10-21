@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -30,7 +31,6 @@ import com.ranchsorting.repository.Anuidades;
 import com.ranchsorting.repository.Campeonatos;
 import com.ranchsorting.repository.Competidores;
 import com.ranchsorting.repository.Divisoes;
-import com.ranchsorting.repository.Etapas;
 import com.ranchsorting.service.CadastroFichaInscricaoService;
 import com.ranchsorting.service.NegocioException;
 import com.ranchsorting.util.jsf.FacesUtil;
@@ -47,9 +47,6 @@ public class CadastroFichaInscricaoBean implements Serializable {
 
 	@Inject
 	private Campeonatos campeonatos;
-
-	@Inject
-	private Etapas etapas;
 
 	@Inject
 	private Divisoes divisoes;
@@ -71,8 +68,10 @@ public class CadastroFichaInscricaoBean implements Serializable {
 
 	private FichaInscricao fichaInscricao;
 	private boolean inclusaoSimultanea = false;
+	private Anuidade anuidadeSelecionada;
 
-	private List<Competidor> todosCompetidores;
+	private List<Competidor> todosCompetidoresIndividual;
+	private List<Competidor> todosCompetidoresDupla;
 	private List<Animal> todosAnimais;
 	private List<Campeonato> todosCampeonatos;
 	private List<Etapa> etapasCampeonatos;
@@ -84,16 +83,24 @@ public class CadastroFichaInscricaoBean implements Serializable {
 	}
 
 	public void inicializar() {
-		todosCampeonatos = campeonatos.todosCampeonatos();
-		todasDivisoes = divisoes.todasDivisoes();
-		todosCompetidores = competidores.todosCompetidores();
+		// todosCampeonatos = campeonatos.todosCampeonatos();
+		// todasDivisoes = divisoes.todasDivisoes();
+		// todosCompetidores = competidores.todosCompetidores();
 
 		if (FacesUtil.isNotPostback()) {
 			if (isEditando()) {
-				carregarAnuidadesCompetidor();
-				carregarEtapas();
+				// carregarAnuidadesCompetidor();
+				// carregarDivisoes();
 			}
 		}
+	}
+
+	@PostConstruct
+	public void init() {
+		todosCampeonatos = campeonatos.todosCampeonatos();
+		todosCompetidoresDupla = competidores.consultaCompetidoresParaCombobox();
+		todosCompetidoresIndividual = todosCompetidoresDupla;
+		todasDivisoes = divisoes.todasDivisoes();
 	}
 
 	public void limpar() {
@@ -129,18 +136,10 @@ public class CadastroFichaInscricaoBean implements Serializable {
 		this.fichaInscricao = cadastroFichaInscricaoService.salvar(this.fichaInscricao);
 
 		inclusaoSimultanea = true;
-		
+
 		limpar();
 
 		FacesUtil.addInfoMessage("Ficha de Inscrição registrada com sucesso!");
-	}
-
-	public void carregarEtapas() {
-		etapasCampeonatos = etapas.etapasDoCampeonato(fichaInscricao.getCampeonato());
-	}
-
-	public void carregarAnuidadesCompetidor() {
-		anuidadesCompetidor = anuidades.anuidadesCompetidor(this.fichaInscricao.getCompetidor());
 	}
 
 	public void carregarDataInscricaoEtapa() {
@@ -149,13 +148,14 @@ public class CadastroFichaInscricaoBean implements Serializable {
 		}
 	}
 
-	public void carregarQuantidadeFichasPadrao(){
-		if(!fichaInscricao.getDivisao().getQntFichasPadrao().equals(new Long(0))){
+	public void carregarQuantidadeFichasPadrao() {
+		if (!fichaInscricao.getDivisao().getQntFichasPadrao().equals(new Long(0))) {
 			fichaInscricao.setQntFichas(fichaInscricao.getDivisao().getQntFichasPadrao());
 		} else {
 			fichaInscricao.setQntFichas(new Long(0));
 		}
 	}
+
 	// imprime as fichas de inscricao
 	public void impressaoFichasInscricao() {
 
@@ -181,7 +181,7 @@ public class CadastroFichaInscricaoBean implements Serializable {
 		// segundo parametro é o response
 		// terceiro são os parametros
 		// quarto é o nome do arquivo
-		
+
 		ExecutorRelatorio executor = new ExecutorRelatorio("/relatorios/ficha_inscricao.jasper", this.response,
 				parametros, "Ficha de Inscrição.pdf");
 
@@ -213,8 +213,12 @@ public class CadastroFichaInscricaoBean implements Serializable {
 
 	}
 
-	public List<Competidor> getTodosCompetidores() {
-		return todosCompetidores;
+	public List<Competidor> getTodosCompetidoresIndividual() {
+		return todosCompetidoresIndividual;
+	}
+
+	public List<Competidor> getTodosCompetidoresDupla() {
+		return todosCompetidoresDupla;
 	}
 
 	public List<Animal> getTodosAnimais() {
@@ -243,5 +247,13 @@ public class CadastroFichaInscricaoBean implements Serializable {
 
 	public boolean isInclusaoSimultanea() {
 		return this.inclusaoSimultanea;
+	}
+
+	public Anuidade getAnuidadeSelecionada() {
+		return anuidadeSelecionada;
+	}
+
+	public void setAnuidadeSelecionada(Anuidade anuidadeSelecionada) {
+		this.anuidadeSelecionada = anuidadeSelecionada;
 	}
 }

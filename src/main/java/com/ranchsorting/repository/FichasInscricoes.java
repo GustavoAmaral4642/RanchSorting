@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -107,38 +108,14 @@ public class FichasInscricoes implements Serializable {
 	@SuppressWarnings("unchecked")
 	public List<FichaInscricao> qntFichas(FichaInscricao ficha) {
 
-		FichaInscricaoFilter filtro = new FichaInscricaoFilter();
-
-		filtro.setObjCampeonato(ficha.getCampeonato());
-		filtro.setObjEtapa(ficha.getEtapa());
-		filtro.setObjDivisao(ficha.getDivisao());
-		filtro.setObjCompetidor(ficha.getCompetidor());
-
 		Session session = manager.unwrap(Session.class);
-		Criteria criteria = session.createCriteria(FichaInscricao.class).createAlias("campeonato", "ca")
-				.createAlias("etapa", "e").createAlias("divisao", "d").createAlias("competidor", "c");
-
-		// busca campeonatos por objeto
-		if (filtro.getObjCampeonato() != null) {
-			criteria.add(Restrictions.ilike("ca.nome", filtro.getObjCampeonato().getNome()));
-		}
-
-		// busca etapas por objeto
-		if (filtro.getObjEtapa() != null) {
-			criteria.add(Restrictions.ilike("e.nome", filtro.getObjEtapa().getNome()));
-		}
-
-		// busca divisoes por objeto
-		if (filtro.getObjDivisao() != null) {
-			criteria.add(Restrictions.ilike("d.nome", filtro.getObjDivisao().getNome()));
-		}
-
-		// busca divisoes por objeto
-		if (filtro.getObjCompetidor() != null) {
-			criteria.add(Restrictions.ilike("c.nome", filtro.getObjCompetidor().getNome()));
-		}
-
-		return criteria.addOrder(Order.asc("c.nome")).list();
+		Criteria criteria = session.createCriteria(FichaInscricao.class);
+		criteria.setFetchMode("campeonato", FetchMode.JOIN);
+		criteria.setFetchMode("etapa", FetchMode.JOIN);
+		criteria.setFetchMode("divisao", FetchMode.JOIN);
+		criteria.setFetchMode("competidor", FetchMode.JOIN);
+		
+		return criteria.addOrder(Order.asc("nome")).list();
 	}
 
 }

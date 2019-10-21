@@ -40,7 +40,7 @@ public class CadastroAnuidadeBean implements Serializable {
 	}
 
 	public void inicializar() {
-		todosCompetidores = competidores.todosCompetidores();
+		todosCompetidores = competidores.consultaCompetidoresParaCombobox();
 		todosCampeonatos = campeonatos.todosCampeonatos();
 	}
 

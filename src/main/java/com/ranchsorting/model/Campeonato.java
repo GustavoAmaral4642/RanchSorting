@@ -34,7 +34,10 @@ import org.hibernate.validator.constraints.NotBlank;
 @NamedQueries({
 	@NamedQuery(name="Campeonato.buscarCampeonatoPorId", query="select c "
 														+ "from Campeonato c "
-															+ "where c.id=:id")
+															+ "JOIN c.etapas e "
+															+ "where c.id=:id"),
+	@NamedQuery(name="Campeonato.buscarTodosCampeonatos", query="select c "
+														+ "from Campeonato c ")
 })
 public class Campeonato implements Serializable {
 

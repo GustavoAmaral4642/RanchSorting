@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<p:panelGrid columns="4" id="panelCabecalho"
+		columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+		layout="grid" styleClass="ui-panelgrid-blank"
+		style="border:0px none; background-color:transparent;">
+
+		<p:outputLabel for="codigoFicha" value="Código da Ficha:" />
+		<p:inputText id="codigoFicha" disabled="true"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.id}" />
+
+		<p:outputLabel for="campeonato" value="Selecione o Campeonato:" />
+		<p:selectOneMenu id="campeonato" filter="true" label="Campeonato"
+			filterMatchMode="contains" style="margin-bottom:10px;"
+			disabled="#{cadastroFichaInscricaoBean.editando}"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.campeonato}">
+			<f:selectItem itemLabel="Selecione um Campeonato" />
+			<f:selectItems value="#{cadastroFichaInscricaoBean.todosCampeonatos}"
+				var="todosCampeonatos" itemValue="#{todosCampeonatos}"
+				itemLabel="#{todosCampeonatos.nome} - #{todosCampeonatos.tipoCampeonato.descricao}" />
+			<p:ajax update="etapa" />
+		</p:selectOneMenu>
+
+		<p:outputLabel for="etapa" value="Selecione a Etapa:" />
+		<p:selectOneMenu id="etapa" filter="true" label="Etapa"
+			filterMatchMode="contains" style="margin-bottom:10px;"
+			disabled="#{cadastroFichaInscricaoBean.editando}"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.etapa}">
+			<f:selectItem itemLabel="Selecione uma Etapa" />
+			<f:selectItems
+				value="#{cadastroFichaInscricaoBean.fichaInscricao.campeonato.etapas}"
+				var="etapasCampeonatos" itemValue="#{etapasCampeonatos}"
+				itemLabel="#{etapasCampeonatos.nome}" />
+			<p:ajax
+				listener="#{cadastroFichaInscricaoBean.carregarDataInscricaoEtapa}"
+				update="dataInscricao divisao" />
+		</p:selectOneMenu>
+
+		<p:outputLabel for="divisao" value="Selecione a divisão:" />
+		<p:selectOneMenu id="divisao" filter="true" label="Divisão"
+			filterMatchMode="contains" style="margin-bottom:10px;"
+			disabled="#{cadastroFichaInscricaoBean.editando}"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.divisao}">
+			<f:selectItem itemLabel="Selecione a Divisão" />
+			<f:selectItems value="#{cadastroFichaInscricaoBean.todasDivisoes}"
+				var="todasDivisoes" itemValue="#{todasDivisoes}"
+				itemLabel="#{todasDivisoes.nome} - #{todasDivisoes.tipoFicha.descricao}" />
+				<p:ajax update="tabTiposCampeonatos"/>			
+		</p:selectOneMenu>
+
+		<p:outputLabel for="dataInscricao" value="Data:" />
+		<p:calendar id="dataInscricao" placeholder="__/__/____"
+			pattern="dd/MM/yyyy" title="Data da Inscrição" size="10"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.dataInscricao}"
+			mask="99/99/9999" />
+
+		<p:spacer />
+		<p:spacer />
+
+	</p:panelGrid>
+</ui:composition>

@@ -113,8 +113,11 @@ public class Etapas implements Serializable {
 
 	// busca etapas do campeonato
 	public List<Etapa> etapasDoCampeonato(Campeonato campeonato) {
-		return manager.createQuery("from Etapa where campeonato = :campeonato", Etapa.class)
+		
+		List<Etapa> etapas = manager.createNamedQuery("Etapa.buscarEtapasPorCampeonato", Etapa.class)
 				.setParameter("campeonato", campeonato).getResultList();
+
+		return etapas;
 	}
 
 	@SuppressWarnings("unchecked")

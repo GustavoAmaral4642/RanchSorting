@@ -45,6 +45,7 @@ public class Competidor implements Serializable {
 	private String responsavel; // OK
 	private String docResponsavel;// OK
 	private List<Animal> animais = new ArrayList<>(); // OK
+	private List<Anuidade> anuidades = new ArrayList<>(); // OK
 	private String contato;// OK
 	private Etnia etnia;// OK
 	private Usuario usuarioAlteracao;// OK
@@ -122,6 +123,17 @@ public class Competidor implements Serializable {
 
 	public void setAnimais(List<Animal> animais) {
 		this.animais = animais;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY, 
+			mappedBy = "competidor", 
+			cascade = CascadeType.ALL)
+	public List<Anuidade> getAnuidades() {
+		return anuidades;
+	}
+
+	public void setAnuidades(List<Anuidade> anuidades) {
+		this.anuidades = anuidades;
 	}
 
 	@Size(max = 160)

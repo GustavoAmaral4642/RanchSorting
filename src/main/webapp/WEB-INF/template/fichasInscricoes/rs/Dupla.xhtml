@@ -1,0 +1,112 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<p:spacer />
+	<p:spacer />
+
+	<p:spacer />
+	<p:spacer />
+
+	<p:panelGrid columns="4" id="panelRSDupla"
+		columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+		layout="grid" styleClass="ui-panelgrid-blank"
+		style="border:0px none; background-color:transparent;">
+
+		<p:outputLabel for="nomeCompetidorDupla1" value="Nome do Competidor:" />
+		<p:selectOneMenu id="nomeCompetidorDupla1" filter="true"
+			label="Competidor" filterMatchMode="contains"
+			style="margin-bottom:10px;"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.competidor}">
+			<f:selectItem itemLabel="Selecione um Competidor" />
+			<f:selectItems
+				value="#{cadastroFichaInscricaoBean.todosCompetidoresDupla}"
+				var="todosCompetidores" itemValue="#{todosCompetidores}"
+				itemLabel="#{todosCompetidores.id} - #{todosCompetidores.nome}" />
+			<p:ajax
+				listener="#{cadastroFichaInscricaoBean.carregarAnuidadesCompetidor}"
+				update="anuidadeCompetidorDupla1" />
+		</p:selectOneMenu>
+
+		<p:outputLabel for="qntFichasDupla1" value="Quantidade de Fichas:" />
+		<p:inputText id="qntFichasDupla1" label="Quantidade"
+			disabled="#{cadastroFichaInscricaoBean.editando}"
+			placeholder="Quantidade" size="10" maxlength="10"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.qntFichas}" />
+
+		<p:outputLabel for="valorCompradoDupla1" value="Valor Comprado:" />
+		<p:inputText id="valorCompradoDupla1" label="Valor Comprado"
+			placeholder="Valor Comprado" size="20" maxlength="20"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.valorComprado}"
+			styleClass="moeda">
+			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+		</p:inputText>
+
+		<p:outputLabel for="valorPagoDupla1" value="Valor Pago:" />
+		<p:inputText id="valorPagoDupla1" label="Valor Pago:"
+			placeholder="Valor Pago" size="20" maxlength="20"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.valorPago}"
+			styleClass="moeda">
+			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+		</p:inputText>
+
+		<p:outputLabel for="statusFichaDupla1" value="Status da Ficha:" />
+		<p:inputText id="statusFichaDupla1" readonly="true" size="20"
+			maxlength="20"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.statusFicha.descricao}" />
+
+		<p:separator />
+		<p:separator />
+		<p:separator />
+		<p:separator />
+
+
+		<p:spacer />
+		<p:spacer />
+		<p:spacer />
+		<p:spacer />
+		
+		<p:outputLabel for="nomeCompetidorDupla2" value="Parceiro:" />
+		<p:selectOneMenu id="nomeCompetidorDupla2" filter="true"
+			label="Competidor" filterMatchMode="contains"
+			style="margin-bottom:10px;"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.competidor}">
+			<f:selectItem itemLabel="Selecione um Competidor" />
+			<f:selectItems
+				value="#{cadastroFichaInscricaoBean.todosCompetidoresDupla}"
+				var="todosCompetidores" itemValue="#{todosCompetidores}"
+				itemLabel="#{todosCompetidores.id} - #{todosCompetidores.nome}" />
+		</p:selectOneMenu>
+
+		<p:outputLabel for="qntFichasDupla2" value="Quantidade de Fichas:" />
+		<p:inputText id="qntFichasDupla2" label="Quantidade"
+			disabled="#{cadastroFichaInscricaoBean.editando}"
+			placeholder="Quantidade" size="10" maxlength="10"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.qntFichas}" />
+
+		<p:outputLabel for="valorCompradoDupla2" value="Valor Comprado:" />
+		<p:inputText id="valorCompradoDupla2" label="Valor Comprado"
+			placeholder="Valor Comprado" size="20" maxlength="20"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.valorComprado}"
+			styleClass="moeda">
+			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+		</p:inputText>
+
+		<p:outputLabel for="valorPagoDupla2" value="Valor Pago:" />
+		<p:inputText id="valorPagoDupla2" label="Valor Pago:"
+			placeholder="Valor Pago" size="20" maxlength="20"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.valorPago}"
+			styleClass="moeda">
+			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+		</p:inputText>
+
+		<p:outputLabel for="statusFichaDupla2" value="Status da Ficha:" />
+		<p:inputText id="statusFichaDupla2" readonly="true" size="20"
+			maxlength="20"
+			value="#{cadastroFichaInscricaoBean.fichaInscricao.statusFicha.descricao}" />
+
+	</p:panelGrid>
+</ui:composition>
