@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -64,7 +65,7 @@ public class FichaInscricao implements Serializable {
 		this.dataInscricao = dataInscricao;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "fi_passada_id")
 	public Passada getPassada() {
 		return passada;
@@ -75,7 +76,7 @@ public class FichaInscricao implements Serializable {
 	}
 
 	@NotNull
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fi_campeonato")
 	public Campeonato getCampeonato() {
 		return campeonato;
@@ -86,7 +87,7 @@ public class FichaInscricao implements Serializable {
 	}
 
 	@NotNull
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fi_etapa")
 	public Etapa getEtapa() {
 		return etapa;
@@ -97,7 +98,7 @@ public class FichaInscricao implements Serializable {
 	}
 
 	@NotNull
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fi_divisao")
 	public Divisao getDivisao() {
 		return divisao;
@@ -108,7 +109,7 @@ public class FichaInscricao implements Serializable {
 	}
 
 	@NotNull
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fi_competidor")
 	public Competidor getCompetidor() {
 		return competidor;
@@ -174,7 +175,7 @@ public class FichaInscricao implements Serializable {
 		this.statusFicha = statusFicha;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fi_us_alteracao")
 	public Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
@@ -194,7 +195,7 @@ public class FichaInscricao implements Serializable {
 		this.dataAlteracao = dataAlteracao;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fi_ocorrencia")
 	public Ocorrencia getOcorrencia() {
 		return ocorrencia;

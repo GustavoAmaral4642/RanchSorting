@@ -1,6 +1,6 @@
 package com.ranchsorting.model;
 
-import java.io.Serializable; 
+import java.io.Serializable;  
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -30,7 +30,6 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_campeonato")
-// @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @NamedQueries({
 	@NamedQuery(name="Campeonato.buscarCampeonatoPorId", query="select c "
 														+ "from Campeonato c "

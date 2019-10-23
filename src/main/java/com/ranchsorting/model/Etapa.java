@@ -1,6 +1,6 @@
 package com.ranchsorting.model;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -20,13 +20,10 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_etapa")
-//@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @NamedQueries({
 	@NamedQuery(name="Etapa.buscarEtapasPorId", query="select e, e.campeonato "
 														+ "from Etapa e "

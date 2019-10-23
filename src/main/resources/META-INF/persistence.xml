@@ -28,6 +28,7 @@
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
 			<!-- //configurando para o hibernate usar o dialeto do mysql quando for 
 				usar sql. -->
+
 		</properties>
 	</persistence-unit>
 

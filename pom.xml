@@ -36,6 +36,14 @@
 			<version>4.3.8.Final</version>
 			<scope>compile</scope>
 		</dependency>
+		
+		<!-- Hibernate Testing -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-testing</artifactId>
+			<version>4.3.5.Final</version>
+			<scope>compile</scope>
+		</dependency>
 
 		<!-- Driver JDBC do MySQL -->
 		<!-- Se for usar outro driver, procurar no google "Oracle Maven". -->
@@ -83,7 +91,7 @@
 		<dependency>
 			<groupId>org.jboss.weld.servlet</groupId>
 			<artifactId>weld-servlet</artifactId>
-			<version>1.1.10.Final</version>
+			<version>2.2.1.Final</version>
 			<scope>compile</scope>
 		</dependency>
 

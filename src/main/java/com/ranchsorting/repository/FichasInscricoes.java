@@ -45,8 +45,7 @@ public class FichasInscricoes implements Serializable {
 		Criteria criteria = session.createCriteria(FichaInscricao.class).createAlias("campeonato", "ca")
 				.createAlias("etapa", "e").createAlias("divisao", "d").createAlias("competidor", "co");
 
-		if(filtro.getId() != null ){
-			
+		if (filtro.getId() != null) {
 			criteria.add(Restrictions.eq("id", filtro.getId()));
 		}
 
@@ -58,7 +57,7 @@ public class FichasInscricoes implements Serializable {
 		if (filtro.getObjCompetidor() != null) {
 			criteria.add(Restrictions.ilike("co.nome", filtro.getObjCompetidor().getNome()));
 		}
-		
+
 		if (StringUtils.isNotBlank(filtro.getCampeonato())) {
 			criteria.add(Restrictions.ilike("ca.nome", filtro.getCampeonato(), MatchMode.ANYWHERE));
 		}
@@ -103,19 +102,6 @@ public class FichasInscricoes implements Serializable {
 		}
 
 		return criteria.addOrder(Order.asc("ca.nome")).list();
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<FichaInscricao> qntFichas(FichaInscricao ficha) {
-
-		Session session = manager.unwrap(Session.class);
-		Criteria criteria = session.createCriteria(FichaInscricao.class);
-		criteria.setFetchMode("campeonato", FetchMode.JOIN);
-		criteria.setFetchMode("etapa", FetchMode.JOIN);
-		criteria.setFetchMode("divisao", FetchMode.JOIN);
-		criteria.setFetchMode("competidor", FetchMode.JOIN);
-		
-		return criteria.addOrder(Order.asc("nome")).list();
 	}
 
 }

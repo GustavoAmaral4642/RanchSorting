@@ -110,8 +110,11 @@ public class CadastroFichaInscricaoBean implements Serializable {
 			anuidadesCompetidor = new ArrayList<>();
 
 		} else {
+			System.out.println(fichaInscricao.getCampeonato().getNome());
 			Campeonato camp = fichaInscricao.getCampeonato();
+			System.out.println(fichaInscricao.getEtapa().getNome());
 			Etapa etp = fichaInscricao.getEtapa();
+			System.out.println(fichaInscricao.getDivisao().getNome());
 			Divisao div = fichaInscricao.getDivisao();
 			Date dtInsc = fichaInscricao.getDataInscricao();
 
@@ -132,9 +135,12 @@ public class CadastroFichaInscricaoBean implements Serializable {
 
 	public void salvar() {
 
+		
 		this.fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
+		
+		System.out.println(this.fichaInscricao.getCompetidor().getNome());
 		this.fichaInscricao = cadastroFichaInscricaoService.salvar(this.fichaInscricao);
-
+		
 		inclusaoSimultanea = true;
 
 		limpar();
