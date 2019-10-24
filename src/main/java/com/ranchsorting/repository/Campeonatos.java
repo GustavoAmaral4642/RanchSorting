@@ -62,6 +62,7 @@ public class Campeonatos implements Serializable {
 
 		return campeonatos;
 	}
+
 /*
 	@SuppressWarnings("unchecked")
 	public List<Campeonato> filtrados(CampeonatoFilter filtro) {

@@ -1,0 +1,95 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="title">Cadastro de Ficha de Inscrição</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Provas</li>
+		<li>/</li>
+		<li><p:link outcome="/fichasInscricoes/CadastroFichaInscricaoAgruapada">#{cadastroFichaInscricaoAgrupadaBean.editando ? 'Edição de Ficha(Ranch Sorting)' : 'Nova Ficha(Ranch Sorting)'}</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="ficha"
+				value="#{cadastroFichaInscricaoAgrupadaBean.fichaInscricao}" />
+			<f:event listener="#{cadastroFichaInscricaoAgrupadaBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form id="formFichaInscricao">
+			<div class="ui-fluid">
+				<div class="ui-g">
+					<div class="ui-g-12">
+						<div class="card no-margin">
+							<h1>#{cadastroFichaInscricaoAgrupadaBean.editando ? 'Edição de
+								Ficha(Ranch Sorting)' : 'Nova Ficha(Ranch Sorting)'}</h1>
+
+							<p:growl id="growl" autoUpdate="true" />
+
+							<ui:include
+								src="/WEB-INF/template/fichasInscricoes/CabecalhoAgrupada.xhtml" />
+
+							<p:tabView style="margin-top: 20px" id="tabTiposCampeonatos">
+								<p:tab title="Individual"
+									rendered="#{cadastroFichaInscricaoAgrupadaBean.fichaInscricao.divisao.tipoFicha eq 'INDIVIDUAL'}">
+									<ui:include
+										src="/WEB-INF/template/fichasInscricoes/rs/Individual.xhtml" />
+								</p:tab>
+								<p:tab title="Dupla"
+									rendered="#{cadastroFichaInscricaoAgrupadaBean.fichaInscricao.divisao.tipoFicha eq 'DUPLA'">
+									<ui:include
+										src="/WEB-INF/template/fichasInscricoes/rs/Dupla.xhtml" />									
+								</p:tab>							
+							</p:tabView>
+
+							<p:spacer />
+							<p:spacer />
+
+							<p:separator />
+
+							<p:spacer />
+							<p:spacer />
+
+							<p:panelGrid columns="4"
+								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+								layout="grid" styleClass="ui-panelgrid-blank"
+								style="border:0px none; background-color:transparent;">
+
+								<p:spacer />
+								<h:panelGroup>
+									<p:panelGrid columns="2" layout="grid">
+										<p:commandButton value="Salvar" icon="fa fa-save"
+											onclick="/fichasIncricoes/CadastroFichaInscricaoAgrupadas.xhtml"
+											action="#{cadastroFichaInscricaoAgrupadaBean.salvar}" />
+										<p:commandButton value="Imprimir Ficha" icon="fa fa-print"
+											action="#{cadastroFichaInscricaoAgrupadaBean.impressaoFichasInscricao}"
+											ajax="false" />
+									</p:panelGrid>
+								</h:panelGroup>
+
+								<p:spacer />
+								<h:panelGroup>
+									<p:panelGrid columns="2" layout="grid">
+										<p:button value="Limpar" icon="fa fa-refresh"
+											outcome="/fichasInscricoes/CadastroFichaInscricaoAgrupada" />
+										<p:button value="Pesquisa" icon="fa fa-search"
+											outcome="/fichasInscricoes/PesquisaFichasIncricoesAgrupadas" />
+									</p:panelGrid>
+								</h:panelGroup>
+
+							</p:panelGrid>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

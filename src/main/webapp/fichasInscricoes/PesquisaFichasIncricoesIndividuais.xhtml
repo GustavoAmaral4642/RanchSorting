@@ -9,7 +9,8 @@
 	<ui:define name="breadcrumb">
 		<li>Provas</li>
 		<li>/</li>
-		<li><p:link outcome="/fichasInscricoes/PesquisaFichasIncricoes">Pesquisa de Fichas</p:link></li>
+		<li><p:link
+				outcome="/fichasInscricoes/PesquisaFichasIncricoesIndividuais">Pesquisa de Fichas</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
@@ -36,17 +37,6 @@
 									<p:inputText id="nomeCompetidor"
 										value="#{pesquisaFichasInscricoesBean.filtro.competidor}" />
 
-									<p:outputLabel value="Data da Inscrição:" />
-									<h:panelGroup>
-										<p:panelGrid columns="2" layout="grid">
-											<p:inputText id="dataInscricaoInicial"
-												placeholder="Data Inicial"
-												value="#{pesquisaFichasInscricoesBean.filtro.dataInscricaoInicial}" />
-											<p:inputText id="dataInscricaoFinal" placeholder="Data Final"
-												value="#{pesquisaFichasInscricoesBean.filtro.dataInscricaoFinal}" />
-										</p:panelGrid>
-									</h:panelGroup>
-
 									<p:outputLabel for="campeonato" value="Campeonato:" />
 									<p:inputText id="campeonato"
 										value="#{pesquisaFichasInscricoesBean.filtro.campeonato}" />
@@ -59,21 +49,44 @@
 									<p:inputText id="divisao"
 										value="#{pesquisaFichasInscricoesBean.filtro.divisao}" />
 
-									<p:spacer />
-									<p:spacer />
+									<p:outputLabel for="ordenarLista" value="Ordenar Lista por:" />
+									<h:panelGroup>
+										<p:panelGrid columns="2" layout="grid">
+
+											<p:selectOneMenu id="ordenarLista" filter="true"
+												label="Ordenar" filterMatchMode="contains"
+												style="margin-bottom:10px;"
+												value="#{pesquisaFichasInscricoesBean.ordenar}">
+												<f:selectItem itemLabel="Código" itemValue="id" />
+												<f:selectItem itemLabel="Nome do Competidor"
+													itemValue="co.nome" />
+												<f:selectItem itemLabel="Nome do Campeonato"
+													itemValue="ca.nome" />
+												<f:selectItem itemLabel="Nome da Etapa"
+													itemValue="e.nome" />
+												<f:selectItem itemLabel="DivisÃO" itemValue="d.nome" />
+											</p:selectOneMenu>
+											<p:selectOneMenu id="tipoOrdenacao" label="Ordenar"
+												style="margin-bottom:10px;"
+												value="#{pesquisaFichasInscricoesBean.tipoOrdenacao}">
+												<f:selectItem itemLabel="Crescente" itemValue="crescente" />
+												<f:selectItem itemLabel="Decrescente"
+													itemValue="decrescente" />
+											</p:selectOneMenu>
+										</p:panelGrid>
+									</h:panelGroup>
 
 									<p:spacer />
 
 									<p:panelGrid columns="2" layout="grid">
 										<p:button value="Incluir Novo" icon="fa fa-plus"
-											outcome="/fichasInscricoes/CadastroFichaInscricao" />
+											outcome="/fichasInscricoes/CadastroFichaInscricaoIndividual" />
 										<p:commandButton value="Pesquisar" icon="fa fa-search"
 											action="#{pesquisaFichasInscricoesBean.pesquisar}"
 											update="fichasTable"
 											process="@this
 												id
 												nomeCompetidor
-												dataInscricaoInicial dataInscricaoFinal
 												campeonato
 												etapa
 												divisao" />
@@ -84,56 +97,59 @@
 								<p:spacer />
 								<p:spacer />
 
-								<p:dataTable var="ficha"
-									value="#{pesquisaFichasInscricoesBean.fichasFiltradas}"
-									reflow="true" emptyMessage="Nenhuma Ficha Encontrada"
-									paginator="true" rows="50" id="fichasTable">
+								<p:dataTable var="ficha" paginatorAlwaysVisible="false"
+									lazy="true" rowsPerPageTemplate="25,50,100"
+									value="#{pesquisaFichasInscricoesBean.lazyFichasInscricoes}"
+									reflow="true"
+									emptyMessage="Nenhuma Ficha de Inscrição Cadastrada"
+									paginator="true" rows="25" id="fichasTable">
 									<f:facet name="header">
                                 		Fichas de Inscrições Cadastradas
                             		</f:facet>
-									<p:column headerText="Código" sortBy="#{ficha.id}" 
+									<p:column headerText="Código" sortBy="#{ficha.id}"
 										style="width: 100px; text-align: center">
 										<h:outputText value="#{ficha.id}" />
 									</p:column>
 
-									<p:column headerText="Campeonato" sortBy="#{ficha.campeonato.nome}" 
-										 style="text-align: center">
+									<p:column headerText="Campeonato"
+										sortBy="#{ficha.campeonato.nome}" style="text-align: center">
 										<h:outputText value="#{ficha.campeonato.nome}" />
 									</p:column>
 
-									<p:column headerText="Etapa" sortBy="#{ficha.etapa.nome}" 
+									<p:column headerText="Etapa" sortBy="#{ficha.etapa.nome}"
 										style="text-align: center">
 										<h:outputText value="#{ficha.etapa.nome}" />
 									</p:column>
 
-									<p:column headerText="Divisão" sortBy="#{ficha.divisao.nome}"  
+									<p:column headerText="Divisão" sortBy="#{ficha.divisao.nome}"
 										style="text-align: center">
 										<h:outputText value="#{ficha.divisao.nome}" />
 									</p:column>
 
-									<p:column headerText="Vlr.Comprado" sortBy="#{ficha.valorComprado}" 
+									<p:column headerText="Vlr.Comprado"
+										sortBy="#{ficha.valorComprado}"
 										style="width: 150px; text-align: center">
 										<h:outputText value="#{ficha.valorComprado}">
 											<f:convertNumber type="currency" />
 										</h:outputText>
 									</p:column>
 
-									<p:column headerText="Vlr.Pago" sortBy="#{ficha.valorPago}" 
+									<p:column headerText="Vlr.Pago" sortBy="#{ficha.valorPago}"
 										style="width: 150px; text-align: center">
 										<h:outputText value="#{ficha.valorPago}">
 											<f:convertNumber type="currency" />
 										</h:outputText>
 									</p:column>
 
-									<p:column headerText="Competidores" sortBy="#{ficha.competidor.nome}" 
-										style="text-align: center">
+									<p:column headerText="Competidores"
+										sortBy="#{ficha.competidor.nome}" style="text-align: center">
 										<h:outputText value="#{ficha.competidor.nome}" />
-				                    </p:column>
+									</p:column>
 
 									<p:column style="text-align: center; width: 80px">
 										<p:button icon="fa fa-pencil" title="Editar"
 											style="width: 30px"
-											outcome="/fichasInscricoes/CadastroFichaInscricao">
+											outcome="/fichasInscricoes/CadastroFichaInscricaoIndividual">
 											<f:param name="ficha" value="#{ficha.id}" />
 										</p:button>
 										<p:spacer />

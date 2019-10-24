@@ -24,8 +24,6 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
@@ -33,10 +31,9 @@ import org.hibernate.validator.constraints.NotBlank;
 @NamedQueries({
 	@NamedQuery(name="Campeonato.buscarCampeonatoPorId", query="select c "
 														+ "from Campeonato c "
-															+ "JOIN c.etapas e "
 															+ "where c.id=:id"),
 	@NamedQuery(name="Campeonato.buscarTodosCampeonatos", query="select c "
-														+ "from Campeonato c ")
+														+ "from Campeonato c ")	
 })
 public class Campeonato implements Serializable {
 

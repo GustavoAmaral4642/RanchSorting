@@ -38,7 +38,7 @@ import com.ranchsorting.util.report.ExecutorRelatorio;
 
 @Named
 @ViewScoped
-public class CadastroFichaInscricaoBean implements Serializable {
+public class CadastroFichaInscricaoAgrupadaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -78,7 +78,7 @@ public class CadastroFichaInscricaoBean implements Serializable {
 	private List<Divisao> todasDivisoes;
 	private List<Anuidade> anuidadesCompetidor;
 
-	public CadastroFichaInscricaoBean() {
+	public CadastroFichaInscricaoAgrupadaBean() {
 		limpar();
 	}
 

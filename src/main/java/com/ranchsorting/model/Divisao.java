@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -32,7 +33,6 @@ public class Divisao implements Serializable {
 
 	private Long id;
 	private String nome;
-	private Campeonato campeonato;
 	private String observacoes;
 	private String idadeInicial;
 	private String idadeFinal;
@@ -62,16 +62,6 @@ public class Divisao implements Serializable {
 
 	public final void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	@ManyToOne
-	@JoinColumn(name = "dv_campeonato_id")
-	public Campeonato getCampeonato() {
-		return campeonato;
-	}
-
-	public void setCampeonato(Campeonato campeonato) {
-		this.campeonato = campeonato;
 	}
 
 	@Column(name = "dv_observacao", columnDefinition = "text")
@@ -121,7 +111,7 @@ public class Divisao implements Serializable {
 		this.qntFichasPadrao = qntFichasPadrao;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "dv_us_alteracao")
 	public final Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;

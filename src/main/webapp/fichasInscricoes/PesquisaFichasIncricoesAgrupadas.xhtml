@@ -1,0 +1,153 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">Pesquisa de Fichas</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Provas</li>
+		<li>/</li>
+		<li><p:link outcome="/fichasInscricoes/PesquisaFichasIncricoesAgrupadas">Pesquisa de Fichas</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form>
+			<div class="ui-fluid">
+				<div class="ui-g">
+					<div class="ui-g-12">
+						<div class="card no-margin">
+							<h1>Pesquisa de Fichas</h1>
+
+							<p:growl id="growl" autoUpdate="true" />
+
+							<h:form>
+								<p:panelGrid columns="4"
+									columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+									layout="grid" styleClass="ui-panelgrid-blank"
+									style="border:0px none; background-color:transparent;">
+
+									<p:outputLabel for="id" value="Codigo da Ficha:" />
+									<p:inputText id="id"
+										value="#{pesquisaFichasInscricoesBean.filtro.id}" />
+
+									<p:outputLabel for="nomeCompetidor" value="Nome do Competidor:" />
+									<p:inputText id="nomeCompetidor"
+										value="#{pesquisaFichasInscricoesBean.filtro.competidor}" />
+
+									<p:outputLabel value="Data da Inscrição:" />
+									<h:panelGroup>
+										<p:panelGrid columns="2" layout="grid">
+											<p:inputText id="dataInscricaoInicial"
+												placeholder="Data Inicial"
+												value="#{pesquisaFichasInscricoesBean.filtro.dataInscricaoInicial}" />
+											<p:inputText id="dataInscricaoFinal" placeholder="Data Final"
+												value="#{pesquisaFichasInscricoesBean.filtro.dataInscricaoFinal}" />
+										</p:panelGrid>
+									</h:panelGroup>
+
+									<p:outputLabel for="campeonato" value="Campeonato:" />
+									<p:inputText id="campeonato"
+										value="#{pesquisaFichasInscricoesBean.filtro.campeonato}" />
+
+									<p:outputLabel for="etapa" value="Etapa:" />
+									<p:inputText id="etapa"
+										value="#{pesquisaFichasInscricoesBean.filtro.etapa}" />
+
+									<p:outputLabel for="divisao" value="Divisão:" />
+									<p:inputText id="divisao"
+										value="#{pesquisaFichasInscricoesBean.filtro.divisao}" />
+
+									<p:spacer />
+									<p:spacer />
+
+									<p:spacer />
+
+									<p:panelGrid columns="2" layout="grid">
+										<p:button value="Incluir Novo" icon="fa fa-plus"
+											outcome="/fichasInscricoes/CadastroFichaInscricaoAgrupada" />
+										<p:commandButton value="Pesquisar" icon="fa fa-search"
+											action="#{pesquisaFichasInscricoesBean.pesquisar}"
+											update="fichasTable"
+											process="@this
+												id
+												nomeCompetidor
+												dataInscricaoInicial dataInscricaoFinal
+												campeonato
+												etapa
+												divisao" />
+									</p:panelGrid>
+
+								</p:panelGrid>
+
+								<p:spacer />
+								<p:spacer />
+
+								<p:dataTable var="ficha"
+									value="#{pesquisaFichasInscricoesBean.fichasFiltradas}"
+									reflow="true" emptyMessage="Nenhuma Ficha Encontrada"
+									paginator="true" rows="50" id="fichasTable">
+									<f:facet name="header">
+                                		Fichas de Inscrições Cadastradas
+                            		</f:facet>
+									<p:column headerText="Código" sortBy="#{ficha.id}" 
+										style="width: 100px; text-align: center">
+										<h:outputText value="#{ficha.id}" />
+									</p:column>
+
+									<p:column headerText="Campeonato" sortBy="#{ficha.campeonato.nome}" 
+										 style="text-align: center">
+										<h:outputText value="#{ficha.campeonato.nome}" />
+									</p:column>
+
+									<p:column headerText="Etapa" sortBy="#{ficha.etapa.nome}" 
+										style="text-align: center">
+										<h:outputText value="#{ficha.etapa.nome}" />
+									</p:column>
+
+									<p:column headerText="Divisão" sortBy="#{ficha.divisao.nome}"  
+										style="text-align: center">
+										<h:outputText value="#{ficha.divisao.nome}" />
+									</p:column>
+
+									<p:column headerText="Vlr.Comprado" sortBy="#{ficha.valorComprado}" 
+										style="width: 150px; text-align: center">
+										<h:outputText value="#{ficha.valorComprado}">
+											<f:convertNumber type="currency" />
+										</h:outputText>
+									</p:column>
+
+									<p:column headerText="Vlr.Pago" sortBy="#{ficha.valorPago}" 
+										style="width: 150px; text-align: center">
+										<h:outputText value="#{ficha.valorPago}">
+											<f:convertNumber type="currency" />
+										</h:outputText>
+									</p:column>
+
+									<p:column headerText="Competidores" sortBy="#{ficha.competidor.nome}" 
+										style="text-align: center">
+										<h:outputText value="#{ficha.competidor.nome}" />
+				                    </p:column>
+
+									<p:column style="text-align: center; width: 80px">
+										<p:button icon="fa fa-pencil" title="Editar"
+											style="width: 30px"
+											outcome="/fichasInscricoes/CadastroFichaInscricaoAgrupada">
+											<f:param name="ficha" value="#{ficha.id}" />
+										</p:button>
+										<p:spacer />
+										<p:commandButton icon="fa fa-trash" title="Excluir"
+											style="width: 30px">
+										</p:commandButton>
+									</p:column>
+								</p:dataTable>
+							</h:form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

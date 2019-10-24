@@ -70,6 +70,13 @@ public class CadastroFichaInscricaoService implements Serializable {
 		}
 	}
 
+	@Transactional
+	public FichaInscricao salvarDupla(FichaInscricao ficha, FichaInscricao fichaParceiro){
+		fichas.guardar(fichaParceiro);
+		
+		return fichas.guardar(ficha);
+	}
+	
 	private FichaInscricao dividindoValorComprado(FichaInscricao ficha) {
 
 		// se não for edição, retorna a ficha sem calculo

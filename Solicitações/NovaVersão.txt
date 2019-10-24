@@ -1,2 +1,3 @@
 
 1 - Necessário atualizar campo de quantidade padrão de fichas no cadastro de divisão.
+2 - Remover campo de campeonato da tabela de divisão

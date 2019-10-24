@@ -27,7 +27,10 @@ import org.hibernate.validator.constraints.NotBlank;
 @NamedQueries({
 	@NamedQuery(name="Etapa.buscarEtapasPorId", query="select e, e.campeonato "
 														+ "from Etapa e "
-																+ "where e.id=:id")
+																+ "where e.id=:id"),
+	@NamedQuery(name="Etapa.buscarEtapasPorCampeonato", query="select e "
+														+ "from Etapa e "
+																+ "where e.campeonato=:campeonato")
 })
 public class Etapa implements Serializable {
 

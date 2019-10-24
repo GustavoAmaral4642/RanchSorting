@@ -19,14 +19,17 @@
                             <p:menuitem id="apl_cadOcorrencias" value="Ocorrências" icon="fa fa-align-justify" outcome="/ocorrencias/PesquisaOcorrencias" />
                         </p:submenu>
                         <p:submenu id="apl_cadastros" label="Cadastros" icon="fa fa-list-alt">
-                            <p:menuitem id="apl_cadDivisao" value="Cadastro de Divisao" icon="fa fa-reorder" outcome="/divisoes/PesquisaDivisoes" />
                             <p:menuitem id="apl_cadCompetidor" value="Cadastro de Competidor" icon="fa fa-male" outcome="/competidores/PesquisaCompetidores" />
                             <p:menuitem id="apl_cadAnimal" value="Cadastro de Animais" icon="fa fa-child" outcome="/animais/PesquisaAnimais" />
-                        </p:submenu>
-                        <p:submenu id="apl_prova" label="Provas" icon="fa fa-trophy">
                             <p:menuitem id="apl_cadCampeonato" value="Cadastrar Campeonato" icon="fa fa-file-text" outcome="/campeonatos/PesquisaCampeonatos.xhtml" />
                             <p:menuitem id="apl_cadEtapas" value="Etapas de Campeonatos" icon="fa fa-calendar" outcome="/etapasCampeonatos/PesquisaEtapasCampeonatos.xhtml" />
-                            <p:menuitem id="apl_cadFichaInscricao" value="Ficha de Inscrição" icon="fa fa-male" outcome="/fichasInscricoes/PesquisaFichasIncricoes.xhtml" />
+                            <p:menuitem id="apl_cadDivisao" value="Cadastro de Divisao" icon="fa fa-reorder" outcome="/divisoes/PesquisaDivisoes" />
+                        </p:submenu>
+                        <p:submenu id="apl_fichas" label="Fichas de Inscrição" icon="fa fa-file-text">
+                            <p:menuitem id="apl_cadFichaRSAvulso" value="Ranch Sorting Individual" icon="fa fa-user" outcome="/fichasInscricoes/PesquisaFichasIncricoesIndividuais.xhtml" />
+                            <p:menuitem id="apl_cadFichaRSDupla" value="Ranch Sorting Agrupado" icon="fa fa-users" outcome="/fichasInscricoes/PesquisaFichasIncricoesAgrupadas.xhtml" />
+                        </p:submenu>
+                        <p:submenu id="apl_prova" label="Provas" icon="fa fa-trophy">
                             <p:menuitem id="apl_cadOrdemEntrada" value="Ordem de Entrada" icon="fa fa-list-ol" outcome="/ordensEntradas/PesquisaOrdensEntradas.xhtml" />
                         </p:submenu>
                         <p:submenu id="apl_financeiro" label="Financeiro" icon="fa fa-bank">
