@@ -30,7 +30,7 @@ import com.ranchsorting.repository.FichasInscricoes;
 import com.ranchsorting.repository.filter.FichaInscricaoFilter;
 import com.ranchsorting.service.CadastroOrdemEntradaService;
 import com.ranchsorting.service.CadastroPassadaService;
-
+import com.ranchsorting.service.EmbaralhaPassadasService;
 import com.ranchsorting.service.NegocioException;
 import com.ranchsorting.util.jsf.FacesUtil;
 
@@ -58,6 +58,9 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	@Inject
 	private CadastroPassadaService cadastroPassadaService;
 
+	@Inject
+	private EmbaralhaPassadasService embaralharService;
+	
 	private List<Campeonato> todosCampeonatos;
 	private List<Etapa> etapasCampeonatos;
 	private List<Divisao> todasDivisoes;
@@ -168,11 +171,14 @@ public class CadastroOrdemEntradaBean implements Serializable {
 						"Atenção, certifique-se se esse procedimento já foi feito ou se os competidores foram carregados!");
 			}
 
-			try{
+			/*try{
 				// chama método para embaralhar as passadas do amador
-				passadasCompetidores = cadastroOrdemEntradaService.geraPassadaAmador(this.ordemEntrada, fichasFiltradas, fichaInscricaoFilter);
+				//passadasCompetidores = cadastroOrdemEntradaService.geraPassadaAmador(this.ordemEntrada, fichasFiltradas, fichaInscricaoFilter);
+				*/
 				
-			} catch (NullPointerException ex) {
+				passadasCompetidores = embaralharService.embaralharPassadas(fichasFiltradas);
+				
+			/*} catch (NullPointerException ex) {
 				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
 						+ "Entre em contato com o administrador do Sistema. (NullPointerException)");
 			} catch (ConstraintViolationException ex) {
@@ -191,7 +197,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
 						+ "Entre em contato com o administrador do Sistema. (Exception)");
 			} 
-			
+			*/
 
 			//passadasCompetidores = cadastroOrdemEntradaService.embaralhaPassadas2(passadasCompetidores);
 			

@@ -33,8 +33,8 @@ public class FichaInscricao implements Serializable {
 	private Etapa etapa;
 	private Divisao divisao;
 	private Competidor competidor;
-	private BigDecimal valorComprado;
-	private BigDecimal valorPago;
+	private BigDecimal valorComprado = new BigDecimal(0);
+	private BigDecimal valorPago = new BigDecimal(0);
 	private String obs;
 	private Long qntFichas = new Long(0);
 	private Long codigoFicha;
@@ -65,7 +65,7 @@ public class FichaInscricao implements Serializable {
 		this.dataInscricao = dataInscricao;
 	}
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fi_passada_id")
 	public Passada getPassada() {
 		return passada;
@@ -76,7 +76,7 @@ public class FichaInscricao implements Serializable {
 	}
 
 	@NotNull
-	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fi_campeonato")
 	public Campeonato getCampeonato() {
 		return campeonato;
@@ -87,7 +87,7 @@ public class FichaInscricao implements Serializable {
 	}
 
 	@NotNull
-	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fi_etapa")
 	public Etapa getEtapa() {
 		return etapa;
@@ -98,7 +98,7 @@ public class FichaInscricao implements Serializable {
 	}
 
 	@NotNull
-	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fi_divisao")
 	public Divisao getDivisao() {
 		return divisao;
@@ -109,7 +109,7 @@ public class FichaInscricao implements Serializable {
 	}
 
 	@NotNull
-	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fi_competidor")
 	public Competidor getCompetidor() {
 		return competidor;
@@ -138,7 +138,7 @@ public class FichaInscricao implements Serializable {
 		this.valorPago = valorPago;
 	}
 
-	@Column(name="fi_observacao", length=100)
+	@Column(name = "fi_observacao", length = 100)
 	public String getObs() {
 		return obs;
 	}
@@ -175,7 +175,7 @@ public class FichaInscricao implements Serializable {
 		this.statusFicha = statusFicha;
 	}
 
-	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fi_us_alteracao")
 	public Usuario getUsuarioAlteracao() {
 		return usuarioAlteracao;
@@ -195,7 +195,7 @@ public class FichaInscricao implements Serializable {
 		this.dataAlteracao = dataAlteracao;
 	}
 
-	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fi_ocorrencia")
 	public Ocorrencia getOcorrencia() {
 		return ocorrencia;

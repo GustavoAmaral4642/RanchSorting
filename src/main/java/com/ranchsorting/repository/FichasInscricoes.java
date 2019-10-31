@@ -52,7 +52,7 @@ public class FichasInscricoes implements Serializable {
 		if (StringUtils.isNotBlank(filtro.getCompetidor())) {
 			criteria.add(Restrictions.ilike("co.nome", filtro.getCompetidor(), MatchMode.ANYWHERE));
 		}
-
+		
 		// busca Competidores por objeto
 		if (filtro.getObjCompetidor() != null) {
 			criteria.add(Restrictions.ilike("co.nome", filtro.getObjCompetidor().getNome()));

@@ -49,8 +49,7 @@
 			<f:selectItem itemLabel="Selecione a Divisão" />
 			<f:selectItems value="#{cadastroFichaInscricaoBean.todasDivisoes}"
 				var="todasDivisoes" itemValue="#{todasDivisoes}"
-				itemLabel="#{todasDivisoes.nome} - #{todasDivisoes.tipoFicha.descricao}" />
-			<p:ajax update="tabTiposCampeonatos" />
+				itemLabel="#{todasDivisoes.nome} - #{todasDivisoes.tipoFicha.descricao}" />			
 		</p:selectOneMenu>
 
 		<p:outputLabel for="dataInscricao" value="Data:" />

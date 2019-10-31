@@ -1,0 +1,136 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="4"
+		columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+		layout="grid" styleClass="ui-panelgrid-blank"
+		style="border:0px none; background-color:transparent;">
+
+		<p:outputLabel for="codigoOrdem" value="Código da Ordem:" />
+		<p:inputText id="codigoOrdem" disabled="true"
+			value="#{cadastroOrdemEntradaBean.ordemEntrada.id}" />
+
+		<p:outputLabel for="campeonato" value="Selecione o Campeonato:" />
+		<p:selectOneMenu id="campeonato" filter="true" label="Competidor"
+			filterMatchMode="contains" style="margin-bottom:10px;"
+			disabled="#{cadastroOrdemEntradaBean.ordemEntrada.naoAlteravel}"
+			value="#{cadastroOrdemEntradaBean.fichaInscricaoFilter.objCampeonato}">
+			<f:selectItem itemLabel="Selecione um Campeonato" />
+			<f:selectItems value="#{cadastroOrdemEntradaBean.todosCampeonatos}"
+				var="todosCampeonatos" itemValue="#{todosCampeonatos}"
+				itemLabel="#{todosCampeonatos.nome}" />
+			<p:ajax listener="#{cadastroOrdemEntradaBean.carregarEtapas}"
+				update="etapa" />
+		</p:selectOneMenu>
+
+		<p:outputLabel for="etapa" value="Selecione a Etapa:" />
+		<p:selectOneMenu id="etapa" filter="true" label="Etapa"
+			disabled="#{cadastroOrdemEntradaBean.ordemEntrada.naoAlteravel}"
+			filterMatchMode="contains" style="margin-bottom:10px;"
+			value="#{cadastroOrdemEntradaBean.fichaInscricaoFilter.objEtapa}">
+			<f:selectItem itemLabel="Selecione uma Etapa" />
+			<f:selectItems value="#{cadastroOrdemEntradaBean.etapasCampeonatos}"
+				var="etapasCampeonatos" itemValue="#{etapasCampeonatos}"
+				itemLabel="#{etapasCampeonatos.nome}" />
+			<p:ajax listener="#{cadastroOrdemEntradaBean.carregarDataEtapa}"
+				update="dataCompeticao" />
+		</p:selectOneMenu>
+
+		<p:outputLabel for="divisao" value="Selecione a divisao:" />
+		<p:selectOneMenu id="divisao" showCheckbox="true"
+			disabled="#{cadastroOrdemEntradaBean.ordemEntrada.naoAlteravel}"
+			value="#{cadastroOrdemEntradaBean.fichaInscricaoFilter.objDivisao}">
+			<f:selectItem itemLabel="Selecione a Divisão" />
+			<f:selectItems value="#{cadastroOrdemEntradaBean.todasDivisoes}"
+				var="todasDivisoes" itemValue="#{todasDivisoes}"
+				itemLabel="#{todasDivisoes.nome}" />
+		</p:selectOneMenu>
+
+		<p:outputLabel for="dataCompeticao" value="Data da Competição:" />
+		<p:calendar id="dataCompeticao" placeholder="__/__/____"
+			pattern="dd/MM/yyyy" title="Data da Competição" size="10"
+			value="#{cadastroOrdemEntradaBean.ordemEntrada.data}"
+			mask="99/99/9999" />
+
+		<p:outputLabel for="hora" value="Hora:" />
+		<p:inputText id="hora"
+			value="#{cadastroOrdemEntradaBean.ordemEntrada.hora}" />
+	</p:panelGrid>
+
+	<p:spacer />
+	<p:separator />
+	<p:spacer />
+
+	<h1>Seleção de Competidores</h1>
+	<p:panelGrid columns="2"
+		columnClasses="ui-grid-col-6,ui-grid-col-6,ui-grid-col-3,ui-grid-col-6"
+		layout="grid" styleClass="ui-panelgrid-blank"
+		style="border:0px none; background-color:transparent;">
+
+		<p:commandButton value="Carregar Competidores" icon="fa fa-users"
+			update="passadasTable  fichaSelecionada selComp"
+			action="#{cadastroOrdemEntradaBean.carregarCompetidores}"
+			process="@this
+											campeonato
+											etapa
+											divisao" />
+
+		<p:commandButton value="Incluir Passada" icon="fa fa-arrow-down"
+			action="#{cadastroOrdemEntradaBean.incluirPassada}" process="@this"
+			update="passadasTable 
+																	fichaSelecionada
+																	campeonato
+																	etapa
+																	divisao" />
+	</p:panelGrid>
+
+	<p:spacer />
+	<p:spacer />
+
+	<p:panelGrid columns="4"
+		columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+		layout="grid" styleClass="ui-panelgrid-blank"
+		style="border:0px none; background-color:transparent;">
+		<p:outputLabel for="selComp" value="Selecione as Fichas:" />
+		<p:selectOneMenu id="selComp" filter="true" label="Competidor"
+			filterMatchMode="contains" style="margin-bottom:10px;"
+			value="#{cadastroOrdemEntradaBean.fichaInscricaoLinhaEditavel}">
+			<f:selectItem itemLabel="Selecione um competidor" />
+			<f:selectItems value="#{cadastroOrdemEntradaBean.fichasFiltradas}"
+				var="fichaInscricao"
+				itemLabel="#{fichaInscricao.id} - #{fichaInscricao.competidor.nome}"
+				itemValue="#{fichaInscricao}" />
+			<p:ajax event="itemSelect"
+				update="passadasTable @this fichaSelecionada"
+				listener="#{cadastroOrdemEntradaBean.incluirFichasCompetidores}" />
+		</p:selectOneMenu>
+
+		<p:outputLabel for="fichaSelecionada" value="Fichas Selecionadas:" />
+		<p:dataList value="#{cadastroOrdemEntradaBean.fichasSelecionadas}"
+			var="ficha" type="ordered" id="fichaSelecionada"
+			emptyMessage="Nenhuma Ficha Selecionada">
+			<f:facet name="header">
+									Fichas Selecionadas
+		                            </f:facet>
+		                            #{ficha.id}, #{ficha.competidor.nome}
+		                        </p:dataList>
+
+	</p:panelGrid>
+
+	<p:spacer />
+	<p:spacer />
+
+	<p:panelGrid columns="1"
+		columnClasses="ui-grid-col-12,ui-grid-col-12,ui-grid-col-12,ui-grid-col-12"
+		layout="grid" styleClass="ui-panelgrid-blank"
+		style="border:0px none; background-color:transparent;">
+		
+		<p:commandButton value="Limpar Parâmetros" icon="fa fa-refresh"
+			update="fichaSelecionada"
+			action="#{cadastroOrdemEntradaBean.limparListaFichasInscricoes}"
+			process="@this" />
+	</p:panelGrid>
+</ui:composition>
