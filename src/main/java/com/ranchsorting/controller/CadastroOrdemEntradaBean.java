@@ -31,6 +31,7 @@ import com.ranchsorting.repository.filter.FichaInscricaoFilter;
 import com.ranchsorting.service.CadastroOrdemEntradaService;
 import com.ranchsorting.service.CadastroPassadaService;
 import com.ranchsorting.service.EmbaralhaPassadasService;
+import com.ranchsorting.service.MontaOrdemEntradaService;
 import com.ranchsorting.service.NegocioException;
 import com.ranchsorting.util.jsf.FacesUtil;
 
@@ -60,6 +61,9 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	@Inject
 	private EmbaralhaPassadasService embaralharService;
+	
+	@Inject 
+	private MontaOrdemEntradaService montaOrdemService;
 	
 	private List<Campeonato> todosCampeonatos;
 	private List<Etapa> etapasCampeonatos;
@@ -172,11 +176,13 @@ public class CadastroOrdemEntradaBean implements Serializable {
 			}
 
 			/*try{
+			    //Método antigo
 				// chama método para embaralhar as passadas do amador
 				//passadasCompetidores = cadastroOrdemEntradaService.geraPassadaAmador(this.ordemEntrada, fichasFiltradas, fichaInscricaoFilter);
 				*/
 				
 				passadasCompetidores = embaralharService.embaralharPassadas(fichasFiltradas);
+				passadasCompetidores = montaOrdemService.montarOrdemEntrada(passadasCompetidores);
 				
 			/*} catch (NullPointerException ex) {
 				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."

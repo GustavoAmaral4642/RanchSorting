@@ -117,12 +117,6 @@ public class EmbaralhaPassadasService implements Serializable {
 			// se achar competidor igual, verifica3 fica false
 			if (p.getFichasInscricoes().get(0).getCompetidor().getNome().equals(f1.getCompetidor().getNome())
 					&& p.getFichasInscricoes().get(1).getCompetidor().getNome().equals(f2.getCompetidor().getNome())) {
-				System.out.println("primeiro if");
-				System.out.println(p.getFichasInscricoes().get(0).getCompetidor().getNome());
-				System.out.println(f1.getCompetidor().getNome());
-				System.out.println(p.getFichasInscricoes().get(1).getCompetidor().getNome());
-				System.out.println(f2.getCompetidor().getNome());
-				System.out.println();
 				return true;
 			}
 
@@ -130,12 +124,6 @@ public class EmbaralhaPassadasService implements Serializable {
 			// fica false
 			if (p.getFichasInscricoes().get(1).getCompetidor().getNome().equals(f1.getCompetidor().getNome())
 					&& p.getFichasInscricoes().get(0).getCompetidor().getNome().equals(f2.getCompetidor().getNome())) {
-				System.out.println("segundo if");
-				System.out.println(p.getFichasInscricoes().get(1).getCompetidor().getNome());
-				System.out.println(f1.getCompetidor().getNome());
-				System.out.println(p.getFichasInscricoes().get(0).getCompetidor().getNome());
-				System.out.println(f2.getCompetidor().getNome());
-				System.out.println();
 				return true;
 			}
 		}
@@ -167,12 +155,20 @@ public class EmbaralhaPassadasService implements Serializable {
 			f1 = fichasFiltradas.get(0);
 
 			// pega uma ficha qualquer da lista de referencia
-			num1 = gerador.nextInt(fichasBackup.size() - 1);
+			System.out.println("embaralhaPassada");
+			System.out.println("num1 " + num1);
+			System.out.println(fichasBackup.size());
+			System.out.println("embaralhaPassada");
+			if(fichasBackup.size()-1!=0){
+				num1 = gerador.nextInt(fichasBackup.size() - 1);	
+			} else {
+				num1 = 0;
+			}
+			
 			f2 = fichasBackup.get(num1);
 			
 			// se competidores iguais, loop
 			if (f1.getCompetidor().getNome().equals(f2.getCompetidor().getNome())) {
-				System.out.println("entrou 1");
 				continue;
 			}
 
@@ -185,14 +181,12 @@ public class EmbaralhaPassadasService implements Serializable {
 						.equals(f1.getCompetidor().getNome())
 						&& p.getFichasInscricoes().get(1).getCompetidor().getNome()
 								.equals(f2.getCompetidor().getNome())) {
-					System.out.println("entrou 2");
 					verifica2 = false;
 				}
 				if (p.getFichasInscricoes().get(1).getCompetidor().getNome()
 						.equals(f1.getCompetidor().getNome())
 						&& p.getFichasInscricoes().get(0).getCompetidor().getNome()
 								.equals(f2.getCompetidor().getNome())) {
-					System.out.println("entrou 3");
 					verifica2 = false;
 				}
 			}
