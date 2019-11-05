@@ -159,7 +159,7 @@ public class EmbaralhaPassadasService implements Serializable {
 			System.out.println("num1 " + num1);
 			System.out.println(fichasBackup.size());
 			System.out.println("embaralhaPassada");
-			if(fichasBackup.size()-1!=0){
+			if(fichasBackup.size()!=1){
 				num1 = gerador.nextInt(fichasBackup.size() - 1);	
 			} else {
 				num1 = 0;
