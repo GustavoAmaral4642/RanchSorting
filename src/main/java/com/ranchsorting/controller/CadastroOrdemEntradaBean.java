@@ -94,10 +94,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 				etapasCampeonatos = etapas.etapasDoCampeonato(this.fichaInscricaoFilter.getObjCampeonato());
 				fichaInscricaoFilter.setObjEtapa(this.ordemEntrada.getEtapa());
 				fichaInscricaoFilter.setObjDivisao(this.ordemEntrada.getDivisao());
-
-				
-				
-				passadasCompetidores.addAll(ordemEntrada.getPassadas());
+				passadasCompetidores.addAll(ordemEntrada.getPassadas());				
 			}
 		}
 	}
@@ -182,7 +179,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 				*/
 				
 				passadasCompetidores = embaralharService.embaralharPassadas(fichasFiltradas);
-				passadasCompetidores = montaOrdemService.montarOrdemEntrada(passadasCompetidores);
+				passadasCompetidores = montaOrdemService.montarOrdemEntrada(passadasCompetidores, ordemEntrada);
 				
 			/*} catch (NullPointerException ex) {
 				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
@@ -212,29 +209,31 @@ public class CadastroOrdemEntradaBean implements Serializable {
 			}
 
 		} else {
-			
-			passadasCompetidores = cadastroOrdemEntradaService.trataOutrasPassadas2(passadasCompetidores, fichaInscricaoFilter);
-			try{
-				
-			}catch (NullPointerException ex) {
-				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
-						+ "Entre em contato com o administrador do Sistema. (NullPointerException)");
-			} catch (ConstraintViolationException ex) {
-				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
-						+ "Entre em contato com o administrador do Sistema. (ConstraintViolationException)");
-			} catch (ArithmeticException ex) {
-				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
-						+ "Entre em contato com o administrador do Sistema. (ArithmeticException)");
-			} catch (IndexOutOfBoundsException e){
-				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
-						+ "Entre em contato com o administrador do Sistema. (IndexOutOfBoundsException)");
-			} catch (RuntimeException ex) {
-				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
-						+ "Entre em contato com o administrador do Sistema. (RuntimeException)");
-			} catch (Exception ex) {
-				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
-						+ "Entre em contato com o administrador do Sistema. (Exception)");
-			} 
+						
+			passadasCompetidores = montaOrdemService.montarOrdemEntrada(passadasCompetidores, ordemEntrada);
+			//passadasCompetidores = cadastroOrdemEntradaService.trataOutrasPassadas2(passadasCompetidores, fichaInscricaoFilter);
+			/*
+			 * try{
+			 * 
+			 * }catch (NullPointerException ex) { throw new
+			 * NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada." +
+			 * "Entre em contato com o administrador do Sistema. (NullPointerException)"); }
+			 * catch (ConstraintViolationException ex) { throw new
+			 * NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada." +
+			 * "Entre em contato com o administrador do Sistema. (ConstraintViolationException)"
+			 * ); } catch (ArithmeticException ex) { throw new
+			 * NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada." +
+			 * "Entre em contato com o administrador do Sistema. (ArithmeticException)"); }
+			 * catch (IndexOutOfBoundsException e){ throw new
+			 * NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada." +
+			 * "Entre em contato com o administrador do Sistema. (IndexOutOfBoundsException)"
+			 * ); } catch (RuntimeException ex) { throw new
+			 * NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada." +
+			 * "Entre em contato com o administrador do Sistema. (RuntimeException)"); }
+			 * catch (Exception ex) { throw new
+			 * NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada." +
+			 * "Entre em contato com o administrador do Sistema. (Exception)"); }
+			 */
 			
 		}
 		
@@ -310,6 +309,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	public void limparListaFichasInscricoes() {
 		if (fichasSelecionadas != null && fichasSelecionadas.size() != 0) {
+			fichasFiltradas.addAll(fichasSelecionadas);
 			fichasSelecionadas = new ArrayList<>();
 		}
 	}
@@ -318,6 +318,10 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 		if (fichasSelecionadas != null && fichasSelecionadas.size() != 0) {
 
+			if (fichasSelecionadas.size() < 2) {
+				throw new NegocioException("Campeonato só permite inclusão de passadas em dupla!");
+			}
+			
 			Passada passada = new Passada();
 
 			// adiciona a ficha como item de passada.

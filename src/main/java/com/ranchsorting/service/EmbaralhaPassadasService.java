@@ -83,8 +83,10 @@ public class EmbaralhaPassadasService implements Serializable {
 				pos2++;
 				continue;
 			}
-
+			
 			p1 = new Passada();
+			f1.setPassada(p1);
+			f2.setPassada(p1);
 			p1.getFichasInscricoes().add(f1);
 			p1.getFichasInscricoes().add(f2);
 

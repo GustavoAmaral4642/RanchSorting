@@ -30,10 +30,10 @@ public class CadastroOrdemEntradaService implements Serializable {
 	public OrdemEntrada salvar(OrdemEntrada ordem) {
 		// return ordens.guardar(ordem);
 
-		try {
+		//try {
 			return ordens.guardar(ordem);
 
-		} catch (NullPointerException ex) {
+	/*	} catch (NullPointerException ex) {
 			throw new NegocioException("Ocorreu algum promblema na gravação da Ordem de Entrada."
 					+ "Entre em contato com o administrador do Sistema. (NullPointerException)");
 		} catch (ConstraintViolationException ex) {
@@ -48,7 +48,7 @@ public class CadastroOrdemEntradaService implements Serializable {
 		} catch (Exception ex) {
 			throw new NegocioException("Ocorreu algum promblema na gravação da Ordem de Entrada."
 					+ "Entre em contato com o administrador do Sistema. (Exception)");
-		}
+		}*/
 	}
 
 	public List<Passada> geraPassadaAmador(OrdemEntrada ordem, List<FichaInscricao> fichasFiltradas,

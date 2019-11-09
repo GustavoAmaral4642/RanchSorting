@@ -14,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -22,6 +24,11 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tb_ficha_inscricao")
+@NamedQueries({
+	@NamedQuery(name="FichaInscricao.buscarFichaParaAlteracao", query="select f, f.campeonato, f.etapa, f.divisao, f.competidor "
+														+ "from FichaInscricao f "
+																+ "where f.id=:id"),	
+})
 public class FichaInscricao implements Serializable {
 
 	private static final long serialVersionUID = 1L;

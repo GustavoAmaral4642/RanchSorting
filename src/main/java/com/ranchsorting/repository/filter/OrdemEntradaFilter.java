@@ -15,8 +15,8 @@ public class OrdemEntradaFilter implements Serializable {
 	private Etapa etapa;
 	private Divisao divisao;
 	private String competidor;
-	private Date dataInscricaoInicial;
-	private Date dataInscricaoFinal;
+	private Date dataCompeticaoInicial;
+	private Date dataCompeticaoFinal;
 	private String nomeCampeonato;
 	private String nomeEtapa;
 	private String nomeDivisao;
@@ -54,20 +54,20 @@ public class OrdemEntradaFilter implements Serializable {
 		this.competidor = competidor;
 	}
 
-	public Date getDataInscricaoInicial() {
-		return dataInscricaoInicial;
+	public Date getDataCompeticaoInicial() {
+		return dataCompeticaoInicial;
 	}
 
-	public void setDataInscricaoInicial(Date dataInscricaoInicial) {
-		this.dataInscricaoInicial = dataInscricaoInicial;
+	public void setDataCompeticaoInicial(Date dataCompeticaoInicial) {
+		this.dataCompeticaoInicial = dataCompeticaoInicial;
 	}
 
-	public Date getDataInscricaoFinal() {
-		return dataInscricaoFinal;
+	public Date getDataCompeticaoFinal() {
+		return dataCompeticaoFinal;
 	}
 
-	public void setDataInscricaoFinal(Date dataInscricaoFinal) {
-		this.dataInscricaoFinal = dataInscricaoFinal;
+	public void setDataCompeticaoFinal(Date dataCompeticaoFinal) {
+		this.dataCompeticaoFinal = dataCompeticaoFinal;
 	}
 
 	public String getNomeCampeonato() {

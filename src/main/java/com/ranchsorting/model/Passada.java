@@ -51,7 +51,7 @@ public class Passada implements Serializable {
 		this.id = id;
 	}
 
-	@OneToMany(mappedBy = "passada", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "passada", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	public List<FichaInscricao> getFichasInscricoes() {
 		return fichasInscricoes;
 	}
@@ -60,7 +60,7 @@ public class Passada implements Serializable {
 		this.fichasInscricoes = fichasInscricoes;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pa_ordem_entrada_id")
 	public OrdemEntrada getOrdemEntrada() {
 		return ordemEntrada;

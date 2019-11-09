@@ -12,6 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -22,6 +24,11 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tb_ordem_entrada")
+@NamedQueries({
+	@NamedQuery(name="OrdemEntrada.buscarOrdemEntradaPorId", query="select o, o.campeonato, o.etapa, o.divisao "
+														+ "from OrdemEntrada o "
+																+ "where o.id=:id"),	
+})
 public class OrdemEntrada implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -49,7 +56,7 @@ public class OrdemEntrada implements Serializable {
 	}
 
 	@NotNull
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "od_campeonato")
 	public Campeonato getCampeonato() {
 		return campeonato;
@@ -60,7 +67,7 @@ public class OrdemEntrada implements Serializable {
 	}
 
 	@NotNull
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name = "od_etapa")
 	public Etapa getEtapa() {
 		return etapa;
@@ -71,7 +78,7 @@ public class OrdemEntrada implements Serializable {
 	}
 
 	@NotNull
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name = "od_divisao")
 	public Divisao getDivisao() {
 		return divisao;

@@ -142,23 +142,29 @@ public class CadastroFichaInscricaoBean implements Serializable {
 
 	public void salvar() {
 
-		// se o tipo de divisao for de dupla
-		if (fichaInscricao.getDivisao().getTipoFicha().equals(TipoFicha.DUPLA) && fichaInscricao.getCompetidor() != null) {
-
-			this.fichaInscricaoParceiro.setStatusFicha(StatusFicha.CADASTRADA);
-			this.fichaInscricaoParceiro.setCampeonato(this.fichaInscricao.getCampeonato());
-			this.fichaInscricaoParceiro.setEtapa(this.fichaInscricao.getEtapa());
-			this.fichaInscricaoParceiro.setDivisao(this.fichaInscricao.getDivisao());
-			this.fichaInscricaoParceiro.setDataInscricao(this.fichaInscricao.getDataInscricao());
-			
-			this.fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
-			this.fichaInscricao = cadastroFichaInscricaoService.salvarDupla(this.fichaInscricao, this.fichaInscricaoParceiro);
-
-		} else {
-			this.fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
-			this.fichaInscricao = cadastroFichaInscricaoService.salvar(this.fichaInscricao);
-		}
-
+		/*
+		 * // se o tipo de divisao for de dupla if
+		 * (fichaInscricao.getDivisao().getTipoFicha().equals(TipoFicha.DUPLA) &&
+		 * fichaInscricao.getCompetidor() != null) {
+		 * 
+		 * this.fichaInscricaoParceiro.setStatusFicha(StatusFicha.CADASTRADA);
+		 * this.fichaInscricaoParceiro.setCampeonato(this.fichaInscricao.getCampeonato()
+		 * ); this.fichaInscricaoParceiro.setEtapa(this.fichaInscricao.getEtapa());
+		 * this.fichaInscricaoParceiro.setDivisao(this.fichaInscricao.getDivisao());
+		 * this.fichaInscricaoParceiro.setDataInscricao(this.fichaInscricao.
+		 * getDataInscricao());
+		 * 
+		 * this.fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
+		 * this.fichaInscricao =
+		 * cadastroFichaInscricaoService.salvarDupla(this.fichaInscricao,
+		 * this.fichaInscricaoParceiro);
+		 * 
+		 * } else {
+		 * 
+		 * }
+		 */
+		this.fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
+		this.fichaInscricao = cadastroFichaInscricaoService.salvar(this.fichaInscricao);
 		inclusaoSimultanea = true;
 
 		limpar();

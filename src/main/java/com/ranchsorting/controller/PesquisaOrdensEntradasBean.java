@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.ranchsorting.model.OrdemEntrada;
+import com.ranchsorting.modellazy.LazyOrdemEntradaDataModel;
 import com.ranchsorting.repository.OrdensEntradas;
 import com.ranchsorting.repository.filter.OrdemEntradaFilter;
 
@@ -21,15 +22,21 @@ public class PesquisaOrdensEntradasBean implements Serializable {
 	private OrdensEntradas ordensEntradas;
 	
 	private OrdemEntradaFilter filtro;
+	private String ordenar;
+	private String tipoOrdenacao;
 	
 	private List<OrdemEntrada> ordensFiltradas;
+	private LazyOrdemEntradaDataModel lazyOrdens;
 	
 	public PesquisaOrdensEntradasBean(){
 		filtro = new OrdemEntradaFilter();
+		ordenar = "ca.nome";
+		tipoOrdenacao = "crescente";
 	}
 	
 	public void pesquisar(){
-		ordensFiltradas = ordensEntradas.filtradas(filtro);		
+		//ordensFiltradas = ordensEntradas.filtradas(filtro);	
+		lazyOrdens = new LazyOrdemEntradaDataModel(ordensEntradas, filtro, ordenar, tipoOrdenacao);
 	}
 
 	public OrdemEntradaFilter getFiltro() {
@@ -42,6 +49,26 @@ public class PesquisaOrdensEntradasBean implements Serializable {
 
 	public List<OrdemEntrada> getOrdensFiltradas() {
 		return ordensFiltradas;
+	}
+
+	public String getOrdenar() {
+		return ordenar;
+	}
+
+	public void setOrdenar(String ordenar) {
+		this.ordenar = ordenar;
+	}
+
+	public String getTipoOrdenacao() {
+		return tipoOrdenacao;
+	}
+
+	public void setTipoOrdenacao(String tipoOrdenacao) {
+		this.tipoOrdenacao = tipoOrdenacao;
+	}
+
+	public LazyOrdemEntradaDataModel getLazyOrdens() {
+		return lazyOrdens;
 	}
 
 }
