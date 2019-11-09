@@ -117,18 +117,7 @@ public class MontaOrdemEntradaService implements Serializable {
 				}
 				System.out.println();
 				System.out.println("adicionou");
-				System.out.println();				
-
-				
-				for(Passada p : passadas) {					
-					for(FichaInscricao f : p.getFichasInscricoes()) {
-						f.setStatusFicha(StatusFicha.EMORDEM);
-						f.setCampeonato(ordem.getCampeonato());
-						f.setEtapa(ordem.getEtapa());
-						f.setDivisao(ordem.getDivisao());
-						f.setPassada(p);
-					}
-				}
+				System.out.println();
 				
 				passadas.get(pos1).setNumeroDupla(new Long(numeroDupla));
 				passadas.get(pos1).setOrdemEntrada(ordem);
