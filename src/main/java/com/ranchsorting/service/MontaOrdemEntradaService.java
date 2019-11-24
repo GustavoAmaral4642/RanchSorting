@@ -53,14 +53,27 @@ public class MontaOrdemEntradaService implements Serializable {
 		boolean verificador=false;
 		int pos1 = 0;
 		int numeroDupla = 1;
+		int contador=0; // contador para resetar tudo
 		
 		List<Passada> listaAuxiliar1 = new ArrayList<Passada>();
+		List<Passada> listaAuxiliar2 = new ArrayList<Passada>(); // backup
+		listaAuxiliar2.addAll(passadas);
 		
 		do{
 			System.out.println("aqui");
 			System.out.print("tamanho dos array: ");
 			System.out.println("passadas " + passadas.size());
 			System.out.println("listaAuxiliar1 " + listaAuxiliar1.size());
+			
+			//reseta tudo
+			if(contador==100000){
+				listaAuxiliar1 = new ArrayList<>();
+				passadas = new ArrayList<>();
+				passadas.addAll(listaAuxiliar2);
+				numeroDupla=1;
+				pos1=0;
+				contador=0;
+			}
 			
 			if(pos1==passadas.size()) {
 				pos1=0;
@@ -80,7 +93,7 @@ public class MontaOrdemEntradaService implements Serializable {
 				System.out.println(listaAuxiliar1.get(listaAuxiliar1.size()-1).getFichasInscricoes().get(1).getCompetidor().getNome());
 				System.out.println("-----------------");
 			} else {
-				
+				contador++;
 				System.out.println();
 				System.out.println("Comparou");
 				System.out.println("passadas");
@@ -98,6 +111,7 @@ public class MontaOrdemEntradaService implements Serializable {
 				if (passadas.size()>2 && verificaPosicoesRepetidas(passadas.get(pos1),
 						 listaAuxiliar1.get(listaAuxiliar1.size()-1))){
 					pos1++;
+					
 					System.out.println();
 					System.out.println("pulou");
 					System.out.println("valor de pos1 " +pos1);
@@ -109,6 +123,7 @@ public class MontaOrdemEntradaService implements Serializable {
 						&& verificaPosicoesRepetidas(passadas.get(pos1),
 						 listaAuxiliar1.get(listaAuxiliar1.size()-2))){
 					pos1++;
+					contador++;
 					System.out.println();
 					System.out.println("pulou segundo if");
 					System.out.println("valor de pos1 " +pos1);
@@ -127,11 +142,12 @@ public class MontaOrdemEntradaService implements Serializable {
 
 			passadas.remove(pos1);
 			numeroDupla++;
+			contador++;
 			
 			if(passadas.size()==0) {
 				verificador=true;
 			}
-			
+
 		}while(!verificador);
 		
 		passadas = new ArrayList<Passada>();

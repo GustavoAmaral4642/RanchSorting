@@ -22,6 +22,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name = "tb_ficha_inscricao")
 @NamedQueries({
@@ -126,7 +129,6 @@ public class FichaInscricao implements Serializable {
 		this.competidor = competidor;
 	}
 
-	@NotNull
 	@Column(name = "fi_valor_comprado", precision = 10, scale = 2)
 	public BigDecimal getValorComprado() {
 		return valorComprado;
