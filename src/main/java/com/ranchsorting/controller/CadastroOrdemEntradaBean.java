@@ -172,37 +172,8 @@ public class CadastroOrdemEntradaBean implements Serializable {
 						"Atenção, certifique-se se esse procedimento já foi feito ou se os competidores foram carregados!");
 			}
 
-			/*try{
-			    //Método antigo
-				// chama método para embaralhar as passadas do amador
-				//passadasCompetidores = cadastroOrdemEntradaService.geraPassadaAmador(this.ordemEntrada, fichasFiltradas, fichaInscricaoFilter);
-				*/
-				
 				passadasCompetidores = embaralharService.embaralharPassadas(fichasFiltradas);
 				passadasCompetidores = montaOrdemService.montarOrdemEntrada(passadasCompetidores, ordemEntrada);
-				
-			/*} catch (NullPointerException ex) {
-				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
-						+ "Entre em contato com o administrador do Sistema. (NullPointerException)");
-			} catch (ConstraintViolationException ex) {
-				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
-						+ "Entre em contato com o administrador do Sistema. (ConstraintViolationException)");
-			} catch (ArithmeticException ex) {
-				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
-						+ "Entre em contato com o administrador do Sistema. (ArithmeticException)");
-			} catch (IndexOutOfBoundsException e){
-				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
-						+ "Entre em contato com o administrador do Sistema. (IndexOutOfBoundsException)");
-			} catch (RuntimeException ex) {
-				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
-						+ "Entre em contato com o administrador do Sistema. (RuntimeException)");
-			} catch (Exception ex) {
-				throw new NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada."
-						+ "Entre em contato com o administrador do Sistema. (Exception)");
-			} 
-			*/
-
-			//passadasCompetidores = cadastroOrdemEntradaService.embaralhaPassadas2(passadasCompetidores);
 			
 			if (passadasCompetidores == null || passadasCompetidores.size() == 0) {
 				throw new NegocioException("Os competidores não foram carregados. Ordem não será gerada!");
@@ -211,29 +182,6 @@ public class CadastroOrdemEntradaBean implements Serializable {
 		} else {
 						
 			passadasCompetidores = montaOrdemService.montarOrdemEntrada(passadasCompetidores, ordemEntrada);
-			//passadasCompetidores = cadastroOrdemEntradaService.trataOutrasPassadas2(passadasCompetidores, fichaInscricaoFilter);
-			/*
-			 * try{
-			 * 
-			 * }catch (NullPointerException ex) { throw new
-			 * NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada." +
-			 * "Entre em contato com o administrador do Sistema. (NullPointerException)"); }
-			 * catch (ConstraintViolationException ex) { throw new
-			 * NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada." +
-			 * "Entre em contato com o administrador do Sistema. (ConstraintViolationException)"
-			 * ); } catch (ArithmeticException ex) { throw new
-			 * NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada." +
-			 * "Entre em contato com o administrador do Sistema. (ArithmeticException)"); }
-			 * catch (IndexOutOfBoundsException e){ throw new
-			 * NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada." +
-			 * "Entre em contato com o administrador do Sistema. (IndexOutOfBoundsException)"
-			 * ); } catch (RuntimeException ex) { throw new
-			 * NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada." +
-			 * "Entre em contato com o administrador do Sistema. (RuntimeException)"); }
-			 * catch (Exception ex) { throw new
-			 * NegocioException("Ocorreu algum promblema ao gerar a Ordem de Entrada." +
-			 * "Entre em contato com o administrador do Sistema. (Exception)"); }
-			 */
 			
 		}
 		
@@ -241,13 +189,6 @@ public class CadastroOrdemEntradaBean implements Serializable {
 		this.ordemEntrada.setEtapa(fichaInscricaoFilter.getObjEtapa());
 		this.ordemEntrada.setDivisao(fichaInscricaoFilter.getObjDivisao());
 
-		/*
-		 * embaralhar numero da dupla List<Integer> numeros = new
-		 * ArrayList<Integer>(); for (int i = 0; i < 26; i++) { numeros.add(i);
-		 * } Collections.shuffle(numeros); System.out.print("Sorteados: "); for
-		 * (int i = 0; i < 15; i++) { System.out.print(numeros.get(i));
-		 * System.out.print(" "); } System.out.println();
-		 */
 	}
 
 	public void sortearCompetidores() {
