@@ -118,7 +118,6 @@ public class FichaInscricao implements Serializable {
 		this.divisao = divisao;
 	}
 
-	@NotNull
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fi_competidor")
 	public Competidor getCompetidor() {

@@ -31,9 +31,8 @@ public class CadastroFichaInscricaoService implements Serializable {
 		}
 
 		try {
-
+			
 			if (ficha.getId() != null) {
-
 				// se não for edicao
 				return fichas.guardar(ficha);
 
@@ -41,16 +40,18 @@ public class CadastroFichaInscricaoService implements Serializable {
 				// teste para fazer a gravação de mais de uma ficha.
 				dividindoValorComprado(ficha);
 				dividindoValorPago(ficha);
-
+				
 				for (int i = 0; i < ficha.getQntFichas(); i++) {
+					
 					fichas.guardar(ficha);
 				}
+				
 				return ficha;
 
 			} else {
 				return fichas.guardar(ficha);
 			}
-
+			
 		} catch (ConstraintViolationException ex) {
 			throw new NegocioException("Ocorreu algum promblema na gravação da ficha de inscrição."
 					+ "Entre em contato com o administrador do Sistema. (ConstraintViolationException)");
