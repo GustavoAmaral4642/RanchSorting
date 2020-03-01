@@ -42,7 +42,7 @@ public class CadastroFichaInscricaoService implements Serializable {
 				dividindoValorPago(ficha);
 				
 				for (int i = 0; i < ficha.getQntFichas(); i++) {
-					
+					System.out.println("Passando aqui");
 					fichas.guardar(ficha);
 				}
 				
@@ -116,6 +116,20 @@ public class CadastroFichaInscricaoService implements Serializable {
 			return ficha;
 		} else {
 			return ficha;
+		}
+	}
+
+	public void testaParceiro(FichaInscricao fichaInscricaoParceiro, FichaInscricao fichaInscricao) {
+		
+		if (fichaInscricao.getQntFichas() == null || fichaInscricao.getQntFichas() != 1) {
+			throw new NegocioException("Quantidade de fichas deve ser 1");
+		}
+		if (fichaInscricaoParceiro.getQntFichas() == null || fichaInscricaoParceiro.getQntFichas() != 1) {
+			throw new NegocioException("Quantidade de fichas do parceiro deve ser 1");
+		}
+
+		if (fichaInscricaoParceiro.getValorComprado().compareTo(BigDecimal.ZERO) == 0) {
+			throw new NegocioException("Valor comprado do parceiro deve ser informado!");
 		}
 	}
 
