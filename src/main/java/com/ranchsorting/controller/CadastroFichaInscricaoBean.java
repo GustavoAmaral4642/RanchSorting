@@ -161,13 +161,20 @@ public class CadastroFichaInscricaoBean implements Serializable {
 
 			//this.fichaInscricao = cadastroFichaInscricaoService.salvar(this.fichaInscricao);
 			
+			if(this.fichaInscricao.getCompetidor().getNome().equals(this.fichaInscricaoParceiro.getCompetidor().getNome())){
+				throw new NegocioException("Competidor e parceiro devem ser diferentes!");
+			}
+			
 			this.fichaInscricaoParceiro.setCampeonato(this.fichaInscricao.getCampeonato());
 			this.fichaInscricaoParceiro.setEtapa(this.fichaInscricao.getEtapa());
 			this.fichaInscricaoParceiro.setDivisao(this.fichaInscricao.getDivisao());
 			this.fichaInscricaoParceiro.setDataInscricao(this.fichaInscricao.getDataInscricao());
 
-			this.fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
-			this.fichaInscricaoParceiro.setStatusFicha(StatusFicha.CADASTRADA);
+			this.fichaInscricao.setStatusFicha(StatusFicha.EMORDEM);
+			this.fichaInscricao.setObs("Ficha parceiro filha: " + this.fichaInscricaoParceiro.getId());
+			this.fichaInscricaoParceiro.setStatusFicha(StatusFicha.EMORDEM);
+			this.fichaInscricaoParceiro.setObs("Ficha parceiro mãe: " + this.fichaInscricao.getId());
+			
 			//this.fichaInscricaoParceiro = cadastroFichaInscricaoService.salvar(this.fichaInscricaoParceiro);
 
 			//bloco para criar a passada
@@ -184,7 +191,6 @@ public class CadastroFichaInscricaoBean implements Serializable {
 
 			this.fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
 			this.fichaInscricao = cadastroFichaInscricaoService.salvar(this.fichaInscricao);
-
 		}
 
 		inclusaoSimultanea = true;

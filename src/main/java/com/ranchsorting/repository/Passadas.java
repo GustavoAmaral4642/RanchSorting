@@ -31,48 +31,31 @@ public class Passadas implements Serializable {
 		return manager.find(Passada.class, id);
 	}
 
+	public List<Passada> porIdComFichas(Long id) {
+		return manager.createQuery("from Passada", Passada.class).getResultList();
+	}
+	
 	public List<Passada> todasPassadas() {
 
 		return manager.createQuery("from Passada", Passada.class).getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Passada> filtradas(PassadaFilter filtro) {
+	public List<Passada> filtradas(PassadaFilter filtro, Passada passada) {
 
 		Session session = manager.unwrap(Session.class);
 		Criteria criteria = session.createCriteria(Passada.class)
-				.createAlias("campeonato", "ca")
-				.createAlias("etapa", "e")
-				.createAlias("divisao", "d");
+				.createAlias("ordemEntrada", "o");
 
-		if (StringUtils.isNotBlank(filtro.getCampeonato())) {
-			criteria.add(Restrictions.ilike("ca.nome", filtro.getCampeonato(), MatchMode.ANYWHERE));
-		}
-
-		// busca campeonatos por objeto
-		if (filtro.getObjCampeonato() != null) {
-			criteria.add(Restrictions.ilike("ca.nome", filtro.getObjCampeonato().getNome()));
+		if(passada != null){
+			criteria.add(Restrictions.eq("id",passada.getId()));
 		}
 		
-		if (StringUtils.isNotBlank(filtro.getEtapa())) {
-			criteria.add(Restrictions.ilike("e.nome", filtro.getEtapa(), MatchMode.ANYWHERE));
+		if (filtro.getOrdemEntrada() != null) {
+			criteria.add(Restrictions.eq("o.id",filtro.getOrdemEntrada().getId()));
 		}
 
-		// busca etapas por objeto
-		if (filtro.getObjEtapa() != null) {
-			criteria.add(Restrictions.ilike("e.nome", filtro.getObjEtapa().getNome()));
-		}
-		
-		if (StringUtils.isNotBlank(filtro.getDivisao())) {
-			criteria.add(Restrictions.ilike("d.nome", filtro.getDivisao(), MatchMode.ANYWHERE));
-		}
-		
-		// busca divisoes por objeto
-		if (filtro.getObjDivisao() != null) {
-			criteria.add(Restrictions.ilike("d.nome", filtro.getObjDivisao().getNome()));
-		}
-
-		return criteria.addOrder(Order.asc("ca.nome")).list();
+		return criteria.addOrder(Order.asc("id")).list();
 	}
 	
 }

@@ -2,11 +2,13 @@ package com.ranchsorting.service;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
 
 import com.ranchsorting.model.FichaInscricao;
+import com.ranchsorting.model.Passada;
 import com.ranchsorting.repository.FichasInscricoes;
 import com.ranchsorting.util.jpa.Transactional;
 
@@ -131,6 +133,11 @@ public class CadastroFichaInscricaoService implements Serializable {
 		if (fichaInscricaoParceiro.getValorComprado().compareTo(BigDecimal.ZERO) == 0) {
 			throw new NegocioException("Valor comprado do parceiro deve ser informado!");
 		}
+	}
+
+	public List<Passada> separaFichasPassadas(List<FichaInscricao> fichasFiltradas) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

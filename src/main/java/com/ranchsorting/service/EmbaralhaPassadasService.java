@@ -15,18 +15,16 @@ public class EmbaralhaPassadasService implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// vai tratar passadas da competição Amador
-	public List<Passada> embaralharPassadas(List<FichaInscricao> fichasFiltradas) {
+	public List<Passada> embaralharPassadas(List<FichaInscricao> fichasFiltradas, List<Passada> passadasCompetidores) {
 
 		if (fichasFiltradas == null) {
 			throw new NegocioException("Não existe fichas para serem embaralhadas");
 		}
 
-		List<Passada> passadas = new ArrayList<>();
-
 		// chama o método para embaralhar a lista de passadas.
-		passadas = loopEmbaralhador(fichasFiltradas);
+		passadasCompetidores.addAll(loopEmbaralhador(fichasFiltradas));
 		
-		return passadas;
+		return passadasCompetidores;
 	}
 
 	// este loop embaralha as passadas
