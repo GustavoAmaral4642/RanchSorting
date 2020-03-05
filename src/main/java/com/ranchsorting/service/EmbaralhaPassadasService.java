@@ -20,7 +20,19 @@ public class EmbaralhaPassadasService implements Serializable {
 		if (fichasFiltradas == null) {
 			throw new NegocioException("Não existe fichas para serem embaralhadas");
 		}
-
+		
+		System.out.println("abaixo");
+		for (Passada p : passadasCompetidores) {
+			System.out.print("Competidor 1: ");
+			System.out.println(p.getFichasInscricoes().get(0).getCompetidor().getNome());
+			System.out.print("Competidor 2: ");
+			System.out.println(p.getFichasInscricoes().get(1).getCompetidor().getNome());
+			System.out.println();
+			System.out.print("Id da passada: ");
+			System.out.println(p.getId());
+			System.out.println();
+		}
+		System.out.println("acima");
 		// chama o método para embaralhar a lista de passadas.
 		passadasCompetidores.addAll(loopEmbaralhador(fichasFiltradas));
 		

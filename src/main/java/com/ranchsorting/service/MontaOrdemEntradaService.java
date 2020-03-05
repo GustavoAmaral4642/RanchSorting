@@ -26,6 +26,9 @@ public class MontaOrdemEntradaService implements Serializable {
 			System.out.print("Competidor 2: ");
 			System.out.println(p.getFichasInscricoes().get(1).getCompetidor().getNome());
 			System.out.println();
+			System.out.print("Id da passada: ");
+			System.out.println(p.getId());
+			System.out.println();
 		}
 		
 		System.out.println("Começou");
@@ -39,6 +42,9 @@ public class MontaOrdemEntradaService implements Serializable {
 			System.out.println(p.getFichasInscricoes().get(0).getCompetidor().getNome());
 			System.out.print("Competidor 2: ");
 			System.out.println(p.getFichasInscricoes().get(1).getCompetidor().getNome());
+			System.out.println();
+			System.out.print("Id da passada: ");
+			System.out.println(p.getId());
 			System.out.println();
 		}
 		System.out.println();

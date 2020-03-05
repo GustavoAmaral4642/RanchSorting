@@ -171,9 +171,7 @@ public class CadastroFichaInscricaoBean implements Serializable {
 			this.fichaInscricaoParceiro.setDataInscricao(this.fichaInscricao.getDataInscricao());
 
 			this.fichaInscricao.setStatusFicha(StatusFicha.EMORDEM);
-			this.fichaInscricao.setObs("Ficha parceiro filha: " + this.fichaInscricaoParceiro.getId());
 			this.fichaInscricaoParceiro.setStatusFicha(StatusFicha.EMORDEM);
-			this.fichaInscricaoParceiro.setObs("Ficha parceiro mãe: " + this.fichaInscricao.getId());
 			
 			//this.fichaInscricaoParceiro = cadastroFichaInscricaoService.salvar(this.fichaInscricaoParceiro);
 

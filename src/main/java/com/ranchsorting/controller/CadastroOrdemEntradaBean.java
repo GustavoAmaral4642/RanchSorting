@@ -149,8 +149,20 @@ public class CadastroOrdemEntradaBean implements Serializable {
 					ordemEntrada.setCampeonato(fichaInscricaoFilter.getObjCampeonato());
 					ordemEntrada.setEtapa(fichaInscricaoFilter.getObjEtapa());
 					ordemEntrada.setDivisao(fichaInscricaoFilter.getObjDivisao());
-
+					
+					this.ordemEntrada.getPassadas().addAll(passadasCompetidores);
 					this.ordemEntrada = cadastroOrdemEntradaService.salvar(ordemEntrada);
+
+					for (Passada p : passadasCompetidores) {
+						System.out.print("Competidor 1: ");
+						System.out.println(p.getFichasInscricoes().get(0).getCompetidor().getNome());
+						System.out.print("Competidor 2: ");
+						System.out.println(p.getFichasInscricoes().get(1).getCompetidor().getNome());
+						System.out.println();
+						System.out.print("Id da passada: ");
+						System.out.println(p.getId());
+						System.out.println();
+					}
 
 					FacesUtil.addInfoMessage("Ordem de Entrada registrada com sucesso!");
 				}
@@ -182,13 +194,14 @@ public class CadastroOrdemEntradaBean implements Serializable {
 				FichaInscricao f2 = fichas.get(i);
 				p.getFichasInscricoes().add(f1);
 				p.getFichasInscricoes().add(f2);
+				p.setOrdemEntrada(this.ordemEntrada);
 				fichas.remove(f1);
 				fichas.remove(f2);
 				k = 0;
 				i = 1;
 			}
 
-			passadasCompetidores.add(p);
+			this.passadasCompetidores.add(p);
 			
 			System.out.println("Começo " +fichas.size());
 			
@@ -222,7 +235,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 				throw new NegocioException(
 						"Atenção, certifique-se se esse procedimento já foi feito ou se os competidores foram carregados!");
 			}
-
+			
 			passadasCompetidores = embaralharService.embaralharPassadas(fichasFiltradas, passadasCompetidores);
 			passadasCompetidores = montaOrdemService.montarOrdemEntrada(passadasCompetidores, ordemEntrada);
 
