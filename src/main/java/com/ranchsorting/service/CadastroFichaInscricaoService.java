@@ -22,18 +22,18 @@ public class CadastroFichaInscricaoService implements Serializable {
 	@Transactional
 	public FichaInscricao salvar(FichaInscricao ficha) {
 
-		// Quantidade de fichas deve ser informada
-		if (ficha.getQntFichas() == null || ficha.getQntFichas() == 0) {
-			throw new NegocioException("Quantidade deve ser informada!");
-		}
-
-		// valor comprado deve ser informada
-		if (ficha.getValorComprado().compareTo(BigDecimal.ZERO) == 0) {
-			throw new NegocioException("Valor comprado deve ser informado!");
-		}
-
+	
 		try {
-			
+			// Quantidade de fichas deve ser informada
+			if (ficha.getQntFichas() == null || ficha.getQntFichas() == 0) {
+				throw new NegocioException("Quantidade deve ser informada!");
+			}
+
+			// valor comprado deve ser informada
+			if (ficha.getValorComprado().compareTo(BigDecimal.ZERO) == 0) {
+				throw new NegocioException("Valor comprado deve ser informado!");
+			}
+
 			if (ficha.getId() != null) {
 				// se não for edicao
 				return fichas.guardar(ficha);
