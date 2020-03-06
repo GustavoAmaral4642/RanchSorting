@@ -113,13 +113,50 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	public void salvar() {
 
-		this.ordemEntrada.getPassadas().addAll(passadasCompetidores);
-		this.ordemEntrada = cadastroOrdemEntradaService.salvar(this.ordemEntrada);
-
+		if(this.ordemEntrada.getPassadas() != null && this.ordemEntrada.getPassadas().size() !=0 
+				&& this.passadasCompetidores != null && this.passadasCompetidores.size() != 0){
+			
+			this.ordemEntrada.setPassadas(new ArrayList<Passada>());
+			this.ordemEntrada.getPassadas().addAll(passadasCompetidores);
+		}
+		System.out.println("tamanho do array da ordem 2 " + this.ordemEntrada.getPassadas().size());
+		System.out.println("tamanho do array da passadasCompetidores 2 " + this.passadasCompetidores.size());
+		
+		for(Passada p : this.ordemEntrada.getPassadas()) {
+			p = cadastroPassadaService.salvar(p);
+			for(FichaInscricao f : p.getFichasInscricoes()){
+				System.out.println("ficha Inscricao: " + f.getCampeonato());
+			}
+		}
+		
+		System.out.println(fichaInscricaoFilter.getObjCampeonato());
+		System.out.println(this.ordemEntrada.getCampeonato());
+		//this.ordemEntrada = cadastroOrdemEntradaService.salvar(this.ordemEntrada);
 		limpar();
 
 		FacesUtil.addInfoMessage("Ordem de entrada registrada com sucesso!");
 
+	}
+
+	private OrdemEntrada regravaObjetosDetachead(OrdemEntrada od) {
+		
+		if(od != null) {
+			for(Passada p : od.getPassadas()){
+				for(FichaInscricao f : p.getFichasInscricoes()){
+					System.out.println(f.getCampeonato());
+					f.setCampeonato(fichaInscricaoFilter.getObjCampeonato());
+					f.setEtapa(fichaInscricaoFilter.getObjEtapa());
+					f.setDivisao(fichaInscricaoFilter.getObjDivisao());					
+				}
+			}
+			System.out.println(fichaInscricaoFilter.getCampeonato());
+			od.setCampeonato(fichaInscricaoFilter.getObjCampeonato());
+			od.setEtapa(fichaInscricaoFilter.getObjEtapa());
+			od.setDivisao(fichaInscricaoFilter.getObjDivisao());
+			
+		}
+		
+		return od;
 	}
 
 	public void carregarCompetidores() {
@@ -144,14 +181,14 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 					if (fichasFiltradas2 != null && fichasFiltradas2.size() != 0) {
 						carregarCompetidoresEmPassadas(fichasFiltradas2);
-					}
-
-					ordemEntrada.setCampeonato(fichaInscricaoFilter.getObjCampeonato());
-					ordemEntrada.setEtapa(fichaInscricaoFilter.getObjEtapa());
-					ordemEntrada.setDivisao(fichaInscricaoFilter.getObjDivisao());
-					
-					this.ordemEntrada.getPassadas().addAll(passadasCompetidores);
-					this.ordemEntrada = cadastroOrdemEntradaService.salvar(ordemEntrada);
+						ordemEntrada.setCampeonato(fichaInscricaoFilter.getObjCampeonato());
+						ordemEntrada.setEtapa(fichaInscricaoFilter.getObjEtapa());
+						ordemEntrada.setDivisao(fichaInscricaoFilter.getObjDivisao());
+						
+						this.ordemEntrada.getPassadas().addAll(passadasCompetidores);
+						this.ordemEntrada = cadastroOrdemEntradaService.salvar(ordemEntrada);
+						limpar();
+					}				
 
 					for (Passada p : passadasCompetidores) {
 						System.out.print("Competidor 1: ");
@@ -192,8 +229,11 @@ public class CadastroOrdemEntradaBean implements Serializable {
 				System.out.println("entrou " + i);
 				FichaInscricao f1 = fichas.get(k);
 				FichaInscricao f2 = fichas.get(i);
+				f1.setStatusFicha(StatusFicha.EMORDEMPRONTA);
+				f2.setStatusFicha(StatusFicha.EMORDEMPRONTA);
 				p.getFichasInscricoes().add(f1);
 				p.getFichasInscricoes().add(f2);
+				p.setId(f1.getPassada().getId());
 				p.setOrdemEntrada(this.ordemEntrada);
 				fichas.remove(f1);
 				fichas.remove(f2);
@@ -244,15 +284,15 @@ public class CadastroOrdemEntradaBean implements Serializable {
 			}
 
 		} else {
-
 			passadasCompetidores = montaOrdemService.montarOrdemEntrada(passadasCompetidores, ordemEntrada);
-
 		}
 
 		this.ordemEntrada.setCampeonato(fichaInscricaoFilter.getObjCampeonato());
 		this.ordemEntrada.setEtapa(fichaInscricaoFilter.getObjEtapa());
 		this.ordemEntrada.setDivisao(fichaInscricaoFilter.getObjDivisao());
 
+		System.out.println("tamanho do array da ordem " + this.ordemEntrada.getPassadas().size());
+		System.out.println("tamanho do array da passadasCompetidores " + this.passadasCompetidores.size());
 	}
 
 	public void sortearCompetidores() {
@@ -359,6 +399,8 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 		}
 	}
+	
+	
 
 	public void onRowEdit(RowEditEvent event) {
 		FacesMessage msg = new FacesMessage("Passada editada", ((Passada) event.getObject()).getId().toString());
