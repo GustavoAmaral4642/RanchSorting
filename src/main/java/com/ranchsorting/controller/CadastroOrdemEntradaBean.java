@@ -138,27 +138,6 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	}
 
-	private OrdemEntrada regravaObjetosDetachead(OrdemEntrada od) {
-		
-		if(od != null) {
-			for(Passada p : od.getPassadas()){
-				for(FichaInscricao f : p.getFichasInscricoes()){
-					System.out.println(f.getCampeonato());
-					f.setCampeonato(fichaInscricaoFilter.getObjCampeonato());
-					f.setEtapa(fichaInscricaoFilter.getObjEtapa());
-					f.setDivisao(fichaInscricaoFilter.getObjDivisao());					
-				}
-			}
-			System.out.println(fichaInscricaoFilter.getCampeonato());
-			od.setCampeonato(fichaInscricaoFilter.getObjCampeonato());
-			od.setEtapa(fichaInscricaoFilter.getObjEtapa());
-			od.setDivisao(fichaInscricaoFilter.getObjDivisao());
-			
-		}
-		
-		return od;
-	}
-
 	public void carregarCompetidores() {
 
 		fichasFiltradas = new ArrayList<>();
@@ -190,7 +169,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 						limpar();
 					}				
 
-					for (Passada p : passadasCompetidores) {
+				/*	for (Passada p : passadasCompetidores) {
 						System.out.print("Competidor 1: ");
 						System.out.println(p.getFichasInscricoes().get(0).getCompetidor().getNome());
 						System.out.print("Competidor 2: ");
@@ -199,7 +178,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 						System.out.print("Id da passada: ");
 						System.out.println(p.getId());
 						System.out.println();
-					}
+					}*/
 
 					FacesUtil.addInfoMessage("Ordem de Entrada registrada com sucesso!");
 				}
@@ -275,7 +254,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 				throw new NegocioException(
 						"Atenção, certifique-se se esse procedimento já foi feito ou se os competidores foram carregados!");
 			}
-			
+
 			passadasCompetidores = embaralharService.embaralharPassadas(fichasFiltradas, passadasCompetidores);
 			passadasCompetidores = montaOrdemService.montarOrdemEntrada(passadasCompetidores, ordemEntrada);
 
@@ -320,7 +299,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 			if (fichaInscricaoLinhaEditavel.getDivisao().getTipoFicha().equals(TipoFicha.INDIVIDUAL)
 					&& fichasSelecionadas.size() < 1) {
 
-				fichaInscricaoLinhaEditavel.setStatusFicha(StatusFicha.EMORDEM);
+				fichaInscricaoLinhaEditavel.setStatusFicha(StatusFicha.EMORDEMPRONTA);
 				
 				// adiciona no dataList
 				fichasSelecionadas.add(fichaInscricaoLinhaEditavel);
@@ -331,7 +310,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 			} else if (fichaInscricaoLinhaEditavel.getDivisao().getTipoFicha().equals(TipoFicha.DUPLA)
 					&& fichasSelecionadas.size() < 2) {
 
-				fichaInscricaoLinhaEditavel.setStatusFicha(StatusFicha.EMORDEM);
+				fichaInscricaoLinhaEditavel.setStatusFicha(StatusFicha.EMORDEMPRONTA);
 				
 				// adiciona no dataList
 				fichasSelecionadas.add(fichaInscricaoLinhaEditavel);
@@ -342,7 +321,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 			} else if (fichaInscricaoLinhaEditavel.getDivisao().getTipoFicha().equals(TipoFicha.TRIO)
 					&& fichasSelecionadas.size() < 3) {
 				
-				fichaInscricaoLinhaEditavel.setStatusFicha(StatusFicha.EMORDEM);
+				fichaInscricaoLinhaEditavel.setStatusFicha(StatusFicha.EMORDEMPRONTA);
 
 				// adiciona no dataList
 				fichasSelecionadas.add(fichaInscricaoLinhaEditavel);
@@ -381,7 +360,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 				f.setCampeonato(ordemEntrada.getCampeonato());
 				f.setEtapa(ordemEntrada.getEtapa());
 				f.setDivisao(ordemEntrada.getDivisao());
-				f.setStatusFicha(StatusFicha.EMORDEM);
+				f.setStatusFicha(StatusFicha.EMORDEMPRONTA);
 				passada.getFichasInscricoes().add(f);
 			}
 
@@ -390,7 +369,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 			// salvando passada
 			passada.setOrdemEntrada(this.ordemEntrada);
-			passada = cadastroPassadaService.salvar(passada);
+			//passada = cadastroPassadaService.salvar(passada); // nesse modo novo não da certo salvar antes, pois ele gera uma passada vazia
 
 			FacesUtil.addInfoMessage("Passadas Registradas com Sucesso!");
 
