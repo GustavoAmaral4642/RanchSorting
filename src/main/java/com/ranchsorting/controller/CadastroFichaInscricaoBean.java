@@ -24,6 +24,7 @@ import com.ranchsorting.model.Competidor;
 import com.ranchsorting.model.Divisao;
 import com.ranchsorting.model.Etapa;
 import com.ranchsorting.model.FichaInscricao;
+import com.ranchsorting.model.Passada;
 import com.ranchsorting.model.StatusFicha;
 import com.ranchsorting.model.TipoCampeonato;
 import com.ranchsorting.model.TipoFicha;
@@ -32,6 +33,7 @@ import com.ranchsorting.repository.Competidores;
 import com.ranchsorting.repository.Divisoes;
 import com.ranchsorting.repository.Etapas;
 import com.ranchsorting.service.CadastroFichaInscricaoService;
+import com.ranchsorting.service.CadastroPassadaService;
 import com.ranchsorting.service.NegocioException;
 import com.ranchsorting.util.jsf.FacesUtil;
 import com.ranchsorting.util.report.ExecutorRelatorio;
@@ -53,10 +55,13 @@ public class CadastroFichaInscricaoBean implements Serializable {
 
 	@Inject
 	private Divisoes divisoes;
-
+	
 	@Inject
 	private CadastroFichaInscricaoService cadastroFichaInscricaoService;
 
+	@Inject
+	private CadastroPassadaService cadastroPassadaService;
+	
 	@Inject
 	private FacesContext facesContext; // para impressão da ficha
 
@@ -70,6 +75,7 @@ public class CadastroFichaInscricaoBean implements Serializable {
 	private FichaInscricao fichaInscricaoParceiro;
 	private boolean inclusaoSimultanea = false;
 	private Anuidade anuidadeSelecionada;
+	private Passada passada;
 	
 	private List<Competidor> todosCompetidoresIndividual;
 	private List<Competidor> todosCompetidoresDupla;
@@ -77,6 +83,7 @@ public class CadastroFichaInscricaoBean implements Serializable {
 	private List<Campeonato> todosCampeonatos;
 	private List<Divisao> todasDivisoes;
 	private List<Anuidade> anuidadesCompetidor;
+	private List<FichaInscricao> fichasPassadas;
 
 	public CadastroFichaInscricaoBean() {
 		limpar();
@@ -92,15 +99,18 @@ public class CadastroFichaInscricaoBean implements Serializable {
 		todosCompetidoresDupla = competidores.consultaCompetidoresParaCombobox();
 		todosCompetidoresIndividual = todosCompetidoresDupla;
 		todasDivisoes = divisoes.todasDivisoes();
-		
+
 	}
 
 	public void limpar() {
 
 		if (!isInclusaoSimultanea()) {
+
 			fichaInscricao = new FichaInscricao();
 			fichaInscricaoParceiro = new FichaInscricao();
+			passada = new Passada();
 			anuidadesCompetidor = new ArrayList<>();
+			fichasPassadas = new ArrayList<FichaInscricao>();
 		} else {
 
 			// reiniciando varáveis
@@ -108,11 +118,14 @@ public class CadastroFichaInscricaoBean implements Serializable {
 			Etapa etp = fichaInscricao.getEtapa();
 			Divisao div = fichaInscricao.getDivisao();
 			Date dtInsc = fichaInscricao.getDataInscricao();
+
 			List<Etapa> etapasCampeonatos = new ArrayList<>();
 
 			fichaInscricao = new FichaInscricao();
+			passada = new Passada();
 			anuidadesCompetidor = new ArrayList<>();
-
+			fichasPassadas = new ArrayList<FichaInscricao>();
+			
 			// setando parametros
 			fichaInscricao.setCampeonato(camp);
 			fichaInscricao.setEtapa(etp);
@@ -123,13 +136,9 @@ public class CadastroFichaInscricaoBean implements Serializable {
 			etapasCampeonatos = etapas.etapasDoCampeonato(camp);
 			fichaInscricao.getCampeonato().setEtapas(etapasCampeonatos);
 
-			// se o tipo de divisao for de dupla
-			if (fichaInscricao.getDivisao().getTipoFicha().equals(TipoFicha.DUPLA)) {
+			// reseta ficha do parceiro
+			if (fichaInscricaoParceiro != null) {
 				fichaInscricaoParceiro = new FichaInscricao();
-				fichaInscricaoParceiro.setCampeonato(camp);
-				fichaInscricaoParceiro.setEtapa(etp);
-				fichaInscricaoParceiro.setDivisao(div);
-				fichaInscricaoParceiro.setDataInscricao(dtInsc);
 			}
 		}
 
@@ -142,34 +151,60 @@ public class CadastroFichaInscricaoBean implements Serializable {
 
 	public void salvar() {
 
-		/*
-		 * // se o tipo de divisao for de dupla if
-		 * (fichaInscricao.getDivisao().getTipoFicha().equals(TipoFicha.DUPLA) &&
-		 * fichaInscricao.getCompetidor() != null) {
-		 * 
-		 * this.fichaInscricaoParceiro.setStatusFicha(StatusFicha.CADASTRADA);
-		 * this.fichaInscricaoParceiro.setCampeonato(this.fichaInscricao.getCampeonato()
-		 * ); this.fichaInscricaoParceiro.setEtapa(this.fichaInscricao.getEtapa());
-		 * this.fichaInscricaoParceiro.setDivisao(this.fichaInscricao.getDivisao());
-		 * this.fichaInscricaoParceiro.setDataInscricao(this.fichaInscricao.
-		 * getDataInscricao());
-		 * 
-		 * this.fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
-		 * this.fichaInscricao =
-		 * cadastroFichaInscricaoService.salvarDupla(this.fichaInscricao,
-		 * this.fichaInscricaoParceiro);
-		 * 
-		 * } else {
-		 * 
-		 * }
-		 */
-		this.fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
-		this.fichaInscricao = cadastroFichaInscricaoService.salvar(this.fichaInscricao);
+		//faz testes na ficha de inscricão do parceiro para não dar excpetion
+		if (isExisteFichaParceiro()) {		
+			cadastroFichaInscricaoService.testaParceiro(fichaInscricaoParceiro, fichaInscricao);		
+		}
+
+		// se foi escolhido um parceiro, vai entrar aqui
+		if (this.fichaInscricaoParceiro != null && fichaInscricaoParceiro.getQntFichas() != 0) {
+
+			//this.fichaInscricao = cadastroFichaInscricaoService.salvar(this.fichaInscricao);
+			
+			if(this.fichaInscricao.getCompetidor().getNome().equals(this.fichaInscricaoParceiro.getCompetidor().getNome())){
+				throw new NegocioException("Competidor e parceiro devem ser diferentes!");
+			}
+			
+			this.fichaInscricaoParceiro.setCampeonato(this.fichaInscricao.getCampeonato());
+			this.fichaInscricaoParceiro.setEtapa(this.fichaInscricao.getEtapa());
+			this.fichaInscricaoParceiro.setDivisao(this.fichaInscricao.getDivisao());
+			this.fichaInscricaoParceiro.setDataInscricao(this.fichaInscricao.getDataInscricao());
+
+			this.fichaInscricao.setStatusFicha(StatusFicha.EMORDEM);
+			this.fichaInscricaoParceiro.setStatusFicha(StatusFicha.EMORDEM);
+			
+			//this.fichaInscricaoParceiro = cadastroFichaInscricaoService.salvar(this.fichaInscricaoParceiro);
+
+			//bloco para criar a passada
+			this.fichaInscricao.setPassada(this.passada);
+			this.fichaInscricaoParceiro.setPassada(this.passada);
+			
+			fichasPassadas.add(fichaInscricao);
+			fichasPassadas.add(fichaInscricaoParceiro);
+			
+			passada.setFichasInscricoes(fichasPassadas);
+			this.passada = cadastroPassadaService.salvar(passada);
+			
+		} else {
+
+			this.fichaInscricao.setStatusFicha(StatusFicha.CADASTRADA);
+			this.fichaInscricao = cadastroFichaInscricaoService.salvar(this.fichaInscricao);
+		}
+
 		inclusaoSimultanea = true;
 
+		FacesUtil.addInfoMessage("Ficha de Inscrição de '" + this.fichaInscricao.getCompetidor().getNome()
+				+ "' registrada com sucesso!");
+
+		if (this.fichaInscricaoParceiro != null && fichaInscricaoParceiro.getQntFichas() != 0) {
+			FacesUtil.addInfoMessage("Ficha de Inscrição de '" + this.fichaInscricaoParceiro.getCompetidor().getNome()
+					+ "' registrada com sucesso!");
+			FacesUtil.addInfoMessage("Passada criada com sucesso. Competidores: " + this.fichaInscricao.getCompetidor().getNome() +
+					" e " + this.fichaInscricaoParceiro.getCompetidor().getNome());
+		}
+		
 		limpar();
 
-		FacesUtil.addInfoMessage("Ficha de Inscrição registrada com sucesso!");
 	}
 
 	public void carregarDataInscricaoEtapa() {
@@ -247,6 +282,14 @@ public class CadastroFichaInscricaoBean implements Serializable {
 		return fichaInscricaoParceiro;
 	}
 
+	public Passada getPassada() {
+		return passada;
+	}
+
+	public void setPassada(Passada passada) {
+		this.passada = passada;
+	}
+
 	public void setFichaInscricaoParceiro(FichaInscricao fichaInscricaoParceiro) {
 		this.fichaInscricaoParceiro = fichaInscricaoParceiro;
 	}
@@ -281,6 +324,10 @@ public class CadastroFichaInscricaoBean implements Serializable {
 
 	public boolean isInclusaoSimultanea() {
 		return this.inclusaoSimultanea;
+	}
+
+	public boolean isExisteFichaParceiro() {
+		return this.fichaInscricaoParceiro.getCompetidor() != null;
 	}
 
 	public Anuidade getAnuidadeSelecionada() {

@@ -27,7 +27,9 @@ import com.ranchsorting.repository.Campeonatos;
 import com.ranchsorting.repository.Divisoes;
 import com.ranchsorting.repository.Etapas;
 import com.ranchsorting.repository.FichasInscricoes;
+import com.ranchsorting.repository.Passadas;
 import com.ranchsorting.repository.filter.FichaInscricaoFilter;
+import com.ranchsorting.repository.filter.PassadaFilter;
 import com.ranchsorting.service.CadastroOrdemEntradaService;
 import com.ranchsorting.service.CadastroPassadaService;
 import com.ranchsorting.service.EmbaralhaPassadasService;
@@ -54,6 +56,9 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	private FichasInscricoes fichasInscricoes;
 
 	@Inject
+	private Passadas passadas;
+
+	@Inject
 	private CadastroOrdemEntradaService cadastroOrdemEntradaService;
 
 	@Inject
@@ -61,10 +66,10 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	@Inject
 	private EmbaralhaPassadasService embaralharService;
-	
-	@Inject 
+
+	@Inject
 	private MontaOrdemEntradaService montaOrdemService;
-	
+
 	private List<Campeonato> todosCampeonatos;
 	private List<Etapa> etapasCampeonatos;
 	private List<Divisao> todasDivisoes;
@@ -79,7 +84,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	public CadastroOrdemEntradaBean() {
 		limpar();
-		
+
 	}
 
 	public void inicializar() {
@@ -87,14 +92,14 @@ public class CadastroOrdemEntradaBean implements Serializable {
 		todasDivisoes = divisoes.todasDivisoes();
 
 		if (FacesUtil.isNotPostback()) {
-			
+
 			if (isEditando()) {
-				
+
 				fichaInscricaoFilter.setObjCampeonato(this.ordemEntrada.getCampeonato());
 				etapasCampeonatos = etapas.etapasDoCampeonato(this.fichaInscricaoFilter.getObjCampeonato());
 				fichaInscricaoFilter.setObjEtapa(this.ordemEntrada.getEtapa());
 				fichaInscricaoFilter.setObjDivisao(this.ordemEntrada.getDivisao());
-				passadasCompetidores.addAll(ordemEntrada.getPassadas());				
+				passadasCompetidores.addAll(ordemEntrada.getPassadas());
 			}
 		}
 	}
@@ -107,10 +112,27 @@ public class CadastroOrdemEntradaBean implements Serializable {
 	}
 
 	public void salvar() {
-		
-		this.ordemEntrada.getPassadas().addAll(passadasCompetidores);
-		this.ordemEntrada = cadastroOrdemEntradaService.salvar(this.ordemEntrada);
 
+		if (this.ordemEntrada.getPassadas() != null && this.ordemEntrada.getPassadas().size() != 0
+				&& this.passadasCompetidores != null && this.passadasCompetidores.size() != 0) {
+
+			this.ordemEntrada.setPassadas(new ArrayList<Passada>());
+			this.ordemEntrada.getPassadas().addAll(passadasCompetidores);
+		}
+		System.out.println("tamanho do array da ordem 2 " + this.ordemEntrada.getPassadas().size());
+		System.out.println("tamanho do array da passadasCompetidores 2 " + this.passadasCompetidores.size());
+
+		for (Passada p : this.ordemEntrada.getPassadas()) {
+			p = cadastroPassadaService.salvar(p);
+			for (FichaInscricao f : p.getFichasInscricoes()) {
+				System.out.println("ficha Inscricao: " + f.getCampeonato());
+			}
+		}
+
+		System.out.println(fichaInscricaoFilter.getObjCampeonato());
+		System.out.println(this.ordemEntrada.getCampeonato());
+		// this.ordemEntrada =
+		// cadastroOrdemEntradaService.salvar(this.ordemEntrada);
 		limpar();
 
 		FacesUtil.addInfoMessage("Ordem de entrada registrada com sucesso!");
@@ -130,19 +152,86 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 					// só busca fichas que estão com status CADASTRADA
 					fichaInscricaoFilter.setStatusFicha(StatusFicha.CADASTRADA);
-
 					fichasFiltradas = fichasInscricoes.filtradas(fichaInscricaoFilter);
+					List<FichaInscricao> fichasFiltradas2 = new ArrayList<FichaInscricao>();
 
-					ordemEntrada.setCampeonato(fichaInscricaoFilter.getObjCampeonato());
-					ordemEntrada.setEtapa(fichaInscricaoFilter.getObjEtapa());
-					ordemEntrada.setDivisao(fichaInscricaoFilter.getObjDivisao());
+					// só busca fichas que estão com status já nas passadas
+					fichaInscricaoFilter.setStatusFicha(StatusFicha.EMORDEM);
+					fichasFiltradas2 = fichasInscricoes.filtradas(fichaInscricaoFilter);
 
-					this.ordemEntrada = cadastroOrdemEntradaService.salvar(ordemEntrada);
+					if (fichasFiltradas2 != null && fichasFiltradas2.size() != 0) {
+						carregarCompetidoresEmPassadas(fichasFiltradas2);
+						ordemEntrada.setCampeonato(fichaInscricaoFilter.getObjCampeonato());
+						ordemEntrada.setEtapa(fichaInscricaoFilter.getObjEtapa());
+						ordemEntrada.setDivisao(fichaInscricaoFilter.getObjDivisao());
+
+						this.ordemEntrada.getPassadas().addAll(passadasCompetidores);
+
+						this.ordemEntrada = cadastroOrdemEntradaService.salvar(ordemEntrada); // comentar para passada aberto
+						limpar(); // comentar para passada aberto
+					}
+
+					/*
+					 * for (Passada p : passadasCompetidores) {
+					 * System.out.print("Competidor 1: ");
+					 * System.out.println(p.getFichasInscricoes().get(0).
+					 * getCompetidor().getNome()); System.out.print(
+					 * "Competidor 2: ");
+					 * System.out.println(p.getFichasInscricoes().get(1).
+					 * getCompetidor().getNome()); System.out.println();
+					 * System.out.print("Id da passada: ");
+					 * System.out.println(p.getId()); System.out.println(); }
+					 */
 
 					FacesUtil.addInfoMessage("Ordem de Entrada registrada com sucesso!");
 				}
 			}
 		}
+	}
+
+	// este método inclui na lista de passadas todas as fichas que já foram
+	// inseridas em conjunto
+	public void carregarCompetidoresEmPassadas(List<FichaInscricao> fichas) {
+
+		int k = 0, i = 1;
+
+		do {
+
+			Passada p = new Passada();
+			System.out.println("Começo " + fichas.size());
+
+			System.out.println("valor de k: " + k + " ficha numero: " + fichas.get(k).getId() + " passada numero: "
+					+ fichas.get(k).getPassada().getId());
+			System.out.println("valor de i: " + i + " ficha numero: " + fichas.get(i).getId() + " passada numero: "
+					+ fichas.get(i).getPassada().getId());
+
+			if (fichas.get(k).getId() == fichas.get(i).getId()) {
+				System.out.println("continue - 1");
+				continue;
+			}
+
+			if (fichas.get(k).getPassada().getId() == fichas.get(i).getPassada().getId()) {
+				System.out.println("entrou " + i);
+				FichaInscricao f1 = fichas.get(k);
+				FichaInscricao f2 = fichas.get(i);
+				f1.setStatusFicha(StatusFicha.EMORDEMPRONTA);
+				f2.setStatusFicha(StatusFicha.EMORDEMPRONTA);
+				p.getFichasInscricoes().add(f1);
+				p.getFichasInscricoes().add(f2);
+				p.setId(f1.getPassada().getId());
+				p.setOrdemEntrada(this.ordemEntrada);
+				fichas.remove(f1);
+				fichas.remove(f2);
+				k = 0;
+				i = 1;
+			}
+
+			this.passadasCompetidores.add(p);
+
+			System.out.println("Começo " + fichas.size());
+
+		} while (fichas.size() != 0);
+
 	}
 
 	public void carregarEtapas() {
@@ -172,23 +261,23 @@ public class CadastroOrdemEntradaBean implements Serializable {
 						"Atenção, certifique-se se esse procedimento já foi feito ou se os competidores foram carregados!");
 			}
 
-				passadasCompetidores = embaralharService.embaralharPassadas(fichasFiltradas);
-				passadasCompetidores = montaOrdemService.montarOrdemEntrada(passadasCompetidores, ordemEntrada);
-			
+			passadasCompetidores = embaralharService.embaralharPassadas(fichasFiltradas, passadasCompetidores);
+			passadasCompetidores = montaOrdemService.montarOrdemEntrada(passadasCompetidores, ordemEntrada);
+
 			if (passadasCompetidores == null || passadasCompetidores.size() == 0) {
 				throw new NegocioException("Os competidores não foram carregados. Ordem não será gerada!");
 			}
 
 		} else {
-						
 			passadasCompetidores = montaOrdemService.montarOrdemEntrada(passadasCompetidores, ordemEntrada);
-			
 		}
-		
+
 		this.ordemEntrada.setCampeonato(fichaInscricaoFilter.getObjCampeonato());
 		this.ordemEntrada.setEtapa(fichaInscricaoFilter.getObjEtapa());
 		this.ordemEntrada.setDivisao(fichaInscricaoFilter.getObjDivisao());
 
+		System.out.println("tamanho do array da ordem " + this.ordemEntrada.getPassadas().size());
+		System.out.println("tamanho do array da passadasCompetidores " + this.passadasCompetidores.size());
 	}
 
 	public void sortearCompetidores() {
@@ -216,6 +305,8 @@ public class CadastroOrdemEntradaBean implements Serializable {
 			if (fichaInscricaoLinhaEditavel.getDivisao().getTipoFicha().equals(TipoFicha.INDIVIDUAL)
 					&& fichasSelecionadas.size() < 1) {
 
+				fichaInscricaoLinhaEditavel.setStatusFicha(StatusFicha.EMORDEMPRONTA);
+
 				// adiciona no dataList
 				fichasSelecionadas.add(fichaInscricaoLinhaEditavel);
 
@@ -225,6 +316,8 @@ public class CadastroOrdemEntradaBean implements Serializable {
 			} else if (fichaInscricaoLinhaEditavel.getDivisao().getTipoFicha().equals(TipoFicha.DUPLA)
 					&& fichasSelecionadas.size() < 2) {
 
+				fichaInscricaoLinhaEditavel.setStatusFicha(StatusFicha.EMORDEMPRONTA);
+
 				// adiciona no dataList
 				fichasSelecionadas.add(fichaInscricaoLinhaEditavel);
 
@@ -233,6 +326,8 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 			} else if (fichaInscricaoLinhaEditavel.getDivisao().getTipoFicha().equals(TipoFicha.TRIO)
 					&& fichasSelecionadas.size() < 3) {
+
+				fichaInscricaoLinhaEditavel.setStatusFicha(StatusFicha.EMORDEMPRONTA);
 
 				// adiciona no dataList
 				fichasSelecionadas.add(fichaInscricaoLinhaEditavel);
@@ -262,7 +357,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 			if (fichasSelecionadas.size() < 2) {
 				throw new NegocioException("Campeonato só permite inclusão de passadas em dupla!");
 			}
-			
+
 			Passada passada = new Passada();
 
 			// adiciona a ficha como item de passada.
@@ -271,7 +366,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 				f.setCampeonato(ordemEntrada.getCampeonato());
 				f.setEtapa(ordemEntrada.getEtapa());
 				f.setDivisao(ordemEntrada.getDivisao());
-				f.setStatusFicha(StatusFicha.EMORDEM);
+				f.setStatusFicha(StatusFicha.EMORDEMPRONTA);
 				passada.getFichasInscricoes().add(f);
 			}
 
@@ -280,7 +375,8 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 			// salvando passada
 			passada.setOrdemEntrada(this.ordemEntrada);
-			passada = cadastroPassadaService.salvar(passada);
+			// passada = cadastroPassadaService.salvar(passada); // nesse modo
+			// novo não da certo salvar antes, pois ele gera uma passada vazia
 
 			FacesUtil.addInfoMessage("Passadas Registradas com Sucesso!");
 
@@ -289,7 +385,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 		}
 	}
-	
+
 	public void onRowEdit(RowEditEvent event) {
 		FacesMessage msg = new FacesMessage("Passada editada", ((Passada) event.getObject()).getId().toString());
 		FacesContext.getCurrentInstance().addMessage(null, msg);

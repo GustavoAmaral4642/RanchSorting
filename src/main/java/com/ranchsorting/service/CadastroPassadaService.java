@@ -1,9 +1,12 @@
 package com.ranchsorting.service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
+import com.ranchsorting.model.FichaInscricao;
 import com.ranchsorting.model.Passada;
 import com.ranchsorting.repository.Passadas;
 import com.ranchsorting.util.jpa.Transactional;

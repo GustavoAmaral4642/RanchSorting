@@ -56,5 +56,44 @@
 			maxlength="20"
 			value="#{cadastroFichaInscricaoBean.fichaInscricao.statusFicha.descricao}" />
 
+		<p:spacer />
+		<p:spacer />
+
+		<p:outputLabel for="nomeCompetidorParceiro" value="Nome do Parceiro:" />
+		<p:selectOneMenu id="nomeCompetidorParceiro" filter="true"
+			label="Competidor" filterMatchMode="contains"
+			style="margin-bottom:10px;"
+			value="#{cadastroFichaInscricaoBean.fichaInscricaoParceiro.competidor}">
+			<f:selectItem itemLabel="Selecione um Competidor" />
+			<f:selectItems
+				value="#{cadastroFichaInscricaoBean.todosCompetidoresIndividual}"
+				var="todosCompetidores" itemValue="#{todosCompetidores}"
+				itemLabel="#{todosCompetidores.id} - #{todosCompetidores.nome}" />
+		</p:selectOneMenu>
+
+		<p:outputLabel for="qntFichasParceiro" value="Quantidade de Fichas:" />
+		<p:inputText id="qntFichasParceiro" label="Quantidade"
+			disabled="#{cadastroFichaInscricaoBean.editando}"
+			placeholder="Quantidade" size="10" maxlength="10"
+			value="#{cadastroFichaInscricaoBean.fichaInscricaoParceiro.qntFichas}" />
+
+		<p:outputLabel for="valorCompradoParceiro" value="Valor Comprado:" />
+		<p:inputText id="valorCompradoParceiro" label="Valor Comprado"
+			placeholder="Valor Comprado" size="20" maxlength="20"
+			value="#{cadastroFichaInscricaoBean.fichaInscricaoParceiro.valorComprado}"
+			styleClass="moeda">
+			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+		</p:inputText>
+
+		<p:outputLabel for="valorPagoParceiro" value="Valor Pago:" />
+		<p:inputText id="valorPagoParceiro" label="Valor Pago:"
+			placeholder="Valor Pago" size="20" maxlength="20"
+			value="#{cadastroFichaInscricaoBean.fichaInscricaoParceiro.valorPago}"
+			styleClass="moeda">
+			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+		</p:inputText>
+
+
 	</p:panelGrid>
 </ui:composition>
+

@@ -15,22 +15,34 @@ public class EmbaralhaPassadasService implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// vai tratar passadas da competição Amador
-	public List<Passada> embaralharPassadas(List<FichaInscricao> fichasFiltradas) {
+	public List<Passada> embaralharPassadas(List<FichaInscricao> fichasFiltradas, List<Passada> passadasCompetidores) {
 
 		if (fichasFiltradas == null) {
 			throw new NegocioException("Não existe fichas para serem embaralhadas");
 		}
-
-		List<Passada> passadas = new ArrayList<>();
-
-		// chama o método para embaralhar a lista de passadas.
-		passadas = loopEmbaralhador(fichasFiltradas);
 		
-		return passadas;
+		System.out.println("abaixo");
+		for (Passada p : passadasCompetidores) {
+			System.out.print("Competidor 1: ");
+			System.out.println(p.getFichasInscricoes().get(0).getCompetidor().getNome());
+			System.out.print("Competidor 2: ");
+			System.out.println(p.getFichasInscricoes().get(1).getCompetidor().getNome());
+			System.out.println();
+			System.out.print("Id da passada: ");
+			System.out.println(p.getId());
+			System.out.println();
+		}
+		System.out.println("acima");
+		// chama o método para embaralhar a lista de passadas. 
+		// passadasCompetidores contém as passadas inseridas na hora da inscrição
+		passadasCompetidores.addAll(loopEmbaralhador(fichasFiltradas, passadasCompetidores));
+		
+		return passadasCompetidores;
 	}
 
 	// este loop embaralha as passadas
-	private List<Passada> loopEmbaralhador(List<FichaInscricao> fichasFiltradas) {
+	// passadasCompetidores contém as passadas inseridas na hora da inscrição
+	private List<Passada> loopEmbaralhador(List<FichaInscricao> fichasFiltradas, List<Passada> passadasCompetidores) {
 
 		List<FichaInscricao> fichasBackup = new ArrayList<>();
 		// cria uma ficha de backup para não perder a referencia
@@ -71,7 +83,7 @@ public class EmbaralhaPassadasService implements Serializable {
 			f2 = fichasFiltradas.get(pos2);
 
 			// chama verificador de passadas repetidas
-			if (verificaRepetidos(passadas, f1, f2)) {
+			if (verificaRepetidos(passadas, f1, f2, passadasCompetidores)) {
 				pos2++;
 				contador++;
 				continue;
@@ -112,7 +124,8 @@ public class EmbaralhaPassadasService implements Serializable {
 	}
 
 	// esse é o verificador de passadas repetidas
-	private boolean verificaRepetidos(List<Passada> passadas, FichaInscricao f1, FichaInscricao f2) {
+	// o passadasProntas contém as passadas inseridas na hora da inscrição 
+	private boolean verificaRepetidos(List<Passada> passadas, FichaInscricao f1, FichaInscricao f2, List<Passada> passadasProntas) {
 
 		for (Passada p : passadas) {
 
@@ -129,6 +142,23 @@ public class EmbaralhaPassadasService implements Serializable {
 				return true;
 			}
 		}
+		
+		// este array contém as passadas inseridas na hora da inscrição.
+		for(Passada p2 : passadasProntas){
+			// se achar competidor igual, verifica3 fica false
+			if (p2.getFichasInscricoes().get(0).getCompetidor().getNome().equals(f1.getCompetidor().getNome())
+					&& p2.getFichasInscricoes().get(1).getCompetidor().getNome().equals(f2.getCompetidor().getNome())) {
+				return true;
+			}
+
+			// teste invertido se achar competidor igual, verifica3
+			// fica false
+			if (p2.getFichasInscricoes().get(1).getCompetidor().getNome().equals(f1.getCompetidor().getNome())
+					&& p2.getFichasInscricoes().get(0).getCompetidor().getNome().equals(f2.getCompetidor().getNome())) {
+				return true;
+			}
+		}
+			
 		return false;
 	}
 
@@ -199,7 +229,7 @@ public class EmbaralhaPassadasService implements Serializable {
 
 			verifica1 = true;
 			f1.setPassada(pas1);
-			f1.setStatusFicha(StatusFicha.EMORDEM);
+			f1.setStatusFicha(StatusFicha.EMORDEMPRONTA);
 			
 			f3.setCampeonato(f2.getCampeonato());
 			f3.setCodigoFicha(f2.getCodigoFicha());
@@ -211,7 +241,7 @@ public class EmbaralhaPassadasService implements Serializable {
 			f3.setObs(" (Ficha Sorteada: " + f2.getId() + ")");
 			f3.setPassada(pas1);
 			f3.setQntFichas(f2.getQntFichas());
-			f3.setStatusFicha(StatusFicha.EMORDEM);
+			f3.setStatusFicha(StatusFicha.EMORDEMPRONTA);
 			f3.setValorComprado(f2.getValorComprado());
 			f3.setValorPago(f2.getValorPago());
 

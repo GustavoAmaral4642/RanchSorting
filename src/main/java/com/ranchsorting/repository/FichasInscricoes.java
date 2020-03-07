@@ -137,7 +137,7 @@ public class FichasInscricoes implements Serializable {
 		if (filtro.getStatusFicha() != null && filtro.getStatusFicha().equals(StatusFicha.EMORDEM)) {
 			criteria.add(Restrictions.eq("statusFicha", StatusFicha.EMORDEM));
 		}
-
+		
 		return criteria.addOrder(Order.asc("ca.nome")).list();
 	}
 
