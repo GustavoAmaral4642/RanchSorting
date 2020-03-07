@@ -113,25 +113,26 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 	public void salvar() {
 
-		if(this.ordemEntrada.getPassadas() != null && this.ordemEntrada.getPassadas().size() !=0 
-				&& this.passadasCompetidores != null && this.passadasCompetidores.size() != 0){
-			
+		if (this.ordemEntrada.getPassadas() != null && this.ordemEntrada.getPassadas().size() != 0
+				&& this.passadasCompetidores != null && this.passadasCompetidores.size() != 0) {
+
 			this.ordemEntrada.setPassadas(new ArrayList<Passada>());
 			this.ordemEntrada.getPassadas().addAll(passadasCompetidores);
 		}
 		System.out.println("tamanho do array da ordem 2 " + this.ordemEntrada.getPassadas().size());
 		System.out.println("tamanho do array da passadasCompetidores 2 " + this.passadasCompetidores.size());
-		
-		for(Passada p : this.ordemEntrada.getPassadas()) {
+
+		for (Passada p : this.ordemEntrada.getPassadas()) {
 			p = cadastroPassadaService.salvar(p);
-			for(FichaInscricao f : p.getFichasInscricoes()){
+			for (FichaInscricao f : p.getFichasInscricoes()) {
 				System.out.println("ficha Inscricao: " + f.getCampeonato());
 			}
 		}
-		
+
 		System.out.println(fichaInscricaoFilter.getObjCampeonato());
 		System.out.println(this.ordemEntrada.getCampeonato());
-		//this.ordemEntrada = cadastroOrdemEntradaService.salvar(this.ordemEntrada);
+		// this.ordemEntrada =
+		// cadastroOrdemEntradaService.salvar(this.ordemEntrada);
 		limpar();
 
 		FacesUtil.addInfoMessage("Ordem de entrada registrada com sucesso!");
@@ -163,22 +164,24 @@ public class CadastroOrdemEntradaBean implements Serializable {
 						ordemEntrada.setCampeonato(fichaInscricaoFilter.getObjCampeonato());
 						ordemEntrada.setEtapa(fichaInscricaoFilter.getObjEtapa());
 						ordemEntrada.setDivisao(fichaInscricaoFilter.getObjDivisao());
-						
-						this.ordemEntrada.getPassadas().addAll(passadasCompetidores);
-						this.ordemEntrada = cadastroOrdemEntradaService.salvar(ordemEntrada);
-						limpar();
-					}				
 
-				/*	for (Passada p : passadasCompetidores) {
-						System.out.print("Competidor 1: ");
-						System.out.println(p.getFichasInscricoes().get(0).getCompetidor().getNome());
-						System.out.print("Competidor 2: ");
-						System.out.println(p.getFichasInscricoes().get(1).getCompetidor().getNome());
-						System.out.println();
-						System.out.print("Id da passada: ");
-						System.out.println(p.getId());
-						System.out.println();
-					}*/
+						this.ordemEntrada.getPassadas().addAll(passadasCompetidores);
+
+						this.ordemEntrada = cadastroOrdemEntradaService.salvar(ordemEntrada); // comentar para passada aberto
+						limpar(); // comentar para passada aberto
+					}
+
+					/*
+					 * for (Passada p : passadasCompetidores) {
+					 * System.out.print("Competidor 1: ");
+					 * System.out.println(p.getFichasInscricoes().get(0).
+					 * getCompetidor().getNome()); System.out.print(
+					 * "Competidor 2: ");
+					 * System.out.println(p.getFichasInscricoes().get(1).
+					 * getCompetidor().getNome()); System.out.println();
+					 * System.out.print("Id da passada: ");
+					 * System.out.println(p.getId()); System.out.println(); }
+					 */
 
 					FacesUtil.addInfoMessage("Ordem de Entrada registrada com sucesso!");
 				}
@@ -186,18 +189,21 @@ public class CadastroOrdemEntradaBean implements Serializable {
 		}
 	}
 
-	// este método inclui na lista de passadas todas as fichas que já foram inseridas em conjunto
+	// este método inclui na lista de passadas todas as fichas que já foram
+	// inseridas em conjunto
 	public void carregarCompetidoresEmPassadas(List<FichaInscricao> fichas) {
 
-		int k=0, i=1;
-		
-		do{
-		
+		int k = 0, i = 1;
+
+		do {
+
 			Passada p = new Passada();
 			System.out.println("Começo " + fichas.size());
-			
-			System.out.println("valor de k: " + k + " ficha numero: " + fichas.get(k).getId() + " passada numero: " + fichas.get(k).getPassada().getId());
-			System.out.println("valor de i: " + i  + " ficha numero: " + fichas.get(i).getId() + " passada numero: " + fichas.get(i).getPassada().getId());
+
+			System.out.println("valor de k: " + k + " ficha numero: " + fichas.get(k).getId() + " passada numero: "
+					+ fichas.get(k).getPassada().getId());
+			System.out.println("valor de i: " + i + " ficha numero: " + fichas.get(i).getId() + " passada numero: "
+					+ fichas.get(i).getPassada().getId());
 
 			if (fichas.get(k).getId() == fichas.get(i).getId()) {
 				System.out.println("continue - 1");
@@ -221,10 +227,10 @@ public class CadastroOrdemEntradaBean implements Serializable {
 			}
 
 			this.passadasCompetidores.add(p);
-			
-			System.out.println("Começo " +fichas.size());
-			
-		}while(fichas.size()!=0);
+
+			System.out.println("Começo " + fichas.size());
+
+		} while (fichas.size() != 0);
 
 	}
 
@@ -300,7 +306,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 					&& fichasSelecionadas.size() < 1) {
 
 				fichaInscricaoLinhaEditavel.setStatusFicha(StatusFicha.EMORDEMPRONTA);
-				
+
 				// adiciona no dataList
 				fichasSelecionadas.add(fichaInscricaoLinhaEditavel);
 
@@ -311,7 +317,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 					&& fichasSelecionadas.size() < 2) {
 
 				fichaInscricaoLinhaEditavel.setStatusFicha(StatusFicha.EMORDEMPRONTA);
-				
+
 				// adiciona no dataList
 				fichasSelecionadas.add(fichaInscricaoLinhaEditavel);
 
@@ -320,7 +326,7 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 			} else if (fichaInscricaoLinhaEditavel.getDivisao().getTipoFicha().equals(TipoFicha.TRIO)
 					&& fichasSelecionadas.size() < 3) {
-				
+
 				fichaInscricaoLinhaEditavel.setStatusFicha(StatusFicha.EMORDEMPRONTA);
 
 				// adiciona no dataList
@@ -369,7 +375,8 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 			// salvando passada
 			passada.setOrdemEntrada(this.ordemEntrada);
-			//passada = cadastroPassadaService.salvar(passada); // nesse modo novo não da certo salvar antes, pois ele gera uma passada vazia
+			// passada = cadastroPassadaService.salvar(passada); // nesse modo
+			// novo não da certo salvar antes, pois ele gera uma passada vazia
 
 			FacesUtil.addInfoMessage("Passadas Registradas com Sucesso!");
 
@@ -378,8 +385,6 @@ public class CadastroOrdemEntradaBean implements Serializable {
 
 		}
 	}
-	
-	
 
 	public void onRowEdit(RowEditEvent event) {
 		FacesMessage msg = new FacesMessage("Passada editada", ((Passada) event.getObject()).getId().toString());
